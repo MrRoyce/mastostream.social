@@ -10,9 +10,9 @@ const app = express();
 app.use(express.json());
 
 const siteCreationValidators = [
+	body('accountId').notEmpty(),
 	body('content').notEmpty(),
 	body('createdAt').notEmpty(),
-	body('language').notEmpty(),
 	body('tootId').notEmpty(),
 	body('uri').notEmpty()
 ];
@@ -25,24 +25,94 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		return res.status(400).json({ errors: 'Invalid input' });
 	}
 
-	const { content, createdAt, language, tootId, uri, imageUrl, previewUrl, remoteUrl } = req.body;
+	const {
+		account,
+		accountId,
+		addLanguage,
+		content,
+		createdAt,
+		imageUrl,
+		language,
+		previewUrl,
+		remoteUrl,
+		tags,
+		tootId,
+		uri
+	} = req.body;
 
 	const db = admin.firestore();
+
+	const thisToot = {
+		accountId,
+		content,
+		createdAt,
+		imageUrl: imageUrl || '',
+		language,
+		previewUrl: previewUrl || '',
+		remoteUrl: remoteUrl || '',
+		tootId,
+		uri
+	};
+
 	const tootsDocument = await db
 		.collection('toots')
-		.add({
-			content,
-			createdAt,
-			language,
-			tootId,
-			uri,
-			imageUrl: imageUrl || '',
-			previewUrl: previewUrl || '',
-			remoteUrl: remoteUrl || ''
-		})
+		.add(thisToot)
 		.catch(async (error) => {
 			return res.status(400).send({ status: 'error', message: error.message });
 		});
+
+	if (tags) {
+		tags.forEach(async (tag) => {
+			await db
+				.collection(`tags`)
+				.doc(`${tag.name}`)
+				.set({ language })
+				.catch(async (error) => {
+					return res.status(400).send({ status: 'error', message: error.message });
+				});
+
+			await db
+				.collection(`tags/${tag.name}/toots`)
+				.doc(`${tootId}`)
+				.set(thisToot)
+				.catch(async (error) => {
+					return res.status(400).send({ status: 'error', message: error.message });
+				});
+		});
+	}
+
+	// Add the account to the collection
+	if (account) {
+		await db
+			.collection('accounts')
+			.doc(`${account.acct}`)
+			.set(account)
+			.catch(async (error) => {
+				return res.status(400).send({ status: 'error', message: error.message });
+			});
+	}
+
+	// Add the toot to the list of languages
+	if (language) {
+		await db
+			.collection(`tootsByLanguage/${language}/toots`)
+			.doc(`${tootId}`)
+			.set(thisToot)
+			.catch(async (error) => {
+				return res.status(400).send({ status: 'error', message: error.message });
+			});
+	}
+
+	// Add the language to list of languages
+	if (addLanguage && language) {
+		await db
+			.collection('languages')
+			.doc(`${language}`)
+			.set({ available: true })
+			.catch(async (error) => {
+				return res.status(400).send({ status: 'error', message: error.message });
+			});
+	}
 
 	res.status(200).send({ status: 200, tootsDocumentId: tootsDocument.id });
 });
