@@ -1,7 +1,21 @@
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
+import { purgeCss } from 'vite-plugin-tailwind-purgecss';
+import { sveltekit } from '@sveltejs/kit/vite';
 
-// https://vitejs.dev/config/
+import { defineConfig, searchForWorkspaceRoot } from 'vite';
+
 export default defineConfig({
-  plugins: [svelte()],
-})
+  plugins: [
+    sveltekit(),
+    purgeCss()
+  ],
+  server: {
+    fs: {
+      allow: [
+        // search up for workspace root
+        searchForWorkspaceRoot(process.cwd()),
+        // your custom rules
+        '/static/assets',
+      ],
+    },
+  },
+});

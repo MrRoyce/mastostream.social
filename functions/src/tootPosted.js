@@ -5,6 +5,7 @@ import { body, validationResult } from 'express-validator';
 import { onRequest } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
 import admin from 'firebase-admin';
+import { FieldValue } from 'firebase-admin/firestore';
 
 const app = express();
 app.use(express.json());
@@ -35,9 +36,11 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		language,
 		previewUrl,
 		remoteUrl,
+		sensitive,
 		tags,
 		tootId,
-		uri
+		uri,
+		visibility
 	} = req.body;
 
 	const db = admin.firestore();
@@ -50,8 +53,10 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		language,
 		previewUrl: previewUrl || '',
 		remoteUrl: remoteUrl || '',
+		sensitive,
 		tootId,
-		uri
+		uri,
+		visibility
 	};
 
 	const tootsDocument = await db
@@ -62,11 +67,12 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		});
 
 	if (tags) {
+		const timestamp = FieldValue.serverTimestamp();
 		tags.forEach(async (tag) => {
 			await db
 				.collection(`tags`)
 				.doc(`${tag.name}`)
-				.set({ language })
+				.set({ language, lastTweetPosted: timestamp })
 				.catch(async (error) => {
 					return res.status(400).send({ status: 'error', message: error.message });
 				});
