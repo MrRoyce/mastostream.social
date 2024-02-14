@@ -30,4 +30,10 @@ interface ImportMeta {
 	readonly env: ImportMetaEnv
 }
 
+type Toot = {
+	uri?: string;
+	content?: string;
+	imageUrl?: string;
+}
+
 export { };

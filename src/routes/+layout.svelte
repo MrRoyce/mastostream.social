@@ -76,7 +76,7 @@
 		<NavBrand href="/" class="lg:ml-64">
 			<Cog />
 			<span class="self-center whitespace-nowrap pl-4 text-xl font-semibold dark:text-white">
-				My Website
+				Mastodon Stream
 			</span>
 		</NavBrand>
 		<NavUl

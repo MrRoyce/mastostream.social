@@ -28,6 +28,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 
 	const {
 		account,
+		acct,
 		accountId,
 		addLanguage,
 		content,
@@ -44,8 +45,10 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 	} = req.body;
 
 	const db = admin.firestore();
+	const timestamp = FieldValue.serverTimestamp();
 
 	const thisToot = {
+		acct,
 		accountId,
 		content,
 		createdAt,
@@ -54,6 +57,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		previewUrl: previewUrl || '',
 		remoteUrl: remoteUrl || '',
 		sensitive,
+		timestamp,
 		tootId,
 		uri,
 		visibility
@@ -67,7 +71,6 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		});
 
 	if (tags) {
-		const timestamp = FieldValue.serverTimestamp();
 		tags.forEach(async (tag) => {
 			await db
 				.collection(`tags`)
@@ -91,8 +94,39 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 	if (account) {
 		await db
 			.collection('accounts')
-			.doc(`${account.acct}`)
-			.set(account)
+			.doc(`${acct}`)
+			.set({ ...account, timestamp })
+			.catch(async (error) => {
+				return res.status(400).send({ status: 'error', message: error.message });
+			});
+	}
+
+	// Add the toot to the account
+	await db
+		.collection(`accounts/${acct}/toots`)
+		.doc(`${tootId}`)
+		.set(thisToot)
+		.catch(async (error) => {
+			return res.status(400).send({ status: 'error', message: error.message });
+		});
+
+	const combinedLanguage =
+		language === 'en' || language === 'en-gb' || language === 'en-us' ? 'en' : language;
+
+	// Add the language to list of languages
+	if (addLanguage && language) {
+		await db
+			.collection('languages')
+			.doc(`${combinedLanguage}`)
+			.set({ available: true })
+			.catch(async (error) => {
+				return res.status(400).send({ status: 'error', message: error.message });
+			});
+
+		await db
+			.collection('tootsByLanguage')
+			.doc(`${combinedLanguage}`)
+			.set({ count: 0 }) // Set the initial count to 0
 			.catch(async (error) => {
 				return res.status(400).send({ status: 'error', message: error.message });
 			});
@@ -101,7 +135,15 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 	// Add the toot to the list of languages
 	if (language) {
 		await db
-			.collection(`tootsByLanguage/${language}/toots`)
+			.collection('tootsByLanguage')
+			.doc(`${combinedLanguage}`)
+			.update({ count: FieldValue.increment(1) }) // Update the count
+			.catch(async (error) => {
+				return res.status(400).send({ status: 'error', message: error.message });
+			});
+
+		await db
+			.collection(`tootsByLanguage/${combinedLanguage}/toots`)
 			.doc(`${tootId}`)
 			.set(thisToot)
 			.catch(async (error) => {
@@ -109,18 +151,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 			});
 	}
 
-	// Add the language to list of languages
-	if (addLanguage && language) {
-		await db
-			.collection('languages')
-			.doc(`${language}`)
-			.set({ available: true })
-			.catch(async (error) => {
-				return res.status(400).send({ status: 'error', message: error.message });
-			});
-	}
-
-	res.status(200).send({ status: 200, tootsDocumentId: tootsDocument.id });
+	res.status(201).send({ status: 201, tootsDocumentId: tootsDocument.id });
 });
 
 export const tootPosted = onRequest({ cors: true }, app);

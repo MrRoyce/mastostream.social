@@ -1,32 +1,81 @@
-<script>
-	import { Img, Heading, P } from 'flowbite-svelte';
+<script lang="ts">
+	import { Section } from 'flowbite-svelte-blocks';
+	import CardStats from '$lib/components/Cards/CardStats.svelte';
+	import type { PageData } from './$types';
+	import type { DocumentData } from 'firebase/firestore';
+
+	export let data: PageData;
+	let accounts: DocumentData[] = data.accounts;
+	let languages: DocumentData[] = data.languages;
+	let tags: DocumentData[] = data.tags;
+	let toots: DocumentData[] = data.toots;
+	let tootsByLanguage: DocumentData[] = data.tootsByLanguage;
 </script>
 
-<Img src="/images/image-1@2x.jpg" alt="sample 1" size="max-w-lg" alignment="mx-auto" />
+<Section class="bg-white dark:bg-gray-900">
+	<div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+		<div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-12 md:space-y-0">
+			<div
+				class="border-2 border-gray-600 px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110"
+			>
+				<a href="" on:click|preventDefault={() => console.log('clicked')}>
+					<CardStats
+						statSubtitle="ACCOUNTS"
+						statTitle={accounts}
+						statArrow="up"
+						statPercent="12"
+						statPercentColor="text-emerald-500"
+						statDescripiron="Since last month"
+						statIconName="fas fa-percent"
+						statIconColor="bg-emerald-500"
+					/>
+				</a>
+			</div>
 
-<Heading class="p-8" tag="h1" customSize="text-3xl">Responsive Sidebar Layout</Heading>
+			<div
+				class="border-2 border-gray-600 px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110"
+			>
+				<CardStats
+					statSubtitle="LANGUAGES"
+					statTitle={languages}
+					statArrow="down"
+					statPercent="1.10"
+					statPercentColor="text-orange-500"
+					statDescripiron="Since yesterday"
+					statIconName="fas fa-users"
+					statIconColor="bg-pink-500"
+				/>
+			</div>
 
-<P class="px-8 py-4">
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-	labore et dolore magna aliqua. Amet cursus sit amet dictum sit. Quis enim lobortis scelerisque
-	fermentum dui faucibus in. Mattis vulputate enim nulla aliquet porttitor lacus luctus accumsan.
-	Ipsum dolor sit amet consectetur adipiscing elit. Euismod nisi porta lorem mollis aliquam ut
-	porttitor. Tortor consequat id porta nibh. Tortor condimentum lacinia quis vel eros donec ac odio.
-	Elementum sagittis vitae et leo duis ut diam quam nulla. Vel turpis nunc eget lorem.
-</P>
-<P class="px-8 py-4">
-	Aliquet porttitor lacus luctus accumsan. Ac orci phasellus egestas tellus rutrum tellus. Non odio
-	euismod lacinia at quis risus sed. Nam libero justo laoreet sit amet cursus sit amet. Arcu odio ut
-	sem nulla pharetra diam sit amet nisl. Vulputate mi sit amet mauris commodo quis imperdiet.
-	Malesuada nunc vel risus commodo viverra. Eget nulla facilisi etiam dignissim diam quis enim. Hac
-	habitasse platea dictumst quisque. Ultrices gravida dictum fusce ut placerat orci nulla
-	pellentesque dignissim.
-</P>
-<P class="px-8 py-4">
-	Nec feugiat in fermentum posuere urna nec tincidunt praesent. Nulla pharetra diam sit amet nisl
-	suscipit adipiscing bibendum est. Eu turpis egestas pretium aenean pharetra magna. Ultricies lacus
-	sed turpis tincidunt id. Urna nec tincidunt praesent semper feugiat nibh. Aliquam etiam erat velit
-	scelerisque in dictum non consectetur. Suspendisse in est ante in nibh mauris cursus mattis
-	molestie. Facilisi nullam vehicula ipsum a. Tellus pellentesque eu tincidunt tortor aliquam nulla
-	facilisi. Libero justo laoreet sit amet cursus sit amet.
-</P>
+			<div
+				class="border-2 border-gray-600 px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110"
+			>
+				<CardStats
+					statSubtitle="TAGS"
+					statTitle={tags}
+					statArrow="down"
+					statPercent="3.48"
+					statPercentColor="text-red-500"
+					statDescripiron="Since last week"
+					statIconName="fas fa-chart-pie"
+					statIconColor="bg-orange-500"
+				/>
+			</div>
+
+			<div
+				class="border-2 border-gray-600 px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110"
+			>
+				<CardStats
+					statSubtitle="TOOTS"
+					statTitle={toots}
+					statArrow="up"
+					statPercent="3.48"
+					statPercentColor="text-emerald-500"
+					statDescripiron="Since last month"
+					statIconName="far fa-chart-bar"
+					statIconColor="bg-red-500"
+				/>
+			</div>
+		</div>
+	</div>
+</Section>
