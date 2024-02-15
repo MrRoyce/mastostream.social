@@ -18,7 +18,7 @@
 			<div
 				class="border-2 border-gray-600 px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110"
 			>
-				<a href="" on:click|preventDefault={() => console.log('clicked')}>
+				<a href="/accounts">
 					<CardStats
 						statSubtitle="ACCOUNTS"
 						statTitle={accounts}

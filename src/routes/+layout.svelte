@@ -87,8 +87,8 @@
 			activeClass="md:!pl-3 md:!py-2 lg:!pl-0 lg:text-primary-700 text-white dark:text-white dark:lg:text-primary-500 bg-primary-700 lg:bg-transparent dark:bg-primary-600 lg:dark:bg-transparent cursor-default"
 		>
 			<NavLi class="lg:mb-0 lg:px-2" active={activeUrl === '/'} href="/">Home</NavLi>
-			<NavLi class="lg:mb-0 lg:px-2" active={activeUrl === '/pages/about'} href="/pages/about"
-				>About</NavLi
+			<NavLi class="lg:mb-0 lg:px-2" active={activeUrl === '/accounts'} href="/accounts"
+				>Accounts</NavLi
 			>
 			<NavLi
 				class="lg:mb-0 lg:px-2"
@@ -120,28 +120,12 @@
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
 				<SidebarItem label="Home" href="/" on:click={toggleSide} active={activeUrl === `/`} />
-				{#each data.pages as { meta, path }}
-					<SidebarItem
-						label={meta.title}
-						href={`/pages/${path}`}
-						{spanClass}
-						activeClass="flex items-center p-2 text-base font-normal text-gray-900 bg-primary-200 dark:bg-primary-700 rounded-lg dark:text-white hover:bg-primary-100 dark:hover:bg-primary-700"
-						on:click={toggleSide}
-						active={activeUrl === `/pages/${path}`}
-					/>
-				{/each}
-				<SidebarDropdownWrapper label="Articles">
-					{#each data.articles as { meta, path }}
-						<SidebarItem
-							label={meta.title}
-							href={`/blog/${path}`}
-							{spanClass}
-							activeClass="flex items-center p-2 text-base font-normal text-gray-900 bg-primary-200 dark:bg-primary-700 rounded-lg dark:text-white hover:bg-primary-100 dark:hover:bg-primary-700"
-							on:click={toggleSide}
-							active={activeUrl === `/blog/${path}`}
-						/>
-					{/each}
-				</SidebarDropdownWrapper>
+				<SidebarItem
+					label="Accounts"
+					href="/accounts"
+					on:click={toggleSide}
+					active={activeUrl === `/accounts`}
+				/>
 			</SidebarGroup>
 		</SidebarWrapper>
 	</Sidebar>

@@ -4,7 +4,7 @@
 
 <h1>Yikes!!</h1>
 
-<p>An error occurred in the dashboard</p>
+<p>An error occurred in the main page!</p>
 
 <h1>{$page.status}: {$page.error?.message}</h1>
 

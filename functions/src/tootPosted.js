@@ -23,7 +23,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 
 	if (!errors.isEmpty()) {
 		logger.error('Missing required fields', JSON.stringify(errors));
-		return res.status(400).json({ errors: 'Invalid input' });
+		return res.status(500).json({ errors: 'Invalid input' });
 	}
 
 	const {
@@ -33,6 +33,8 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		addLanguage,
 		content,
 		createdAt,
+		domain,
+		addDomain,
 		imageUrl,
 		language,
 		previewUrl,
@@ -67,7 +69,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		.collection('toots')
 		.add(thisToot)
 		.catch(async (error) => {
-			return res.status(400).send({ status: 'error', message: error.message });
+			return res.status(500).send({ status: 'error', message: error.message });
 		});
 
 	if (tags) {
@@ -75,9 +77,9 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 			await db
 				.collection(`tags`)
 				.doc(`${tag.name}`)
-				.set({ language, lastTweetPosted: timestamp })
+				.set({ language, timestamp })
 				.catch(async (error) => {
-					return res.status(400).send({ status: 'error', message: error.message });
+					return res.status(500).send({ status: 'error', message: error.message });
 				});
 
 			await db
@@ -85,7 +87,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 				.doc(`${tootId}`)
 				.set(thisToot)
 				.catch(async (error) => {
-					return res.status(400).send({ status: 'error', message: error.message });
+					return res.status(500).send({ status: 'error', message: error.message });
 				});
 		});
 	}
@@ -95,9 +97,9 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		await db
 			.collection('accounts')
 			.doc(`${acct}`)
-			.set({ ...account, timestamp })
+			.set({ ...account, createdAt: timestamp })
 			.catch(async (error) => {
-				return res.status(400).send({ status: 'error', message: error.message });
+				return res.status(500).send({ status: 'error', message: error.message });
 			});
 	}
 
@@ -107,47 +109,65 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		.doc(`${tootId}`)
 		.set(thisToot)
 		.catch(async (error) => {
-			return res.status(400).send({ status: 'error', message: error.message });
+			return res.status(500).send({ status: 'error', message: error.message });
 		});
 
-	const combinedLanguage =
-		language === 'en' || language === 'en-gb' || language === 'en-us' ? 'en' : language;
+	// Add the domain to the collection
+	if (addDomain) {
+		await db
+			.collection('domains')
+			.doc(`${domain}`)
+			.set({ count: 0, createdAt: timestamp, timestamp })
+			.catch(async (error) => {
+				return res.status(500).send({ status: 'error', message: error.message });
+			});
+	}
+
+	// Update the count and timestamp for the domain
+	await db
+		.collection('domains')
+		.doc(`${domain}`)
+		.update({ count: FieldValue.increment(1), timestamp }) // Update the count
+		.catch(async (error) => {
+			return res.status(500).send({ status: 'error', message: error.message });
+		});
+
+	// Add the toot to the domain
+	await db
+		.collection(`domains/${domain}/toots`)
+		.doc(`${tootId}`)
+		.set(thisToot)
+		.catch(async (error) => {
+			return res.status(500).send({ status: 'error', message: error.message });
+		});
 
 	// Add the language to list of languages
 	if (addLanguage && language) {
 		await db
 			.collection('languages')
-			.doc(`${combinedLanguage}`)
-			.set({ available: true })
+			.doc(`${language}`)
+			.set({ count: 0, createdAt: timestamp, timestamp })
 			.catch(async (error) => {
-				return res.status(400).send({ status: 'error', message: error.message });
-			});
-
-		await db
-			.collection('tootsByLanguage')
-			.doc(`${combinedLanguage}`)
-			.set({ count: 0 }) // Set the initial count to 0
-			.catch(async (error) => {
-				return res.status(400).send({ status: 'error', message: error.message });
+				return res.status(500).send({ status: 'error', message: error.message });
 			});
 	}
 
 	// Add the toot to the list of languages
 	if (language) {
 		await db
-			.collection('tootsByLanguage')
-			.doc(`${combinedLanguage}`)
-			.update({ count: FieldValue.increment(1) }) // Update the count
+			.collection('languages')
+			.doc(`${language}`)
+			.update({ count: FieldValue.increment(1), timestamp }) // Update the count
 			.catch(async (error) => {
-				return res.status(400).send({ status: 'error', message: error.message });
+				return res.status(500).send({ status: 'error', message: error.message });
 			});
 
 		await db
-			.collection(`tootsByLanguage/${combinedLanguage}/toots`)
+			.collection(`languages/${language}/toots`)
 			.doc(`${tootId}`)
 			.set(thisToot)
 			.catch(async (error) => {
-				return res.status(400).send({ status: 'error', message: error.message });
+				return res.status(500).send({ status: 'error', message: error.message });
 			});
 	}
 

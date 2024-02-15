@@ -30,10 +30,46 @@ interface ImportMeta {
 	readonly env: ImportMetaEnv
 }
 
+type Fields = {
+	name: string;
+	value: string;
+	verifiedAt: string;
+}
+
+interface AcountRow {  // DO NOT CHANGE ORDER!
+	id: string; // Have to bypass the 1st column when displaying rows!!
+	acct: string;
+	avatar: string;
+	bot: boolean;
+	createdAt: string;
+	displayName: string;
+	fields: Fields[];
+	followersCount: number;
+	followingCount: number;
+	lastStatusAt: string;
+	statusesCount: number;
+	timestamp: string;
+	url: string;
+	username: string;
+}
+
+type getDataFunction = ({
+	appdata
+}: {
+	appdata: AcountRow;
+}) => void;
+
 type Toot = {
 	uri?: string;
 	content?: string;
 	imageUrl?: string;
+}
+
+type TableData = {
+	color: string | 'blue';
+	hoverable: boolean | true;
+	striped: boolean | true;
+	tableHead: Array<string>;
 }
 
 export { };
