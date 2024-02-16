@@ -9,11 +9,11 @@ export const load: PageLoad = (async ({ params }) => {
   const toots: DocumentData[] = await getToots({ entity: 'accounts', id: params.email, max: 100, orderByField: 'createdAt' })
 
   const items = toots.map((item) => {
-    const createdAt = (item.timestamp) ? formatDate({ seconds: item.timestamp.seconds, nanoseconds: item.timestamp.nanoseconds }) : '';
+    // const createdAt = (item.timestamp) ? formatDate({ seconds: item.timestamp.seconds, nanoseconds: item.timestamp.nanoseconds }) : '';
 
     return {
       id: item.id,
-      createdAt,
+      createdAt: item.createdAt,
       sensitive: !item.sensitive,
       content: item.content,
       uri: item.uri,

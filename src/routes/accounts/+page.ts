@@ -11,7 +11,7 @@ export const load: PageLoad = (async () => {
   const response: DocumentData[] = await getData({ entity: 'accounts', max: 100, orderByField: 'createdAt' });
 
   const items = response.map((item) => {
-    const createdAt = (item.createdAt) ? formatDate({ seconds: item.createdAt.seconds, nanoseconds: item.createdAt.nanoseconds }) : '';
+    //const createdAt = (item.createdAt) ? formatDate({ seconds: item.createdAt.seconds, nanoseconds: item.createdAt.nanoseconds }) : '';
 
     return {
       id: item.id, // Get the id from doc, not doc.data()!
@@ -22,7 +22,7 @@ export const load: PageLoad = (async () => {
       followersCount: item.followersCount,
       followingCount: item.followingCount,
       statusesCount: item.statusesCount,
-      createdAt,
+      createdAt: item.createdAt,
       lastStatusAt: item.lastStatusAt,
       fields: item.fields,
       locked: item.locked,
