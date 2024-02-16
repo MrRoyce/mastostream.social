@@ -8,10 +8,11 @@ import { getData } from '$lib/getCollection';
 
 export const load: PageLoad = (async () => {
 
-  const response: DocumentData[] = await getData({ entity: 'accounts', max: 100, orderByField: 'createdAt' });
+  const response: DocumentData[] = await getData({ entity: 'accounts', max: 100, orderByField: 'timestamp', direction: 'desc' });
 
   const items = response.map((item) => {
-    //const createdAt = (item.createdAt) ? formatDate({ seconds: item.createdAt.seconds, nanoseconds: item.createdAt.nanoseconds }) : '';
+    const createdAt = item.createdAt.split('T')[0]
+    // 2024-02-16T20:05:54.000Z
 
     return {
       id: item.id, // Get the id from doc, not doc.data()!
@@ -22,7 +23,7 @@ export const load: PageLoad = (async () => {
       followersCount: item.followersCount,
       followingCount: item.followingCount,
       statusesCount: item.statusesCount,
-      createdAt: item.createdAt,
+      createdAt,
       lastStatusAt: item.lastStatusAt,
       fields: item.fields,
       locked: item.locked,

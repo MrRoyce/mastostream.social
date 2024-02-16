@@ -11,14 +11,23 @@ import {
 } from 'firebase/firestore';
 import { db } from '$lib/firebase/client';
 
-export const getData = async ({ entity, max, orderByField }) => {
+type Options = {
+  entity: string;
+  max: number;
+  orderByField: string;
+  direction: string | 'desc';
+};
+
+export const getData = async (options: Options) => {
   try {
+    const { entity, max, orderByField, direction } = options
+
 
     const responseData: DocumentData[] = [];
     const collectionRef = collection(db, entity)
 
     const data = await getDocs(
-      query(collectionRef, orderBy(orderByField, "desc"), limit(max))
+      query(collectionRef, orderBy(orderByField, direction), limit(max))
     );
 
     data.docs.map((doc) => {

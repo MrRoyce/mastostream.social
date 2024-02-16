@@ -17,7 +17,6 @@ export const load: PageLoad = (async ({ params }) => {
       sensitive: !item.sensitive,
       content: item.content,
       uri: item.uri,
-
       language: item.language,
       visibility: item.visibility,
     }
