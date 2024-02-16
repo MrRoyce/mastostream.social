@@ -97,7 +97,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		await db
 			.collection('accounts')
 			.doc(`${acct}`)
-			.set({ ...account, createdAt, timestamp })
+			.set({ ...account, timestamp })
 			.catch(async (error) => {
 				return res.status(500).send({ status: 'error', message: error.message });
 			});
