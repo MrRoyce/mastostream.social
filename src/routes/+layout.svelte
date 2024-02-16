@@ -90,11 +90,6 @@
 			<NavLi class="lg:mb-0 lg:px-2" active={activeUrl === '/accounts'} href="/accounts"
 				>Accounts</NavLi
 			>
-			<NavLi
-				class="lg:mb-0 lg:px-2"
-				href="https://github.com/shinokada/flowbite-sveltekit-responsive-sidebar-layout"
-				>GitHub</NavLi
-			>
 		</NavUl>
 		<div class="ml-auto flex items-center">
 			<DarkMode class="inline-block hover:text-gray-900 dark:hover:text-white" />

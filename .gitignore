@@ -23,6 +23,7 @@ firebase-debug.log
 /playwright-report/
 /playwright/.cache/
 SITEINFO.md
+clean-tables_nohup_node.txt
 
 # Logs
 logs

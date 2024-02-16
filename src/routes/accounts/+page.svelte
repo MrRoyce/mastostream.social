@@ -5,23 +5,13 @@
 	import Table from '$lib/components/UI/Table.svelte';
 
 	export let data: PageData;
+	const entities: DocumentData[] = data.entities;
 
-	let entities: DocumentData[] = data.entities;
-
-	let tableData = {
+	const tableData = {
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: [
-			'Account',
-			'Human',
-			'Created At',
-			'Name',
-			'Followers',
-			'Following',
-			'Last Toot',
-			'Total Toot'
-		]
+		tableHead: ['Pic', 'Name', 'Type', 'Account', 'Followers', 'Following', '# Toots', 'Since']
 	};
 
 	let loadSpinner = false;

@@ -8,26 +8,25 @@ import { getData } from '$lib/getCollection';
 
 export const load: PageLoad = (async () => {
 
-  const response: DocumentData[] = await getData({ entity: 'accounts', max: 100 });
+  const response: DocumentData[] = await getData({ entity: 'accounts', max: 100, orderByField: 'createdAt' });
 
   const items = response.map((item) => {
-    const timestamp = (item.timestamp) ? formatDate({ seconds: item.timestamp.seconds, nanoseconds: item.timestamp.nanoseconds }) : '';
+    const createdAt = (item.createdAt) ? formatDate({ seconds: item.createdAt.seconds, nanoseconds: item.createdAt.nanoseconds }) : '';
 
     return {
       id: item.id, // Get the id from doc, not doc.data()!
-      acct: item.acct,
-
-      bot: !item.bot,
-      createdAt: item.createdAt,
+      avatar: item.avatar,
       displayName: item.displayName,
+      bot: (item.bot) ? "🤖" : "👤",
+      acct: item.acct,
       followersCount: item.followersCount,
       followingCount: item.followingCount,
-      lastStatusAt: item.lastStatusAt,
       statusesCount: item.statusesCount,
+      createdAt,
+      lastStatusAt: item.lastStatusAt,
       fields: item.fields,
       locked: item.locked,
-      avatar: item.avatar,
-      timestamp,
+      timestamp: item.timestamp,
       url: item.url,
       username: item.username
     }

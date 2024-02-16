@@ -10,7 +10,7 @@ export const load: PageLoad = async ({ data }) => {
   let languages;
   let tags;
   let toots;
-  let tootsByLanguage;
+  let domains;
 
   function convertToK(number) {
     if (typeof number !== 'number') {
@@ -31,7 +31,7 @@ export const load: PageLoad = async ({ data }) => {
     languages = await getCount('languages');
     tags = await getCount('tags');
     toots = await getCount('toots');
-    tootsByLanguage = await getCount('tootsByLanguage');
+    domains = await getCount('domains');
 
   } catch (error) {
     console.error('Error in main page.ts', error)
@@ -42,7 +42,7 @@ export const load: PageLoad = async ({ data }) => {
     languages: convertToK(languages),
     tags: convertToK(tags),
     toots: convertToK(toots),
-    tootsByLanguage: convertToK(tootsByLanguage),
+    domains: convertToK(domains),
     ...data
   };
 };

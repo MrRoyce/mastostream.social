@@ -10,8 +10,7 @@
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell,
-		TableSearch
+		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 
@@ -26,7 +25,6 @@
 	export let entity: String | null = '';
 	export let getData: () => {};
 	export let showTableHead: Boolean = true;
-	export let showTableSearch: Boolean = true;
 	export let sourceData: Array<AccountRow>;
 	export let tableData: TableData;
 
@@ -39,7 +37,6 @@
 	let currentPosition = 0;
 	let endPage: number;
 	let pagesToShow: any[] = [];
-	let searchTerm = '';
 	let startPage: number;
 	let totalItems = sourceData.length;
 	let totalPages = 0;
@@ -94,70 +91,60 @@
 </script>
 
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-	<TableSearch
-		placeholder="Search"
-		hoverable={true}
-		bind:inputValue={searchTerm}
-		{divClass}
-		{innerDivClass}
-		{searchClass}
-		{classInput}
-	>
-		{#if showTableHead}
-			<TableHead>
-				{#each tableData.tableHead as tableHead}
-					<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
-						>{tableHead}</TableHeadCell
-					>
-				{/each}
-			</TableHead>
-		{/if}
-		<TableBody>
-			{#each currentPageItems as tableRow}
-				<TableBodyRow on:dblclick={() => goto(`/${entityLower}/${tableRow.acct}`)}>
-					{#each Object.values(tableRow).slice(1, columns + 1) as value, index}
-						<TableBodyCell
-							class={value === true || value === false
-								? 'text-center'
-								: typeof value === 'number'
-									? 'text-right'
-									: 'text-left'}
-							tdClass="px-4 py-3"
-						>
-							{#if tableRow.avatar && typeof value === 'string' && value.includes('https')}
-								<img class=" w-10 h-auto max-w-xs" src={tableRow.avatar} alt="User" />
-							{:else if tableRow.domainName && typeof value === 'string' && value?.includes('https')}
-								<A href={value} target="_blank" class="font-medium hover:underline">{value}</A>
-							{:else}
-								<span class={tableRow.deleted ? 'text-gray-500' : ''}>{value}</span>
-							{/if}
-						</TableBodyCell>
-					{/each}
-				</TableBodyRow>
+	{#if showTableHead}
+		<TableHead>
+			{#each tableData.tableHead as tableHead}
+				<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
+					>{tableHead}</TableHeadCell
+				>
 			{/each}
-		</TableBody>
-		<div
-			slot="footer"
-			class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-			aria-label="Table navigation"
-		>
-			<span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-				Showing
-				<span class="font-semibold text-gray-900 dark:text-white">{startRange}-{endRange}</span>
-				of
-				<span class="font-semibold text-gray-900 dark:text-white">{totalItems}</span>
-			</span>
-			<ButtonGroup>
-				<Button on:click={loadPreviousPage} disabled={currentPosition === 0}
-					><ChevronLeftOutline size="xs" class="m-1.5" /></Button
-				>
-				{#each pagesToShow as pageNumber}
-					<Button on:click={() => goToPage(pageNumber)}>{pageNumber}</Button>
+		</TableHead>
+	{/if}
+	<TableBody>
+		{#each currentPageItems as tableRow}
+			<TableBodyRow>
+				{#each Object.values(tableRow).slice(1, columns + 1) as value, index}
+					<TableBodyCell
+						class={value === true || value === false
+							? 'text-center'
+							: typeof value === 'number'
+								? 'text-right'
+								: 'text-left'}
+						tdClass="px-4 py-3"
+					>
+						{#if value === true}
+							✅
+						{:else if value === false}
+							🚫
+						{:else}
+							<span class={tableRow.deleted ? 'text-gray-500' : ''}>{@html value}</span>
+						{/if}
+					</TableBodyCell>
 				{/each}
-				<Button on:click={loadNextPage} disabled={totalPages === endPage}
-					><ChevronRightOutline size="xs" class="m-1.5" /></Button
-				>
-			</ButtonGroup>
-		</div>
-	</TableSearch>
+			</TableBodyRow>
+		{/each}
+	</TableBody>
+	<div
+		slot="footer"
+		class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
+		aria-label="Table navigation"
+	>
+		<span class="text-sm font-normal text-gray-500 dark:text-gray-400">
+			Showing
+			<span class="font-semibold text-gray-900 dark:text-white">{startRange}-{endRange}</span>
+			of
+			<span class="font-semibold text-gray-900 dark:text-white">{totalItems}</span>
+		</span>
+		<ButtonGroup>
+			<Button on:click={loadPreviousPage} disabled={currentPosition === 0}
+				><ChevronLeftOutline size="xs" class="m-1.5" /></Button
+			>
+			{#each pagesToShow as pageNumber}
+				<Button on:click={() => goToPage(pageNumber)}>{pageNumber}</Button>
+			{/each}
+			<Button on:click={loadNextPage} disabled={totalPages === endPage}
+				><ChevronRightOutline size="xs" class="m-1.5" /></Button
+			>
+		</ButtonGroup>
+	</div>
 </Table>

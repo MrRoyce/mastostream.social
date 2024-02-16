@@ -11,14 +11,14 @@ import {
 } from 'firebase/firestore';
 import { db } from '$lib/firebase/client';
 
-export const getData = async ({ entity, max }) => {
+export const getData = async ({ entity, max, orderByField }) => {
   try {
 
     const responseData: DocumentData[] = [];
     const collectionRef = collection(db, entity)
 
     const data = await getDocs(
-      query(collectionRef, orderBy("timestamp", "desc"), limit(max))
+      query(collectionRef, orderBy(orderByField, "desc"), limit(max))
     );
 
     data.docs.map((doc) => {
@@ -49,6 +49,32 @@ export const getDocument = async ({ entity, id }) => {
 
   }
 }
+
+export const getToots = async ({ entity, id, max, orderByField }) => {
+  try {
+    const responseData: DocumentData[] = [];
+    const collectionRef = collection(db, `${entity}/${id}/toots`)
+
+    const data = await getDocs(
+      query(collectionRef, orderBy(orderByField, "desc"), limit(max))
+    );
+
+    data.docs.map((doc) => {
+      const docData = doc.data();
+      responseData.push({
+        id: doc.id, // Get the id from doc, not doc.data()!
+        ...docData
+      });
+    });
+
+    return responseData;
+
+  } catch (error) {
+    console.error('Error fetching data in getToots:', error);
+    throw error; // Propagate the error to the caller
+  }
+}
+
 
 export const getCount = async (entity: string) => {
   try {

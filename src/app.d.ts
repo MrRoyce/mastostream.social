@@ -38,16 +38,17 @@ type Fields = {
 
 interface AcountRow {  // DO NOT CHANGE ORDER!
 	id: string; // Have to bypass the 1st column when displaying rows!!
-	acct: string;
 	avatar: string;
-	bot: boolean;
-	createdAt: string;
 	displayName: string;
-	fields: Fields[];
+	bot: boolean;
+	acct: string;
 	followersCount: number;
 	followingCount: number;
-	lastStatusAt: string;
 	statusesCount: number;
+	createdAt: string;
+	lastStatusAt: string;
+	fields: Fields[];
+	locked: boolean;
 	timestamp: string;
 	url: string;
 	username: string;

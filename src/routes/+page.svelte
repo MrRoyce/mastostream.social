@@ -5,11 +5,11 @@
 	import type { DocumentData } from 'firebase/firestore';
 
 	export let data: PageData;
-	let accounts: DocumentData[] = data.accounts;
-	let languages: DocumentData[] = data.languages;
-	let tags: DocumentData[] = data.tags;
-	let toots: DocumentData[] = data.toots;
-	let tootsByLanguage: DocumentData[] = data.tootsByLanguage;
+	const accounts: DocumentData[] = data.accounts;
+	const languages: DocumentData[] = data.languages;
+	const tags: DocumentData[] = data.tags;
+	const toots: DocumentData[] = data.toots;
+	const domains: DocumentData[] = data.domains;
 </script>
 
 <Section class="bg-white dark:bg-gray-900">
@@ -59,6 +59,21 @@
 					statDescripiron="Since last week"
 					statIconName="fas fa-chart-pie"
 					statIconColor="bg-orange-500"
+				/>
+			</div>
+
+			<div
+				class="border-2 border-gray-600 px-4 py-6 rounded-lg transform transition duration-500 hover:scale-110"
+			>
+				<CardStats
+					statSubtitle="DOMAINS"
+					statTitle={domains}
+					statArrow="up"
+					statPercent="3.48"
+					statPercentColor="text-emerald-500"
+					statDescripiron="Since last month"
+					statIconName="far fa-chart-bar"
+					statIconColor="bg-red-500"
 				/>
 			</div>
 
