@@ -8,9 +8,6 @@
 	const entities: DocumentData[] = data.entities;
 
 	const tableData = {
-		color: 'blue',
-		hoverable: true,
-		striped: true,
 		tableHead: ['Pic', 'Name', 'Type', 'Account', 'Followers', 'Following', '# Toots', 'Since']
 	};
 
