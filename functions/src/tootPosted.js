@@ -36,6 +36,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		domain,
 		addDomain,
 		imageUrl,
+		instance,
 		language,
 		previewUrl,
 		remoteUrl,
@@ -54,6 +55,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		accountId,
 		content,
 		createdAt,
+		domain,
 		imageUrl: imageUrl || '',
 		language,
 		previewUrl: previewUrl || '',
@@ -117,7 +119,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		await db
 			.collection('domains')
 			.doc(`${domain}`)
-			.set({ count: 0, createdAt: timestamp, timestamp })
+			.set({ count: 0, createdAt: timestamp, timestamp, instance: instance || {} })
 			.catch(async (error) => {
 				return res.status(500).send({ status: 'error', message: error.message });
 			});
