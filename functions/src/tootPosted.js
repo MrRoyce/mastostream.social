@@ -4,8 +4,16 @@ import express from 'express';
 import { body, validationResult } from 'express-validator';
 import { onRequest } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
-import admin from 'firebase-admin';
 import { FieldValue } from 'firebase-admin/firestore';
+import { addToot } from './collections/toots';
+import { addDomainToCollection, addTootToDomain, updateDomain } from './collections/domains';
+import { addTags } from './collections/tags';
+import { addAccount, addTootToAccount } from './collections/accounts';
+import {
+	addLanguageToCollection,
+	addTootToLanguage,
+	updateLanguage
+} from './collections/languages';
 
 const app = express();
 app.use(express.json());
@@ -47,7 +55,6 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		visibility
 	} = req.body;
 
-	const db = admin.firestore();
 	const timestamp = FieldValue.serverTimestamp();
 
 	const thisToot = {
@@ -67,110 +74,61 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		visibility
 	};
 
-	const tootsDocument = await db
-		.collection('toots')
-		.add(thisToot)
-		.catch(async (error) => {
-			return res.status(500).send({ status: 'error', message: error.message });
-		});
+	const tootsDocument = await addToot(thisToot).catch((err) => {
+		return res.status(500).send({ status: 'error', message: err.message });
+	});
 
 	if (tags) {
-		tags.forEach(async (tag) => {
-			await db
-				.collection(`tags`)
-				.doc(`${tag.name}`)
-				.set({ language, timestamp })
-				.catch(async (error) => {
-					return res.status(500).send({ status: 'error', message: error.message });
-				});
-
-			await db
-				.collection(`tags/${tag.name}/toots`)
-				.doc(`${tootId}`)
-				.set(thisToot)
-				.catch(async (error) => {
-					return res.status(500).send({ status: 'error', message: error.message });
-				});
+		await addTags({ toot: thisToot, tags }).catch((err) => {
+			return res.status(500).send({ status: 'error', message: err.message });
 		});
 	}
 
 	// Add the account to the collection
 	if (account) {
-		await db
-			.collection('accounts')
-			.doc(`${acct}`)
-			.set({ ...account, timestamp })
-			.catch(async (error) => {
-				return res.status(500).send({ status: 'error', message: error.message });
-			});
+		await addAccount({ account, acct }).catch((err) => {
+			return res.status(500).send({ status: 'error', message: err.message });
+		});
 	}
 
-	// Add the toot to the account
-	await db
-		.collection(`accounts/${acct}/toots`)
-		.doc(`${tootId}`)
-		.set(thisToot)
-		.catch(async (error) => {
-			return res.status(500).send({ status: 'error', message: error.message });
-		});
+	// Add the toot to the account collection
+	await addTootToAccount({ acct, toot: thisToot, tootId }).catch((err) => {
+		return res.status(500).send({ status: 'error', message: err.message });
+	});
 
 	// Add the domain to the collection
 	if (addDomain) {
-		await db
-			.collection('domains')
-			.doc(`${domain}`)
-			.set({ count: 0, createdAt: timestamp, timestamp, instance: instance || {} })
-			.catch(async (error) => {
-				return res.status(500).send({ status: 'error', message: error.message });
-			});
+		await addDomainToCollection({ domain, instance }).catch((err) => {
+			return res.status(500).send({ status: 'error', message: err.message });
+		});
 	}
 
-	// Update the count and timestamp for the domain
-	await db
-		.collection('domains')
-		.doc(`${domain}`)
-		.update({ count: FieldValue.increment(1), timestamp }) // Update the count
-		.catch(async (error) => {
-			return res.status(500).send({ status: 'error', message: error.message });
-		});
+	// Update the count for the domain
+	await updateDomain({ domain }).catch((err) => {
+		return res.status(500).send({ status: 'error', message: err.message });
+	});
 
 	// Add the toot to the domain
-	await db
-		.collection(`domains/${domain}/toots`)
-		.doc(`${tootId}`)
-		.set(thisToot)
-		.catch(async (error) => {
-			return res.status(500).send({ status: 'error', message: error.message });
-		});
+	await addTootToDomain({ domain, toot: thisToot, tootId }).catch((err) => {
+		return res.status(500).send({ status: 'error', message: err.message });
+	});
 
 	// Add the language to list of languages
 	if (addLanguage && language) {
-		await db
-			.collection('languages')
-			.doc(`${language}`)
-			.set({ count: 0, createdAt: timestamp, timestamp })
-			.catch(async (error) => {
-				return res.status(500).send({ status: 'error', message: error.message });
-			});
+		await addLanguageToCollection({ language }).catch((err) => {
+			return res.status(500).send({ status: 'error', message: err.message });
+		});
 	}
 
 	// Add the toot to the list of languages
 	if (language) {
-		await db
-			.collection('languages')
-			.doc(`${language}`)
-			.update({ count: FieldValue.increment(1), timestamp }) // Update the count
-			.catch(async (error) => {
-				return res.status(500).send({ status: 'error', message: error.message });
-			});
+		await updateLanguage({ language }).catch((err) => {
+			return res.status(500).send({ status: 'error', message: err.message });
+		});
 
-		await db
-			.collection(`languages/${language}/toots`)
-			.doc(`${tootId}`)
-			.set(thisToot)
-			.catch(async (error) => {
-				return res.status(500).send({ status: 'error', message: error.message });
-			});
+		await addTootToLanguage({ language, toot: thisToot, tootId }).catch((err) => {
+			return res.status(500).send({ status: 'error', message: err.message });
+		});
 	}
 
 	res.status(201).send({ status: 201, tootsDocumentId: tootsDocument.id });
