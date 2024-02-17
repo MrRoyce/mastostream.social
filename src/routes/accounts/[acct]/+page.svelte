@@ -27,6 +27,37 @@
 		striped: true,
 		tableHead: ['Created At', 'Safe', 'Content', 'Link']
 	};
+
+	function fixNoteText(inputString: string, classToAdd: string) {
+		let modifiedString;
+		modifiedString = inputString;
+
+		// Regular expression to match an anchor tag
+		const anchorTagRegex = /<a\b[^>]*>(.*?)<\/a>/;
+
+		// Check if the input string contains an anchor tag
+		if (modifiedString && anchorTagRegex.test(modifiedString)) {
+			// Extract the anchor tag
+			let anchorTag = modifiedString.match(anchorTagRegex)[0];
+
+			// Check if the anchor tag already has a class attribute
+			if (anchorTag.indexOf('class=') === -1) {
+				// If no class attribute exists, add it with the provided class value
+				const updatedAnchorTag = anchorTag.replace('<a ', '<a class="' + classToAdd + '" ');
+				return modifiedString.replace(anchorTagRegex, updatedAnchorTag);
+			} else {
+				// If class attribute exists, add the passed-in class value to it
+				const updatedAnchorTag = anchorTag.replace(
+					/class="([^"]*)"/,
+					'class="$1 ' + classToAdd + '"'
+				);
+				return modifiedString.replace(anchorTagRegex, updatedAnchorTag);
+			}
+		} else {
+			// If no anchor tag is found, return the original string
+			return modifiedString;
+		}
+	}
 </script>
 
 <Section class="bg-white dark:bg-gray-700">
@@ -94,23 +125,30 @@
 						</h3>
 						<div class="mt-7 text-gray-200">
 							<p>
-								{@html entity.note
-									.replaceAll('</p><p>', '</p><br /><p>')
-									.replaceAll('class="invisible"', '')}
+								{@html fixNoteText(
+									entity.note
+										.replaceAll('</p><p>', '</p><br /><p>')
+										.replaceAll('class="invisible"', ''),
+									'underline text-green-200'
+								)}
 							</p>
 						</div>
+
+						<List list="none">
+							{#each entity.fields as field}
+								<Li><span class="text-gray-200 mr-3">{field.name.toUpperCase()}:</span></Li><Li
+									class=" pl-4 mb-4"
+								>
+									<span class="text-gray-200 mr-3"
+										>{@html fixNoteText(
+											field.value.replaceAll('class="invisible"', ''),
+											'underline text-green-200'
+										)}</span
+									></Li
+								>
+							{/each}
+						</List>
 					</div>
-					<List list="none">
-						{#each entity.fields as field}
-							<Li><span class="text-gray-200 mr-3">{field.name.toUpperCase()}:</span></Li><Li
-								class=" pl-4 mb-4"
-							>
-								<span class="text-gray-200 mr-3"
-									>{@html field.value.replaceAll('class="invisible"', '')}</span
-								></Li
-							>
-						{/each}
-					</List>
 				</div>
 			</div>
 			<div class="my-4 text-white">
