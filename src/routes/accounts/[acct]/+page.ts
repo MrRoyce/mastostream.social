@@ -2,10 +2,11 @@ import type { PageLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
 import type { DocumentData } from 'firebase/firestore';
 
+// Get account and their toots
 export const load: PageLoad = (async ({ params }) => {
-  const entity: DocumentData = await getDocument({ entity: 'accounts', id: params.email });
+  const entity: DocumentData = await getDocument({ entity: 'accounts', id: params.acct });
 
-  const toots: DocumentData[] = await getToots({ entity: 'accounts', id: params.email, max: 100, orderByField: 'createdAt' })
+  const toots: DocumentData[] = await getToots({ entity: 'accounts', id: params.acct, max: 100, orderByField: 'createdAt' })
 
   const items = toots.map((item) => {
 

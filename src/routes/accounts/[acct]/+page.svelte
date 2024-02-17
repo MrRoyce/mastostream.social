@@ -51,27 +51,32 @@
 						<span class=" ml-3 text-gray-200 font-bold text-xl leading-8 my-1"
 							>{entity.username}</span
 						>
-
 						<h3 class="text-white font-lg text-semibold leading-6 pt-5">
 							<a target="_blank" href={entity.url} class="inline-flex items-center hover:underline">
-								View at {domain}
+								{domain}
 								<ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
 							</a>
 						</h3>
-						<h3 class="mt-5">
-							<span class="pt-10 ml-auto text-gray-300 my-1">Member since</span>
-							<span class="pt-10 ml-auto text-gray-200 my-1">{entity.createdAt.split('T')[0]}</span>
-						</h3>
-
 						<List list="none">
 							<Li class="ml-auto text-gray-300 my-1"
-								>Following: <span class="text-gray-200 mr-3">{entity.followingCount}</span></Li
+								>Started: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
+									>{entity.createdAt.split('T')[0]}</span
+								></Li
 							>
 							<Li class="ml-auto text-gray-300 my-1"
-								>Followers: <span class="text-gray-200 mr-3">{entity.followersCount}</span></Li
+								># Toots: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
+									>{entity.statusesCount}</span
+								></Li
 							>
 							<Li class="ml-auto text-gray-300 my-1"
-								># Toots: <span class="text-gray-200 mr-3">{entity.statusesCount}</span></Li
+								>Following: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
+									>{entity.followingCount}</span
+								></Li
+							>
+							<Li class="ml-auto text-gray-300 my-1"
+								>Followers: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
+									>{entity.followersCount}</span
+								></Li
 							>
 						</List>
 					</div>
@@ -85,11 +90,14 @@
 							</div>
 						</div>
 						<h3 class="mt-5">
-							<span class="pt-10 ml-auto text-gray-300 my-1">Account: </span>
 							<span class="pt-10 ml-auto text-gray-200 my-1">@{entity.acct}</span>
 						</h3>
 						<div class="mt-7 text-gray-200">
-							<p>{@html entity.note.replaceAll('</p><p>', '</p><br /><p>')}</p>
+							<p>
+								{@html entity.note
+									.replaceAll('</p><p>', '</p><br /><p>')
+									.replaceAll('class="invisible"', '')}
+							</p>
 						</div>
 					</div>
 					<List list="none">

@@ -14,21 +14,11 @@
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 
-	let divClass = 'bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden';
-	let innerDivClass =
-		'flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4';
-	let searchClass = 'w-full md:w-1/2 relative';
-	let svgDivClass = 'absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none';
-	let classInput =
-		'text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2  pl-10';
-
 	export let entity: String | null = '';
 	export let getData: () => {};
 	export let showTableHead: Boolean = true;
 	export let sourceData: Array<AccountRow>;
 	export let tableData: TableData;
-
-	const entityLower = entity?.toLowerCase();
 
 	const columns = tableData.tableHead.length;
 	const itemsPerPage = 10;
@@ -117,9 +107,11 @@
 						{:else if value === false}
 							🚫
 						{:else if tableRow.uri && typeof value === 'string' && value?.includes('https') && value.indexOf('https://') === 0}
-							<A href={value} target="_blank" class="font-medium hover:underline">Toot...</A>
+							<A href={value} target="_blank" class="font-medium hover:underline">⚡︎ ...</A>
 						{:else}
-							<span class={tableRow.deleted ? 'text-gray-500' : ''}>{@html value}</span>
+							<span class={tableRow.deleted ? 'text-gray-500' : ''}
+								>{@html value.replaceAll('class="invisible"', '')}</span
+							>
 						{/if}
 					</TableBodyCell>
 				{/each}
