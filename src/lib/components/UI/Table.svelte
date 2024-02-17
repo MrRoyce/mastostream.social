@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ChevronLeftOutline, ChevronRightOutline } from 'flowbite-svelte-icons';
+	import { ChevronLeftOutline, ChevronRightOutline, SearchOutline } from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
 	import {
 		A,
@@ -95,7 +95,7 @@
 
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 	<TableSearch
-		placeholder="Search"
+		placeholder={`Search by ${entity}`}
 		hoverable={true}
 		bind:inputValue={searchTerm}
 		{divClass}
@@ -103,6 +103,14 @@
 		{searchClass}
 		{classInput}
 	>
+		<div
+			slot="header"
+			class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
+		>
+			<Button class="!p-2.5" on:click={() => goto(`/${entityLower}/${searchTerm}`)}>
+				<SearchOutline class="w-5 h-5" />
+			</Button>
+		</div>
 		{#if showTableHead}
 			<TableHead>
 				{#each tableData.tableHead as tableHead}
