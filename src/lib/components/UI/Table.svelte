@@ -144,28 +144,5 @@
 				</TableBodyRow>
 			{/each}
 		</TableBody>
-		<div
-			slot="footer"
-			class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-			aria-label="Table navigation"
-		>
-			<span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-				Showing
-				<span class="font-semibold text-gray-900 dark:text-white">{startRange}-{endRange}</span>
-				of
-				<span class="font-semibold text-gray-900 dark:text-white">{totalItems}</span>
-			</span>
-			<ButtonGroup>
-				<Button on:click={loadPreviousPage} disabled={currentPosition === 0}
-					><ChevronLeftOutline size="xs" class="m-1.5" /></Button
-				>
-				{#each pagesToShow as pageNumber}
-					<Button on:click={() => goToPage(pageNumber)}>{pageNumber}</Button>
-				{/each}
-				<Button on:click={loadNextPage} disabled={totalPages === endPage}
-					><ChevronRightOutline size="xs" class="m-1.5" /></Button
-				>
-			</ButtonGroup>
-		</div>
 	</TableSearch>
 </Table>

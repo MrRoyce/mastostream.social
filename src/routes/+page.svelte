@@ -1,6 +1,13 @@
 <script lang="ts">
 	import CardStats from '$lib/components/Cards/CardStats.svelte';
 	import type { PageData } from './$types';
+	import { Marquee } from '@selemondev/svelte-marquee';
+	import '@selemondev/svelte-marquee/dist/style.css';
+	import { collection, limit, orderBy, query } from 'firebase/firestore';
+	import { db } from '$lib/firebase/client';
+	import { collectionStore } from 'sveltefire';
+	import { goto } from '$app/navigation';
+	import { Card } from 'flowbite-svelte';
 
 	export let data: PageData;
 	const accounts: string = data.accounts;
@@ -8,8 +15,50 @@
 	const tags: string = data.tags;
 	const toots: string = data.toots;
 	const domains: string = data.domains;
+
+	const orderByField = 'timestamp';
+	const direction = 'desc';
+	const max = 15;
+
+	const collectionRef = collection(db, 'toots');
+	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
+	const tootsMarquee = collectionStore(db, q);
+
+	function truncateHtml(htmlString, maxLength) {
+		// Create a temporary div element
+		const tempDiv = document.createElement('div');
+
+		// Set the HTML content of the div with the input HTML string
+		tempDiv.innerHTML = htmlString;
+
+		// Get the text content of the div (strips HTML tags)
+		let textContent = tempDiv.textContent || tempDiv.innerText;
+
+		// Truncate the text content to the specified maxLength
+		const truncatedText =
+			textContent.length > maxLength
+				? textContent.substring(0, maxLength - 3) + '...'
+				: textContent;
+
+		return truncatedText;
+	}
 </script>
 
+<div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4">
+	<Marquee pauseOnHover={true} fade={false} reverse={true} class="py-4 motion-reduce:overflow-auto">
+		{#each $tootsMarquee as item}
+			<Card
+				class="object-contain h-48 w-96"
+				img="/images/Mastodon_logotype_(simple)_new_hue.svg"
+				on:click={() => {
+					goto(`/toots/${item.accountId}_${item.tootId}`);
+				}}
+			>
+				{@html truncateHtml(item.content, 20)}
+			</Card>
+		{/each}
+	</Marquee>
+</div>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
 	<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
 		<div class=" transform transition duration-500 hover:scale-110">
