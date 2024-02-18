@@ -1,14 +1,13 @@
 import { logger } from 'firebase-functions';
 import admin from 'firebase-admin';
-import { FieldValue } from 'firebase-admin/firestore';
 
 const db = admin.firestore();
-const timestamp = FieldValue.serverTimestamp();
 
 export const addToot = async (toot) => {
 	const response = await db
 		.collection('toots')
-		.add(toot)
+		.doc(`${toot.accountId}_${toot.tootId}`)
+		.set(toot)
 		.catch(async (err) => {
 			const error = `Failed to add toot: ${err.message}`;
 			logger.error(error);

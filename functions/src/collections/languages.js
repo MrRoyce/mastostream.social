@@ -9,7 +9,7 @@ export const addLanguageToCollection = async ({ language }) => {
 	await db
 		.collection('languages')
 		.doc(`${language}`)
-		.set({ count: 0, timestamp })
+		.set({ count: 0, language, timestamp })
 		.catch(async (err) => {
 			const error = `Failed to add language: ${language}: ${err.message}`;
 			logger.error(error);

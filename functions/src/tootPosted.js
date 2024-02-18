@@ -1,19 +1,22 @@
-import { initializeApp } from 'firebase-admin/app';
-initializeApp();
 import express from 'express';
 import { body, validationResult } from 'express-validator';
 import { onRequest } from 'firebase-functions/v2/https';
 import { logger } from 'firebase-functions';
 import { FieldValue } from 'firebase-admin/firestore';
-import { addToot } from './collections/toots';
-import { addDomainToCollection, addTootToDomain, updateDomain } from './collections/domains';
-import { addTags } from './collections/tags';
-import { addAccount, addTootToAccount } from './collections/accounts';
+import { addToot } from './collections/toots.js';
+import {
+	addAccountToDomain,
+	addDomainToCollection,
+	addTootToDomain,
+	updateDomain
+} from './collections/domains.js';
+import { addTags } from './collections/tags.js';
+import { addAccount, addTootToAccount } from './collections/accounts.js';
 import {
 	addLanguageToCollection,
 	addTootToLanguage,
 	updateLanguage
-} from './collections/languages';
+} from './collections/languages.js';
 
 const app = express();
 app.use(express.json());
@@ -87,6 +90,10 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 	// Add the account to the collection
 	if (account) {
 		await addAccount({ account, acct }).catch((err) => {
+			return res.status(500).send({ status: 'error', message: err.message });
+		});
+
+		await addAccountToDomain({ acct, account, domain }).catch((err) => {
 			return res.status(500).send({ status: 'error', message: err.message });
 		});
 	}

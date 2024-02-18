@@ -1,5 +1,7 @@
 /* eslint-disable operator-linebreak */
 /* eslint-disable quotes */
+import { initializeApp } from 'firebase-admin/app';
+initializeApp();
 import admin from 'firebase-admin';
 import { logger } from 'firebase-functions';
 import { onSchedule } from 'firebase-functions/v2/scheduler';

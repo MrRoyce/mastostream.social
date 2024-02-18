@@ -11,7 +11,7 @@ export const addTags = async ({ toot, tags }) => {
 		await db
 			.collection(`tags`)
 			.doc(`${tag.name}`)
-			.set({ language, timestamp })
+			.set({ language, name: tag.name, timestamp })
 			.catch(async (err) => {
 				const error = `Failed to add tag: ${tag}, ${err.message}`;
 				logger.error(error);
