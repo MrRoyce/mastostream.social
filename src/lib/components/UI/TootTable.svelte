@@ -109,9 +109,7 @@
 						{:else if tableRow.uri && typeof value === 'string' && value?.includes('https') && value.indexOf('https://') === 0}
 							<A href={value} target="_blank" class="font-medium hover:underline">⚡︎ ...</A>
 						{:else}
-							<span class={tableRow.deleted ? 'text-gray-500' : ''}
-								>{@html value.replaceAll('class="invisible"', '')}</span
-							>
+							<span>{@html value.replaceAll('class="invisible"', '')}</span>
 						{/if}
 					</TableBodyCell>
 				{/each}

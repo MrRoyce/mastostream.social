@@ -55,7 +55,6 @@ export const getDocument = async ({ entity, id }) => {
   } else {
     console.log(`Document ${id} not found`);
     return ({})
-
   }
 }
 

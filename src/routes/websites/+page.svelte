@@ -27,7 +27,7 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Pic', 'Type', 'Account', 'Followers', 'Following', '# Toots', 'Since']
+		tableHead: ['Open', 'Name', 'Languages', '# Users', 'Description']
 	};
 
 	let loadSpinner = false;
@@ -35,9 +35,9 @@
 	const direction = 'desc';
 	const max = 20;
 
-	const collectionRef = collection(db, 'accounts');
+	const collectionRef = collection(db, 'domains');
 	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
-	const accounts = collectionStore(db, q);
+	const domains = collectionStore(db, q);
 </script>
 
 {#if loadSpinner}
@@ -46,7 +46,7 @@
 	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex py-4 m-4 h-fit">
 		<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 			<TableSearch
-				placeholder={`Search by account`}
+				placeholder={`Search by name`}
 				hoverable={true}
 				bind:inputValue={searchTerm}
 				{divClass}
@@ -58,7 +58,7 @@
 					slot="header"
 					class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
 				>
-					<Button class="!p-2.5" on:click={() => goto(`/accounts/${searchTerm}`)}>
+					<Button class="!p-2.5" on:click={() => goto(`/websites/${searchTerm}`)}>
 						<SearchOutline class="w-5 h-5" />
 					</Button>
 				</div>
@@ -70,28 +70,24 @@
 					{/each}
 				</TableHead>
 				<TableBody>
-					{#each $accounts as item}
-						<TableBodyRow on:dblclick={() => goto(`/accounts/${item.acct}`)}>
-							<TableBodyCell
-								><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
-							>
+					{#each $domains as item}
+						<TableBodyRow on:dblclick={() => goto(`/websites/${item.domain}`)}>
 							<TableBodyCell>
-								{item.bot ? '🤖' : '👤'}
+								{item.instance?.registrations ? (item.instance.registrations ? '✅' : '❌') : '❓'}
 							</TableBodyCell>
 							<TableBodyCell>
-								{item.acct}
+								{item.instance?.uri ? item.instance.uri : '❓'}
 							</TableBodyCell>
 							<TableBodyCell>
-								{item.followersCount}
+								{item.instance?.languages ? item.instance.languages.join(', ') : '❓'}
+							</TableBodyCell>
+							<TableBodyCell class="text-right">
+								{item.instance?.stats?.user_count ? item.instance.stats.user_count : '❓'}
 							</TableBodyCell>
 							<TableBodyCell>
-								{item.followingCount}
-							</TableBodyCell>
-							<TableBodyCell>
-								{item.statusesCount}
-							</TableBodyCell>
-							<TableBodyCell>
-								{item.createdAt.split('T')[0]}
+								{item.instance?.short_description
+									? item.instance.short_description.substring(0, 50 - 3) + '...'
+									: ''}
 							</TableBodyCell>
 						</TableBodyRow>
 					{/each}

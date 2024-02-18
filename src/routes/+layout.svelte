@@ -15,8 +15,7 @@
 		SidebarItem,
 		SidebarWrapper,
 		Drawer,
-		CloseButton,
-		SidebarDropdownWrapper
+		CloseButton
 	} from 'flowbite-svelte';
 	import { Cog } from 'svelte-heros-v2';
 	import { sineIn } from 'svelte/easing';
@@ -87,8 +86,12 @@
 			activeClass="md:!pl-3 md:!py-2 lg:!pl-0 lg:text-primary-700 text-white dark:text-white dark:lg:text-primary-500 bg-primary-700 lg:bg-transparent dark:bg-primary-600 lg:dark:bg-transparent cursor-default"
 		>
 			<NavLi class="lg:mb-0 lg:px-2" active={activeUrl === '/'} href="/">Home</NavLi>
+			<NavLi class="lg:mb-0 lg:px-2" active={activeUrl === '/toots'} href="/">Toots</NavLi>
 			<NavLi class="lg:mb-0 lg:px-2" active={activeUrl === '/accounts'} href="/accounts"
 				>Accounts</NavLi
+			>
+			<NavLi class="lg:mb-0 lg:px-2" active={activeUrl === '/websites'} href="/websites"
+				>Web Sites</NavLi
 			>
 		</NavUl>
 		<div class="ml-auto flex items-center">
@@ -116,10 +119,22 @@
 			<SidebarGroup>
 				<SidebarItem label="Home" href="/" on:click={toggleSide} active={activeUrl === `/`} />
 				<SidebarItem
+					label="Toots"
+					href="/toots"
+					on:click={toggleSide}
+					active={activeUrl === `/toots`}
+				/>
+				<SidebarItem
 					label="Accounts"
 					href="/accounts"
 					on:click={toggleSide}
 					active={activeUrl === `/accounts`}
+				/>
+				<SidebarItem
+					label="Web Sites"
+					href="/websites"
+					on:click={toggleSide}
+					active={activeUrl === `/websites`}
 				/>
 			</SidebarGroup>
 		</SidebarWrapper>
