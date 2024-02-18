@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { A, ListPlaceholder } from 'flowbite-svelte';
-	import { Section } from 'flowbite-svelte-blocks';
 	import { collection, limit, orderBy, query } from 'firebase/firestore';
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
@@ -50,40 +49,38 @@
 {#if loadSpinner}
 	<ListPlaceholder size="xxl" class="mt-8" />
 {:else}
-	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex py-4 m-4 h-fit">
-		<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-			<TableHead>
-				{#each tableData.tableHead as tableHead}
-					<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
-						>{tableHead}</TableHeadCell
-					>
-				{/each}
-			</TableHead>
-			<TableBody>
-				{#each $toots as item}
-					<TableBodyRow on:dblclick={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
-						<TableBodyCell>
-							{item.sensitive ? '❌' : '✅'}
-						</TableBodyCell>
-						<TableBodyCell>
-							{item.bot ? '🤖' : '👤'}
-						</TableBodyCell>
-						<TableBodyCell>
-							{`${item.createdAt.split('T')[1].split('.')[0]}`}
-						</TableBodyCell>
-						<TableBodyCell>
-							{item.acct}
-						</TableBodyCell>
-						<TableBodyCell>
-							{item.language}
-						</TableBodyCell>
-						<TableBodyCell>
-							{@html truncateHtml(item.content, 50)}
-						</TableBodyCell>
-						<A href={item.uri} target="_blank" class="font-medium hover:underline">⚡︎ ...</A>
-					</TableBodyRow>
-				{/each}
-			</TableBody>
-		</Table>
-	</Section>
+	<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+		<TableHead>
+			{#each tableData.tableHead as tableHead}
+				<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
+					>{tableHead}</TableHeadCell
+				>
+			{/each}
+		</TableHead>
+		<TableBody>
+			{#each $toots as item}
+				<TableBodyRow on:dblclick={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
+					<TableBodyCell>
+						{item.sensitive ? '❌' : '✅'}
+					</TableBodyCell>
+					<TableBodyCell>
+						{item.bot ? '🤖' : '👤'}
+					</TableBodyCell>
+					<TableBodyCell>
+						{`${item.createdAt.split('T')[1].split('.')[0]}`}
+					</TableBodyCell>
+					<TableBodyCell>
+						{item.acct}
+					</TableBodyCell>
+					<TableBodyCell>
+						{item.language}
+					</TableBodyCell>
+					<TableBodyCell>
+						{@html truncateHtml(item.content, 50)}
+					</TableBodyCell>
+					<A href={item.uri} target="_blank" class="font-medium hover:underline">⚡︎ ...</A>
+				</TableBodyRow>
+			{/each}
+		</TableBody>
+	</Table>
 {/if}

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { ListPlaceholder } from 'flowbite-svelte';
-	import { Section } from 'flowbite-svelte-blocks';
 	import { collection, limit, orderBy, query } from 'firebase/firestore';
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
@@ -43,60 +42,58 @@
 {#if loadSpinner}
 	<ListPlaceholder size="xxl" class="mt-8" />
 {:else}
-	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex py-4 m-4 h-fit">
-		<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-			<TableSearch
-				placeholder={`Search by account`}
-				hoverable={true}
-				bind:inputValue={searchTerm}
-				{divClass}
-				{innerDivClass}
-				{searchClass}
-				{classInput}
+	<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+		<TableSearch
+			placeholder={`Search by account`}
+			hoverable={true}
+			bind:inputValue={searchTerm}
+			{divClass}
+			{innerDivClass}
+			{searchClass}
+			{classInput}
+		>
+			<div
+				slot="header"
+				class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
 			>
-				<div
-					slot="header"
-					class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
-				>
-					<Button class="!p-2.5" on:click={() => goto(`/accounts/${searchTerm}`)}>
-						<SearchOutline class="w-5 h-5" />
-					</Button>
-				</div>
-				<TableHead>
-					{#each tableData.tableHead as tableHead}
-						<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
-							>{tableHead}</TableHeadCell
+				<Button class="!p-2.5" on:click={() => goto(`/accounts/${searchTerm}`)}>
+					<SearchOutline class="w-5 h-5" />
+				</Button>
+			</div>
+			<TableHead>
+				{#each tableData.tableHead as tableHead}
+					<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
+						>{tableHead}</TableHeadCell
+					>
+				{/each}
+			</TableHead>
+			<TableBody>
+				{#each $accounts as item}
+					<TableBodyRow on:dblclick={() => goto(`/accounts/${item.acct}`)}>
+						<TableBodyCell
+							><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
 						>
-					{/each}
-				</TableHead>
-				<TableBody>
-					{#each $accounts as item}
-						<TableBodyRow on:dblclick={() => goto(`/accounts/${item.acct}`)}>
-							<TableBodyCell
-								><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
-							>
-							<TableBodyCell>
-								{item.bot ? '🤖' : '👤'}
-							</TableBodyCell>
-							<TableBodyCell>
-								{item.acct}
-							</TableBodyCell>
-							<TableBodyCell>
-								{item.followersCount}
-							</TableBodyCell>
-							<TableBodyCell>
-								{item.followingCount}
-							</TableBodyCell>
-							<TableBodyCell>
-								{item.statusesCount}
-							</TableBodyCell>
-							<TableBodyCell>
-								{item.createdAt.split('T')[0]}
-							</TableBodyCell>
-						</TableBodyRow>
-					{/each}
-				</TableBody>
-			</TableSearch>
-		</Table>
-	</Section>
+						<TableBodyCell>
+							{item.bot ? '🤖' : '👤'}
+						</TableBodyCell>
+						<TableBodyCell>
+							{item.acct}
+						</TableBodyCell>
+						<TableBodyCell>
+							{item.followersCount}
+						</TableBodyCell>
+						<TableBodyCell>
+							{item.followingCount}
+						</TableBodyCell>
+						<TableBodyCell>
+							{item.statusesCount}
+						</TableBodyCell>
+						<TableBodyCell>
+							{item.createdAt.split('T')[0]}
+						</TableBodyCell>
+					</TableBodyRow>
+				{/each}
+			</TableBody>
+		</TableSearch>
+	</Table>
 {/if}
