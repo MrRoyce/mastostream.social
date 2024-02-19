@@ -21,7 +21,7 @@ export const updateLanguage = async ({ language }) => {
 	await db
 		.collection('languages')
 		.doc(`${language}`)
-		.update({ count: FieldValue.increment(1) }) // Update the count
+		.update({ count: FieldValue.increment(1), lastSeen: timestamp }) // Update the count
 		.catch(async (err) => {
 			const error = `Failed to update Language: ${language}: ${err.message}`;
 			logger.error(error);

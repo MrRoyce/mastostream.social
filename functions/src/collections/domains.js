@@ -21,7 +21,7 @@ export const updateDomain = async ({ domain }) => {
 	await db
 		.collection('domains')
 		.doc(`${domain}`)
-		.update({ count: FieldValue.increment(1) }) // Update the count
+		.update({ count: FieldValue.increment(1), lastSeen: timestamp }) // Update the count
 		.catch(async (err) => {
 			const error = `Failed to update Domain: ${domain}: ${err.message}`;
 			logger.error(error);
