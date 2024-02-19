@@ -1,6 +1,7 @@
 import type { PageLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
 import type { DocumentData } from 'firebase/firestore';
+import { formatToot } from '$lib/utils/formatToot';
 
 // Get domain and their toots
 export const load: PageLoad = (async ({ params }) => {
@@ -12,16 +13,7 @@ export const load: PageLoad = (async ({ params }) => {
   console.log('entity', entity)
 
   const items = toots.map((item) => {
-    return {
-      id: item.id,
-      sensitive: !item.sensitive,
-      createdAt: item.createdAt,
-      acct: item.acct,
-      content: item.content,
-      uri: item.uri,
-      language: item.language,
-      visibility: item.visibility,
-    }
+    return formatToot(item)
   })
 
   return { entity: { ...entity }, toots: items };

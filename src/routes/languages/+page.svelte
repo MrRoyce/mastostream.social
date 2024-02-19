@@ -31,9 +31,9 @@
 	};
 
 	let loadSpinner = false;
-	const orderByField = 'timestamp';
-	const direction = 'desc';
-	const max = 20;
+	const orderByField = 'language';
+	const direction = 'asc';
+	const max = 200;
 
 	const collectionRef = collection(db, 'languages');
 	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
@@ -70,7 +70,7 @@
 			</TableHead>
 			<TableBody>
 				{#each $languages as item}
-					<TableBodyRow on:dblclick={() => goto(`/languages/${item.name}`)}>
+					<TableBodyRow on:dblclick={() => goto(`/languages/${item.language}`)}>
 						<TableBodyCell>
 							{item.language}
 						</TableBodyCell>

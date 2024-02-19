@@ -1,6 +1,7 @@
 import type { PageLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
 import type { DocumentData } from 'firebase/firestore';
+import { formatToot } from '$lib/utils/formatToot';
 
 // Get account and their toots
 export const load: PageLoad = (async ({ params }) => {
@@ -9,16 +10,7 @@ export const load: PageLoad = (async ({ params }) => {
   const toots: DocumentData[] = await getToots({ entity: 'accounts', id: params.acct, max: 100, orderByField: 'createdAt' })
 
   const items = toots.map((item) => {
-
-    return {
-      id: item.id,
-      createdAt: item.createdAt,
-      sensitive: !item.sensitive,
-      content: item.content,
-      uri: item.uri,
-      language: item.language,
-      visibility: item.visibility,
-    }
+    return formatToot(item)
   })
 
   return { entity: { ...entity }, toots: items };

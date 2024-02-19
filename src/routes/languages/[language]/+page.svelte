@@ -16,7 +16,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Created At', 'Safe', 'Content', 'Link']
+		tableHead: ['Created At (UTC)', 'Safe', 'Web Site', 'Account', 'Content', 'Link']
 	};
 </script>
 
@@ -40,7 +40,7 @@
 		</div>
 		<div class="my-4 text-white">
 			<h2 class="text-gray-200 font-bold text-xl leading-8 my-1">
-				Latest toots from {entity.language}
+				Latest toots in the {entity.language} language:
 			</h2>
 
 			<TootTable

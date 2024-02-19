@@ -25,7 +25,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Safe', 'Created At', 'Account', 'Content', 'Link']
+		tableHead: ['Safe', 'Created At (UTC)', 'Account', 'Content', 'Link']
 	};
 </script>
 
