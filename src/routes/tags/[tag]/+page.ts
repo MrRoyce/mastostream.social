@@ -10,7 +10,6 @@ export const load: PageLoad = (async ({ params }) => {
   const toots: DocumentData[] = await getToots({ entity: 'tags', id: params.tag, max: 100, orderByField: 'createdAt' })
 
   const items = toots.map((item) => {
-
     return formatToot(item)
   })
 

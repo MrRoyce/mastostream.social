@@ -8,6 +8,7 @@
 	import { collectionStore } from 'sveltefire';
 	import { goto } from '$app/navigation';
 	import { Button, Card } from 'flowbite-svelte';
+	import { truncateHTML } from '$lib/utils/truncateHTML';
 
 	export let data: PageData;
 	const accounts: string = data.accounts;
@@ -23,25 +24,6 @@
 	const collectionRef = collection(db, 'toots');
 	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
 	const tootsMarquee = collectionStore(db, q);
-
-	function truncateHtml(htmlString, maxLength) {
-		// Create a temporary div element
-		const tempDiv = document.createElement('div');
-
-		// Set the HTML content of the div with the input HTML string
-		tempDiv.innerHTML = htmlString;
-
-		// Get the text content of the div (strips HTML tags)
-		let textContent = tempDiv.textContent || tempDiv.innerText;
-
-		// Truncate the text content to the specified maxLength
-		const truncatedText =
-			textContent.length > maxLength
-				? textContent.substring(0, maxLength - 3) + '...'
-				: textContent;
-
-		return truncatedText;
-	}
 </script>
 
 <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
@@ -52,7 +34,9 @@
 				class="dark:text-white"
 				on:click={() => {
 					goto(`/toots/${item.accountId}_${item.tootId}`);
-				}}>{@html truncateHtml(item.content, 50)}</Button
+				}}
+				><img class=" w-10 h-auto max-w-xs mr-4" src={item.avatar} alt="User" />
+				{@html truncateHTML(item.content, 50)}</Button
 			>
 		{/each}
 	</Marquee>

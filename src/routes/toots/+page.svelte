@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { A, ListPlaceholder } from 'flowbite-svelte';
+	import { A } from 'flowbite-svelte';
 	import { collection, limit, orderBy, query } from 'firebase/firestore';
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
@@ -12,6 +12,7 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
+	import { truncateHTML } from '$lib/utils/truncateHTML';
 
 	const tableData = {
 		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
@@ -24,25 +25,6 @@
 	const collectionRef = collection(db, 'toots');
 	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
 	const toots = collectionStore(db, q);
-
-	function truncateHtml(htmlString, maxLength) {
-		// Create a temporary div element
-		const tempDiv = document.createElement('div');
-
-		// Set the HTML content of the div with the input HTML string
-		tempDiv.innerHTML = htmlString;
-
-		// Get the text content of the div (strips HTML tags)
-		let textContent = tempDiv.textContent || tempDiv.innerText;
-
-		// Truncate the text content to the specified maxLength
-		const truncatedText =
-			textContent.length > maxLength
-				? textContent.substring(0, maxLength - 3) + '...'
-				: textContent;
-
-		return truncatedText;
-	}
 </script>
 
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
@@ -73,7 +55,7 @@
 					{item.language}
 				</TableBodyCell>
 				<TableBodyCell>
-					{@html truncateHtml(item.content, 50)}
+					{@html truncateHTML(item.content, 50)}
 				</TableBodyCell>
 				<TableBodyCell>
 					<A

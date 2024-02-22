@@ -1,10 +1,7 @@
 <script lang="ts">
-	import { ChevronLeftOutline, ChevronRightOutline } from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
 	import {
 		A,
-		Button,
-		ButtonGroup,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -12,6 +9,8 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
+	import { goto } from '$app/navigation';
+	import { truncateHTML } from '$lib/utils/truncateHTML';
 
 	export let entity: String | null = '';
 	export let getData: () => {};
@@ -20,7 +19,7 @@
 	export let tableData: TableData;
 
 	const columns = tableData.tableHead.length;
-	const itemsPerPage = 10;
+	const itemsPerPage = 100;
 	const showPage = 5;
 
 	let currentPosition = 0;
@@ -92,68 +91,38 @@
 		</TableHead>
 	{/if}
 	<TableBody>
-		{#each currentPageItems as tableRow}
-			<TableBodyRow>
-				{#each Object.values(tableRow).slice(1, columns + 1) as value, index}
-					<TableBodyCell
-						class={value === true || value === false
-							? 'text-center'
-							: typeof value === 'number'
-								? 'text-right'
-								: 'text-left'}
-						tdClass="px-4 py-3"
-					>
-						{#if value === true}
-							✅
-						{:else if value === false}
-							🚫
-						{:else if tableRow.uri && typeof value === 'string' && value?.includes('https') && value.indexOf('https://') === 0}
-							<A
-								href={value}
-								rel="noopener nofollow"
-								target="_blank"
-								class="font-medium hover:underline">⚡︎ ...</A
-							>
-						{:else}
-							<span
-								>{@html value
-									.replaceAll('</p><p>', '</p><br /><p>')
-									.replaceAll(
-										'class="invisible"',
-										'class="class="font-medium hover:text-blue-300 hover:underline"'
-									)
-									.replaceAll(
-										'class="mention hashtag"',
-										'class="font-medium hover:underline hover:blue dark:text-white"'
-									)}</span
-							>
-						{/if}
-					</TableBodyCell>
-				{/each}
+		{#each currentPageItems as item}
+			<TableBodyRow on:dblclick={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
+				<TableBodyCell
+					><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
+				>
+				<TableBodyCell>
+					{item.sensitive ? '✅' : '❌'}
+				</TableBodyCell>
+				<TableBodyCell>
+					{item.bot ? '🤖' : '👤'}
+				</TableBodyCell>
+				<TableBodyCell>
+					{item.createdAt}
+				</TableBodyCell>
+				<TableBodyCell>
+					{item.acct}
+				</TableBodyCell>
+				<TableBodyCell>
+					{item.language}
+				</TableBodyCell>
+				<TableBodyCell>
+					{@html truncateHTML(item.content, 50)}
+				</TableBodyCell>
+				<TableBodyCell>
+					<A
+						rel="noopener nofollow"
+						href={item.uri}
+						target="_blank"
+						class="font-medium hover:underline">⚡︎ ...</A
+					></TableBodyCell
+				>
 			</TableBodyRow>
 		{/each}
 	</TableBody>
-	<div
-		slot="footer"
-		class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4"
-		aria-label="Table navigation"
-	>
-		<span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-			Showing
-			<span class="font-semibold text-gray-900 dark:text-white">{startRange}-{endRange}</span>
-			of
-			<span class="font-semibold text-gray-900 dark:text-white">{totalItems}</span>
-		</span>
-		<ButtonGroup>
-			<Button on:click={loadPreviousPage} disabled={currentPosition === 0}
-				><ChevronLeftOutline size="xs" class="m-1.5" /></Button
-			>
-			{#each pagesToShow as pageNumber}
-				<Button on:click={() => goToPage(pageNumber)}>{pageNumber}</Button>
-			{/each}
-			<Button on:click={loadNextPage} disabled={totalPages === endPage}
-				><ChevronRightOutline size="xs" class="m-1.5" /></Button
-			>
-		</ButtonGroup>
-	</div>
 </Table>

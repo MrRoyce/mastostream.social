@@ -27,13 +27,13 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Name', 'Count', 'First seen']
+		tableHead: ['Name', 'Count', 'Last Toot (UTC)']
 	};
 
 	let loadSpinner = false;
-	const orderByField = 'timestamp';
+	const orderByField = 'count';
 	const direction = 'desc';
-	const max = 20;
+	const max = 200;
 
 	const collectionRef = collection(db, 'tags');
 	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));

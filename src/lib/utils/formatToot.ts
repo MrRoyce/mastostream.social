@@ -1,41 +1,33 @@
 type Toot = {
-  id: string;
-  createdAt: string;
-  sensitive: boolean;
-  domain: string;
   acct: string;
+  avatar: string;
+  bot: string;
   content: string;
-  uri: string;
+  createdAt: string;
+  domain: string;
+  id: string;
   language: string;
+  sensitive: boolean;
+  uri: string;
   visibility: boolean;
 
 }
 
-export const formatToot = (toot: Toot, includeAcct: boolean) => {
+export const formatToot = (toot: Toot,) => {
   const createdAtArray = toot.createdAt.split('T')
 
-  if (includeAcct) {
-    return {
-      id: toot.id,
-      createdAt: `${createdAtArray[0]} ${createdAtArray[1].split('.')[0]}`,
-      sensitive: !toot.sensitive,
-      acct: toot.acct,
-      content: toot.content,
-      uri: toot.uri,
-      domain: toot.domain,
-      language: toot.language,
-      visibility: toot.visibility
-    }
-  } else
-    return {
-      id: toot.id,
-      createdAt: `${createdAtArray[0]} ${createdAtArray[1].split('.')[0]}`,
-      sensitive: !toot.sensitive,
-      content: toot.content,
-      uri: toot.uri,
-      acct: toot.acct,
-      domain: toot.domain,
-      language: toot.language,
-      visibility: toot.visibility
-    }
+
+  return {
+    ...toot,
+    id: toot.id,
+    avatar: toot.avatar,
+    sensitive: !toot.sensitive, // sensitive would be true and would cause the toottable to show the wrong icon!
+    type: toot.bot,
+    createdAt: `${createdAtArray[0]} ${createdAtArray[1].split('.')[0]}`,
+    acct: toot.acct,
+    language: toot.language,
+    content: toot.content,
+    uri: toot.uri,
+    visibility: toot.visibility
+  }
 }
