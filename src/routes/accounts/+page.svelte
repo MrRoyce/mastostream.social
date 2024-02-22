@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { ListPlaceholder } from 'flowbite-svelte';
 	import { collection, limit, orderBy, query } from 'firebase/firestore';
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
@@ -30,7 +29,6 @@
 		tableHead: ['Pic', 'Type', 'Account', 'Followers', 'Following', '# Toots', 'Last Post (UTC)']
 	};
 
-	let loadSpinner = false;
 	const orderByField = 'timestamp';
 	const direction = 'desc';
 	const max = 20;
@@ -40,66 +38,62 @@
 	const accounts = collectionStore(db, q);
 </script>
 
-{#if loadSpinner}
-	<ListPlaceholder size="xxl" class="mt-8" />
-{:else}
-	<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-		<TableSearch
-			placeholder={`Search by account`}
-			hoverable={true}
-			bind:inputValue={searchTerm}
-			{divClass}
-			{innerDivClass}
-			{searchClass}
-			{classInput}
+<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<TableSearch
+		placeholder={`Search by account`}
+		hoverable={true}
+		bind:inputValue={searchTerm}
+		{divClass}
+		{innerDivClass}
+		{searchClass}
+		{classInput}
+	>
+		<div
+			slot="header"
+			class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
 		>
-			<div
-				slot="header"
-				class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
-			>
-				<Button class="!p-2.5" on:click={() => goto(`/accounts/${searchTerm}`)}>
-					<SearchOutline class="w-5 h-5" />
-				</Button>
-			</div>
-			<TableHead>
-				{#each tableData.tableHead as tableHead}
-					<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
-						>{tableHead}</TableHeadCell
+			<Button class="!p-2.5" on:click={() => goto(`/accounts/${searchTerm}`)}>
+				<SearchOutline class="w-5 h-5" />
+			</Button>
+		</div>
+		<TableHead>
+			{#each tableData.tableHead as tableHead}
+				<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
+					>{tableHead}</TableHeadCell
+				>
+			{/each}
+		</TableHead>
+		<TableBody>
+			{#each $accounts as item}
+				<TableBodyRow on:dblclick={() => goto(`/accounts/${item.acct}`)}>
+					<TableBodyCell
+						><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
 					>
-				{/each}
-			</TableHead>
-			<TableBody>
-				{#each $accounts as item}
-					<TableBodyRow on:dblclick={() => goto(`/accounts/${item.acct}`)}>
-						<TableBodyCell
-							><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
-						>
-						<TableBodyCell>
-							{item.bot ? '🤖' : '👤'}
-						</TableBodyCell>
-						<TableBodyCell>
-							{item.acct}
-						</TableBodyCell>
-						<TableBodyCell class="text-right">
-							{item.followersCount}
-						</TableBodyCell>
-						<TableBodyCell class="text-right">
-							{item.followingCount}
-						</TableBodyCell>
-						<TableBodyCell class="text-right">
-							{item.statusesCount}
-						</TableBodyCell>
-						<TableBodyCell>
-							{item.timestamp
-								? formatDate({
-										seconds: item.timestamp.seconds,
-										nanoseconds: item.timestamp.nanoseconds
-									})
-								: 'N/A'}
-						</TableBodyCell>
-					</TableBodyRow>
-				{/each}
-			</TableBody>
-		</TableSearch>
-	</Table>
-{/if}
+					<TableBodyCell>
+						{item.bot ? '🤖' : '👤'}
+					</TableBodyCell>
+					<TableBodyCell>
+						{item.acct}
+					</TableBodyCell>
+					<TableBodyCell class="text-right">
+						{item.followersCount}
+					</TableBodyCell>
+					<TableBodyCell class="text-right">
+						{item.followingCount}
+					</TableBodyCell>
+					<TableBodyCell class="text-right">
+						{item.statusesCount}
+					</TableBodyCell>
+					<TableBodyCell>
+						{item.timestamp
+							? formatDate({
+									seconds: item.timestamp.seconds,
+									nanoseconds: item.timestamp.nanoseconds
+								})
+							: 'N/A'}
+					</TableBodyCell>
+				</TableBodyRow>
+			{/each}
+		</TableBody>
+	</TableSearch>
+</Table>
