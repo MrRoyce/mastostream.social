@@ -24,6 +24,7 @@ firebase-debug.log
 /playwright/.cache/
 SITEINFO.md
 clean-tables_nohup_node.txt
+elasticsearch.json
 
 # Logs
 logs

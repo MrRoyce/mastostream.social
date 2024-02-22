@@ -12,7 +12,6 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import { goto } from '$app/navigation';
 
 	export let entity: String | null = '';
 	export let getData: () => {};
@@ -83,9 +82,11 @@
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 	{#if showTableHead}
 		<TableHead>
-			{#each tableData.tableHead as tableHead}
-				<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
-					>{tableHead}</TableHeadCell
+			{#each tableData.tableHead as tableHead, index}
+				<TableHeadCell
+					class={index === 0 ? 'text-center w-48' : 'text-center'}
+					padding="px-4 py-3"
+					scope="col">{tableHead}</TableHeadCell
 				>
 			{/each}
 		</TableHead>
@@ -107,9 +108,25 @@
 						{:else if value === false}
 							🚫
 						{:else if tableRow.uri && typeof value === 'string' && value?.includes('https') && value.indexOf('https://') === 0}
-							<A href={value} target="_blank" class="font-medium hover:underline">⚡︎ ...</A>
+							<A
+								href={value}
+								rel="noopener nofollow"
+								target="_blank"
+								class="font-medium hover:underline">⚡︎ ...</A
+							>
 						{:else}
-							<span>{@html value.replaceAll('class="invisible"', '')}</span>
+							<span
+								>{@html value
+									.replaceAll('</p><p>', '</p><br /><p>')
+									.replaceAll(
+										'class="invisible"',
+										'class="class="font-medium hover:text-blue-300 hover:underline"'
+									)
+									.replaceAll(
+										'class="mention hashtag"',
+										'class="font-medium hover:underline hover:blue dark:text-white"'
+									)}</span
+							>
 						{/if}
 					</TableBodyCell>
 				{/each}

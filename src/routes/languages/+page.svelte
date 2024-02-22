@@ -27,7 +27,7 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Name', 'First seen']
+		tableHead: ['Name', 'Count', 'First seen']
 	};
 
 	let loadSpinner = false;
@@ -73,6 +73,9 @@
 					<TableBodyRow on:dblclick={() => goto(`/languages/${item.language}`)}>
 						<TableBodyCell>
 							{item.language}
+						</TableBodyCell>
+						<TableBodyCell class="text-right">
+							{item.count}
 						</TableBodyCell>
 
 						<TableBodyCell>

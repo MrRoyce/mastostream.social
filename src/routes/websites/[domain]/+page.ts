@@ -13,7 +13,7 @@ export const load: PageLoad = (async ({ params }) => {
   console.log('entity', entity)
 
   const items = toots.map((item) => {
-    return formatToot(item)
+    return formatToot(item, true)
   })
 
   return { entity: { ...entity }, toots: items };

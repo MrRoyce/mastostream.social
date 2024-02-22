@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { ChevronLeftOutline, ChevronRightOutline, SearchOutline } from 'flowbite-svelte-icons';
+	import { SearchOutline } from 'flowbite-svelte-icons';
 	import { onMount } from 'svelte';
 	import {
 		A,
 		Button,
-		ButtonGroup,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -135,9 +134,21 @@
 							{#if tableRow.avatar && typeof value === 'string' && value.includes('https')}
 								<img class=" w-10 h-auto max-w-xs" src={tableRow.avatar} alt="User" />
 							{:else if tableRow.domainName && typeof value === 'string' && value?.includes('https')}
-								<A href={value} target="_blank" class="font-medium hover:underline">{value}</A>
+								<A
+									href={value}
+									rel="noopener nofollow"
+									target="_blank"
+									class="font-medium hover:underline">{value}</A
+								>
 							{:else}
-								<span class={tableRow.deleted ? 'text-gray-500' : ''}>{value}</span>
+								<span class={tableRow.deleted ? 'text-gray-500' : ''}
+									>{@html value
+										.replaceAll('</p><p>', '</p><br /><p>')
+										.replaceAll(
+											'class="invisible"',
+											'class="class="font-medium hover:text-blue-300 hover:underline"'
+										)}</span
+								>
 							{/if}
 						</TableBodyCell>
 					{/each}

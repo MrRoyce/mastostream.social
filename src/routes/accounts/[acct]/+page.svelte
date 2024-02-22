@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
-	import { Li, List } from 'flowbite-svelte';
+	import { Li, List, TableBody, TableBodyRow, TableHeadCell } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
 
 	export let data: PageData;
@@ -25,7 +25,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Created At (UTC)', 'Safe', 'Web Site', 'Account', 'Content', 'Link']
+		tableHead: ['Created At (UTC)', 'Safe', 'Content', 'Link']
 	};
 </script>
 
@@ -50,7 +50,12 @@
 					<span class=" ml-3 text-gray-200 font-bold text-xl leading-8 my-1">{entity.username}</span
 					>
 					<h3 class="text-white font-lg text-semibold leading-6 pt-5">
-						<a target="_blank" href={entity.url} class="inline-flex items-center hover:underline">
+						<a
+							rel="noopener nofollow"
+							target="_blank"
+							href={entity.url}
+							class="inline-flex items-center hover:underline"
+						>
 							{domain}
 							<ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
 						</a>
@@ -95,26 +100,37 @@
 							{@html formatText(
 								entity.note
 									.replaceAll('</p><p>', '</p><br /><p>')
-									.replaceAll('class="invisible"', ''),
+									.replaceAll(
+										'class="invisible"',
+										'class="font-medium hover:text-blue-300 hover:underline'
+									)
+									.replaceAll('class="mention hashtag"', ''),
 								'underline text-green-200'
 							)}
 						</p>
 					</div>
 
-					<List list="none">
+					<TableBody>
 						{#each entity.fields as field}
-							<Li><span class="text-gray-200 mr-3">{field.name.toUpperCase()}:</span></Li><Li
-								class=" pl-4 mb-4"
-							>
-								<span class="text-gray-200 mr-3"
-									>{@html formatText(
-										field.value.replaceAll('class="invisible"', ''),
-										'underline text-green-200'
-									)}</span
-								></Li
-							>
+							<TableBodyRow>
+								<TableHeadCell
+									><span class="text-gray-200 mr-3">{field.name.toUpperCase()}:</span
+									></TableHeadCell
+								>
+								<TableHeadCell class=" pl-4 mb-4">
+									<span class="text-gray-200 mr-3"
+										>{@html formatText(
+											field.value.replaceAll(
+												'class="invisible"',
+												'class="font-medium hover:text-blue-300 hover:underline'
+											),
+											'underline text-green-200'
+										)}</span
+									></TableHeadCell
+								>
+							</TableBodyRow>
 						{/each}
-					</List>
+					</TableBody>
 				</div>
 			</div>
 		</div>

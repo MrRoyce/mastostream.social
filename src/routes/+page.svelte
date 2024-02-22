@@ -7,7 +7,7 @@
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
 	import { goto } from '$app/navigation';
-	import { Card } from 'flowbite-svelte';
+	import { Button, Card } from 'flowbite-svelte';
 
 	export let data: PageData;
 	const accounts: string = data.accounts;
@@ -44,18 +44,16 @@
 	}
 </script>
 
-<div class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4">
+<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 	<Marquee pauseOnHover={true} fade={false} reverse={true} class="py-4 motion-reduce:overflow-auto">
 		{#each $tootsMarquee as item}
-			<Card
-				class="object-contain h-48 w-96"
-				img="/images/Mastodon_logotype_(simple)_new_hue.svg"
+			<Button
+				color="dark"
+				class="dark:text-white"
 				on:click={() => {
 					goto(`/toots/${item.accountId}_${item.tootId}`);
-				}}
+				}}>{@html truncateHtml(item.content, 50)}</Button
 			>
-				{@html truncateHtml(item.content, 20)}
-			</Card>
 		{/each}
 	</Marquee>
 </div>

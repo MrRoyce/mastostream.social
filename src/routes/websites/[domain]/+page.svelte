@@ -25,7 +25,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Safe', 'Created At (UTC)', 'Account', 'Content', 'Link']
+		tableHead: ['Created At (UTC)', 'Safe', 'Account', 'Content', 'Link']
 	};
 </script>
 
@@ -49,9 +49,17 @@
 					>
 					<span class=" ml-3 text-gray-200 font-bold text-xl leading-8 my-1">{entity.domain}</span>
 					<h3 class="text-white font-lg text-semibold leading-6 pt-5">
-						<a target="_blank" href={entity.url} class="inline-flex items-center hover:underline">
-							<A href={`https://${domain}`} target="_blank" class="font-medium hover:underline"
-								>{domain}</A
+						<a
+							rel="noopener nofollow"
+							target="_blank"
+							href={entity.url}
+							class="inline-flex items-center hover:underline"
+						>
+							<A
+								rel="noopener nofollow"
+								href={`https://${domain}`}
+								target="_blank"
+								class="font-medium hover:underline">{domain}</A
 							>
 							<ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
 						</a>
@@ -89,7 +97,10 @@
 							<Li class=" pl-4 mb-4">
 								<span class="text-gray-200 mr-3"
 									>{@html formatText(
-										rule.text.replaceAll('class="invisible"', ''),
+										rule.text.replaceAll(
+											'class="invisible"',
+											'class="font-medium hover:text-blue-300 hover:underline'
+										),
 										'underline text-green-200'
 									)}</span
 								></Li

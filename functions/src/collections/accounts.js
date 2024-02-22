@@ -18,6 +18,17 @@ export const addAccount = async ({ account, acct }) => {
 };
 
 export const addTootToAccount = async ({ acct, toot, tootId }) => {
+	// Update the timestamp
+	await db
+		.collection('accounts')
+		.doc(`${acct}`)
+		.update({ timestamp })
+		.catch(async (err) => {
+			const error = `Failed to update account: ${err.message}`;
+			logger.error(error);
+			throw new Error(error);
+		});
+
 	await db
 		.collection(`accounts/${acct}/toots`)
 		.doc(`${tootId}`)

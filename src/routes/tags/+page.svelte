@@ -27,7 +27,7 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Name', 'First seen']
+		tableHead: ['Name', 'Count', 'First seen']
 	};
 
 	let loadSpinner = false;
@@ -74,7 +74,9 @@
 						<TableBodyCell>
 							{item.name}
 						</TableBodyCell>
-
+						<TableBodyCell>
+							{item.count}
+						</TableBodyCell>
 						<TableBodyCell>
 							{item.timestamp
 								? formatDate({

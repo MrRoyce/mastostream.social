@@ -15,6 +15,7 @@
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 	import { SearchOutline } from 'flowbite-svelte-icons';
+	import { formatDate } from '$lib/utils/formatDate';
 
 	let divClass = 'bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden';
 	let innerDivClass =
@@ -26,7 +27,7 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Pic', 'Type', 'Account', 'Followers', 'Following', '# Toots', 'Since']
+		tableHead: ['Pic', 'Type', 'Account', 'Followers', 'Following', '# Toots', 'Last Post (UTC)']
 	};
 
 	let loadSpinner = false;
@@ -79,17 +80,22 @@
 						<TableBodyCell>
 							{item.acct}
 						</TableBodyCell>
-						<TableBodyCell>
+						<TableBodyCell class="text-right">
 							{item.followersCount}
 						</TableBodyCell>
-						<TableBodyCell>
+						<TableBodyCell class="text-right">
 							{item.followingCount}
 						</TableBodyCell>
-						<TableBodyCell>
+						<TableBodyCell class="text-right">
 							{item.statusesCount}
 						</TableBodyCell>
 						<TableBodyCell>
-							{item.createdAt.split('T')[0]}
+							{item.timestamp
+								? formatDate({
+										seconds: item.timestamp.seconds,
+										nanoseconds: item.timestamp.nanoseconds
+									})
+								: 'N/A'}
 						</TableBodyCell>
 					</TableBodyRow>
 				{/each}

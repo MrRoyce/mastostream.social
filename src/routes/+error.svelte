@@ -2,12 +2,12 @@
 	import { page } from '$app/stores';
 </script>
 
-<h1>Yikes!!</h1>
+<h1 class="text-gray-200">Yikes!!</h1>
 
-<p>An error occurred in the main page!</p>
+<p class="text-gray-200">An error occurred in the main page!</p>
 
-<h1>{$page.status}: {$page.error?.message}</h1>
+<h1 class="text-gray-200">{$page.status}: {$page.error?.message}</h1>
 
-<pre>
+<pre class="text-gray-200">
   {JSON.stringify($page, null, 2)}
 </pre>

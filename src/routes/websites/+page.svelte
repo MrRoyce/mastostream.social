@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ListPlaceholder } from 'flowbite-svelte';
+	import { A, ListPlaceholder } from 'flowbite-svelte';
 	import { collection, limit, orderBy, query } from 'firebase/firestore';
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
@@ -26,7 +26,7 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Open', 'Name', 'Languages', '# Users', 'Description']
+		tableHead: ['Pic', 'Open', 'Name', 'Languages', '# Users', 'Description', 'Link']
 	};
 
 	let loadSpinner = false;
@@ -70,6 +70,13 @@
 			<TableBody>
 				{#each $domains as item}
 					<TableBodyRow on:dblclick={() => goto(`/websites/${item.domain}`)}>
+						<TableBodyCell
+							><img
+								class=" w-10 h-auto max-w-xs"
+								src={item.instance.contact_account?.avatar_static}
+								alt="User"
+							/></TableBodyCell
+						>
 						<TableBodyCell>
 							{item.instance?.registrations ? (item.instance.registrations ? '✅' : '❌') : '❓'}
 						</TableBodyCell>
@@ -87,6 +94,14 @@
 								? item.instance.short_description.substring(0, 50 - 3) + '...'
 								: ''}
 						</TableBodyCell>
+						<TableBodyCell>
+							<A
+								rel="noopener nofollow"
+								href="https://{item.domain}"
+								target="_blank"
+								class="font-medium hover:underline">⚡︎ ...</A
+							></TableBodyCell
+						>
 					</TableBodyRow>
 				{/each}
 			</TableBody>

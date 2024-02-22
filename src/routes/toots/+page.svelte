@@ -14,10 +14,9 @@
 	import { goto } from '$app/navigation';
 
 	const tableData = {
-		tableHead: ['Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
+		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
 	};
 
-	let loadSpinner = false;
 	const orderByField = 'timestamp';
 	const direction = 'desc';
 	const max = 20;
@@ -46,41 +45,45 @@
 	}
 </script>
 
-{#if loadSpinner}
-	<ListPlaceholder size="xxl" class="mt-8" />
-{:else}
-	<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-		<TableHead>
-			{#each tableData.tableHead as tableHead}
-				<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
-					>{tableHead}</TableHeadCell
+<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<TableHead>
+		{#each tableData.tableHead as tableHead}
+			<TableHeadCell class="text-center" padding="px-4 py-3" scope="col">{tableHead}</TableHeadCell>
+		{/each}
+	</TableHead>
+	<TableBody>
+		{#each $toots as item}
+			<TableBodyRow on:dblclick={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
+				<TableBodyCell
+					><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
 				>
-			{/each}
-		</TableHead>
-		<TableBody>
-			{#each $toots as item}
-				<TableBodyRow on:dblclick={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
-					<TableBodyCell>
-						{item.sensitive ? '❌' : '✅'}
-					</TableBodyCell>
-					<TableBodyCell>
-						{item.bot ? '🤖' : '👤'}
-					</TableBodyCell>
-					<TableBodyCell>
-						{`${item.createdAt.split('T')[1].split('.')[0]}`}
-					</TableBodyCell>
-					<TableBodyCell>
-						{item.acct}
-					</TableBodyCell>
-					<TableBodyCell>
-						{item.language}
-					</TableBodyCell>
-					<TableBodyCell>
-						{@html truncateHtml(item.content, 50)}
-					</TableBodyCell>
-					<A href={item.uri} target="_blank" class="font-medium hover:underline">⚡︎ ...</A>
-				</TableBodyRow>
-			{/each}
-		</TableBody>
-	</Table>
-{/if}
+				<TableBodyCell>
+					{item.sensitive ? '❌' : '✅'}
+				</TableBodyCell>
+				<TableBodyCell>
+					{item.bot ? '🤖' : '👤'}
+				</TableBodyCell>
+				<TableBodyCell>
+					{`${item.createdAt.split('T')[1].split('.')[0]}`}
+				</TableBodyCell>
+				<TableBodyCell>
+					{item.acct}
+				</TableBodyCell>
+				<TableBodyCell>
+					{item.language}
+				</TableBodyCell>
+				<TableBodyCell>
+					{@html truncateHtml(item.content, 50)}
+				</TableBodyCell>
+				<TableBodyCell>
+					<A
+						rel="noopener nofollow"
+						href={item.uri}
+						target="_blank"
+						class="font-medium hover:underline">⚡︎ ...</A
+					></TableBodyCell
+				>
+			</TableBodyRow>
+		{/each}
+	</TableBody>
+</Table>
