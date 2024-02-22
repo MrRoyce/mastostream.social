@@ -7,6 +7,8 @@
 	export let data: PageData;
 	const toots = data.toots;
 	const term = data.term;
+
+	console.log('toots in search', toots);
 	const tableData = {
 		color: 'blue',
 		hoverable: true,

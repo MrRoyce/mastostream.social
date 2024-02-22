@@ -15,7 +15,10 @@ type Toot = {
 
 export const formatToot = (toot: Toot,) => {
   const createdAtArray = toot.createdAt.split('T')
-
+  const [accountId, tootId] = toot.id.split('_')
+  console.log('accountId', accountId)
+  console.log('tootId', tootId)
+  console.log('toot.id', toot.id)
 
   return {
     ...toot,
@@ -28,6 +31,8 @@ export const formatToot = (toot: Toot,) => {
     language: toot.language,
     content: toot.content,
     uri: toot.uri,
-    visibility: toot.visibility
+    visibility: toot.visibility,
+    accountId,
+    tootId
   }
 }

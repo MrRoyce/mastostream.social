@@ -18,59 +18,10 @@
 	export let sourceData: Array<AccountRow>;
 	export let tableData: TableData;
 
-	const columns = tableData.tableHead.length;
 	const itemsPerPage = 100;
-	const showPage = 5;
 
 	let currentPosition = 0;
-	let endPage: number;
-	let pagesToShow: any[] = [];
-	let startPage: number;
 	let totalItems = sourceData.length;
-	let totalPages = 0;
-
-	const updateDataAndPagination = () => {
-		const currentPageItems = sourceData.slice(currentPosition, currentPosition + itemsPerPage);
-		renderPagination(currentPageItems.length);
-	};
-
-	const loadNextPage = () => {
-		if (currentPosition + itemsPerPage < sourceData.length) {
-			currentPosition += itemsPerPage;
-			updateDataAndPagination();
-		}
-	};
-
-	const loadPreviousPage = () => {
-		if (currentPosition - itemsPerPage >= 0) {
-			currentPosition -= itemsPerPage;
-			updateDataAndPagination();
-		}
-	};
-
-	const renderPagination = (totalItems) => {
-		totalPages = Math.ceil(sourceData.length / itemsPerPage);
-		const currentPage = Math.ceil((currentPosition + 1) / itemsPerPage);
-
-		startPage = currentPage - Math.floor(showPage / 2);
-		startPage = Math.max(1, startPage);
-		endPage = Math.min(startPage + showPage - 1, totalPages);
-
-		pagesToShow = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
-	};
-
-	const goToPage = (pageNumber: number) => {
-		currentPosition = (pageNumber - 1) * itemsPerPage;
-		updateDataAndPagination();
-	};
-
-	$: startRange = currentPosition + 1;
-	$: endRange = Math.min(currentPosition + itemsPerPage, totalItems);
-
-	onMount(() => {
-		// Call renderPagination when the component initially mounts
-		renderPagination(sourceData.length);
-	});
 
 	$: sourceData;
 	$: totalItems = sourceData.length;
