@@ -83,7 +83,9 @@
 						{item.instance?.languages ? item.instance.languages.join(', ') : '❓'}
 					</TableBodyCell>
 					<TableBodyCell class="text-right">
-						{item.instance?.stats?.user_count ? item.instance.stats.user_count : '❓'}
+						{item.instance?.stats?.user_count
+							? item.instance.stats.user_count.toLocaleString()
+							: '❓'}
 					</TableBodyCell>
 					<TableBodyCell>
 						{item.instance?.short_description

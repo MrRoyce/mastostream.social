@@ -8,8 +8,9 @@ const searchES = httpsCallable(functions, 'searchES');
 export const load: PageServerLoad = (async (event) => {
 
   const term = event.params.term
+  const type = event.params.type
 
-  const response = await searchES({ term })
+  const response = await searchES({ term, type })
   const items = response.data?.data?.hits?.hits.map((item) => {
     return formatToot(item._source)
   })

@@ -14,6 +14,7 @@
 		'text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2  pl-10';
 
 	let searchTerm = '';
+	// TODO make type a variable
 </script>
 
 <TableSearch
@@ -29,7 +30,7 @@
 		slot="header"
 		class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
 	>
-		<Button class="!p-2.5" on:click={() => goto(`/search/${searchTerm}`)}>
+		<Button class="!p-2.5" on:click={() => goto(`/search/account/${searchTerm}`)}>
 			<SearchOutline class="w-5 h-5" />
 		</Button>
 	</div>

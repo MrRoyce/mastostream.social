@@ -15,10 +15,11 @@ type Toot = {
 
 export const formatToot = (toot: Toot,) => {
   const createdAtArray = toot.createdAt.split('T')
-  const [accountId, tootId] = toot.id.split('_')
-  console.log('accountId', accountId)
-  console.log('tootId', tootId)
-  console.log('toot.id', toot.id)
+  // eslint-disable-next-line prefer-const
+  let { accountId, tootId } = toot
+
+  tootId = (tootId) ? tootId : toot.id.split('_')[1]
+  accountId = (accountId) ? accountId : toot.id.split('_')[0]
 
   return {
     ...toot,

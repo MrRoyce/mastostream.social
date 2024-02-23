@@ -70,7 +70,7 @@
 						{item.language}
 					</TableBodyCell>
 					<TableBodyCell class="text-right">
-						{item.count}
+						{item.count.toLocaleString()}
 					</TableBodyCell>
 
 					<TableBodyCell>

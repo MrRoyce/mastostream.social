@@ -70,7 +70,7 @@
 						{item.name}
 					</TableBodyCell>
 					<TableBodyCell>
-						{item.count}
+						{item.count.toLocaleString()}
 					</TableBodyCell>
 					<TableBodyCell>
 						{item.timestamp

@@ -76,13 +76,13 @@
 						{item.acct}
 					</TableBodyCell>
 					<TableBodyCell class="text-right">
-						{item.followersCount}
+						{item.followersCount.toLocaleString()}
 					</TableBodyCell>
 					<TableBodyCell class="text-right">
-						{item.followingCount}
+						{item.followingCount.toLocaleString()}
 					</TableBodyCell>
 					<TableBodyCell class="text-right">
-						{item.statusesCount}
+						{item.statusesCount.toLocaleString()}
 					</TableBodyCell>
 					<TableBodyCell>
 						{item.timestamp

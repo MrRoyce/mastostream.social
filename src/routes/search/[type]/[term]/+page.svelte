@@ -8,7 +8,6 @@
 	const toots = data.toots;
 	const term = data.term;
 
-	console.log('toots in search', toots);
 	const tableData = {
 		color: 'blue',
 		hoverable: true,
@@ -36,22 +35,3 @@
 		</div>
 	</div>
 </div>
-
-<!-- component -->
-<style>
-	:root {
-		--main-color: #4a76a8;
-	}
-
-	.bg-main-color {
-		background-color: var(--main-color);
-	}
-
-	.text-main-color {
-		color: var(--main-color);
-	}
-
-	.border-main-color {
-		border-color: var(--main-color);
-	}
-</style>
