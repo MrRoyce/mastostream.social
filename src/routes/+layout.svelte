@@ -1,20 +1,42 @@
 <script lang="ts">
 	import { Section } from 'flowbite-svelte-blocks';
 	import '../app.pcss';
-	import {
-		initializeStores,
-		AppBar,
-		AppShell,
-		Drawer,
-		getDrawerStore
-	} from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate } from '$app/navigation';
 	import Navigation from '$lib/components/Navigation/Navigation.svelte';
 
-	initializeStores();
-
-	const drawerStore = getDrawerStore();
+	import {
+		Drawer,
+		Button,
+		CloseButton,
+		Sidebar,
+		SidebarBrand,
+		SidebarCta,
+		SidebarDropdownItem,
+		SidebarDropdownWrapper,
+		SidebarGroup,
+		SidebarItem,
+		SidebarWrapper
+	} from 'flowbite-svelte';
+	import {
+		ChartSolid,
+		ShoppingBagSolid,
+		GridSolid,
+		MailBoxSolid,
+		UsersSolid,
+		BugSolid,
+		ArrowRightToBracketSolid,
+		EditSolid
+	} from 'flowbite-svelte-icons';
+	import { sineIn } from 'svelte/easing';
+	let hidden2 = true;
+	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
+	let transitionParams = {
+		x: -320,
+		duration: 200,
+		easing: sineIn
+	};
 
 	afterNavigate((params: AfterNavigate) => {
 		const isNewPage = params.from?.url.pathname !== params.to?.url.pathname;
@@ -23,28 +45,103 @@
 			elemPage.scrollTop = 0;
 		}
 	});
-
-	function drawerOpen(): void {
-		drawerStore.open({});
-	}
 </script>
 
-<Drawer><Navigation /></Drawer>
-
+<Drawer transitionType="fly" {transitionParams} bind:hidden={hidden2} id="sidebar2">
+	<div class="flex items-center">
+		<h5
+			id="drawer-navigation-label-3"
+			class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
+		>
+			Menu
+		</h5>
+		<CloseButton on:click={() => (hidden2 = true)} class="mb-4 dark:text-white" />
+	</div>
+	<Sidebar>
+		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
+			<SidebarGroup>
+				<SidebarItem on:click={() => (hidden2 = true)} label="Dashboard" href="/">
+					<svelte:fragment slot="icon">
+						<ChartSolid
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+				</SidebarItem>
+				<SidebarDropdownWrapper label="Full Text Search">
+					<svelte:fragment slot="icon">
+						<ShoppingBagSolid
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+					<SidebarDropdownItem on:click={() => (hidden2 = true)} label="Accounts" href="/search" />
+					<SidebarDropdownItem on:click={() => (hidden2 = true)} label="Toots" href="/search" />
+					<SidebarDropdownItem on:click={() => (hidden2 = true)} label="Web Sites" href="/search" />
+				</SidebarDropdownWrapper>
+				<SidebarItem
+					on:click={() => (hidden2 = true)}
+					label="Accounts"
+					href="/accounts"
+					{spanClass}
+				>
+					<svelte:fragment slot="icon">
+						<GridSolid
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+					<svelte:fragment slot="subtext">
+						<span
+							class="inline-flex justify-center items-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300"
+						>
+							Pro
+						</span>
+					</svelte:fragment>
+				</SidebarItem>
+				<SidebarItem on:click={() => (hidden2 = true)} label="Toots" href="/toots" {spanClass}>
+					<svelte:fragment slot="icon">
+						<MailBoxSolid
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+				</SidebarItem>
+				<SidebarItem on:click={() => (hidden2 = true)} label="Web Sites" href="/websites">
+					<svelte:fragment slot="icon">
+						<UsersSolid
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+				</SidebarItem>
+				<SidebarItem on:click={() => (hidden2 = true)} label="Tags" href="/tags">
+					<svelte:fragment slot="icon">
+						<BugSolid
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+				</SidebarItem>
+				<SidebarItem on:click={() => (hidden2 = true)} label="Languages" href="/languages">
+					<svelte:fragment slot="icon">
+						<ArrowRightToBracketSolid
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+				</SidebarItem>
+			</SidebarGroup>
+		</SidebarWrapper>
+	</Sidebar>
+</Drawer>
 <AppShell slotSidebarLeft="bg-surface-500/5 w-0 lg:w-56">
 	<svelte:fragment slot="header"
 		><AppBar>
 			<svelte:fragment slot="lead">
 				<div class="flex items-center">
-					<button class="lg:hidden btn btn-sm mr-4" on:click={drawerOpen}>
+					<Button class="mr-4 lg:hidden" on:click={() => (hidden2 = false)}>
 						<span>
-							<svg viewBox="0 0 100 80" class="fill-token w-4 h-4">
+							<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
 								<rect width="100" height="20" />
 								<rect y="30" width="100" height="20" />
 								<rect y="60" width="100" height="20" />
 							</svg>
 						</span>
-					</button>
+					</Button>
 					<strong class="text-xl uppercase dark:text-white">Mastostream.Social</strong>
 				</div>
 			</svelte:fragment>
