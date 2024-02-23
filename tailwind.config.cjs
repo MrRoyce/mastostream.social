@@ -1,12 +1,16 @@
+import { join } from 'path';
 /** @type {import('tailwindcss').Config}*/
 import tailwindcss from 'tailwindcss';
+// 1. Import the Skeleton plugin
+import { skeleton } from '@skeletonlabs/tw-plugin';
 const config = {
 	content: [
+		join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}'),
 		'./src/**/*.{html,js,svelte,ts}',
 		'./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}'
 	],
 
-	plugins: [require('flowbite/plugin'), tailwindcss()],
+	plugins: [require('flowbite/plugin'), tailwindcss(), skeleton],
 	darkMode: 'class',
 	theme: {
 		extend: {
