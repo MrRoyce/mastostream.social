@@ -7,27 +7,21 @@
 	import Navigation from '$lib/components/Navigation/Navigation.svelte';
 
 	import {
-		Drawer,
 		Button,
 		CloseButton,
+		Drawer,
 		Sidebar,
-		SidebarBrand,
-		SidebarCta,
-		SidebarDropdownItem,
-		SidebarDropdownWrapper,
 		SidebarGroup,
 		SidebarItem,
 		SidebarWrapper
 	} from 'flowbite-svelte';
 	import {
+		ArrowRightToBracketSolid,
+		BugSolid,
 		ChartSolid,
-		ShoppingBagSolid,
 		GridSolid,
 		MailBoxSolid,
-		UsersSolid,
-		BugSolid,
-		ArrowRightToBracketSolid,
-		EditSolid
+		UsersSolid
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	let hidden2 = true;
@@ -39,6 +33,8 @@
 	};
 
 	afterNavigate((params: AfterNavigate) => {
+		console.log('params.from?.url.pathname', params.from?.url.pathname);
+		console.log('params.to?.url.pathname', params.to?.url.pathname);
 		const isNewPage = params.from?.url.pathname !== params.to?.url.pathname;
 		const elemPage = document.querySelector('#page');
 		if (isNewPage && elemPage !== null) {
@@ -67,16 +63,13 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarDropdownWrapper label="Full Text Search">
+				<SidebarItem on:click={() => (hidden2 = true)} label="Full Text Search" href="/search">
 					<svelte:fragment slot="icon">
-						<ShoppingBagSolid
+						<ChartSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
-					<SidebarDropdownItem on:click={() => (hidden2 = true)} label="Accounts" href="/search" />
-					<SidebarDropdownItem on:click={() => (hidden2 = true)} label="Toots" href="/search" />
-					<SidebarDropdownItem on:click={() => (hidden2 = true)} label="Web Sites" href="/search" />
-				</SidebarDropdownWrapper>
+				</SidebarItem>
 				<SidebarItem
 					on:click={() => (hidden2 = true)}
 					label="Accounts"
@@ -103,7 +96,7 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hidden2 = true)} label="Web Sites" href="/websites">
+				<SidebarItem on:click={() => (hidden2 = true)} label="Web Sites2" href="/websites">
 					<svelte:fragment slot="icon">
 						<UsersSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -129,10 +122,10 @@
 	</Sidebar>
 </Drawer>
 <AppShell slotSidebarLeft="bg-surface-500/5 w-0 lg:w-56">
-	<svelte:fragment slot="header"
-		><AppBar>
+	<svelte:fragment slot="header">
+		<AppBar>
 			<svelte:fragment slot="lead">
-				<div class="flex items-center">
+				<div class="flex items-center show-on-mobile">
 					<Button class="mr-4 lg:hidden" on:click={() => (hidden2 = false)}>
 						<span>
 							<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
@@ -142,24 +135,28 @@
 							</svg>
 						</span>
 					</Button>
-					<strong class="text-xl uppercase dark:text-white">Mastostream.Social</strong>
+				</div>
+				<strong class="text-xl uppercase dark:text-white">Mastostream.Social</strong>
+			</svelte:fragment>
+
+			<svelte:fragment slot="trail"
+				><div class="hidden-on-mobile">
+					<span class="dark:text-white">
+						<a class="btn btn-sm" href="/">Dashboard</a>
+						<a class="btn btn-sm" href="/accounts">Accounts</a>
+						<a class="btn btn-sm" href="/toots">Toots</a>
+						<a class="btn btn-sm" href="/websites">Web Sites</a>
+						<a class="btn btn-sm" href="/tags">Tags</a>
+						<a class="btn btn-sm" href="/languages">Languages</a>
+						<a class="btn btn-sm" href="/search">Search</a>
+					</span>
 				</div>
 			</svelte:fragment>
-			<svelte:fragment slot="trail">
-				<a class="btn btn-sm" href="/">Home</a>
-				<a class="btn btn-sm" href="/about">About</a>
-			</svelte:fragment>
-		</AppBar></svelte:fragment
-	>
-	<svelte:fragment slot="sidebarLeft">
-		<!-- Hidden below Tailwind's large breakpoint -->
-		<div id="sidebar-left" class="hidden lg:block">
-			<span class="dark:text-white"><Navigation /></span>
-		</div>
+		</AppBar>
 	</svelte:fragment>
 	<!-- Router Slot -->
 
-	<main class=" w-full mx-auto">
+	<main class="w-full mx-auto">
 		<Section class="bg-white dark:bg-gray-900">
 			<slot />
 		</Section>
@@ -169,3 +166,17 @@
 	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
 	<svelte:fragment slot="footer">Footer</svelte:fragment>
 </AppShell>
+
+<style>
+	/* Other styles for your component */
+
+	/* Show the slot content only on small screens */
+	.show-on-mobile {
+		@apply block sm:hidden;
+	}
+
+	/* Hide the slot fragment on small screens */
+	.hidden-on-mobile {
+		@apply hidden sm:block;
+	}
+</style>
