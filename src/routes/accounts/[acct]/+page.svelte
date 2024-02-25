@@ -6,12 +6,17 @@
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 	import { Li, List, TableBody, TableBodyRow, TableHeadCell } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
+	import { formatToot } from '$lib/utils/formatToot';
 
 	export let data: PageData;
 	const entity = data.entity;
 	const toots = data.toots;
 
 	let domain: string;
+
+	const items = toots.map((item) => {
+		return formatToot(item);
+	});
 
 	try {
 		domain = new URL(entity?.url).hostname;

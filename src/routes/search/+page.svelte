@@ -32,11 +32,7 @@
 		slot="header"
 		class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
 	>
-		<Button
-			>Search full text by ...<ChevronDownSolid
-				class="w-3 h-3 ms-2 text-white dark:text-white"
-			/></Button
-		>
+		<Button>Search full text by ...<ChevronDownSolid class="w-3 h-3 ms-2 text-white " /></Button>
 		<Dropdown {activeUrl}>
 			<DropdownItem href={`/search/account/${searchTerm}`}>Account Name</DropdownItem>
 			<DropdownItem href={`/search/website/${searchTerm}`}>Website name</DropdownItem>
