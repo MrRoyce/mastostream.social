@@ -1,16 +1,16 @@
 <script>
 	// core components
 
-	export let statSubtitle = 'Traffic';
-	export let statTitle = '350,897';
+	export let statEntity = 'Traffic';
+	export let statValue = '350,897';
 	// The value must match one of these strings
 	// "up" or "down"
 	export let statArrow = 'up';
-	export let statPercent = '3.48';
+	export let statPercent = '3.481';
 	// can be any of the text color utilities
 	// from tailwindcss
 	export let statPercentColor = 'text-emerald-500';
-	export let statDescripiron = 'Since last month';
+	export let statDescription = 'Since last month';
 	export let statIconName = 'far fa-chart-bar';
 	// can be any of the background color utilities
 	// from tailwindcss
@@ -22,10 +22,10 @@
 		<div class="flex flex-wrap">
 			<div class="relative w-full pr-4 max-w-full flex-grow flex-1">
 				<h5 class=" uppercase font-bold text-xs dark:text-white">
-					{statSubtitle}
+					{statEntity}
 				</h5>
 				<span class="font-semibold text-xl dark:text-white">
-					{statTitle}
+					{statValue}
 				</span>
 			</div>
 			<div class="relative w-auto pl-4 flex-initial">
@@ -36,12 +36,12 @@
 				</div>
 			</div>
 		</div>
-		<p class="text-sm mt-4 dark:text-white">
+		<p class="text-sm mt-4">
 			<span class="mr-2 {statPercentColor}">
 				<i class={statArrow === 'up' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}></i>
 				{statPercent}%
 			</span>
-			<span class="whitespace-nowrap">{statDescripiron}</span>
+			<span class="whitespace-nowrap">{statDescription}</span>
 		</p>
 	</div>
 </div>
