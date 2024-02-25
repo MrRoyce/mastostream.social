@@ -4,6 +4,7 @@
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate } from '$app/navigation';
+	import { locale } from '$lib/translations';
 
 	import {
 		Button,
@@ -23,6 +24,7 @@
 		UsersSolid
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
+	import Languages from '$lib/components/Languages/Languages.svelte';
 	let hidden2 = true;
 	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
 	let transitionParams = {
@@ -38,6 +40,33 @@
 			elemPage.scrollTop = 0;
 		}
 	});
+
+	let value: string = 'en';
+
+	function getTargetLanguage(languageText: string) {
+		const languages = [
+			{ value: 'de', text: 'Deutsch' },
+			{ value: 'en', text: 'English' },
+			{ value: 'es', text: 'Español' },
+			{ value: 'fr', text: 'Français' },
+			{ value: 'hi', text: 'हिंदी' },
+			{ value: 'ja', text: '日本語' },
+			{ value: 'pt', text: 'Português' },
+			{ value: 'sv', text: 'Svenska' },
+			{ value: 'tl', text: 'Filipino' },
+			{ value: 'zu', text: 'Zulu' }
+		];
+
+		const result = languages.filter((language) => language.text === languageText);
+
+		return result[0]?.value || 'en';
+	}
+
+	function handleLocaleChange(event: Event) {
+		event.preventDefault();
+		value = getTargetLanguage(event?.target?.innerHTML || 'English');
+		$locale = value;
+	}
 </script>
 
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hidden2} id="sidebar2">
@@ -138,7 +167,7 @@
 			</svelte:fragment>
 
 			<svelte:fragment slot="trail"
-				><div class="hidden-on-mobile dark:text-white">
+				><div class="hidden-on-mobile">
 					<span class="">
 						<a class="btn btn-sm" href="/">Dashboard</a>
 						<a class="btn btn-sm" href="/accounts">Accounts</a>
@@ -149,6 +178,7 @@
 						<a class="btn btn-sm" href="/search">Search</a>
 					</span>
 				</div>
+				<button on:click={handleLocaleChange}><Languages /></button>
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
