@@ -46,6 +46,9 @@ dependencies:
     version: 2.4.2(svelte@4.2.7)
 
 devDependencies:
+  '@fontsource/dosis':
+    specifier: ^5.0.18
+    version: 5.0.18
   '@skeletonlabs/skeleton':
     specifier: ^2.8.0
     version: 2.8.0(svelte@4.2.7)
@@ -910,6 +913,10 @@ packages:
 
   /@floating-ui/utils@0.2.1:
     resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
+    dev: true
+
+  /@fontsource/dosis@5.0.18:
+    resolution: {integrity: sha512-hMaCIPdnsKaxvs9QMg/O0hTm310nNbTBt9/eVT1HYq9c111RPV6/pfDkY3nX0aDf0Gsu4vHn3n+k5K5ozvGx6w==}
     dev: true
 
   /@fortawesome/fontawesome-free@6.5.1:

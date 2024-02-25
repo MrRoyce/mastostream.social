@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Section } from 'flowbite-svelte-blocks';
+	import '@fontsource/dosis';
 	import '../app.pcss';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
