@@ -1,48 +1,40 @@
 import type { PageLoad } from './$types';
-import { getCount } from '$lib/getCollection';
+import { getCount, getCounts } from '$lib/getCollection';
+import { summarizeCounts } from '$lib/utils/summarizeCounts';
+import { convertToK } from '$lib/utils/convertToK';
 
 export const ssr = false;
 export const prerender = false;
 
 export const load: PageLoad = async ({ data }) => {
 
-  let accounts;
-  let languages;
-  let tags;
-  let toots;
-  let domains;
 
-  function convertToK(number) {
-    if (typeof number !== 'number') {
-      return 0;
-    }
+  const hours = 6
+  let summarizedCounts
 
-    if (number <= 1000) {
-      return number;
-    }
-
-    const kValue = Math.round(number / 1000 * 10) / 10;
-    return kValue + 'k';
-
-  }
+  const [accounts, counts, domains, languages, tags, toots] = await Promise.all([
+    await getCount('accounts'),
+    await getCounts(hours),
+    await getCount('domains'),
+    await getCount('languages'),
+    await getCount('tags'),
+    await getCount('toots')
+  ])
 
   try {
-    accounts = await getCount('accounts');
-    languages = await getCount('languages');
-    tags = await getCount('tags');
-    toots = await getCount('toots');
-    domains = await getCount('domains');
-
+    summarizedCounts = summarizeCounts(counts)
   } catch (error) {
-    console.error('Error in main page.ts', error)
+    console.error('Error summarizing counts in main page.ts', error)
   }
+
+  console.log('summarizedCounts', summarizedCounts)
 
   return {
     accounts: convertToK(accounts),
+    counts: summarizedCounts,
+    domains: convertToK(domains),
     languages: convertToK(languages),
     tags: convertToK(tags),
-    toots: convertToK(toots),
-    domains: convertToK(domains),
-    ...data
+    toots: convertToK(toots)
   };
 };
