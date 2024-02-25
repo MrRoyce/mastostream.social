@@ -4,7 +4,6 @@
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate } from '$app/navigation';
-	import Navigation from '$lib/components/Navigation/Navigation.svelte';
 
 	import {
 		Button,
@@ -33,9 +32,7 @@
 	};
 
 	afterNavigate((params: AfterNavigate) => {
-		console.log('params.from?.url.pathname', params.from?.url.pathname);
-		console.log('params.to?.url.pathname', params.to?.url.pathname);
-		const isNewPage = params.from?.url.pathname !== params.to?.url.pathname;
+		const isNewPage = params.from?.url?.pathname !== params.to?.url?.pathname;
 		const elemPage = document.querySelector('#page');
 		if (isNewPage && elemPage !== null) {
 			elemPage.scrollTop = 0;
@@ -44,16 +41,16 @@
 </script>
 
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hidden2} id="sidebar2">
-	<div class="flex items-center">
+	<div class="flex items-center dark:text-white">
 		<h5
 			id="drawer-navigation-label-3"
 			class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
 		>
 			Menu
 		</h5>
-		<CloseButton on:click={() => (hidden2 = true)} class="mb-4 dark:text-white" />
+		<CloseButton on:click={() => (hidden2 = true)} class="mb-4" />
 	</div>
-	<Sidebar>
+	<Sidebar class="dark:text-white">
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
 				<SidebarItem on:click={() => (hidden2 = true)} label="Dashboard" href="/">
@@ -121,11 +118,12 @@
 		</SidebarWrapper>
 	</Sidebar>
 </Drawer>
-<AppShell slotSidebarLeft="bg-surface-500/5 w-0 lg:w-56">
+
+<AppShell slotSidebarLeft="bg-surface-500/5 w-0 lg:w-56" class="dark:text-white">
 	<svelte:fragment slot="header">
 		<AppBar>
 			<svelte:fragment slot="lead">
-				<div class="flex items-center show-on-mobile">
+				<div class="flex items-center show-on-mobile dark:text-white">
 					<Button class="mr-4 lg:hidden" on:click={() => (hidden2 = false)}>
 						<span>
 							<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
@@ -136,12 +134,12 @@
 						</span>
 					</Button>
 				</div>
-				<strong class="text-xl uppercase dark:text-white">Mastostream.Social</strong>
+				<strong class="text-xl uppercase dark:text-green-400"> <h1>Mastostream.Social</h1></strong>
 			</svelte:fragment>
 
 			<svelte:fragment slot="trail"
-				><div class="hidden-on-mobile">
-					<span class="dark:text-white">
+				><div class="hidden-on-mobile dark:text-white">
+					<span class="">
 						<a class="btn btn-sm" href="/">Dashboard</a>
 						<a class="btn btn-sm" href="/accounts">Accounts</a>
 						<a class="btn btn-sm" href="/toots">Toots</a>
@@ -156,10 +154,8 @@
 	</svelte:fragment>
 	<!-- Router Slot -->
 
-	<main class="w-full mx-auto">
-		<Section class="bg-white dark:bg-gray-900">
-			<slot />
-		</Section>
+	<main class="container mx-auto">
+		<slot />
 	</main>
 
 	<!-- ---- / ---- -->
