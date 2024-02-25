@@ -7,6 +7,7 @@ import {
   limit,
   orderBy,
   query,
+  where,
   type DocumentData,
 } from 'firebase/firestore';
 import { db } from '$lib/firebase/client';
@@ -83,7 +84,6 @@ export const getToots = async ({ entity, id, max, orderByField }) => {
   }
 }
 
-
 export const getCount = async (entity: string) => {
   try {
 
@@ -98,3 +98,27 @@ export const getCount = async (entity: string) => {
   }
 };
 
+export const getCounts = async (hours: number) => {
+  try {
+
+    const hoursAgo = new Date(Date.now() - hours * 60 * 60 * 1000)
+    const responseData: DocumentData[] = []
+
+    const collectionRef = collection(db, 'timeseries')
+    const data = await getDocs(
+      query(collectionRef, where('timestamp', '>=', hoursAgo))
+    );
+
+    data.docs.map((doc) => {
+      const docData = doc.data();
+      responseData.push({
+        ...docData
+      });
+    });
+
+    return responseData;
+  } catch (error) {
+    console.error('Error getting counts:', error);
+    throw error; // Propagate the error to the caller
+  }
+};
