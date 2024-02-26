@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '@fontsource/dosis';
+	import { t } from '$lib/translations';
 	import '../app.pcss';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
@@ -98,7 +99,7 @@
 				</SidebarItem>
 				<SidebarItem
 					on:click={() => (hidden2 = true)}
-					label="Accounts"
+					label={$t('pagelinks.dashboard')}
 					href="/accounts"
 					{spanClass}
 				>
@@ -111,7 +112,7 @@
 						<span
 							class="inline-flex justify-center items-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300"
 						>
-							Pro
+							Nice!
 						</span>
 					</svelte:fragment>
 				</SidebarItem>
@@ -122,7 +123,7 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hidden2 = true)} label="Web Sites2" href="/websites">
+				<SidebarItem on:click={() => (hidden2 = true)} label="Web Sites" href="/websites">
 					<svelte:fragment slot="icon">
 						<UsersSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -169,8 +170,8 @@
 			<svelte:fragment slot="trail"
 				><div class="hidden-on-mobile">
 					<span class="">
-						<a class="btn btn-sm" href="/">Dashboard</a>
-						<a class="btn btn-sm" href="/accounts">Accounts</a>
+						<a class="btn btn-sm" href="/">{$t('pagelinks.dashboard')}</a>
+						<a class="btn btn-sm" href="/accounts">{$t('pagelinks.accounts')}</a>
 						<a class="btn btn-sm" href="/toots">Toots</a>
 						<a class="btn btn-sm" href="/websites">Web Sites</a>
 						<a class="btn btn-sm" href="/tags">Tags</a>

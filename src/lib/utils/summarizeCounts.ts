@@ -1,4 +1,4 @@
-export const summarizeCounts = (documents) => {
+export const summarizeCounts = ({ documents, hours }) => {
   const hourlyData = {};
 
   documents.forEach((doc) => {
@@ -6,8 +6,8 @@ export const summarizeCounts = (documents) => {
     // Calculate the difference in hours
     const hourDifference = Math.floor((Date.now() - timestamp.getTime()) / (1000 * 60 * 60));
 
-    // Only consider data within the last 6 hours
-    if (hourDifference >= 1 && hourDifference <= 6) {
+    // Only consider data within the last passed hours
+    if (hourDifference >= 1 && hourDifference <= hours) {
       const hourKey = `-${hourDifference}`;
 
       if (!hourlyData[doc.collection]) {

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import CardBarChart from '$lib/components/Cards/CardBarChart.svelte';
+	import { initialized } from '$lib/translations';
+	import CardLineChart from '$lib/components/Cards/CardLineChart.svelte';
 	import CardStats from '$lib/components/Cards/CardStats.svelte';
 	import type { PageData } from './$types';
 	import { Marquee } from '@selemondev/svelte-marquee';
@@ -28,6 +29,7 @@
 	const charts = calculateCharts(data.counts);
 </script>
 
+<!-- Marquee -->
 <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 	<Marquee pauseOnHover={true} fade={false} reverse={true} class="py-4 motion-reduce:overflow-auto">
 		{#each $tootsMarquee as item}
@@ -43,41 +45,51 @@
 		{/each}
 	</Marquee>
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
-	{#each stats as stat}
-		<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
-			<div class=" transform transition duration-500 hover:scale-110">
-				<a href={stat.href}>
-					<CardStats
-						statEntity={stat.statEntity}
-						statValue={stat.statValue}
-						statArrow={stat.statArrow}
-						statPercent={stat.statPercent}
-						statPercentColor={stat.statPercentColor}
-						statDescription={stat.statDescription}
-						statIconName={stat.statIconName}
-						statIconColor={stat.statIconColor}
-					/>
-				</a>
+
+<div>
+	{#if $initialized}
+		<!-- Latest stats -->
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+			{#each stats as stat}
+				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
+					<div class=" transform transition duration-500 hover:scale-110">
+						<a href={stat.href}>
+							<CardStats
+								statEntity={stat.statEntity}
+								statValue={stat.statValue}
+								statArrow={stat.statArrow}
+								statPercent={stat.statPercent}
+								statPercentColor={stat.statPercentColor}
+								statDescription={stat.statDescription}
+								statIconName={stat.statIconName}
+								statIconColor={stat.statIconColor}
+							/>
+						</a>
+					</div>
+				</div>
+			{/each}
+		</div>
+
+		<!-- Charts -->
+		<div class="hidden-on-mobile">
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+				{#each charts as chart}
+					<!-- content here -->
+
+					<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
+						<CardLineChart
+							entity={chart.entity}
+							data={chart.data}
+							categories={chart.categories}
+							total={chart.total}
+						/>
+					</div>
+				{/each}
 			</div>
 		</div>
-	{/each}
-</div>
-<div class="hidden-on-mobile">
-	<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
-		{#each charts as chart}
-			<!-- content here -->
-
-			<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
-				<CardBarChart
-					entity={chart.entity}
-					data={chart.data}
-					categories={chart.categories}
-					total={chart.total}
-				/>
-			</div>
-		{/each}
-	</div>
+	{:else}
+		<div>Locale initializing...</div>
+	{/if}
 </div>
 
 <style>

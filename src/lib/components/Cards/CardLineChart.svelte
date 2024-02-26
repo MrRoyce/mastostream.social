@@ -1,134 +1,138 @@
 <script>
-  import { onMount } from "svelte";
-  // library that creates chart objects in page
-  import Chart from "chart.js";
+	import { Chart, Card, A, Button, Dropdown, DropdownItem, Popover } from 'flowbite-svelte';
+	import {
+		InfoCircleSolid,
+		ChevronRightSolid,
+		ChevronDownSolid,
+		FileLinesSolid
+	} from 'flowbite-svelte-icons';
 
-  // init chart
-  onMount(async () => {
-    var config = {
-      type: "line",
-      data: {
-        labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
-        ],
-        datasets: [
-          {
-            label: new Date().getFullYear(),
-            backgroundColor: "#4c51bf",
-            borderColor: "#4c51bf",
-            data: [65, 78, 66, 44, 56, 67, 75],
-            fill: false
-          },
-          {
-            label: new Date().getFullYear() - 1,
-            fill: false,
-            backgroundColor: "#fff",
-            borderColor: "#fff",
-            data: [40, 68, 86, 74, 56, 60, 87]
-          }
-        ]
-      },
-      options: {
-        maintainAspectRatio: false,
-        responsive: true,
-        title: {
-          display: false,
-          text: "Sales Charts",
-          fontColor: "white",
-        },
-        legend: {
-          labels: {
-            fontColor: "white",
-          },
-          align: "end",
-          position: "bottom",
-        },
-        tooltips: {
-          mode: "index",
-          intersect: false,
-        },
-        hover: {
-          mode: "nearest",
-          intersect: true,
-        },
-        scales: {
-          xAxes: [
-            {
-              ticks: {
-                fontColor: "rgba(255,255,255,.7)",
-              },
-              display: true,
-              scaleLabel: {
-                display: false,
-                labelString: "Month",
-                fontColor: "white",
-              },
-              gridLines: {
-                display: false,
-                borderDash: [2],
-                borderDashOffset: [2],
-                color: "rgba(33, 37, 41, 0.3)",
-                zeroLineColor: "rgba(0, 0, 0, 0)",
-                zeroLineBorderDash: [2],
-                zeroLineBorderDashOffset: [2],
-              },
-            },
-          ],
-          yAxes: [
-            {
-              ticks: {
-                fontColor: "rgba(255,255,255,.7)",
-              },
-              display: true,
-              scaleLabel: {
-                display: false,
-                labelString: "Value",
-                fontColor: "white",
-              },
-              gridLines: {
-                borderDash: [3],
-                borderDashOffset: [3],
-                drawBorder: false,
-                color: "rgba(255, 255, 255, 0.15)",
-                zeroLineColor: "rgba(33, 37, 41, 0)",
-                zeroLineBorderDash: [2],
-                zeroLineBorderDashOffset: [2],
-              },
-            },
-          ],
-        },
-      },
-    };
-    var ctx = document.getElementById("line-chart").getContext("2d");
-    window.myLine = new Chart(ctx, config);
-  });
+	export let entity = 'Account';
+	export let data;
+	export let categories;
+	export let total;
+
+	let options = {
+		chart: {
+			background: 'none',
+			height: '100px',
+			maxWidth: '100%',
+			type: 'line',
+			fontFamily: 'Inter, sans-serif',
+			dropShadow: {
+				enabled: false
+			},
+			toolbar: {
+				show: false
+			}
+		},
+		tooltip: {
+			enabled: true,
+			x: {
+				show: false
+			}
+		},
+		dataLabels: {
+			enabled: false
+		},
+		stroke: {
+			width: 6,
+			curve: 'smooth'
+		},
+		grid: {
+			show: true,
+			strokeDashArray: 4,
+			padding: {
+				left: 2,
+				right: 2,
+				top: -26
+			}
+		},
+		series: [
+			{
+				name: entity,
+				data,
+				color: '#10B981'
+			}
+		],
+		legend: {
+			show: true
+		},
+		xaxis: {
+			categories,
+			labels: {
+				show: true,
+				style: {
+					fontFamily: 'Inter, sans-serif',
+					cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+				}
+			},
+			axisBorder: {
+				show: false
+			},
+			axisTicks: {
+				show: false
+			}
+		},
+		yaxis: {
+			show: true
+		}
+	};
 </script>
 
-<div
-  class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700"
->
-  <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
-    <div class="flex flex-wrap items-center">
-      <div class="relative w-full max-w-full flex-grow flex-1">
-        <h6 class="uppercase text-blueGray-100 mb-1 text-xs font-semibold">
-          Overview
-        </h6>
-        <h2 class="text-white text-xl font-semibold">
-          Sales value
-        </h2>
-      </div>
-    </div>
-  </div>
-  <div class="p-4 flex-auto">
-    <!-- Chart -->
-    <div class="relative h-350-px">
-      <canvas id="line-chart"></canvas>
-    </div>
-  </div>
-</div>
+<Card class="dark:bg-transparent dark:border-transparent">
+	<div class="flex justify-between mb-5">
+		<div class="grid gap-4 grid-cols-2">
+			<div>
+				<h5
+					class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2"
+				>
+					{entity}
+					<InfoCircleSolid
+						id="b1"
+						class="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1"
+					/>
+					<Popover
+						triggeredBy="#b1"
+						class="text-sm text-gray-500 bg-white border border-gray-200 rounded-lg shadow-sm w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 z-10"
+					>
+						<div class="p-3 space-y-2">
+							<h3 class="font-semibold text-gray-900 dark:text-white">
+								Clicks growth - Incremental
+							</h3>
+							<p>
+								Report helps navigate cumulative growth of community activities. Ideally, the chart
+								should have a growing trend, as stagnating chart signifies a significant decrease of
+								community activity.
+							</p>
+							<h3 class="font-semibold text-gray-900 dark:text-white">Calculation</h3>
+							<p>
+								For each date bucket, the all-time volume of activities is calculated. This means
+								that activities in period n contain all activities up to period n, plus the
+								activities generated by your community in period.
+							</p>
+							<A href="/"
+								>Read more
+								<ChevronRightSolid class="w-2 h-2 ms-1.5" /></A
+							>
+						</div>
+					</Popover>
+				</h5>
+				<p class="text-gray-900 dark:text-white text-2xl leading-none font-bold">{total}</p>
+			</div>
+		</div>
+		<!-- <div class="hidden">
+			<Button color="light" class="px-3 py-2"
+				>Last week<ChevronDownSolid class="w-2.5 h-2.5 ms-1.5" /></Button
+			>
+			<Dropdown class="w-40">
+				<DropdownItem>Yesterday</DropdownItem>
+				<DropdownItem>Today</DropdownItem>
+				<DropdownItem>Last 7 days</DropdownItem>
+				<DropdownItem>Last 30 days</DropdownItem>
+				<DropdownItem>Last 90 days</DropdownItem>
+			</Dropdown>
+		</div> -->
+	</div>
+	<Chart {options} />
+</Card>
