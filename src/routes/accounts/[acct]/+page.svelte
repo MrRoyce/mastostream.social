@@ -7,6 +7,7 @@
 	import { Li, List, TableBody, TableBodyRow, TableHeadCell } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
 	import { formatToot } from '$lib/utils/formatToot';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 
 	export let data: PageData;
 	const entity = data.entity;
@@ -32,6 +33,11 @@
 		striped: true,
 		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
 	};
+
+	const analytics = getAnalytics();
+	logEvent(analytics, 'screen_view', {
+		firebase_screen: 'Account'
+	});
 </script>
 
 <div class="dark:bg-gray-800">

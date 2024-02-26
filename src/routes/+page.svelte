@@ -13,6 +13,7 @@
 	import { truncateHTML } from '$lib/utils/truncateHTML';
 	import { calculateStats } from '$lib/utils/calculateStats';
 	import { calculateCharts } from '$lib/utils/calculateCharts';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 
 	export let data: PageData;
 	const counts = data.counts;
@@ -27,6 +28,11 @@
 
 	const stats = calculateStats(data);
 	const charts = calculateCharts(data.counts);
+
+	const analytics = getAnalytics();
+	logEvent(analytics, 'screen_view', {
+		firebase_screen: 'Dashboard'
+	});
 </script>
 
 <!-- Marquee -->

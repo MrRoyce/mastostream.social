@@ -15,6 +15,7 @@
 	import { goto } from '$app/navigation';
 	import { SearchOutline } from 'flowbite-svelte-icons';
 	import { formatDate } from '$lib/utils/formatDate';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 
 	let divClass = 'bg-white dark:bg-gray-800 relative shadow-md overflow-hidden';
 	let innerDivClass =
@@ -36,6 +37,11 @@
 	const collectionRef = collection(db, 'accounts');
 	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
 	const accounts = collectionStore(db, q);
+
+	const analytics = getAnalytics();
+	logEvent(analytics, 'screen_view', {
+		firebase_screen: 'Accounts'
+	});
 </script>
 
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
