@@ -1,9 +1,15 @@
 <script lang="ts">
+	import { Gallery } from 'flowbite-svelte';
 	import type { PageData } from '../$types';
 	import { formatText } from '$lib/utils/formatText';
+	import { formatImages } from '$lib/utils/formatImages';
 
 	export let data: PageData;
 	const entity = data.entity;
+	const images =
+		entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
+			? formatImages(entity.mediaAttachments)
+			: [];
 </script>
 
 <div class="dark:bg-gray-800">
@@ -20,7 +26,7 @@
 								<div class="p-4 md:p-12 text-center lg:text-left">
 									<!-- Image for mobile view-->
 									<div
-										class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
+										class="block rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
 										style="background-image: url('{entity.avatar}')"
 									></div>
 
@@ -67,11 +73,11 @@
 											'underline text-green-200'
 										)}
 									</p>
-
+									<div class="mt-6">
+										<Gallery class="gap-2 grid-cols-2" items={images} />
+									</div>
 									<div class="pt-12 pb-8">
-										<button class="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4">
-											{entity.uri}
-										</button>
+										<a target="_blank" class="toot-btn" href={entity.uri}>View toot ...</a>
 									</div>
 								</div>
 							</div>
@@ -82,3 +88,16 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.toot-btn {
+		background-color: #199319;
+		color: white;
+		padding: 15px 25px;
+		text-decoration: none;
+	}
+
+	.toot-btn:hover {
+		background-color: #223094;
+	}
+</style>

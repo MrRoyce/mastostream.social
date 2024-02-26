@@ -63,8 +63,6 @@ export const handle: Handle = (async ({ event, resolve }) => {
     console.error('Could not get idToken from session cookie - e:', e)
   }
 
-  console.log('Handling lang!', lang!)
-
   return await resolve(event);
 });
 
