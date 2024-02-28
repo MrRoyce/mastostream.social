@@ -1,12 +1,14 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { getAnalytics, logEvent } from 'firebase/analytics';
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	export let data: PageData;
 
-	const analytics = getAnalytics();
-	logEvent(analytics, 'screen_view', {
-		firebase_screen: 'Accounts_Notfound'
-	});
+	if (isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Accounts_Notfound'
+		});
+	}
 </script>
 
 <section class="bg-white dark:bg-gray-900">

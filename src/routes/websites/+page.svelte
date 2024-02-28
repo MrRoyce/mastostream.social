@@ -31,7 +31,7 @@
 
 	const orderByField = 'timestamp';
 	const direction = 'desc';
-	const max = 20;
+	const max = 200;
 
 	const collectionRef = collection(db, 'domains');
 	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));

@@ -7,7 +7,7 @@
 	import { Li, List, TableBody, TableBodyRow, TableHeadCell } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
 	import { formatToot } from '$lib/utils/formatToot';
-	import { getAnalytics, logEvent } from 'firebase/analytics';
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 
 	export let data: PageData;
 	const entity = data.entity;
@@ -34,10 +34,12 @@
 		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
 	};
 
-	const analytics = getAnalytics();
-	logEvent(analytics, 'screen_view', {
-		firebase_screen: 'Account'
-	});
+	if (isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Account'
+		});
+	}
 </script>
 
 <div class="dark:bg-gray-800">
@@ -79,17 +81,17 @@
 						>
 						<Li class="ml-auto text-gray-300 my-1"
 							># Toots: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-								>{entity.statusesCount}</span
+								>{entity.statusesCount.toLocaleString()}</span
 							></Li
 						>
 						<Li class="ml-auto text-gray-300 my-1"
 							>Following: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-								>{entity.followingCount}</span
+								>{entity.followingCount.toLocaleString()}</span
 							></Li
 						>
 						<Li class="ml-auto text-gray-300 my-1"
 							>Followers: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-								>{entity.followersCount}</span
+								>{entity.followersCount.toLocaleString()}</span
 							></Li
 						>
 					</List>
