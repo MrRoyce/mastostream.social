@@ -35,7 +35,7 @@
 	</TableHead>
 	<TableBody>
 		{#each $toots as item}
-			<TableBodyRow on:dblclick={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
+			<TableBodyRow on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
 				<TableBodyCell
 					><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
 				>

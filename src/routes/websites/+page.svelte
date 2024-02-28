@@ -65,7 +65,7 @@
 		</TableHead>
 		<TableBody>
 			{#each $domains as item}
-				<TableBodyRow on:dblclick={() => goto(`/websites/${item.domain}`)}>
+				<TableBodyRow on:click={() => goto(`/websites/${item.domain}`)}>
 					<TableBodyCell
 						><img
 							class=" w-10 h-auto max-w-xs"

@@ -121,7 +121,7 @@
 		{/if}
 		<TableBody>
 			{#each currentPageItems as tableRow}
-				<TableBodyRow on:dblclick={() => goto(`/${entityLower}/${tableRow.acct}`)}>
+				<TableBodyRow on:click={() => goto(`/${entityLower}/${tableRow.acct}`)}>
 					{#each Object.values(tableRow).slice(1, columns + 1) as value, index}
 						<TableBodyCell
 							class={value === true || value === false

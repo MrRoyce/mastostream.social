@@ -73,7 +73,7 @@
 		</TableHead>
 		<TableBody>
 			{#each $accounts as item}
-				<TableBodyRow on:dblclick={() => goto(`/accounts/${item.acct}`)}>
+				<TableBodyRow on:click={() => goto(`/accounts/${item.acct}`)}>
 					<TableBodyCell
 						><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
 					>

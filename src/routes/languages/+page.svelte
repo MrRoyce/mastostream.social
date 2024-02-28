@@ -65,7 +65,7 @@
 		</TableHead>
 		<TableBody>
 			{#each $languages as item}
-				<TableBodyRow on:dblclick={() => goto(`/languages/${item.language}`)}>
+				<TableBodyRow on:click={() => goto(`/languages/${item.language}`)}>
 					<TableBodyCell>
 						{item.language}
 					</TableBodyCell>

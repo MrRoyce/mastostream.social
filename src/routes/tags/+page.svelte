@@ -65,7 +65,7 @@
 		</TableHead>
 		<TableBody>
 			{#each $tags as item}
-				<TableBodyRow on:dblclick={() => goto(`/tags/${item.name}`)}>
+				<TableBodyRow on:click={() => goto(`/tags/${item.name}`)}>
 					<TableBodyCell>
 						{item.name}
 					</TableBodyCell>
