@@ -1,15 +1,16 @@
 <script lang="ts">
-	import { Gallery } from 'flowbite-svelte';
+	import { Gallery, Video } from 'flowbite-svelte';
 	import type { PageData } from '../$types';
 	import { formatText } from '$lib/utils/formatText';
 	import { formatImages } from '$lib/utils/formatImages';
 
 	export let data: PageData;
 	const entity = data.entity;
+	console.log('toot entity', entity);
 	const images =
 		entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity.mediaAttachments)
-			: [];
+			: { videos: [], images: [] };
 </script>
 
 <div class="dark:bg-gray-800">
@@ -74,8 +75,25 @@
 										)}
 									</p>
 									<div class="mt-6">
-										<Gallery class="gap-2 grid-cols-2" items={images} />
+										<Gallery class="gap-2 grid-cols-2" items={images.images} />
 									</div>
+									{#each images.videos as video}
+										<video
+											class="h-80"
+											controls
+											src={video.src}
+											poster={video.previewUrl}
+											preload="none"
+											role="button"
+											tabindex="0"
+											aria-label={video.description}
+											title={video.description}
+											lang={video.language}
+											volume="1"
+											style="width: 100%;"
+										></video>
+									{/each}
+
 									<div class="pt-12 pb-8">
 										<a target="_blank" class="toot-btn" href={entity.uri}>View toot ...</a>
 									</div>
