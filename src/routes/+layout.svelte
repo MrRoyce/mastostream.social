@@ -99,7 +99,7 @@
 				</SidebarItem>
 				<SidebarItem
 					on:click={() => (hidden2 = true)}
-					label={$t('pagelinks.dashboard')}
+					label={$t('pagelinks.accounts')}
 					href="/accounts"
 					{spanClass}
 				>
