@@ -67,12 +67,12 @@
 					<List list="none">
 						<Li class="ml-auto text-gray-300 my-1"
 							># Toots: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-								>{entity.instance?.stats?.status_count}</span
+								>{entity.instance?.stats?.status_count.toLocaleString()}</span
 							></Li
 						>
 						<Li class="ml-auto text-gray-300 my-1"
 							># Users: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-								>{entity.instance?.stats?.user_count}</span
+								>{entity.instance?.stats?.user_count.toLocaleString()}</span
 							></Li
 						>
 					</List>
