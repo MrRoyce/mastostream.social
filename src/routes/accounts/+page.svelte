@@ -16,6 +16,7 @@
 	import { SearchOutline } from 'flowbite-svelte-icons';
 	import { formatDate } from '$lib/utils/formatDate';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { browser } from '$app/environment';
 
 	let divClass = 'bg-white dark:bg-gray-800 relative shadow-md overflow-hidden';
 	let innerDivClass =
@@ -38,7 +39,7 @@
 	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
 	const accounts = collectionStore(db, q);
 
-	if (isSupported()) {
+	if (browser && isSupported()) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Accounts'

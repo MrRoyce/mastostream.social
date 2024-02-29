@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	export let data: PageData;
 
-	if (isSupported()) {
+	if (browser && isSupported()) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Accounts_Notfound'

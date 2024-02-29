@@ -16,6 +16,8 @@
 	let domain: string;
 
 	const items = toots.map((item) => {
+		console.log('item', item);
+		console.log('formattedToot', formatToot(item));
 		return formatToot(item);
 	});
 
@@ -34,7 +36,7 @@
 		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
 	};
 
-	if (isSupported()) {
+	if (browser && isSupported()) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Account'
