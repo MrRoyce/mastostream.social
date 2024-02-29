@@ -16,12 +16,7 @@
 	import { goto } from '$app/navigation';
 	import { SearchOutline } from 'flowbite-svelte-icons';
 
-	let divClass = 'bg-white dark:bg-gray-800 relative shadow-md overflow-hidden';
-	let innerDivClass =
-		'flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-4';
-	let searchClass = 'w-full md:w-1/4 relative';
-	let classInput =
-		'text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2  pl-10';
+	import { searchStyles } from '$lib/assets/styles/search';
 
 	let searchTerm = '';
 
@@ -43,10 +38,10 @@
 		placeholder={`Search by name`}
 		hoverable={true}
 		bind:inputValue={searchTerm}
-		{divClass}
-		{innerDivClass}
-		{searchClass}
-		{classInput}
+		divClass={searchStyles.divClass}
+		innerDivClass={searchStyles.innerDivClass}
+		searchClass={searchStyles.searchClass}
+		classInput={searchStyles.classInput}
 	>
 		<div
 			slot="header"

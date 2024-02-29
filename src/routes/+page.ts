@@ -3,8 +3,8 @@ import { getCount, getCounts } from '$lib/getCollection';
 import { summarizeCounts } from '$lib/utils/summarizeCounts';
 import { convertToK } from '$lib/utils/convertToK';
 
-export const ssr = false;
-export const prerender = false;
+// export const ssr = false;
+// export const prerender = false;
 
 export const load: PageLoad = async ({ data }) => {
 
