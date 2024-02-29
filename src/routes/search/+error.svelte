@@ -1,13 +1,20 @@
-<script lang="ts">
+<script>
+	import { Section, Page500 } from 'flowbite-svelte-blocks';
 	import { page } from '$app/stores';
 </script>
 
-<h1 class="text-gray-200">Yikes!!</h1>
-
-<p class="text-gray-200">An error occurred in the search route!</p>
-
-<h1 class="text-gray-200">{$page.status}: {$page.error?.message}</h1>
-
-<pre class="text-gray-200">
-  {JSON.stringify($page, null, 2)}
-</pre>
+<Section name="page500">
+	<Page500>
+		<svelte:fragment slot="h1">500</svelte:fragment>
+		<svelte:fragment slot="paragraph">
+			<p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
+				Internal Server Error.
+			</p>
+			<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
+				We are already working to solve the problem.
+			</p>
+			<p>{$page.status}</p>
+			<p>{$page.error?.message}</p>
+		</svelte:fragment>
+	</Page500>
+</Section>
