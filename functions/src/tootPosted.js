@@ -37,49 +37,15 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 		return res.status(500).json({ errors: 'Invalid input' });
 	}
 
-	const {
-		account,
-		accountId,
-		acct,
-		addDomain,
-		addLanguage,
-		avatar,
-		bot,
-		content,
-		createdAt,
-		domain,
-		instance,
-		language,
-		mediaAttachments,
-		sensitive,
-		tags,
-		tootId,
-		uri,
-		visibility
-	} = req.body;
-
 	const timestamp = FieldValue.serverTimestamp();
-
-	const thisToot = {
-		accountId,
-		acct,
-		avatar,
-		bot,
-		content,
-		createdAt,
-		domain,
-		language,
-		mediaAttachments,
-		sensitive,
-		timestamp,
-		tootId,
-		uri,
-		visibility
-	};
+	const thisToot = { ...req.body, timestamp };
 
 	const tootsDocument = await addToot(thisToot).catch((err) => {
 		return res.status(500).send({ status: 'error', message: err.message });
 	});
+
+	const { account, acct, addDomain, addLanguage, domain, instance, language, tags, tootId } =
+		thisToot;
 
 	if (tags) {
 		await addTags({ toot: thisToot, tags }).catch((err) => {
@@ -88,6 +54,7 @@ app.post('/tootposted', siteCreationValidators, async (req, res) => {
 	}
 
 	// Add the account to the collection
+
 	if (account) {
 		await addAccount({ account, acct }).catch((err) => {
 			return res.status(500).send({ status: 'error', message: err.message });

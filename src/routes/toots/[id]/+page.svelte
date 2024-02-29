@@ -6,7 +6,6 @@
 
 	export let data: PageData;
 	const entity = data.entity;
-	console.log('toot entity', entity);
 	const images =
 		entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity.mediaAttachments)
