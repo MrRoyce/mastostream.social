@@ -59,6 +59,34 @@ export const getDocument = async ({ entity, id }) => {
   }
 }
 
+// Function to get documents from Firebase based on keys array
+export const getDocuments = async ({ entity, keysArray }) => {
+  const documents = [];
+
+  try {
+    // Fetch documents based on keys
+    for (const key of keysArray) {
+      const docRef = doc(db, entity, key);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        documents.push({
+          id: key,
+          data: docSnap.data(),
+        });
+      } else {
+        console.error(`Document ${key} not found`);
+        return []
+      }
+    }
+
+    return documents;
+  } catch (error) {
+    console.error('Error fetching documents:', error);
+    throw error;
+  }
+}
+
 export const getToots = async ({ entity, id, max, orderByField }) => {
   try {
     const responseData: DocumentData[] = [];

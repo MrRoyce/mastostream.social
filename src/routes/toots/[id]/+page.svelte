@@ -4,13 +4,21 @@
 	import type { PageData } from '../$types';
 	import { formatText } from '$lib/utils/formatText';
 	import { formatImages } from '$lib/utils/formatImages';
+	import TootTable from '$lib/components/UI/TootTable.svelte';
 
 	export let data: PageData;
 	const entity = data.entity;
+	const replies = data.replies;
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
 			: { videos: [], images: [] };
+	const tableData = {
+		color: 'blue',
+		hoverable: true,
+		striped: true,
+		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
+	};
 </script>
 
 {#if entity.acct}
@@ -98,6 +106,14 @@
 										<div class="pt-12 pb-8">
 											<a target="_blank" class="toot-btn" href={entity.uri}>View toot ...</a>
 										</div>
+										{#if replies && replies.length}
+											<TootTable
+												{tableData}
+												sourceData={replies}
+												getData={() => {}}
+												entity={`Replies to this toot`}
+											/>
+										{/if}
 									</div>
 								</div>
 							</div>
