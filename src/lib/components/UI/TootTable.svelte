@@ -48,7 +48,7 @@
 					><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
 				>
 				<TableBodyCell>
-					{item.sensitive ? '✅' : '❌'}
+					{item.sensitive ? '❌' : '✅'}
 				</TableBodyCell>
 				<TableBodyCell>
 					{item.bot ? '🤖' : '👤'}

@@ -25,7 +25,7 @@ export const formatToot = (toot: Toot,) => {
     ...toot,
     id: toot.id,
     avatar: toot.avatar,
-    sensitive: !toot.sensitive, // sensitive would be true and would cause the toottable to show the wrong icon!
+    sensitive: toot.sensitive,
     type: toot.bot,
     createdAt: `${createdAtArray[0]} ${createdAtArray[1].split('.')[0]}`,
     acct: toot.acct,
