@@ -30,10 +30,6 @@ async function addRepliesToOriginalToot({ currentToot, currentId }) {
 				logger.warn(`Error caught adding replies array for toots originalId ${originalId}.`);
 			}
 		}
-	} else {
-		logger.log(
-			`addRepliesToOriginalToot not processd for originalId: ${originalId}, inReplyToAccountId: ${inReplyToAccountId}, inReplyToId: ${inReplyToId}.`
-		);
 	}
 }
 
