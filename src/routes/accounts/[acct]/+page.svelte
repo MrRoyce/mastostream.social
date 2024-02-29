@@ -16,8 +16,6 @@
 	let domain: string;
 
 	const items = toots.map((item) => {
-		console.log('item', item);
-		console.log('formattedToot', formatToot(item));
 		return formatToot(item);
 	});
 

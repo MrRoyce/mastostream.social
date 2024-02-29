@@ -3,6 +3,14 @@
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+
+	if (browser && isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Language'
+		});
+	}
 
 	export let data: PageData;
 	const entity = data.entity;

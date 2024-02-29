@@ -1,7 +1,15 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-
+	import { browser } from '$app/environment';
 	export let data: PageData;
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+
+	if (browser && isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Language_Not_Found'
+		});
+	}
 </script>
 
 <section class="bg-white dark:bg-gray-900">
