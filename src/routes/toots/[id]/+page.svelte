@@ -95,19 +95,32 @@
 										</div>
 										{#each images.videos as video}
 											<video
-												class="h-80"
 												controls
-												src={video.src}
+												class="h-80"
 												poster={video.previewUrl}
+												muted
 												preload="none"
-												role="button"
 												tabindex="0"
 												aria-label={video.description}
-												title={video.description}
 												lang={video.language}
 												volume="1"
 												style="width: 100%;"
-											></video>
+											>
+												<source src={video.src} type="video/mp4" />
+
+												<!-- Add caption track -->
+												<track
+													kind="captions"
+													label="English"
+													src="captions_en.vtt"
+													srclang="{video.language}default"
+												/>
+
+												<!-- You can add additional caption tracks if needed -->
+												<!-- <track kind="captions" label="Spanish" src="captions_es.vtt" srclang="es"> -->
+
+												Your browser does not support the video tag.
+											</video>
 										{/each}
 
 										<div class="pt-12 pb-8">
