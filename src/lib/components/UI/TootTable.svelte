@@ -12,8 +12,6 @@
 	import { goto } from '$app/navigation';
 	import { truncateHTML } from '$lib/utils/truncateHTML';
 
-	export let entity: String | null = '';
-	export let getData: () => {};
 	export let showTableHead: Boolean = true;
 	export let sourceData: Array<AccountRow>;
 	export let tableData: TableData;
