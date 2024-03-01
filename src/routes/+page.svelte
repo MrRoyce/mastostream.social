@@ -105,9 +105,6 @@
 	/* Other styles for your component */
 
 	/* Show the slot content only on small screens */
-	.show-on-mobile {
-		@apply block sm:hidden;
-	}
 
 	/* Hide the slot fragment on small screens */
 	.hidden-on-mobile {
