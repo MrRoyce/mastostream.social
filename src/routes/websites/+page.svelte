@@ -4,6 +4,8 @@
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
 	import {
+		Breadcrumb,
+		BreadcrumbItem,
 		Button,
 		Table,
 		TableBody,
@@ -33,6 +35,12 @@
 	const domains = collectionStore(db, q);
 </script>
 
+<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<Breadcrumb aria-label="Default breadcrumb example">
+		<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
+		<BreadcrumbItem>Web Sites</BreadcrumbItem>
+	</Breadcrumb>
+</div>
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 	<TableSearch
 		placeholder={`Search by name`}

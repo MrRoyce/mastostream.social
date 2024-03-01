@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
+	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 
 	export let data: PageData;
 	const entity = data.entity;
 	const toots = data.toots;
+	const id = data.id;
 
 	if (!entity.name && browser) {
 		goto('/tags/notfound');
@@ -20,6 +22,13 @@
 	};
 </script>
 
+<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<Breadcrumb aria-label="Default breadcrumb example">
+		<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
+		<BreadcrumbItem href="/tags">Tags</BreadcrumbItem>
+		<BreadcrumbItem>{id}</BreadcrumbItem>
+	</Breadcrumb>
+</div>
 <div class="dark:bg-gray-800">
 	<div class="container mx-auto my-5 p-5">
 		<div class="md:flex no-wrap md:-mx-2">

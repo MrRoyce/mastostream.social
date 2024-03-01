@@ -4,7 +4,15 @@
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
-	import { Li, List, TableBody, TableBodyRow, TableHeadCell } from 'flowbite-svelte';
+	import {
+		Breadcrumb,
+		BreadcrumbItem,
+		Li,
+		List,
+		TableBody,
+		TableBodyRow,
+		TableHeadCell
+	} from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
 	import { formatToot } from '$lib/utils/formatToot';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
@@ -12,6 +20,7 @@
 	export let data: PageData;
 	const entity = data.entity;
 	const toots = data.toots;
+	const id = data.id;
 
 	let domain: string;
 
@@ -42,6 +51,13 @@
 	}
 </script>
 
+<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<Breadcrumb aria-label="Default breadcrumb example">
+		<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
+		<BreadcrumbItem href="/accounts">Accounts</BreadcrumbItem>
+		<BreadcrumbItem>{id}</BreadcrumbItem>
+	</Breadcrumb>
+</div>
 <div class="dark:bg-gray-800">
 	<div class="container mx-auto my-5 p-5">
 		<div class="md:flex no-wrap md:-mx-2">

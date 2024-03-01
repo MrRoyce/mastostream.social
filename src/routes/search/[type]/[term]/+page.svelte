@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { goto } from '$app/navigation';
+	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 
@@ -16,6 +15,13 @@
 	};
 </script>
 
+<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<Breadcrumb aria-label="Breadcrumbs for search term page">
+		<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
+		<BreadcrumbItem href="/search">Search</BreadcrumbItem>
+		<BreadcrumbItem>{term}</BreadcrumbItem>
+	</Breadcrumb>
+</div>
 <div class="dark:bg-gray-800">
 	<div class="container mx-auto my-5 p-5">
 		<div class="md:flex no-wrap md:-mx-2">

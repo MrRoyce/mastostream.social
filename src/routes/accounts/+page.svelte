@@ -3,6 +3,8 @@
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
 	import {
+		Breadcrumb,
+		BreadcrumbItem,
 		Button,
 		Table,
 		TableBody,
@@ -41,6 +43,12 @@
 	}
 </script>
 
+<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<Breadcrumb aria-label="Default breadcrumb example">
+		<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
+		<BreadcrumbItem>Accounts</BreadcrumbItem>
+	</Breadcrumb>
+</div>
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 	<TableSearch
 		placeholder={`Search by account`}

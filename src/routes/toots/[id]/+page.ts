@@ -11,5 +11,5 @@ export const load: PageLoad = (async ({ params }) => {
     replies = await getDocuments({ entity: 'toots', keysArray: entity.replies })
   }
 
-  return { entity: { ...entity }, replies };
+  return { entity: { ...entity }, id: params.id, replies };
 });

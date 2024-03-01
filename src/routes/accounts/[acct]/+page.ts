@@ -8,5 +8,5 @@ export const load: PageLoad = (async ({ params }) => {
     await getToots({ entity: 'accounts', id: params.acct, max: 100, orderByField: 'createdAt' })
   ]);
 
-  return { entity, toots };
+  return { entity, id: params.acct, toots };
 });

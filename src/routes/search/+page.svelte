@@ -1,5 +1,12 @@
 <script lang="ts">
-	import { Button, TableSearch, Dropdown, DropdownItem } from 'flowbite-svelte';
+	import {
+		Breadcrumb,
+		BreadcrumbItem,
+		Button,
+		TableSearch,
+		Dropdown,
+		DropdownItem
+	} from 'flowbite-svelte';
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
 	import { ChevronDownSolid, SearchOutline } from 'flowbite-svelte-icons';
@@ -13,6 +20,12 @@
 	$: activeUrl = $page.url?.pathname;
 </script>
 
+<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<Breadcrumb aria-label="Default breadcrumb example">
+		<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
+		<BreadcrumbItem>Search</BreadcrumbItem>
+	</Breadcrumb>
+</div>
 <TableSearch
 	placeholder={`Your search`}
 	hoverable={true}

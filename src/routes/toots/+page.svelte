@@ -4,6 +4,8 @@
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
 	import {
+		Breadcrumb,
+		BreadcrumbItem,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -27,6 +29,12 @@
 	const toots = collectionStore(db, q);
 </script>
 
+<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<Breadcrumb aria-label="Default breadcrumb example">
+		<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
+		<BreadcrumbItem>Toots</BreadcrumbItem>
+	</Breadcrumb>
+</div>
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 	<TableHead>
 		{#each tableData.tableHead as tableHead}

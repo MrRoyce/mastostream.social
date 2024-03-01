@@ -4,6 +4,7 @@
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -15,6 +16,7 @@
 	export let data: PageData;
 	const entity = data.entity;
 	const toots = data.toots;
+	const id = data.id;
 
 	if (!entity.language && browser) {
 		goto('/languages/notfound');
@@ -28,6 +30,13 @@
 	};
 </script>
 
+<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<Breadcrumb aria-label="Default breadcrumb example">
+		<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
+		<BreadcrumbItem href="/languages">Languages</BreadcrumbItem>
+		<BreadcrumbItem>{id}</BreadcrumbItem>
+	</Breadcrumb>
+</div>
 <div class="dark:bg-gray-800">
 	<div class="container mx-auto my-5 p-5">
 		<div class="md:flex no-wrap md:-mx-2">

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Page404 } from 'flowbite-svelte-blocks';
-	import { Button, Gallery } from 'flowbite-svelte';
+	import { Breadcrumb, BreadcrumbItem, Button, Gallery } from 'flowbite-svelte';
 	import type { PageData } from '../$types';
 	import { formatText } from '$lib/utils/formatText';
 	import { formatImages } from '$lib/utils/formatImages';
@@ -9,6 +9,7 @@
 	export let data: PageData;
 	const entity = data.entity;
 	const replies = data.replies;
+
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
@@ -21,6 +22,12 @@
 	};
 </script>
 
+<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+	<Breadcrumb aria-label="Default breadcrumb example">
+		<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
+		<BreadcrumbItem href="/toots">Toots</BreadcrumbItem>
+	</Breadcrumb>
+</div>
 {#if entity.acct}
 	<div class="dark:bg-gray-800">
 		<div class="container mx-auto my-5 p-5">

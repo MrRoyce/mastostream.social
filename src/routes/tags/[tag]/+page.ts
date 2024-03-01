@@ -13,5 +13,5 @@ export const load: PageLoad = (async ({ params }) => {
     return formatToot(item)
   })
 
-  return { entity: { ...entity }, toots: items };
+  return { entity: { ...entity }, id: params.tag, toots: items };
 });
