@@ -6,6 +6,8 @@
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate } from '$app/navigation';
 	import { locale } from '$lib/translations';
+	import Footer from '$lib/components/Footers/Footer.svelte';
+	import FooterPage from '$lib/components/Footers/FooterPage.svelte';
 
 	import {
 		Button,
@@ -190,8 +192,8 @@
 	</main>
 
 	<!-- ---- / ---- -->
-	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
-	<svelte:fragment slot="footer">Footer</svelte:fragment>
+	<svelte:fragment slot="pageFooter"><FooterPage /><Footer /></svelte:fragment>
+	<svelte:fragment slot="footer"></svelte:fragment>
 </AppShell>
 
 <style>
