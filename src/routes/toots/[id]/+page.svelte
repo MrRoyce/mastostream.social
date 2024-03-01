@@ -9,7 +9,7 @@
 	export let data: PageData;
 	const entity = data.entity;
 	const replies = data.replies;
-
+	console.log('entity', entity);
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
