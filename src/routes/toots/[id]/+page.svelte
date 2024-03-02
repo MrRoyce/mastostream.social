@@ -6,6 +6,7 @@
 	import { formatText } from '$lib/utils/formatText';
 	import { formatImages } from '$lib/utils/formatImages';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
+	import YouTube from '$lib/components/Cards/YouTube.svelte';
 
 	export let data: PageData;
 	const entity = data.entity;
@@ -34,22 +35,22 @@
 	<div class="dark:bg-gray-800">
 		<div class="container mx-auto my-5 p-5">
 			<div class="md:flex no-wrap md:-mx-2">
-				<div class="w-full mx-2">
-					<div class="bg-grey-900 p-3 shadow-sm">
-						<div class="mt-7 text-gray-200">
+				<!-- Left Side -->
+				<div class="w-full md:w-3/12 md:mx-2 object-top">
+					<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
+						<div class="mt-7">
 							<div
-								class="max-w-4xl flex items-center h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0"
+								class="max-w-4xl flex items-top h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0"
 							>
-								<!--Main Col-->
 								<div id="profile" class="w-full lg:w-3/5 shadow-2xl opacity-75 mx-6 lg:mx-0">
-									<div class="p-4 md:p-12 text-center lg:text-left">
-										<!-- Image for mobile view-->
-										<div
-											class="block rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center"
-											style="background-image: url('{entity.avatar}')"
-										></div>
+									<div class=" md:p-12 text-center lg:text-left">
+										<div class="image overflow-hidden">
+											<img class="h-auto w-full mx-auto" src={entity.avatar} alt="" />
+										</div>
 
-										<h1 class="text-3xl font-bold pt-8 lg:pt-0">{entity.acct}</h1>
+										<p>
+											<span class=" truncate"> {entity.acct}</span>
+										</p>
 										<div
 											class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"
 										></div>
@@ -65,7 +66,7 @@
 													d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"
 												/>
 											</svg>
-											{entity.createdAt}
+											{entity.createdAt.toLocaleString()}
 										</p>
 										<p
 											class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start"
@@ -81,66 +82,86 @@
 											</svg>
 											{entity.domain}
 										</p>
-										<p class="pt-8 text-sm">
-											{@html formatText(
-												entity.content
-													.replaceAll('</p><p>', '</p><br /><p>')
-													.replaceAll(
-														'class="invisible"',
-														'class="font-medium hover:text-blue-300 hover:underline'
-													),
-												'underline text-green-200'
-											)}
-										</p>
-										<div class="mt-6">
-											<Gallery class="gap-2 grid-cols-2" items={images.images} />
-										</div>
-										{#each images.videos as video}
-											<video
-												controls
-												class="h-80"
-												poster={video.previewUrl}
-												muted
-												preload="none"
-												tabindex="0"
-												aria-label={video.description}
-												lang={video.language}
-												volume="1"
-												style="width: 100%;"
-											>
-												<source src={video.src} type="video/mp4" />
-
-												<!-- Add caption track -->
-												<track
-													kind="captions"
-													label="English"
-													src="captions_en.vtt"
-													srclang="{video.language}default"
-												/>
-
-												<!-- You can add additional caption tracks if needed -->
-												<!-- <track kind="captions" label="Spanish" src="captions_es.vtt" srclang="es"> -->
-
-												Your browser does not support the video tag.
-											</video>
-										{/each}
-
-										<div class="pt-12 pb-8">
-											<a target="_blank" class="toot-btn" href={entity.uri}>View toot ...</a>
-										</div>
-										{#if replies && replies.length}
-											<TootTable
-												{tableData}
-												sourceData={replies}
-												getData={() => {}}
-												entity={`Replies to this toot`}
-											/>
-										{/if}
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
+
+				<!-- Right Side -->
+				<div class="w-full md:w-9/12 mx-2">
+					<p class="pt-8 text-sm">
+						{@html formatText(
+							entity.content
+								.replaceAll('</p><p>', '</p><br /><p>')
+								.replaceAll(
+									'class="invisible"',
+									'class="font-medium hover:text-blue-300 hover:underline'
+								),
+							'underline text-green-200'
+						)}
+					</p>
+					<div class="mt-6">
+						<Gallery class="gap-2 grid-cols-2" items={images.images} />
+					</div>
+					{#each images.videos as video}
+						<video
+							controls
+							class="h-80"
+							poster={video.previewUrl}
+							muted
+							preload="none"
+							tabindex="0"
+							aria-label={video.description}
+							lang={video.language}
+							volume="1"
+							style="width: 100%;"
+						>
+							<source src={video.src} type="video/mp4" />
+
+							<!-- Add caption track -->
+							<track
+								kind="captions"
+								label="English"
+								src="captions_en.vtt"
+								srclang="{video.language}default"
+							/>
+
+							<!-- You can add additional caption tracks if needed -->
+							<!-- <track kind="captions" label="Spanish" src="captions_es.vtt" srclang="es"> -->
+
+							Your browser does not support the video tag.
+						</video>
+					{/each}
+
+					{#if entity.card}
+						{#if entity.card.provider_name === 'YouTube'}
+							<YouTube
+								cardImage={entity.card.image}
+								videoSource={entity.card.html}
+								title={entity.card.title}
+								authorName={entity.card.author_name}
+								imageDescription={entity.card.image_description}
+								url={entity.card.url}
+							/>
+						{:else}
+							<p>No provider for card</p>
+						{/if}
+						<!-- content here -->
+					{/if}
+
+					<div class="pt-12 pb-8">
+						<a target="_blank" class="toot-btn" href={entity.uri}>View toot ...</a>
+					</div>
+					{#if replies && replies.length}
+						<TootTable
+							{tableData}
+							sourceData={replies}
+							getData={() => {}}
+							entity={`Replies to this toot`}
+						/>
+					{/if}
 				</div>
 			</div>
 		</div>
