@@ -71,8 +71,8 @@ export const getDocuments = async ({ entity, keysArray }) => {
 
       if (docSnap.exists()) {
         documents.push({
+          ...docSnap.data(),
           id: key,
-          data: docSnap.data(),
         });
       } else {
         console.error(`Document ${key} not found`);
