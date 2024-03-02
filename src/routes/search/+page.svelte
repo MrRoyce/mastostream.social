@@ -21,7 +21,7 @@
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-	<Breadcrumb aria-label="Default breadcrumb example">
+	<Breadcrumb aria-label="Link to Dashboard">
 		<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
 		<BreadcrumbItem>Search</BreadcrumbItem>
 	</Breadcrumb>

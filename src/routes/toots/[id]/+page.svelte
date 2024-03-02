@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Page404 } from 'flowbite-svelte-blocks';
-	import { Breadcrumb, BreadcrumbItem, Button, Gallery } from 'flowbite-svelte';
+	import { Breadcrumb, BreadcrumbItem, Button, Card, Gallery } from 'flowbite-svelte';
+	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
 	import { formatText } from '$lib/utils/formatText';
 	import { formatImages } from '$lib/utils/formatImages';
@@ -14,6 +15,7 @@
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
 			: { videos: [], images: [] };
+	const card = entity?.card || null;
 	const tableData = {
 		color: 'blue',
 		hoverable: true,
@@ -23,7 +25,7 @@
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-	<Breadcrumb aria-label="Default breadcrumb example">
+	<Breadcrumb aria-label="Links to Dashboard and Toots">
 		<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
 		<BreadcrumbItem href="/toots">Toots</BreadcrumbItem>
 	</Breadcrumb>
