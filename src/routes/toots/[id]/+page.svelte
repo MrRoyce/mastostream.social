@@ -11,7 +11,9 @@
 	export let data: PageData;
 	const entity = data.entity;
 	const replies = data.replies;
+	const replyTo = [data.replyTo];
 	console.log('entity', entity);
+
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
@@ -91,6 +93,14 @@
 
 				<!-- Right Side -->
 				<div class="w-full md:w-9/12 mx-2">
+					{#if replyTo}
+						<TootTable
+							{tableData}
+							sourceData={replyTo}
+							getData={() => {}}
+							entity={`Replying to this toot`}
+						/>
+					{/if}
 					<p class="pt-8 text-sm">
 						{@html formatText(
 							entity.content
