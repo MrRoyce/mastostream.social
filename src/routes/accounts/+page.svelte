@@ -63,7 +63,11 @@
 			slot="header"
 			class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
 		>
-			<Button class="!p-2.5" on:click={() => goto(`/accounts/${searchTerm}`)}>
+			<Button
+				class="!p-2.5"
+				on:click={() =>
+					goto(`/accounts/${searchTerm.startsWith('@') ? searchTerm.slice(1) : searchTerm}`)}
+			>
 				<SearchOutline class="w-5 h-5" />
 			</Button>
 		</div>
