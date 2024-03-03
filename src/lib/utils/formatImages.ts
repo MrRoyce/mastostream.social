@@ -5,9 +5,9 @@ export const formatImages = (images: array) => {
     videos: []
   }
   images.map((image: { url: string }) => {
-    if (image.type === 'video') {
+    if (image.type === 'video' || image.type === 'gifv') {
       response.videos.push({
-        alt: 'Not sure',
+        alt: 'Not sure video',
         description: image.description,
         previewUrl: image.previewUrl,
         language: image.language,
@@ -15,7 +15,7 @@ export const formatImages = (images: array) => {
       })
     } else {
       response.images.push({
-        alt: 'Not sure',
+        alt: 'Not sure other',
         src: image.url
       })
     }

@@ -55,7 +55,7 @@ export const getDocument = async ({ entity, id }) => {
     return docSnap.data();
   } else {
     console.log(`Document ${id} not found`);
-    return ({})
+    return null
   }
 }
 

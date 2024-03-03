@@ -13,14 +13,15 @@
 	const entity = data.entity;
 	const replies = data.replies;
 	const replyTo = data.replyTo ? [data.replyTo] : false;
+	const card = data.card;
 	console.log('entity', entity);
-	console.log('replyTo', replyTo);
+	console.log('card', card);
 
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
 			: { videos: [], images: [] };
-	const card = entity?.card || null;
+	//const card = entity?.card || null;
 	const tableData = {
 		color: 'blue',
 		hoverable: true,
@@ -46,9 +47,11 @@
 							<div
 								class="max-w-4xl flex items-top h-auto lg:h-screen flex-wrap mx-auto my-32 lg:my-0"
 							>
-								<div id="profile" class="w-full lg:w-3/5 shadow-2xl opacity-75 mx-6 lg:mx-0">
+								<div id="profile" class="w-full shadow-2xl opacity-75 mx-6 lg:mx-0">
 									<div class=" md:p-12 text-center lg:text-left">
-										<p class="text-3xl pb-5">{entity.account?.displayName || ''}</p>
+										<p class="text-3xl pb-5">
+											{entity.account?.displayName || entity.account?.display_name || ''}
+										</p>
 										<div class="image overflow-hidden">
 											<img class="h-auto w-full mx-auto" src={entity.avatar} alt="" />
 										</div>
@@ -148,22 +151,23 @@
 						</video>
 					{/each}
 
-					{#if entity.card}
-						{#if entity.card.provider_name === 'YouTube'}
+					{#if card}
+						{#if card.provider_name === 'YouTube'}
 							<YouTube
-								cardImage={entity.card.image}
-								videoSource={entity.card.html}
-								title={entity.card.title}
-								authorName={entity.card.author_name}
-								imageDescription={entity.card.image_description}
-								url={entity.card.url}
+								cardImage={card.image}
+								videoSource={card.html}
+								title={card.title}
+								authorName={card.author_name}
+								imageDescription={card.image_description}
+								url={card.url}
 							/>
 						{:else}<CardWithLink
-								cardImage={entity.card.image}
-								description={entity.card.description}
-								imageDescription={entity.card.image_description}
-								title={entity.card.title}
-								url={entity.card.url}
+								cardImage={card.image}
+								description={card.description}
+								imageDescription={card.image_description}
+								providerName={card.provider_name}
+								title={card.title}
+								url={card.url}
 							/>
 						{/if}
 						<!-- content here -->
