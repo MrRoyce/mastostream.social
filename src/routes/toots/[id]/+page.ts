@@ -5,7 +5,7 @@ import type { DocumentData } from 'firebase/firestore';
 // Get the toot
 export const load: PageLoad = (async ({ params }) => {
   let replies = []
-  let replyTo
+  let replyTo = false
 
   const entity: DocumentData = await getDocument({ entity: 'toots', id: params.id });
 
