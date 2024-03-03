@@ -3,7 +3,7 @@
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
-	import TootTable from '$lib/components/UI/TootTable.svelte';
+	import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -40,7 +40,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
+		tableHead: ['Safe', 'Created', 'Content', 'Link']
 	};
 
 	if (browser && isSupported()) {
@@ -52,8 +52,6 @@
 </script>
 
 {#if entity}
-	<!-- content here -->
-
 	<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 		<Breadcrumb aria-label="Links to Dashboard and Accounts">
 			<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
@@ -172,7 +170,7 @@
 					Latest toots from {entity.acct}:
 				</h2>
 
-				<TootTable
+				<OwnersTootTable
 					{tableData}
 					sourceData={toots}
 					getData={() => {}}
@@ -181,6 +179,6 @@
 			</div>
 		</div>
 	</div>
-{:else}
+{:else if browser}
 	{goto('/accounts/notfound')}
 {/if}
