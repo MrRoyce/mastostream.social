@@ -7,12 +7,14 @@
 	import { formatImages } from '$lib/utils/formatImages';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 	import YouTube from '$lib/components/Cards/YouTube.svelte';
+	import CardWithLink from '$lib/components/Cards/Card.svelte';
 
 	export let data: PageData;
 	const entity = data.entity;
 	const replies = data.replies;
-	const replyTo = [data.replyTo];
+	const replyTo = data.replyTo ? [data.replyTo] : false;
 	console.log('entity', entity);
+	console.log('replyTo', replyTo);
 
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
@@ -46,6 +48,7 @@
 							>
 								<div id="profile" class="w-full lg:w-3/5 shadow-2xl opacity-75 mx-6 lg:mx-0">
 									<div class=" md:p-12 text-center lg:text-left">
+										<p class="text-3xl pb-5">{entity.account?.displayName || ''}</p>
 										<div class="image overflow-hidden">
 											<img class="h-auto w-full mx-auto" src={entity.avatar} alt="" />
 										</div>
@@ -93,7 +96,7 @@
 
 				<!-- Right Side -->
 				<div class="w-full md:w-9/12 mx-2">
-					{#if replyTo}
+					{#if replyTo !== false}
 						<TootTable
 							{tableData}
 							sourceData={replyTo}
@@ -101,7 +104,7 @@
 							entity={`Replying to this toot`}
 						/>
 					{/if}
-					<p class="pt-8 text-sm">
+					<p class="pt-8 text-2xl">
 						{@html formatText(
 							entity.content
 								.replaceAll('</p><p>', '</p><br /><p>')
@@ -155,8 +158,13 @@
 								imageDescription={entity.card.image_description}
 								url={entity.card.url}
 							/>
-						{:else}
-							<p>No provider for card</p>
+						{:else}<CardWithLink
+								cardImage={entity.card.image}
+								description={entity.card.description}
+								imageDescription={entity.card.image_description}
+								title={entity.card.title}
+								url={entity.card.url}
+							/>
 						{/if}
 						<!-- content here -->
 					{/if}
