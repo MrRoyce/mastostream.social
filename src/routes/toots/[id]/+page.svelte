@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Page404 } from 'flowbite-svelte-blocks';
-	import { Breadcrumb, BreadcrumbItem, Button, Card, Gallery } from 'flowbite-svelte';
-	import { ArrowRightOutline } from 'flowbite-svelte-icons';
+	import { A, Breadcrumb, BreadcrumbItem, Button, Card, Gallery } from 'flowbite-svelte';
+	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
 	import { formatText } from '$lib/utils/formatText';
 	import { formatImages } from '$lib/utils/formatImages';
@@ -98,7 +98,13 @@
 				</div>
 
 				<!-- Right Side -->
+
 				<div class="w-full md:w-9/12 mx-2">
+					<span class="text-leftfloat-left">
+						<A target="_blank" href={entity.uri}
+							>Toot... <ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
+						</A></span
+					>
 					{#if replyTo !== false}
 						<TootTable
 							{tableData}
@@ -168,12 +174,7 @@
 								url={card.url}
 							/>
 						{/if}
-						<!-- content here -->
 					{/if}
-
-					<div class="pt-12 pb-8">
-						<a target="_blank" class="toot-btn" href={entity.uri}>View toot ...</a>
-					</div>
 					{#if replies && replies.length}
 						<TootTable
 							{tableData}

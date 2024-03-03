@@ -7,9 +7,7 @@ import { formatToot } from '$lib/utils/formatToot';
 export const load: PageLoad = (async ({ params }) => {
 
   const entity: DocumentData = await getDocument({ entity: 'domains', id: params.domain });
-
   const toots: DocumentData[] = await getToots({ entity: 'domains', id: params.domain, max: 100, orderByField: 'createdAt' })
-
   const items = toots.map((item) => {
     return formatToot(item)
   })

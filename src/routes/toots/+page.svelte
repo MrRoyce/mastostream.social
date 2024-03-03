@@ -15,6 +15,7 @@
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 	import { truncateHTML } from '$lib/utils/truncateHTML';
+	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 
 	const tableData = {
 		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
@@ -70,7 +71,8 @@
 						rel="noopener nofollow"
 						href={item.uri}
 						target="_blank"
-						class="font-medium hover:underline">⚡︎ ...</A
+						class="font-medium hover:underline"
+						><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" /></A
 					></TableBodyCell
 				>
 			</TableBodyRow>

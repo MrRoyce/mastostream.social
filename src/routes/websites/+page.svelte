@@ -16,7 +16,7 @@
 		TableSearch
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
-	import { SearchOutline } from 'flowbite-svelte-icons';
+	import { ArrowUpRightFromSquareOutline, SearchOutline } from 'flowbite-svelte-icons';
 
 	import { searchStyles } from '$lib/assets/styles/search';
 
@@ -100,7 +100,8 @@
 							rel="noopener nofollow"
 							href="https://{item.domain}"
 							target="_blank"
-							class="font-medium hover:underline">⚡︎ ...</A
+							class="font-medium hover:underline"
+							><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" /></A
 						></TableBodyCell
 					>
 				</TableBodyRow>
