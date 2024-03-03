@@ -35,7 +35,7 @@ export const load: PageLoad = (async ({ params }) => {
 
       const result = await response.json()
       // console.log('result from card to call', result)
-      return ({ card: result.card, account: result.account })
+      return ({ card: result.card, account: result.account, content: result.content })
     } catch (err) {
       const error = `Error calling external API ${uriWithCard} in getStatusWithCard: ${err.message}.`
       console.error(error, error)
@@ -56,6 +56,10 @@ export const load: PageLoad = (async ({ params }) => {
   const cardResult = await getStatusWithCard(uriWithCard)
   card = cardResult?.card || null
   entity.account = cardResult?.account || entity.account  // Override with better data
+  entity.content = cardResult?.content || entity.content  // Override with better data
+
+  console.log('entity.content', entity.content)
+  console.log('cardResult', cardResult)
 
   return { card, entity: { ...entity }, id: params.id, replies, replyTo };
 });
