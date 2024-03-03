@@ -111,11 +111,9 @@
 						{@html formatText(
 							entity.content
 								.replaceAll('</p><p>', '</p><br /><p>')
-								.replaceAll(
-									'class="invisible"',
-									'class="font-medium hover:text-blue-300 hover:underline'
-								),
-							'underline text-green-200'
+								.replaceAll('class="invisible"', 'class="font-medium text-green-400 underline"')
+								.replaceAll('class="ellipsis"', 'class="font-medium text-green-400 underline"'),
+							'underline text-green-400'
 						)}
 					</p>
 					<div class="mt-6">
