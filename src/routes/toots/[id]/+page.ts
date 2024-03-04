@@ -35,7 +35,7 @@ export const load: PageLoad = (async ({ params }) => {
 
       const result = await response.json()
       // console.log('result from card to call', result)
-      return ({ card: result.card, account: result.account, content: result.content })
+      return ({ ...result })
     } catch (err) {
       const error = `Error calling external API ${uriWithCard} in getStatusWithCard: ${err.message}.`
       console.error(error, error)
@@ -45,21 +45,23 @@ export const load: PageLoad = (async ({ params }) => {
 
   const entity: DocumentData = await getDocument({ entity: 'toots', id: params.id });
 
-  if (entity.replies && entity.replies.length) {
-    replies = await getDocuments({ entity: 'toots', keysArray: entity.replies })
-  }
-  if (entity.inReplyToAccountId && entity.inReplyToId) {
-    replyTo = await getDocument({ entity: 'toots', id: `${entity.inReplyToAccountId}_${entity.inReplyToId}` });
-  }
+  if (entity) {
+    if (entity?.replies && entity.replies.length) {
+      replies = await getDocuments({ entity: 'toots', keysArray: entity.replies })
+    }
+    if (entity?.inReplyToAccountId && entity?.inReplyToId) {
+      replyTo = await getDocument({ entity: 'toots', id: `${entity.inReplyToAccountId}_${entity.inReplyToId}` });
+    }
 
-  const uriWithCard = replaceUsersSegment(entity.uri)
-  const cardResult = await getStatusWithCard(uriWithCard)
-  card = cardResult?.card || null
-  entity.account = cardResult?.account || entity.account  // Override with better data
-  entity.content = cardResult?.content || entity.content  // Override with better data
+    const uriWithCard = replaceUsersSegment(entity.uri)
+    const cardResult = await getStatusWithCard(uriWithCard)
+    card = cardResult?.card || null
+    entity.account = cardResult?.account || entity.account  // Override with better data
+    entity.content = cardResult?.content || entity.content  // Override with better data
 
-  console.log('entity.content', entity.content)
-  console.log('cardResult', cardResult)
+    console.log('entity.content', entity.content)
+    console.log('cardResult', cardResult)
+  }
 
   return { card, entity: { ...entity }, id: params.id, replies, replyTo };
 });

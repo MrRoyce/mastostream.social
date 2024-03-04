@@ -92,7 +92,7 @@
 					</TableBodyCell>
 					<TableBodyCell>
 						{item.instance?.short_description
-							? item.instance.short_description.substring(0, 50 - 3) + '...'
+							? item.instance.short_description.substring(0, 100 - 3) + '...'
 							: ''}
 					</TableBodyCell>
 					<TableBodyCell>

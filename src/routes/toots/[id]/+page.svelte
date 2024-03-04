@@ -8,26 +8,45 @@
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 	import YouTube from '$lib/components/Cards/YouTube.svelte';
 	import CardWithLink from '$lib/components/Cards/Card.svelte';
+	import BlurHash from '$lib/components/BlurHash/BlurHash.svelte';
+	import { browser } from '$app/environment';
+
+	import { decode } from 'blurhash';
+	import showSensitiveStore from '$lib/stores/SensitiveStore';
 
 	export let data: PageData;
 	const entity = data.entity;
 	const replies = data.replies;
 	const replyTo = data.replyTo ? [data.replyTo] : false;
 	const card = data.card;
-	console.log('entity', entity);
-	console.log('card', card);
+	if (browser) console.log('entity', entity);
+	if (browser) console.log('card', card);
 
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
 			: { videos: [], images: [] };
-	//const card = entity?.card || null;
+
+	if (browser) {
+		console.log('images', JSON.stringify(images, null, 2));
+	}
 	const tableData = {
 		color: 'blue',
 		hoverable: true,
 		striped: true,
 		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
 	};
+
+	let showSensitive: boolean;
+
+	showSensitiveStore.subscribe((data) => {
+		if (browser) {
+			console.log('showSensitive', data);
+		}
+		showSensitive = data;
+	});
+
+	showSensitive = $showSensitiveStore;
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
@@ -113,50 +132,78 @@
 							entity={`Replying to this toot`}
 						/>
 					{/if}
-					<p class="pt-8 text-2xl">
-						{@html formatText(
-							entity.content
-								.replaceAll('</p><p>', '</p><br /><p>')
-								.replaceAll('class="invisible"', 'class="font-medium text-green-400 underline"')
-								.replaceAll('class="ellipsis"', 'class="font-medium text-green-400 underline"'),
-							'underline text-green-400'
-						)}
-					</p>
-					<div class="mt-6">
-						<Gallery class="gap-2 grid-cols-2" items={images.images} />
-					</div>
+					{#if entity.sensitive && !showSensitive}
+						<p class="text-2xl pb-4">{entity.spoiler_text || 'Sensitive content'}</p>
+					{:else}
+						<p class="pt-4 pb-8 text-2xl">
+							{@html formatText(
+								entity.content
+									.replaceAll('</p><p>', '</p><br /><p>')
+									.replaceAll('class="invisible"', 'class="font-medium text-green-400 underline"')
+									.replaceAll('class="ellipsis"', 'class="font-medium text-green-400 underline"'),
+								'underline text-green-400'
+							)}
+						</p>
+					{/if}
+
 					{#each images.videos as video}
-						<video
-							controls
-							class="h-80"
-							poster={video.previewUrl}
-							muted
-							preload="none"
-							tabindex="0"
-							aria-label={video.description}
-							lang={video.language}
-							volume="1"
-							style="width: 100%;"
-						>
-							<source src={video.src} type="video/mp4" />
+						{#if entity.sensitive && !showSensitive}
+							<BlurHash hash={video.blurhash} />
+						{:else}
+							<video
+								controls
+								class="h-80"
+								poster={video.previewUrl}
+								muted
+								preload="none"
+								tabindex="0"
+								aria-label={video.description}
+								lang={video.language}
+								volume="1"
+								style="width: 100%;"
+							>
+								<source src={video.src} type="video/mp4" />
 
-							<!-- Add caption track -->
-							<track
-								kind="captions"
-								label="English"
-								src="captions_en.vtt"
-								srclang="{video.language}default"
-							/>
+								<!-- Add caption track -->
+								<track
+									kind="captions"
+									label="English"
+									src="captions_en.vtt"
+									srclang={video.language}
+								/>
 
-							<!-- You can add additional caption tracks if needed -->
-							<!-- <track kind="captions" label="Spanish" src="captions_es.vtt" srclang="es"> -->
+								<!-- You can add additional caption tracks if needed -->
+								<!-- <track kind="captions" label="Spanish" src="captions_es.vtt" srclang="es"> -->
 
-							Your browser does not support the video tag.
-						</video>
+								Your browser does not support the video tag.
+							</video>
+						{/if}
+					{/each}
+					{#each images.pictures as picture}
+						<span class="pb-4">
+							{#if entity.sensitive && !showSensitive}
+								<BlurHash
+									hash={picture.blurhash}
+									height={picture.meta?.small?.height || 256}
+									width={picture.meta?.small?.width || 256}
+								/>
+							{:else}
+								<CardWithLink
+									cardImage={picture.remoteUrl}
+									description={picture.description || ''}
+									imageDescription={picture.description || ''}
+									providerName="View image"
+									title={picture.description || ''}
+									url={picture.remoteUrl}
+								/>
+							{/if}
+						</span>
 					{/each}
 
 					{#if card}
-						{#if card.provider_name === 'YouTube'}
+						{#if entity.sensitive && !showSensitive}
+							<br />
+						{:else if card.provider_name === 'YouTube'}
 							<YouTube
 								cardImage={card.image}
 								videoSource={card.html}

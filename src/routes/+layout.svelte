@@ -8,7 +8,7 @@
 	import { locale } from '$lib/translations';
 	import Footer from '$lib/components/Footers/Footer.svelte';
 	import FooterPage from '$lib/components/Footers/FooterPage.svelte';
-
+	import showSensitiveStore from '$lib/stores/SensitiveStore';
 	import {
 		Button,
 		CloseButton,
@@ -16,7 +16,8 @@
 		Sidebar,
 		SidebarGroup,
 		SidebarItem,
-		SidebarWrapper
+		SidebarWrapper,
+		Toggle
 	} from 'flowbite-svelte';
 	import {
 		ArrowRightToBracketSolid,
@@ -34,6 +35,15 @@
 		x: -320,
 		duration: 200,
 		easing: sineIn
+	};
+
+	let showSensitive: boolean = false;
+
+	const hideSensitive = () => {
+		showSensitiveStore.update(() => {
+			showSensitive = !showSensitive;
+			return showSensitive;
+		});
 	};
 
 	afterNavigate((params: AfterNavigate) => {
@@ -170,7 +180,18 @@
 			</svelte:fragment>
 
 			<svelte:fragment slot="trail"
-				><div class="hidden-on-mobile">
+				><div>
+					<Toggle
+						checked={false}
+						value="false"
+						on:click={() => {
+							{
+								hideSensitive();
+							}
+						}}>Show Sensitive</Toggle
+					>
+				</div>
+				<div class="hidden-on-mobile">
 					<span class="">
 						<a class="btn btn-sm" href="/">{$t('pagelinks.dashboard')}</a>
 						<a class="btn btn-sm" href="/accounts">{$t('pagelinks.accounts')}</a>
