@@ -4,11 +4,14 @@
 	import '../app.pcss';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import { navigating } from '$app/stores';
 	import { locale } from '$lib/translations';
 	import Footer from '$lib/components/Footers/Footer.svelte';
 	import FooterPage from '$lib/components/Footers/FooterPage.svelte';
 	import showSensitiveStore from '$lib/stores/SensitiveStore';
+	import { loading } from '$lib/stores/Loading';
+	import { Skeleton } from 'flowbite-svelte';
 	import {
 		Button,
 		CloseButton,
@@ -80,6 +83,8 @@
 		value = getTargetLanguage(event?.target?.innerHTML || 'English');
 		$locale = value;
 	}
+
+	$: $loading = !!$navigating;
 </script>
 
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hidden2} id="sidebar2">
@@ -179,8 +184,8 @@
 				<strong class="text-xl uppercase dark:text-green-400"> <h1>Mastostream.Social</h1></strong>
 			</svelte:fragment>
 
-			<svelte:fragment slot="trail"
-				><div>
+			<svelte:fragment slot="trail">
+				<div>
 					<Toggle
 						checked={false}
 						value="false"
@@ -209,7 +214,11 @@
 	<!-- Router Slot -->
 
 	<main class="container mx-auto">
-		<slot />
+		{#if $loading}
+			<Skeleton size="xxl" class="mt-8 mb-2.5" />
+		{:else}
+			<slot />
+		{/if}
 	</main>
 
 	<!-- ---- / ---- -->
