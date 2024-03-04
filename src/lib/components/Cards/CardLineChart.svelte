@@ -1,11 +1,6 @@
 <script>
-	import { Chart, Card, A, Button, Dropdown, DropdownItem, Popover } from 'flowbite-svelte';
-	import {
-		InfoCircleSolid,
-		ChevronRightSolid,
-		ChevronDownSolid,
-		FileLinesSolid
-	} from 'flowbite-svelte-icons';
+	import { Chart, Card, A, Popover } from 'flowbite-svelte';
+	import { InfoCircleSolid, ChevronRightSolid } from 'flowbite-svelte-icons';
 
 	export let entity = 'Account';
 	export let data;

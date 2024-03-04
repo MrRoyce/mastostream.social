@@ -248,16 +248,3 @@
 		</svelte:fragment>
 	</Page404>
 {/if}
-
-<style>
-	.toot-btn {
-		background-color: #199319;
-		color: white;
-		padding: 15px 25px;
-		text-decoration: none;
-	}
-
-	.toot-btn:hover {
-		background-color: #223094;
-	}
-</style>
