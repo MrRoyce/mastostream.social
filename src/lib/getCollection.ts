@@ -134,7 +134,7 @@ export const getCounts = async (hours: number) => {
 
     const collectionRef = collection(db, 'timeseries')
     const data = await getDocs(
-      query(collectionRef, where('timestamp', '>=', hoursAgo))
+      query(collectionRef, where('timestamp', '>=', hoursAgo), orderBy('timestamp', 'desc'))
     );
 
     data.docs.map((doc) => {
@@ -143,6 +143,8 @@ export const getCounts = async (hours: number) => {
         ...docData
       });
     });
+
+    // console.log('responseData', JSON.stringify(responseData, null, 2))
 
     return responseData;
   } catch (error) {
