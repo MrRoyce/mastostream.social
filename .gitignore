@@ -56,3 +56,5 @@ dist-ssr
 
 # Misc
 testClass.js
+languages.json
+languages.html
