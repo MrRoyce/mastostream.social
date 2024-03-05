@@ -3,8 +3,8 @@ import { getCount, getCounts } from '$lib/getCollection';
 import { summarizeCounts } from '$lib/utils/summarizeCounts';
 import { convertToK } from '$lib/utils/convertToK';
 
-// export const ssr = false;
-// export const prerender = false;
+export const ssr = false;
+export const prerender = false;
 
 export const load: PageLoad = async ({ data }) => {
 
@@ -23,7 +23,7 @@ export const load: PageLoad = async ({ data }) => {
 
   try {
     // Sum up the count to the time period
-    summarizedCounts = summarizeCounts({ documents: counts, hours: 6 })
+    summarizedCounts = summarizeCounts({ documents: counts, hours })
   } catch (error) {
     console.error('Error summarizing counts in main page.ts', error)
   }
