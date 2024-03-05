@@ -8,13 +8,10 @@
 		DropdownItem
 	} from 'flowbite-svelte';
 	import type { PageData } from './$types';
-	import { goto } from '$app/navigation';
 	import { ChevronDownSolid, SearchOutline } from 'flowbite-svelte-icons';
 	import {} from 'flowbite-svelte-icons';
 	import { page } from '$app/stores';
 	import { searchStyles } from '$lib/assets/styles/search';
-
-	export let data: PageData;
 
 	let searchTerm = '';
 	$: activeUrl = $page.url?.pathname;

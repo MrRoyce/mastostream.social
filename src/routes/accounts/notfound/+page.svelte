@@ -2,7 +2,6 @@
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
-	export let data: PageData;
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
