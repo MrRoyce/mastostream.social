@@ -4,14 +4,14 @@
 	import '../app.pcss';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
-	import { afterNavigate, beforeNavigate } from '$app/navigation';
+	import { afterNavigate } from '$app/navigation';
 	import { navigating } from '$app/stores';
 	import { locale } from '$lib/translations';
 	import Footer from '$lib/components/Footers/Footer.svelte';
 	import FooterPage from '$lib/components/Footers/FooterPage.svelte';
+	import Loading from './../lib/components/Loading/Loading.svelte';
 	import showSensitiveStore from '$lib/stores/SensitiveStore';
 	import { loading } from '$lib/stores/Loading';
-	import { Skeleton } from 'flowbite-svelte';
 	import {
 		Button,
 		CloseButton,
@@ -215,7 +215,7 @@
 
 	<main class="container mx-auto">
 		{#if $loading}
-			<Skeleton size="xxl" class="mt-8 mb-2.5" />
+			<Loading />
 		{:else}
 			<slot />
 		{/if}
