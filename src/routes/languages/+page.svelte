@@ -18,6 +18,7 @@
 	import { SearchOutline } from 'flowbite-svelte-icons';
 	import { formatDate } from '$lib/utils/formatDate';
 	import { searchStyles } from '$lib/assets/styles/search';
+	import { getLanguage } from '$lib/utils/getLanguage';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 
@@ -31,7 +32,7 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Name', 'Count', 'First seen']
+		tableHead: ['Name', 'Language', 'Count', 'First seen']
 	};
 
 	const orderByField = 'language';
@@ -76,9 +77,13 @@
 		</TableHead>
 		<TableBody>
 			{#each $languages as item}
+				{@const translations = getLanguage(item.language)}
 				<TableBodyRow on:click={() => goto(`/languages/${item.language}`)}>
 					<TableBodyCell>
 						{item.language}
+					</TableBodyCell>
+					<TableBodyCell>
+						{translations.englishValue}
 					</TableBodyCell>
 					<TableBodyCell class="text-right">
 						{item.count.toLocaleString()}

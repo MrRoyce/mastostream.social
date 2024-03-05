@@ -5,6 +5,8 @@
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
+	import { getLanguage } from '$lib/utils/getLanguage';
+	import CardWithLink from '$lib/components/Cards/Card.svelte';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -17,10 +19,15 @@
 	const entity = data.entity;
 	const toots = data.toots;
 	const id = data.id;
+	const wikiData = data.wikiData;
+	const wikiTitle = `${wikiData.title}: ${wikiData.description}`;
+	console.log('wikiData', wikiData);
 
 	if (!entity.language && browser) {
 		goto('/languages/notfound');
 	}
+
+	const language = getLanguage(entity.language);
 
 	const tableData = {
 		color: 'blue',
@@ -43,29 +50,31 @@
 			<!-- Left Side -->
 			<div class="w-full md:w-3/12 md:mx-2">
 				<!-- Profile Card -->
-				<h1>{entity.name}</h1>
 			</div>
 			<!-- Right Side -->
 			<div class="w-full md:w-9/12 mx-2">
 				<div class="bg-grey-900 p-3 shadow-sm rounded-sm">
-					<div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"></div>
 					<h3 class="mt-5">
-						<span class="pt-10 ml-auto text-gray-200 my-1">@{entity.name}</span>
+						{#if wikiData.extract}
+							<CardWithLink
+								cardImage={wikiData.originalimage.source}
+								description={wikiData.extract}
+								providerName="en.wikipedia.org"
+								title={wikiTitle}
+								url={wikiData.content_urls.desktop.page}
+							/>
+						{/if}
 					</h3>
 				</div>
 			</div>
 		</div>
 		<div class="my-4 text-white">
 			<h2 class="text-gray-200 font-bold text-xl leading-8 my-1">
-				Latest toots in the {entity.language} language:
+				Latest <span class="bg-green-500">{entity.language}</span>
+				({language.englishValue}) toots:
 			</h2>
 
-			<TootTable
-				{tableData}
-				sourceData={toots}
-				getData={() => {}}
-				entity={`Toots from ${entity.username}`}
-			/>
+			<TootTable {tableData} sourceData={toots} getData={() => {}} />
 		</div>
 	</div>
 </div>
