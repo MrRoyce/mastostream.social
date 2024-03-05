@@ -181,7 +181,7 @@
 						</span>
 					</Button>
 				</div>
-				<strong class="text-xl uppercase dark:text-green-400"> <h1>Mastostream.Social</h1></strong>
+				<strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong>
 			</svelte:fragment>
 
 			<svelte:fragment slot="trail">
