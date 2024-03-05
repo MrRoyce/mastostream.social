@@ -28,7 +28,7 @@
 	const tootsMarquee = collectionStore(db, q);
 
 	const stats = calculateStats(data);
-	const charts = calculateCharts(data.counts);
+	const charts = calculateCharts(counts);
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();

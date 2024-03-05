@@ -28,6 +28,8 @@ export const load: PageLoad = async ({ data }) => {
     console.error('Error summarizing counts in main page.ts', error)
   }
 
+  // console.log('summarizedCounts', JSON.stringify(summarizedCounts, null, 2))
+
   return {
     accounts: convertToK(accounts),
     counts: summarizedCounts,
