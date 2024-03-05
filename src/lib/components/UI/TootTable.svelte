@@ -15,7 +15,7 @@
 	export let showTableHead: Boolean = true;
 	export let sourceData: Array<AccountRow>;
 	export let tableData: TableData;
-	export let entity: string;
+	export let entity: string = '';
 
 	const itemsPerPage = 100;
 
