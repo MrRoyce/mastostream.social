@@ -9,10 +9,12 @@
 	import YouTube from '$lib/components/Cards/YouTube.svelte';
 	import CardWithLink from '$lib/components/Cards/Card.svelte';
 	import BlurHash from '$lib/components/BlurHash/BlurHash.svelte';
+	import ImageGallery from '$lib/components/UI/ImageGallery.svelte';
 	import { browser } from '$app/environment';
 
 	import { decode } from 'blurhash';
 	import showSensitiveStore from '$lib/stores/SensitiveStore';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 	const entity = data.entity;
@@ -25,7 +27,12 @@
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
-			: { videos: [], images: [] };
+			: { videos: [], pictures: [] };
+
+	const accountNote =
+		entity && entity.account && entity.account.note
+			? entity.account.note.replaceAll('</p><p>', '</p><br /><p>')
+			: '';
 
 	if (browser) {
 		console.log('images', JSON.stringify(images, null, 2));
@@ -71,33 +78,25 @@
 										<p class="text-3xl pb-5">
 											{entity.account?.displayName || entity.account?.display_name || ''}
 										</p>
-										<div class="image overflow-hidden">
+										<div class="image overflow-hidden pb-5">
 											<img class="h-auto w-full mx-auto" src={entity.avatar} alt="" />
 										</div>
-
-										<p>
-											<span class=" truncate"> {entity.acct}</span>
+										<p class="pb-5">
+											<span class=" truncate">
+												<Button
+													color="dark"
+													class=""
+													on:click={() => {
+														goto(`/accounts/${entity.acct}`);
+													}}>{entity.acct}</Button
+												>
+											</span>
 										</p>
 										<div
 											class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"
 										></div>
-										<p
-											class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"
-										>
-											<svg
-												class="h-4 fill-current text-green-700 pr-4"
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 20 20"
-											>
-												<path
-													d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"
-												/>
-											</svg>
-											{entity.createdAt.toLocaleString()}
-										</p>
-										<p
-											class="pt-2 text-gray-600 text-xs lg:text-sm flex items-center justify-center lg:justify-start"
-										>
+
+										<p class="pt-2 text-base font-bold flex lg:justify-start">
 											<svg
 												class="h-4 fill-current text-green-700 pr-4"
 												xmlns="http://www.w3.org/2000/svg"
@@ -108,6 +107,9 @@
 												/>
 											</svg>
 											{entity.domain}
+										</p>
+										<p class="pt-2 text-base">
+											{@html accountNote}
 										</p>
 									</div>
 								</div>
@@ -120,9 +122,22 @@
 
 				<div class="w-full md:w-9/12 mx-2">
 					<span class="text-leftfloat-left">
-						<A target="_blank" href={entity.uri}
-							>Toot... <ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
-						</A></span
+						<p class="pt-4 text-base font-bold flex lg:justify-start">
+							<svg
+								class="h-4 fill-current text-green-700 pr-4"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 20 20"
+							>
+								<path
+									d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"
+								/>
+							</svg>
+							{entity.createdAt.toLocaleString()}
+
+							<A target="_blank" href={entity.uri}
+								><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
+							</A>
+						</p></span
 					>
 					{#if replyTo !== false}
 						<TootTable
@@ -179,26 +194,10 @@
 							</video>
 						{/if}
 					{/each}
-					{#each images.pictures as picture}
-						<span class="pb-4">
-							{#if entity.sensitive && !showSensitive}
-								<BlurHash
-									hash={picture.blurhash}
-									height={picture.meta?.small?.height || 256}
-									width={picture.meta?.small?.width || 256}
-								/>
-							{:else}
-								<CardWithLink
-									cardImage={picture.remoteUrl}
-									description={picture.description || ''}
-									imageDescription={picture.description || ''}
-									providerName="View image"
-									title={picture.description || ''}
-									url={picture.remoteUrl}
-								/>
-							{/if}
-						</span>
-					{/each}
+
+					{#if images.pictures}
+						<ImageGallery pictures={images.pictures} sensitive={entity.sensitive} {showSensitive} />
+					{/if}
 
 					{#if card}
 						{#if entity.sensitive && !showSensitive}

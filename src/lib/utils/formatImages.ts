@@ -8,13 +8,13 @@ export const formatImages = (images: array) => {
     if (image.type === 'video' || image.type === 'gifv') {
       response.videos.push({
         ...image,
-        alt: image.description || 'Not sure video',
+        alt: image.description || '',
         src: image.url
       })
     } else {
       response.pictures.push({
         ...image,
-        alt: image.description || 'Not sure other',
+        alt: image.description || '',
         src: image.url
       })
     }
