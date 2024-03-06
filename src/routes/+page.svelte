@@ -9,7 +9,7 @@
 	import { db } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
 	import { goto } from '$app/navigation';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Tabs, TabItem } from 'flowbite-svelte';
 	import { truncateHTML } from '$lib/utils/truncateHTML';
 	import { calculateStats } from '$lib/utils/calculateStats';
 	import { calculateCharts } from '$lib/utils/calculateCharts';
@@ -18,6 +18,7 @@
 
 	export let data: PageData;
 	const counts = data.counts;
+	const activeTab = 0;
 
 	const orderByField = 'timestamp';
 	const direction = 'desc';
@@ -81,19 +82,23 @@
 
 		<!-- Charts -->
 		<div class="hidden-on-mobile">
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
-				{#each charts as chart}
-					<!-- content here -->
-
-					<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
-						<CardLineChart
-							entity={chart.entity}
-							data={chart.data}
-							categories={chart.categories}
-							total={chart.total}
-						/>
-					</div>
-				{/each}
+			<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4">
+				<Tabs
+					class=" focus:ring-gray-400"
+					style="full"
+					defaultClass="flex space-x-4 divide-x rtl:divide-x-reverse divide-gray-200 shadow dark:divide-gray-700"
+				>
+					{#each charts as chart, index}
+						<TabItem class="w-full " open={index === activeTab} title={chart.entity}>
+							<CardLineChart
+								entity={chart.entity}
+								data={chart.data}
+								categories={chart.categories}
+								total={chart.total}
+							/>
+						</TabItem>
+					{/each}
+				</Tabs>
 			</div>
 		</div>
 	{:else}

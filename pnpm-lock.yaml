@@ -41,6 +41,9 @@ dependencies:
   npm:
     specifier: ^10.4.0
     version: 10.4.0
+  svelte-chartjs:
+    specifier: ^3.1.5
+    version: 3.1.5(chart.js@4.4.1)(svelte@4.2.7)
   sveltefire:
     specifier: github:MrRoyce/sveltefire
     version: github.com/MrRoyce/sveltefire/ff679a12e8a361ff8c779d3686dd2d6792c9eabd(firebase@10.7.1)(svelte@4.2.7)
@@ -4565,6 +4568,16 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  /svelte-chartjs@3.1.5(chart.js@4.4.1)(svelte@4.2.7):
+    resolution: {integrity: sha512-ka2zh7v5FiwfAX1oMflZ0HkNkgjHjFqANgRyC+vNYXfxtx2ku68Zo+2KgbKeBH2nS1ThDqkIACPzGxy4T0UaoA==}
+    peerDependencies:
+      chart.js: ^3.5.0 || ^4.0.0
+      svelte: ^4.0.0
+    dependencies:
+      chart.js: 4.4.1
+      svelte: 4.2.7
+    dev: false
 
   /svelte-check@3.6.0(postcss-load-config@5.0.2)(postcss@8.4.32)(svelte@4.2.7):
     resolution: {integrity: sha512-8VfqhfuRJ1sKW+o8isH2kPi0RhjXH1nNsIbCFGyoUHG+ZxVxHYRKcb+S8eaL/1tyj3VGvWYx3Y5+oCUsJgnzcw==}
