@@ -41,7 +41,9 @@ export const load: PageLoad = (async ({ params }) => {
   let replyTo = false
   let card
 
-  const entity: DocumentData = await getDocument({ entity: 'toots', id: params.id });
+  const lowerCase = params.id && typeof params.id === 'string' ? params.id.toLowerCase() : params.id;
+
+  const entity: DocumentData = await getDocument({ entity: 'toots', id: lowerCase });
 
   if (entity) {
     if (entity?.replies && entity.replies.length) {

@@ -10,7 +10,6 @@ async function getWikiMediaData(fetch, language) {
   try {
     const response = await fetch(url)
 
-
     if (!response.ok) {
       const error = `HTTP error: ${url}, Status: ${response.status}, Text: ${response.statusText}`
       console.error(error)
@@ -28,9 +27,11 @@ async function getWikiMediaData(fetch, language) {
 
 // Get languages and its toots
 export const load: PageLoad = (async ({ fetch, params }) => {
-  const entity: DocumentData = await getDocument({ entity: 'languages', id: params.language });
+  const lowerCase = params.language && typeof params.language === 'string' ? params.language.toLowerCase() : params.language;
 
-  const toots: DocumentData[] = await getToots({ entity: 'languages', id: params.language, max: 100, orderByField: 'createdAt' })
+  const entity: DocumentData = await getDocument({ entity: 'languages', id: lowerCase });
+
+  const toots: DocumentData[] = await getToots({ entity: 'languages', id: lowerCase, max: 100, orderByField: 'createdAt' })
 
   const items = toots.map((item) => {
     return formatToot(item)
