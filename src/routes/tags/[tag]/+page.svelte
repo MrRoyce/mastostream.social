@@ -1,9 +1,17 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { browser } from '$app/environment';
+
+	if (browser && isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Tags_[tag]'
+		});
+	}
 
 	export let data: PageData;
 	const entity = data.entity;

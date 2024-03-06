@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Page404 } from 'flowbite-svelte-blocks';
-	import { A, Breadcrumb, BreadcrumbItem, Button, Card, Gallery } from 'flowbite-svelte';
+	import { A, Breadcrumb, BreadcrumbItem, Button } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
 	import { formatText } from '$lib/utils/formatText';
@@ -10,11 +10,17 @@
 	import CardWithLink from '$lib/components/Cards/Card.svelte';
 	import BlurHash from '$lib/components/BlurHash/BlurHash.svelte';
 	import ImageGallery from '$lib/components/UI/ImageGallery.svelte';
-	import { browser } from '$app/environment';
-
-	import { decode } from 'blurhash';
 	import showSensitiveStore from '$lib/stores/SensitiveStore';
 	import { goto } from '$app/navigation';
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { browser } from '$app/environment';
+
+	if (browser && isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Toots_[id]'
+		});
+	}
 
 	export let data: PageData;
 	const entity = data.entity;

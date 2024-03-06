@@ -1,11 +1,19 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
 	import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
 	import { A, Breadcrumb, BreadcrumbItem, Li, List } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { browser } from '$app/environment';
+
+	if (browser && isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Websites_[domain]'
+		});
+	}
 
 	export let data: PageData;
 	const entity = data.entity;

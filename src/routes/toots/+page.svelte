@@ -17,6 +17,15 @@
 	import { truncateHTML } from '$lib/utils/truncateHTML';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import showSensitiveStore from '$lib/stores/SensitiveStore';
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { browser } from '$app/environment';
+
+	if (browser && isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Toots'
+		});
+	}
 
 	const tableData = {
 		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
