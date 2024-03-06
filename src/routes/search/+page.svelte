@@ -7,11 +7,19 @@
 		Dropdown,
 		DropdownItem
 	} from 'flowbite-svelte';
-	import type { PageData } from './$types';
-	import { ChevronDownSolid, SearchOutline } from 'flowbite-svelte-icons';
+	import { ChevronDownSolid } from 'flowbite-svelte-icons';
 	import {} from 'flowbite-svelte-icons';
 	import { page } from '$app/stores';
 	import { searchStyles } from '$lib/assets/styles/search';
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { browser } from '$app/environment';
+
+	if (browser && isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Search'
+		});
+	}
 
 	let searchTerm = '';
 	$: activeUrl = $page.url?.pathname;

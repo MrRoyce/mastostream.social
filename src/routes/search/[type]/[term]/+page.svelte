@@ -2,6 +2,15 @@
 	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
+	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { browser } from '$app/environment';
+
+	if (browser && isSupported()) {
+		const analytics = getAnalytics();
+		logEvent(analytics, 'screen_view', {
+			firebase_screen: 'Search_[type]_[term]'
+		});
+	}
 
 	export let data: PageData;
 	const toots = data.toots;
