@@ -1,7 +1,8 @@
 import type { PageLoad } from './$types';
-import { getCount, getCounts } from '$lib/getCollection';
+import { getCount, getCounts, getWords } from '$lib/getCollection';
 import { summarizeCounts } from '$lib/utils/summarizeCounts';
 import { convertToK } from '$lib/utils/convertToK';
+import { getRandomRange } from '$lib/utils/getRandomRange';
 
 export const ssr = false;
 export const prerender = false;
@@ -21,6 +22,11 @@ export const load: PageLoad = async ({ data }) => {
     await getCount('toots')
   ])
 
+  const { start } = getRandomRange(tags)
+  const [words] = await Promise.all([
+    getWords({ start, max: 25 })
+  ])
+
   try {
     // Sum up the count to the time period
     summarizedCounts = summarizeCounts({ documents: counts, hours })
@@ -28,14 +34,13 @@ export const load: PageLoad = async ({ data }) => {
     console.error('Error summarizing counts in main page.ts', error)
   }
 
-  // console.log('summarizedCounts', JSON.stringify(summarizedCounts, null, 2))
-
   return {
     accounts: convertToK(accounts),
     counts: summarizedCounts,
     domains: convertToK(domains),
     languages: convertToK(languages),
     tags: convertToK(tags),
-    toots: convertToK(toots)
+    toots: convertToK(toots),
+    words
   };
 };

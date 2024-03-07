@@ -9,6 +9,7 @@ import {
   query,
   where,
   type DocumentData,
+  startAfter,
 } from 'firebase/firestore';
 import { db } from '$lib/firebase/client';
 
@@ -84,6 +85,32 @@ export const getDocuments = async ({ entity, keysArray }) => {
   } catch (error) {
     console.error('Error fetching documents:', error);
     throw error;
+  }
+}
+export const getWords = async ({ start, max }) => {
+  try {
+    const responseData: DocumentData[] = [];
+    const collectionRef = collection(db, 'tags')
+
+    const data = await getDocs(
+      query(collectionRef, orderBy('count', "desc"), startAfter(start), limit(max))
+    );
+
+    data.docs.map((doc) => {
+      const docData = doc.data();
+      responseData.push({
+        id: doc.id, // Get the id from doc, not doc.data()!
+        size: docData.count,
+        name: docData.name,
+        text: docData.name,
+      });
+    });
+
+    return responseData;
+
+  } catch (error) {
+    console.error('Error fetching data in getWords:', error);
+    throw error; // Propagate the error to the caller
   }
 }
 

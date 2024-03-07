@@ -8,11 +8,11 @@
 	import { navigating } from '$app/stores';
 	import { locale } from '$lib/translations';
 	import Footer from '$lib/components/Footers/Footer.svelte';
-	import FooterPage from '$lib/components/Footers/FooterPage.svelte';
 	import Loading from './../lib/components/Loading/Loading.svelte';
 	import showSensitiveStore from '$lib/stores/SensitiveStore';
 	import { loading } from '$lib/stores/Loading';
 	import {
+		A,
 		Button,
 		CloseButton,
 		Drawer,
@@ -181,7 +181,9 @@
 						</span>
 					</Button>
 				</div>
-				<strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong>
+				<A href="/"
+					><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
+				>
 			</svelte:fragment>
 
 			<svelte:fragment slot="trail">
@@ -222,7 +224,7 @@
 	</main>
 
 	<!-- ---- / ---- -->
-	<svelte:fragment slot="pageFooter"><FooterPage /><Footer /></svelte:fragment>
+	<svelte:fragment slot="pageFooter"><Footer /></svelte:fragment>
 	<svelte:fragment slot="footer"></svelte:fragment>
 </AppShell>
 

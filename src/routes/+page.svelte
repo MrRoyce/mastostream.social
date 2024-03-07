@@ -15,9 +15,12 @@
 	import { calculateCharts } from '$lib/utils/calculateCharts';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
+	import WordCloud from '$lib/components/UI/WordCloud.svelte';
+	import FooterPage from '$lib/components/Footers/FooterPage.svelte';
 
 	export let data: PageData;
 	const counts = data.counts;
+	const words = data.words;
 	const activeTab = 0;
 
 	const orderByField = 'timestamp';
@@ -99,6 +102,20 @@
 						</TabItem>
 					{/each}
 				</Tabs>
+			</div>
+		</div>
+
+		<!-- Wordcloud and Content -->
+		<div class="grid grid-cols-5 gap-4 h-36 md:h-64 mb-4">
+			<div class="col-span-3 p-1">
+				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
+					<WordCloud hashtags={words} />
+				</div>
+			</div>
+			<div class="col-span-2 overflow-hidden">
+				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
+					<FooterPage />
+				</div>
 			</div>
 		</div>
 	{:else}
