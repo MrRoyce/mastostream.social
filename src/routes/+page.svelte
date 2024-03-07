@@ -48,7 +48,7 @@
 		{#each $tootsMarquee as item}
 			<Button
 				color="dark"
-				class=""
+				class="max-w-xs transition duration-300 ease-in-out hover:scale-110"
 				on:click={() => {
 					goto(`/toots/${item.accountId}_${item.tootId}`);
 				}}
@@ -106,15 +106,22 @@
 		</div>
 
 		<!-- Wordcloud and Content -->
-		<div class="grid grid-cols-5 gap-4 h-36 md:h-64 mb-4">
-			<div class="col-span-3 p-1">
-				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
+
+		<div class="grid grid-cols-1 gap-4">
+			<div class="">
+				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4">
 					<WordCloud hashtags={words} />
 				</div>
 			</div>
-			<div class="col-span-2 overflow-hidden">
-				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-					<FooterPage />
+		</div>
+		<div class="grid grid-cols-5 gap-4">
+			<div class="col-span-5 overflow-hidden">
+				<div class="hidden-on-mobile">
+					<div
+						class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4"
+					>
+						<FooterPage />
+					</div>
 				</div>
 			</div>
 		</div>
