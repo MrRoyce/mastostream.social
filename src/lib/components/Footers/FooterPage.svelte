@@ -42,25 +42,16 @@
 	];
 </script>
 
-<main class="container mx-auto">
-	<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-		<Marquee
-			pauseOnHover={true}
-			fade={false}
-			reverse={true}
-			class="py-4 motion-reduce:overflow-auto"
+<Marquee pauseOnHover={true} direction="up" fade={false} reverse={true} class=" overflow-hidden">
+	{#each sites as site}
+		<Button
+			color="dark"
+			class=""
+			on:click={() => {
+				window.open(site.url, '_blank');
+			}}
+			><img class=" w-10 h-auto max-w-xs mr-4" src={site.image} alt="Fediverse site" />
+			{site.text}</Button
 		>
-			{#each sites as site}
-				<Button
-					color="dark"
-					class=""
-					on:click={() => {
-						window.open(site.url, '_blank');
-					}}
-					><img class=" w-10 h-auto max-w-xs mr-4" src={site.image} alt="Fediverse site" />
-					{site.text}</Button
-				>
-			{/each}
-		</Marquee>
-	</div>
-</main>
+	{/each}
+</Marquee>
