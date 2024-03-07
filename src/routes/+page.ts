@@ -24,7 +24,7 @@ export const load: PageLoad = async ({ data }) => {
 
   const { start } = getRandomRange(tags)
   const [words] = await Promise.all([
-    getWords({ start, max: 25 })
+    getWords({ start, max: 50 })
   ])
 
   try {
