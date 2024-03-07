@@ -48,17 +48,11 @@
 	];
 </script>
 
-<Marquee
-	pauseOnHover={true}
-	direction="up"
-	fade={false}
-	reverse={true}
-	class=" motion-reduce:overflow-auto"
->
+<Marquee pauseOnHover={true} fade={false} reverse={true} class="py-4  motion-reduce:overflow-auto">
 	{#each sites as site}
 		<Button
 			color="dark"
-			class=""
+			class="max-w-xs transition duration-300 ease-in-out hover:scale-110"
 			on:click={() => {
 				window.open(site.url, '_blank');
 			}}

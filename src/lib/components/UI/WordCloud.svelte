@@ -6,7 +6,7 @@
 	import * as CS from 'd3-scale-chromatic';
 
 	export let hashtags;
-	export let width = 800;
+	export let width = 1000;
 	export let height = 500;
 	export let font = 'Impact';
 	export let maxFontSize = 50;
@@ -17,7 +17,7 @@
 	export let backgroundColor = '#fff';
 
 	const dimensions = {
-		width: 840,
+		width: 1750,
 		height: 275,
 		margin: {
 			top: 0,
@@ -69,7 +69,7 @@
 </script>
 
 <svg
-	width={dimensions.width}
+	width="100%"
 	height="100%"
 	viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
 	text-anchor="middle"
@@ -79,11 +79,28 @@
 		{#each words as word}
 			<a href={`/tags/${word.text}`}>
 				<text
+					class=""
 					font-size={word.size}
 					transform={`translate(${word.x}, ${word.y}) rotate(${word.rotate})`}
-					fill="#CC2936">{word.text}</text
+					fill="currentColor">{word.text}</text
 				></a
 			>
 		{/each}
 	</g>
 </svg>
+
+<style>
+	a,
+	a svg {
+		color: #fff;
+		fill: #ff0000;
+	}
+
+	a:hover {
+		color: #089d6c;
+	}
+
+	a:hover svg {
+		fill: #089d6c;
+	}
+</style>
