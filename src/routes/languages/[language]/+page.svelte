@@ -21,7 +21,7 @@
 	const id = data.id;
 	const wikiData = data.wikiData;
 	const wikiTitle = `${wikiData.title}: ${wikiData.description}`;
-	console.log('wikiData', wikiData);
+	// console.log('wikiData', wikiData);
 
 	if (!entity.language && browser) {
 		goto('/languages/notfound');

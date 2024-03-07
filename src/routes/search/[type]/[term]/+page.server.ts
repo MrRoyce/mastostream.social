@@ -14,7 +14,6 @@ export const load: PageServerLoad = (async (event) => {
   const response = await searchES({ term, type })
   const items = response.data?.data?.hits?.hits.map((item) => {
     const formattedToot = formatToot(item._source)
-    console.log('formattedToot', formattedToot)
     return formattedToot
   })
 

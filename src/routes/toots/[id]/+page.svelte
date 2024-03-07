@@ -27,8 +27,8 @@
 	const replies = data.replies;
 	const replyTo = data.replyTo ? [data.replyTo] : false;
 	const card = data.card;
-	if (browser) console.log('entity', entity);
-	if (browser) console.log('card', card);
+	// if (browser) console.log('entity', entity);
+	// if (browser) console.log('card', card);
 
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
@@ -40,9 +40,6 @@
 			? entity.account.note.replaceAll('</p><p>', '</p><br /><p>')
 			: '';
 
-	if (browser) {
-		console.log('images', JSON.stringify(images, null, 2));
-	}
 	const tableData = {
 		color: 'blue',
 		hoverable: true,
@@ -53,9 +50,6 @@
 	let showSensitive: boolean;
 
 	showSensitiveStore.subscribe((data) => {
-		if (browser) {
-			console.log('showSensitive', data);
-		}
 		showSensitive = data;
 	});
 
