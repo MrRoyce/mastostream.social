@@ -6,8 +6,8 @@
 	import FunkwhaleBrand from '$lib/components/icons/Funkwhalelogo.svg';
 	import PixelfedBrand from '$lib/components/icons/pixelfed-full-color.svg';
 	import MobilizonBrand from '$lib/components/icons/mobilizonlogo.svg';
-	import { Button, Card } from 'flowbite-svelte';
-	import { goto } from '$app/navigation';
+	import EFFBrand from '$lib/components/icons/EFF-logo-lockup-reverse.svg';
+	import { Button } from 'flowbite-svelte';
 	const sites = [
 		{
 			name: 'Mastodon',
@@ -38,11 +38,23 @@
 			text: 'Gather ⋅ Organize ⋅ Mobilize',
 			image: MobilizonBrand,
 			url: 'https://joinmobilizon.org/en/'
+		},
+		{
+			name: 'Electronic Frontier Foundation',
+			text: 'The leading nonprofit defending digital privacy, free speech, and innovation.',
+			image: EFFBrand,
+			url: 'https://www.eff.org/'
 		}
 	];
 </script>
 
-<Marquee pauseOnHover={true} direction="up" fade={false} reverse={true} class=" overflow-hidden">
+<Marquee
+	pauseOnHover={true}
+	direction="up"
+	fade={false}
+	reverse={true}
+	class=" motion-reduce:overflow-auto"
+>
 	{#each sites as site}
 		<Button
 			color="dark"
