@@ -14,7 +14,7 @@ function calculateChange(latestCount, previousCount) {
 export const calculateStats = (
 	/** @type {{ locale: string; route: string; accounts: string | number; counts: {} | undefined; domains: string | number; languages: string | number; tags: string | number; toots: string | number; }} */ stats
 ) => {
-	console.log('stats', JSON.stringify(stats, null, 2));
+	// console.log('stats', JSON.stringify(stats, null, 2));
 	const response = [
 		{
 			href: '/toots',
