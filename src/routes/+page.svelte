@@ -105,24 +105,18 @@
 			</div>
 		</div>
 
-		<!-- Wordcloud and Content -->
+		<!-- Wordcloud -->
 
-		<div class="grid grid-cols-1 gap-4">
-			<div class="">
-				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4">
-					<WordCloud hashtags={words} />
-				</div>
+		<div class="hidden-on-mobile">
+			<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4">
+				<WordCloud hashtags={words} />
 			</div>
 		</div>
-		<div class="grid grid-cols-5 gap-4">
-			<div class="col-span-5 overflow-hidden">
-				<div class="hidden-on-mobile">
-					<div
-						class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4"
-					>
-						<FooterPage />
-					</div>
-				</div>
+
+		<!-- Dashboard Cards -->
+		<div class="overflow-hidden">
+			<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h- mb-4">
+				<FooterPage />
 			</div>
 		</div>
 	{:else}

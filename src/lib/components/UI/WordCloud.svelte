@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { createCanvas } from 'canvas';
 	import cloud from 'd3-cloud';
 	import { scaleOrdinal } from 'd3-scale';
-	import { select } from 'd3-selection';
+	import { Chart, Filler } from 'chart.js';
 	import * as CS from 'd3-scale-chromatic';
 
 	export let hashtags;
@@ -16,6 +15,8 @@
 	export let padding = 10;
 	export let backgroundColor = '#fff';
 
+	Chart.register(Filler);
+
 	const dimensions = {
 		width: 1750,
 		height: 275,
@@ -28,7 +29,7 @@
 	};
 
 	const wordPadding = 3;
-	const cloudWords = [];
+	const cloudWords: any[] = [];
 	const color_scheme = {
 		schemeCategory10: CS.schemeCategory10,
 		schemeAccent: CS.schemeAccent,
@@ -64,8 +65,6 @@
 		});
 
 	d3Cloud.start();
-
-	const words = cloudWords;
 </script>
 
 <svg
@@ -76,7 +75,7 @@
 	font-family="Arial"
 >
 	<g transform={`translate(0 ${dimensions.margin.top})`}>
-		{#each words as word}
+		{#each cloudWords as word}
 			<a href={`/tags/${word.text}`}>
 				<text
 					class=""

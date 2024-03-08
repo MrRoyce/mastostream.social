@@ -7,7 +7,8 @@
 	import PixelfedBrand from '$lib/components/icons/pixelfed-full-color.svg';
 	import MobilizonBrand from '$lib/components/icons/mobilizonlogo.svg';
 	import EFFBrand from '$lib/components/icons/EFF-logo-lockup-reverse.svg';
-	import { Button } from 'flowbite-svelte';
+	import { Card } from 'flowbite-svelte';
+	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	const sites = [
 		{
 			name: 'Mastodon',
@@ -50,14 +51,18 @@
 
 <Marquee pauseOnHover={true} fade={false} reverse={true} class="py-4  motion-reduce:overflow-auto">
 	{#each sites as site}
-		<Button
-			color="dark"
-			class="max-w-xs transition duration-300 ease-in-out hover:scale-110"
-			on:click={() => {
-				window.open(site.url, '_blank');
-			}}
-			><img class=" w-10 h-auto max-w-xs mr-4" src={site.image} alt="Fediverse site" />
-			{site.text}</Button
-		>
+		<Card>
+			<img class=" w-10 h-auto max-w-xs mr-4" src={site.image} alt="Fediverse site" />
+			<a href={site.url} target="_blank">
+				<h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+					{site.name}
+				</h5>
+			</a>
+			<p class="mb-3 font-normal text-gray-500 dark:text-gray-400">{site.text}</p>
+			<a href={site.url} class="inline-flex items-center text-primary-600 hover:underline">
+				{site.name}
+				<ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
+			</a>
+		</Card>
 	{/each}
 </Marquee>

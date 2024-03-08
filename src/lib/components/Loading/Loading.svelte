@@ -1,4 +1,4 @@
-<div />
+<div class="h-full" />
 
 <style>
 	div {
