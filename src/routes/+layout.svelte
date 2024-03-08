@@ -32,7 +32,8 @@
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import Languages from '$lib/components/Languages/Languages.svelte';
-	let hidden2 = true;
+
+	let hideDrawer = true;
 	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
 	let transitionParams = {
 		x: -320,
@@ -87,7 +88,7 @@
 	$: $loading = !!$navigating;
 </script>
 
-<Drawer transitionType="fly" {transitionParams} bind:hidden={hidden2} id="sidebar2">
+<Drawer transitionType="fly" {transitionParams} bind:hidden={hideDrawer} id="sidebar2">
 	<div class="flex items-center dark:text-white">
 		<h5
 			id="drawer-navigation-label-3"
@@ -95,19 +96,19 @@
 		>
 			Menu
 		</h5>
-		<CloseButton on:click={() => (hidden2 = true)} class="mb-4" />
+		<CloseButton on:click={() => (hideDrawer = true)} class="mb-4" />
 	</div>
 	<Sidebar class="dark:text-white">
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
-				<SidebarItem on:click={() => (hidden2 = true)} label="Dashboard" href="/">
+				<SidebarItem on:click={() => (hideDrawer = true)} label="Dashboard" href="/">
 					<svelte:fragment slot="icon">
 						<ChartSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hidden2 = true)} label="Full Text Search" href="/search">
+				<SidebarItem on:click={() => (hideDrawer = true)} label="Full Text Search" href="/search">
 					<svelte:fragment slot="icon">
 						<ChartSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -115,7 +116,7 @@
 					</svelte:fragment>
 				</SidebarItem>
 				<SidebarItem
-					on:click={() => (hidden2 = true)}
+					on:click={() => (hideDrawer = true)}
 					label={$t('pagelinks.accounts')}
 					href="/accounts"
 					{spanClass}
@@ -133,28 +134,28 @@
 						</span>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hidden2 = true)} label="Toots" href="/toots" {spanClass}>
+				<SidebarItem on:click={() => (hideDrawer = true)} label="Toots" href="/toots" {spanClass}>
 					<svelte:fragment slot="icon">
 						<MailBoxSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hidden2 = true)} label="Web Sites" href="/websites">
+				<SidebarItem on:click={() => (hideDrawer = true)} label="Web Sites" href="/websites">
 					<svelte:fragment slot="icon">
 						<UsersSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hidden2 = true)} label="Tags" href="/tags">
+				<SidebarItem on:click={() => (hideDrawer = true)} label="Tags" href="/tags">
 					<svelte:fragment slot="icon">
 						<BugSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hidden2 = true)} label="Languages" href="/languages">
+				<SidebarItem on:click={() => (hideDrawer = true)} label="Languages" href="/languages">
 					<svelte:fragment slot="icon">
 						<ArrowRightToBracketSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -171,7 +172,7 @@
 		<AppBar>
 			<svelte:fragment slot="lead">
 				<div class="flex items-center show-on-mobile dark:text-white">
-					<Button class="mr-4 lg:hidden" on:click={() => (hidden2 = false)}>
+					<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
 						<span>
 							<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
 								<rect width="100" height="20" />
