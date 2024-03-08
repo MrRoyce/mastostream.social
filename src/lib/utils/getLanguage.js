@@ -158,9 +158,6 @@ const languages = {
 	gd: {
 		value: 'Gaelic (Scottish)'
 	},
-	gv: {
-		value: 'Gaelic (Manx)'
-	},
 	ka: {
 		value: 'Georgian'
 	},
@@ -238,9 +235,6 @@ const languages = {
 	},
 	jv: {
 		value: 'Javanese'
-	},
-	kl: {
-		value: 'Kalaallisut, Greenlandic'
 	},
 	kn: {
 		value: 'Kannada'
@@ -368,9 +362,6 @@ const languages = {
 	nn: {
 		value: 'Norwegian nynorsk'
 	},
-	ii: {
-		value: 'Nuosu'
-	},
 	oc: {
 		value: 'Occitan'
 	},
@@ -479,9 +470,6 @@ const languages = {
 	sw: {
 		value: 'Swahili (Kiswahili)'
 	},
-	ss: {
-		value: 'Swati'
-	},
 	sv: {
 		value: 'Swedish'
 	},
@@ -577,7 +565,7 @@ const languages = {
 	}
 };
 
-export const getLanguage = (language) => {
+export const getLanguage = (/** @type {string | number} */ language) => {
 	const noValueFound = {
 		abbreviation: language,
 		englishValue: language,
