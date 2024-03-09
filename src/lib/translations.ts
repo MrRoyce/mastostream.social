@@ -9,8 +9,6 @@ const fileNames = Object.keys(files).map((file) => {
   }
 })
 
-console.log('fileNames', JSON.stringify(fileNames, null, 2))
-
 const loaders = fileNames.map((file) => {
   //const fileName =  // !! Needed to fix vite warning!
   return {
