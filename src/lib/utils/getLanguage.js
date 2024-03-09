@@ -565,6 +565,22 @@ const languages = {
 	}
 };
 
+export const getLanguageList = () => {
+	/**
+	 * @type {any[]}
+	 */
+	const response = [];
+
+	for (const [key, value] of Object.entries(languages)) {
+		response.push({
+			value: key,
+			text: value.value
+		});
+	}
+
+	return response;
+};
+
 export const getLanguage = (/** @type {string | number} */ language) => {
 	const noValueFound = {
 		abbreviation: language,

@@ -11,6 +11,7 @@
 	import Loading from './../lib/components/Loading/Loading.svelte';
 	import showSensitiveStore from '$lib/stores/SensitiveStore';
 	import { loading } from '$lib/stores/Loading';
+	import { getLanguageList } from '$lib/utils/getLanguage';
 	import {
 		A,
 		Button,
@@ -61,18 +62,7 @@
 	let value: string = 'en';
 
 	function getTargetLanguage(languageText: string) {
-		const languages = [
-			{ value: 'de', text: 'Deutsch' },
-			{ value: 'en', text: 'English' },
-			{ value: 'es', text: 'Español' },
-			{ value: 'fr', text: 'Français' },
-			{ value: 'hi', text: 'हिंदी' },
-			{ value: 'ja', text: '日本語' },
-			{ value: 'pt', text: 'Português' },
-			{ value: 'sv', text: 'Svenska' },
-			{ value: 'tl', text: 'Filipino' },
-			{ value: 'zu', text: 'Zulu' }
-		];
+		const languages = getLanguageList();
 
 		const result = languages.filter((language) => language.text === languageText);
 

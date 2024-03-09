@@ -1,60 +1,30 @@
 import i18n, { type Config } from 'sveltekit-i18n';
 
+const files = import.meta.glob("./lang/*.json");
+const fileNames = Object.keys(files).map((file) => {
+  const fileName = file.replace('./lang/', '')
+  return {
+    lang: fileName.split('.')[0],
+    fileName
+  }
+})
+
+console.log('fileNames', JSON.stringify(fileNames, null, 2))
+
+const loaders = fileNames.map((file) => {
+  //const fileName =  // !! Needed to fix vite warning!
+  return {
+    locale: file.lang,
+    key: '',
+    loader: async () => (await import(`./lang/${file.fileName.replace('.json', '')}.json`)).default
+  }
+})
+
+// console.log('loaders', loaders)
+
 const config: Config<unknown> = {
   initLocale: 'en',
-  loaders: [
-    {
-      locale: 'de',
-      key: '',
-      loader: async () => (await import('./lang/de.json')).default
-    },
-    {
-      locale: 'en',
-      key: '',
-      loader: async () => (await import('./lang/en.json')).default
-    },
-    {
-      locale: 'es',
-      key: '',
-      loader: async () => (await import('./lang/es.json')).default
-    },
-    {
-      locale: 'fr',
-      key: '',
-      loader: async () => (await import('./lang/fr.json')).default
-    },
-    {
-      locale: 'hi',
-      key: '',
-      loader: async () => (await import('./lang/hi.json')).default
-    },
-    {
-      locale: 'ja',
-      key: '',
-      loader: async () => (await import('./lang/ja.json')).default
-    },
-    {
-      locale: 'pt',
-      key: '',
-      loader: async () => (await import('./lang/pt.json')).default
-    },
-    {
-      locale: 'sv',
-      key: '',
-      loader: async () => (await import('./lang/sv.json')).default
-    },
-    {
-      locale: 'tl',
-      key: '',
-      loader: async () => (await import('./lang/tl.json')).default
-    }
-    // },
-    // {
-    //   locale: 'zu',
-    //   key: '',
-    //   loader: async () => (await import('./lang/zu.json')).default
-    // }
-  ]
+  loaders
 };
 
 export const { t, loading, locales, locale, initialized, translations, loadTranslations } =

@@ -57,11 +57,12 @@
 					<h3 class="mt-5">
 						{#if wikiData.extract}
 							<CardWithLink
-								cardImage={wikiData.originalimage.source}
+								cardImage={wikiData.originalimage?.source ||
+									'https://commons.wikimedia.org/static/images/project-logos/commonswiki-2x.png'}
 								description={wikiData.extract}
 								providerName="en.wikipedia.org"
 								title={wikiTitle}
-								url={wikiData.content_urls.desktop.page}
+								url={wikiData.content_urls?.desktop?.page}
 							/>
 						{/if}
 					</h3>
