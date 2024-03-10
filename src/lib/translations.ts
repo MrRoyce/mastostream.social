@@ -18,8 +18,6 @@ const loaders = fileNames.map((file) => {
   }
 })
 
-// console.log('loaders', loaders)
-
 const config: Config<unknown> = {
   initLocale: 'en',
   loaders
