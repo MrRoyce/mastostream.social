@@ -9,7 +9,7 @@ const fileNames = Object.keys(files).map((file) => {
   }
 })
 
-console.log('fileNames', JSON.stringify(fileNames, null, 2))
+// console.log('fileNames', JSON.stringify(fileNames, null, 2))
 
 const loaders = fileNames.map((file) => {
   //const fileName =  // !! Needed to fix vite warning!
@@ -24,6 +24,7 @@ const loaders = fileNames.map((file) => {
 
 const config: Config<unknown> = {
   initLocale: 'en',
+  fallbackLocale: 'en-US',
   loaders
 };
 
