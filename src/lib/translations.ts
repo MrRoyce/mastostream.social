@@ -9,8 +9,6 @@ const fileNames = Object.keys(files).map((file) => {
   }
 })
 
-// console.log('fileNames', JSON.stringify(fileNames, null, 2))
-
 const loaders = fileNames.map((file) => {
   //const fileName =  // !! Needed to fix vite warning!
   return {
@@ -19,8 +17,6 @@ const loaders = fileNames.map((file) => {
     loader: async () => (await import(`./lang/${file.fileName.replace('.json', '')}.json`)).default
   }
 })
-
-// console.log('loaders', loaders)
 
 const config: Config<unknown> = {
   initLocale: 'en',

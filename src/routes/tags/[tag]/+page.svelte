@@ -3,6 +3,7 @@
 	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
+	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 
@@ -17,6 +18,7 @@
 	const entity = data.entity;
 	const toots = data.toots;
 	const id = data.id;
+	const tootTypePassed = data.tootTypePassed;
 
 	if (!entity.name && browser) {
 		goto('/tags/notfound');
@@ -28,6 +30,8 @@
 		striped: true,
 		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
 	};
+
+	let tootType = tootTypePassed || 'human';
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
@@ -51,6 +55,8 @@
 					<div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"></div>
 					<h3 class="mt-5">
 						<span class="pt-10 ml-auto text-gray-200 my-1">@{entity.name}</span>
+						<TootsRadio bind:tootType />
+						<a href={`/tags/${entity.name}?type=${tootType}`} data-sveltekit-reload>Select Type</a>
 					</h3>
 				</div>
 			</div>
@@ -64,7 +70,7 @@
 				{tableData}
 				sourceData={toots}
 				getData={() => {}}
-				entity={`Toots from ${entity.username}`}
+				entity={`Toots from ${entity.name}`}
 			/>
 		</div>
 	</div>
