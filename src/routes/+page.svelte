@@ -72,6 +72,7 @@
 								statValue={stat.statValue}
 								statArrow={stat.statArrow}
 								statPercent={stat.statPercent}
+								statsCount={stat.statsCount}
 								statPercentColor={stat.statPercentColor}
 								statDescription={stat.statDescription}
 								statIconName={stat.statIconName}
