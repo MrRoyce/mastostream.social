@@ -565,17 +565,47 @@ const languages = {
 	}
 };
 
+const displayedLanguages = {
+	en: 1,
+	af: 1,
+	am: 1,
+	ar: 1,
+	bg: 1,
+	de: 1,
+	es: 1,
+	fi: 1,
+	fr: 1,
+	it: 1,
+	ko: 1,
+	nl: 1,
+	pt: 1,
+	ro: 1,
+	zh: 1
+};
+
+const files = import.meta.glob('../lang/*.json');
+const fileNames = {};
+
+Object.keys(files).map((file) => {
+	const fileName = file.replace('../lang/', '').split('.')[0];
+	fileNames[fileName] = {
+		value: languages[fileName]?.value || ''
+	};
+});
+
 export const getLanguageList = () => {
 	/**
 	 * @type {any[]}
 	 */
 	const response = [];
 
-	for (const [key, value] of Object.entries(languages)) {
-		response.push({
-			value: key,
-			text: value.value
-		});
+	for (const [key, value] of Object.entries(fileNames)) {
+		if (displayedLanguages[key]) {
+			response.push({
+				value: key,
+				text: value.value
+			});
+		}
 	}
 
 	return response;
@@ -587,11 +617,11 @@ export const getLanguage = (/** @type {string | number} */ language) => {
 		englishValue: language,
 		translatedValue: language
 	};
-	return languages[language]
+	return fileNames[language]
 		? {
 				abbreviation: language,
-				englishValue: languages[language].value,
-				translatedValue: languages[language].translation || languages[language].value
+				englishValue: fileNames[language].value,
+				translatedValue: fileNames[language].translation || fileNames[language].value
 			}
 		: noValueFound;
 };
