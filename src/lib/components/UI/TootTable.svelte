@@ -15,7 +15,6 @@
 	export let showTableHead: Boolean = true;
 	export let sourceData: Array<AccountRow>;
 	export let tableData: TableData;
-	export let entity: string = '';
 
 	const itemsPerPage = 100;
 
@@ -28,7 +27,6 @@
 	$: currentPageItems = sourceData.slice(currentPosition, currentPosition + itemsPerPage);
 </script>
 
-<h1>{entity}</h1>
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 	{#if showTableHead}
 		<TableHead>
