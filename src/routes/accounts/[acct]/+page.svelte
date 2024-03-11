@@ -11,7 +11,7 @@
 		List,
 		TableBody,
 		TableBodyRow,
-		TableHeadCell
+		TableBodyCell
 	} from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
 	import { formatToot } from '$lib/utils/formatToot';
@@ -59,8 +59,10 @@
 			<BreadcrumbItem>{id}</BreadcrumbItem>
 		</Breadcrumb>
 	</div>
-	<div class="dark:bg-gray-800">
-		<div class="container mx-auto my-5 p-5">
+	<div
+		class="dark:bg-gray-800 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
+	>
+		<div class=" mx-auto my-5 p-5">
 			<div class="md:flex no-wrap md:-mx-2">
 				<!-- Left Side -->
 				<div class="w-full md:w-3/12 md:mx-2">
@@ -144,12 +146,9 @@
 						<TableBody>
 							{#each entity.fields as field}
 								<TableBodyRow>
-									<TableHeadCell
-										><span class="text-gray-200 mr-3">{field.name.toUpperCase()}:</span
-										></TableHeadCell
-									>
-									<TableHeadCell class=" pl-4 mb-4">
-										<span class="text-gray-200 mr-3"
+									<TableBodyCell>{field.name.toUpperCase()}:</TableBodyCell>
+									<TableBodyCell>
+										<span
 											>{@html formatText(
 												field.value.replaceAll(
 													'class="invisible"',
@@ -157,7 +156,7 @@
 												),
 												'underline text-green-200'
 											)}</span
-										></TableHeadCell
+										></TableBodyCell
 									>
 								</TableBodyRow>
 							{/each}
@@ -166,16 +165,11 @@
 				</div>
 			</div>
 			<div class="my-4 text-white">
-				<h2 class="text-gray-200 font-bold text-xl leading-8 my-1">
+				<h2 class="text-gray-200 font-bold text-xl leading-8 my-1 mb-4">
 					Latest toots from {entity.acct}:
 				</h2>
 
-				<OwnersTootTable
-					{tableData}
-					sourceData={toots}
-					getData={() => {}}
-					entity={`Toots from ${entity.username}`}
-				/>
+				<OwnersTootTable {tableData} sourceData={toots} />
 			</div>
 		</div>
 	</div>
