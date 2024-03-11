@@ -18,11 +18,6 @@
 	export let categories;
 	export let data;
 	export let entity = 'Account';
-	export let total;
-
-	// console.log('categories', JSON.stringify(categories, null, 2));
-	// console.log('entity', entity);
-	// console.log('data', JSON.stringify(data, null, 2));
 
 	const chartData = {
 		labels: categories,

@@ -5,15 +5,7 @@
 	import * as CS from 'd3-scale-chromatic';
 
 	export let hashtags;
-	export let width = 1000;
-	export let height = 500;
-	export let font = 'Impact';
-	export let maxFontSize = 50;
-	export let minRotate = 0;
-	export let maxRotate = 0;
 	export let scheme = 'schemeTableau10';
-	export let padding = 10;
-	export let backgroundColor = '#fff';
 
 	Chart.register(Filler);
 
@@ -89,17 +81,7 @@
 </svg>
 
 <style>
-	a,
-	a svg {
-		color: #fff;
-		fill: #ff0000;
-	}
-
 	a:hover {
 		color: #089d6c;
-	}
-
-	a:hover svg {
-		fill: #089d6c;
 	}
 </style>
