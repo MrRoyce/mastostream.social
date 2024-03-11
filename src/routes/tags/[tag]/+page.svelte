@@ -32,6 +32,12 @@
 	};
 
 	let tootType = tootTypePassed || 'human';
+
+	function getTootType() {
+		if (browser) {
+			goto(`/tags/${entity.name}?type=${tootType}`);
+		}
+	}
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
@@ -41,37 +47,29 @@
 		<BreadcrumbItem>{id}</BreadcrumbItem>
 	</Breadcrumb>
 </div>
-<div class="dark:bg-gray-800">
+<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 	<div class="container mx-auto my-5 p-5">
 		<div class="md:flex no-wrap md:-mx-2">
 			<!-- Left Side -->
 			<div class="w-full md:w-3/12 md:mx-2">
 				<!-- Profile Card -->
-				<h1>{entity.name}</h1>
+				<h1>Tag: {entity.name}</h1>
 			</div>
 			<!-- Right Side -->
 			<div class="w-full md:w-9/12 mx-2">
 				<div class="bg-grey-900 p-3 shadow-sm rounded-sm">
 					<div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"></div>
 					<h3 class="mt-5">
-						<span class="pt-10 ml-auto text-gray-200 my-1">@{entity.name}</span>
-						<TootsRadio bind:tootType />
-						<a href={`/tags/${entity.name}?type=${tootType}`} data-sveltekit-reload>Select Type</a>
+						<TootsRadio bind:tootType entityName={entity.name} {getTootType} />
 					</h3>
 				</div>
 			</div>
 		</div>
 		<div class="my-4 text-white">
-			<h2 class="text-gray-200 font-bold text-xl leading-8 my-1">
+			<h2 class="text-gray-200 font-bold text-xl leading-8 my-1 pb-4">
 				Latest toots tagged #{entity.name}:
 			</h2>
-
-			<TootTable
-				{tableData}
-				sourceData={toots}
-				getData={() => {}}
-				entity={`Toots from ${entity.name}`}
-			/>
+			<TootTable {tableData} sourceData={toots} />
 		</div>
 	</div>
 </div>
