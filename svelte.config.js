@@ -3,6 +3,7 @@ import adapter from '@sveltejs/adapter-auto';
 // import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { mdsvex } from 'mdsvex';
 import mdsvexConfig from './mdsvex.config.js';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
 export default {
@@ -13,7 +14,8 @@ export default {
 		preprocess({
 			postcss: true
 		}),
-		mdsvex(mdsvexConfig)
+		mdsvex(mdsvexConfig),
+		vitePreprocess({})
 	],
 	vitePlugin: {
 		// set to true for defaults or customize with object
