@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Page404 } from 'flowbite-svelte-blocks';
+	import { Maintenance, Page404, Section } from 'flowbite-svelte-blocks';
 	import { A, Breadcrumb, BreadcrumbItem, Button } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
@@ -63,15 +63,15 @@
 	</Breadcrumb>
 </div>
 {#if entity.acct}
-	<div class="dark:bg-gray-800">
-		<div class="container mx-auto my-5 p-5">
+	<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
+		<div class=" mx-auto my-5 p-5">
 			<div class="md:flex no-wrap md:-mx-2">
 				<!-- Left Side -->
 				<div class="w-full md:w-3/12 md:mx-2">
 					<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
-						<div class="max-w-4xl flex items-top h-auto flex-wrap mx-auto lg:my-0">
+						<div class="max-w-4xl items-top h-auto mx-auto lg:my-0">
 							<div id="profile" class="w-full shadow-2xl h-fit mx-6 lg:mx-0">
-								<div class=" md:p-6 text-center lg:text-left">
+								<div class="md:p-6 text-center lg:text-left">
 									<p class="text-3xl pb-5">
 										{entity.account?.displayName || entity.account?.display_name || ''}
 									</p>
@@ -93,7 +93,7 @@
 										class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"
 									></div>
 
-									<p class="pt-2 text-base font-bold flex lg:justify-start">
+									<p class="pt-2 text-base font-bold lg:justify-start">
 										<svg
 											class="h-4 fill-current text-green-700 pr-4"
 											xmlns="http://www.w3.org/2000/svg"
@@ -113,9 +113,7 @@
 						</div>
 					</div>
 				</div>
-
 				<!-- Right Side -->
-
 				<div class="w-full md:w-9/12 mx-2">
 					<span class="text-leftfloat-left">
 						<p class="pt-4 text-base font-bold flex lg:justify-start">
@@ -144,9 +142,22 @@
 						/>
 					{/if}
 					{#if entity.sensitive && !showSensitive}
-						<p class="text-2xl pb-4">{entity.spoiler_text || 'Sensitive content'}</p>
+						{#if entity.spoiler_text}
+							<p class="text-2xl pb-4">{entity.spoiler_text}</p>
+						{:else}
+							<div class="pt-10">
+								<Section name="maintenance">
+									<Maintenance>
+										<svelte:fragment slot="h1">Sensitive Content</svelte:fragment>
+										<svelte:fragment slot="paragraph"
+											>Toggle the above 'Show Senstive' switch to view.</svelte:fragment
+										>
+									</Maintenance>
+								</Section>
+							</div>
+						{/if}
 					{:else}
-						<p class="pt-4 pb-8 text-2xl">
+						<p class="pt-4 pb-8 text-2xl overflow-x-clip">
 							{@html formatText(
 								entity.content
 									.replaceAll('</p><p>', '</p><br /><p>')
