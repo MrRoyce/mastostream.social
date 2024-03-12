@@ -1,4 +1,5 @@
 <script>
+	import { getClientApp } from '$lib/firebase/client';
 	import { Section, Page500 } from 'flowbite-svelte-blocks';
 	import { page } from '$app/stores';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
@@ -17,7 +18,7 @@
 		<svelte:fragment slot="h1">500</svelte:fragment>
 		<svelte:fragment slot="paragraph">
 			<p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
-				Internal Server Error.
+				Internal Server Error in routes.
 			</p>
 			<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
 				We are already working to solve the problem.
