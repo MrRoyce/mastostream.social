@@ -7,10 +7,8 @@
 	import { afterNavigate } from '$app/navigation';
 	import { navigating } from '$app/stores';
 	import { locale } from '$lib/translations';
-	import Footer from '$lib/components/Footers/Footer.svelte';
-	import Loading from './../lib/components/Loading/Loading.svelte';
-	import showSensitiveStore from '$lib/stores/SensitiveStore';
-	import { loading } from '$lib/stores/Loading';
+	import { Footer, Loading } from '$lib/components';
+	import { loading, showSensitiveStore } from '$lib/stores';
 	import { getLanguageList } from '$lib/utils/getLanguage';
 	import {
 		A,
@@ -207,11 +205,13 @@
 	<!-- Router Slot -->
 
 	<main class="container mx-auto">
-		{#if $loading}
-			<Loading />
-		{:else}
-			<slot />
-		{/if}
+		<div class="flex-initial">
+			{#if $loading}
+				<Loading />
+			{:else}
+				<slot />
+			{/if}
+		</div>
 	</main>
 
 	<!-- ---- / ---- -->

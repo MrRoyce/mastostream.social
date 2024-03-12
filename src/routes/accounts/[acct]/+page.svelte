@@ -3,7 +3,7 @@
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
-	import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
+	import { OwnersTootTable } from '$lib/components';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -13,8 +13,7 @@
 		TableBodyRow,
 		TableBodyCell
 	} from 'flowbite-svelte';
-	import { formatText } from '$lib/utils/formatText';
-	import { formatToot } from '$lib/utils/formatToot';
+	import { formatText, formatToot } from '$lib/utils';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 
 	export let data: PageData;

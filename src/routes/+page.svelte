@@ -1,7 +1,5 @@
 <script lang="ts">
 	import { initialized } from '$lib/translations';
-	import CardLineChart from '$lib/components/Cards/CardLineChart.svelte';
-	import CardStats from '$lib/components/Cards/CardStats.svelte';
 	import type { PageData } from './$types';
 	import { Marquee } from '@selemondev/svelte-marquee';
 	import '@selemondev/svelte-marquee/dist/style.css';
@@ -10,13 +8,10 @@
 	import { collectionStore } from 'sveltefire';
 	import { goto } from '$app/navigation';
 	import { Button, Tabs, TabItem } from 'flowbite-svelte';
-	import { truncateHTML } from '$lib/utils/truncateHTML';
-	import { calculateStats } from '$lib/utils/calculateStats';
-	import { calculateCharts } from '$lib/utils/calculateCharts';
+	import { calculateCharts, calculateStats, truncateHTML } from '$lib/utils';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import WordCloud from '$lib/components/UI/WordCloud.svelte';
-	import FooterPage from '$lib/components/Footers/FooterPage.svelte';
+	import { CardLineChart, CardStats, FooterPage, WordCloud } from '$lib/components';
 
 	export let data: PageData;
 	const counts = data.counts;
