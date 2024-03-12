@@ -48,7 +48,6 @@
 	};
 
 	let showSensitive: boolean;
-
 	showSensitiveStore.subscribe((data) => {
 		showSensitive = data;
 	});
@@ -133,12 +132,12 @@
 							</A>
 						</p></span
 					>
-					{#if replyTo !== false}
+					{#if replyTo !== false && typeof replyTo == 'object' && replyTo.acct}
 						<TootTable
 							{tableData}
 							sourceData={replyTo}
 							getData={() => {}}
-							entity={`Replying to this toot`}
+							reply={`Replying to this toot`}
 						/>
 					{/if}
 					{#if entity.sensitive && !showSensitive}
@@ -233,7 +232,7 @@
 							{tableData}
 							sourceData={replies}
 							getData={() => {}}
-							entity={`Replies to this toot`}
+							reply={`Replies to this toot`}
 						/>
 					{/if}
 				</div>

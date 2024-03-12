@@ -61,7 +61,8 @@ export const load: PageLoad = (async ({ params }) => {
 
     // console.log('entity.content', entity.content)
     // console.log('cardResult', cardResult)
+    // console.log('replyTo', replyTo)
   }
 
-  return { card, entity: { ...entity }, id: params.id, replies, replyTo };
+  return { card, entity: { ...entity }, id: params.id, replies: replies, replyTo: replyTo };
 });
