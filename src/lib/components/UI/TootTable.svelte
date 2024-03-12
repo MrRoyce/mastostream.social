@@ -1,6 +1,7 @@
 <script lang="ts">
 	import {
 		A,
+		P,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -15,6 +16,7 @@
 	export let showTableHead: Boolean = true;
 	export let sourceData: Array<AccountRow>;
 	export let tableData: TableData;
+	export let reply: string = '';
 
 	const itemsPerPage = 100;
 
@@ -27,6 +29,9 @@
 	$: currentPageItems = sourceData.slice(currentPosition, currentPosition + itemsPerPage);
 </script>
 
+{#if reply}
+	<P class="py-4">{reply}</P>
+{/if}
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 	{#if showTableHead}
 		<TableHead>
