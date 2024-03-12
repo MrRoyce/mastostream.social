@@ -63,15 +63,15 @@
 </div>
 {#if entity.acct}
 	<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-		<div class=" p-5">
+		<div class="container mx-auto my-5 p-5">
 			<div class="flex md:flex-row flex-col">
 				<!-- Left Side -->
-				<div class="order-2 md:w-3/12 md:order-1">
+				<div class="order-2 md:w-3/12 md:order-1 md:mx-2">
 					<!-- Component A content -->
 					<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
 						<div class="max-w-4xl items-top h-auto mx-auto lg:my-0">
 							<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
-								<div class="md:p-6 text-center lg:text-left">
+								<div class="p-6 text-center lg:text-left">
 									<p class="text-3xl pb-5">
 										{entity.account?.displayName || entity.account?.display_name || ''}
 									</p>
@@ -114,7 +114,7 @@
 					</div>
 				</div>
 				<!-- Right Side -->
-				<div class="order-1 md:w-9/12 md:order-2">
+				<div class="order-1 md:w-9/12 md:order-2 mx-2">
 					<span class="text-leftfloat-left">
 						<p class="pt-4 text-base font-bold flex lg:justify-start">
 							<svg
