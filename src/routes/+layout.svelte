@@ -61,9 +61,7 @@
 
 	function getTargetLanguage(languageText: string) {
 		const languages = getLanguageList();
-
 		const result = languages.filter((language) => language.text === languageText);
-
 		return result[0]?.value || 'en';
 	}
 
@@ -82,21 +80,29 @@
 			id="drawer-navigation-label-3"
 			class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
 		>
-			Menu
+			{$t('pagelinks.menu')}
 		</h5>
 		<CloseButton on:click={() => (hideDrawer = true)} class="mb-4" />
 	</div>
 	<Sidebar class="dark:text-white">
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
-				<SidebarItem on:click={() => (hideDrawer = true)} label="Dashboard" href="/">
+				<SidebarItem
+					on:click={() => (hideDrawer = true)}
+					label={$t('pagelinks.dashboard')}
+					href="/"
+				>
 					<svelte:fragment slot="icon">
 						<ChartSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hideDrawer = true)} label="Full Text Search" href="/search">
+				<SidebarItem
+					on:click={() => (hideDrawer = true)}
+					label={$t('pagelinks.fullTextSearch')}
+					href="/search"
+				>
 					<svelte:fragment slot="icon">
 						<ChartSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -122,28 +128,41 @@
 						</span>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hideDrawer = true)} label="Toots" href="/toots" {spanClass}>
+				<SidebarItem
+					on:click={() => (hideDrawer = true)}
+					label={$t('pagelinks.toots')}
+					href="/toots"
+					{spanClass}
+				>
 					<svelte:fragment slot="icon">
 						<MailBoxSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hideDrawer = true)} label="Web Sites" href="/websites">
+				<SidebarItem
+					on:click={() => (hideDrawer = true)}
+					label={$t('pagelinks.websites')}
+					href="/websites"
+				>
 					<svelte:fragment slot="icon">
 						<UsersSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hideDrawer = true)} label="Tags" href="/tags">
+				<SidebarItem on:click={() => (hideDrawer = true)} label={$t('pagelinks.tags')} href="/tags">
 					<svelte:fragment slot="icon">
 						<BugSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem on:click={() => (hideDrawer = true)} label="Languages" href="/languages">
+				<SidebarItem
+					on:click={() => (hideDrawer = true)}
+					label={$t('pagelinks.languages')}
+					href="/languages"
+				>
 					<svelte:fragment slot="icon">
 						<ArrowRightToBracketSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
@@ -178,24 +197,25 @@
 			<svelte:fragment slot="trail">
 				<div>
 					<Toggle
+						color="red"
 						checked={false}
 						value="false"
 						on:click={() => {
 							{
 								hideSensitive();
 							}
-						}}>Show Sensitive</Toggle
+						}}>{$t('pagelinks.showSensitive')}</Toggle
 					>
 				</div>
 				<div class="hidden-on-mobile">
 					<span class="">
 						<a class="btn btn-sm" href="/">{$t('pagelinks.dashboard')}</a>
 						<a class="btn btn-sm" href="/accounts">{$t('pagelinks.accounts')}</a>
-						<a class="btn btn-sm" href="/toots">Toots</a>
-						<a class="btn btn-sm" href="/websites">Web Sites</a>
-						<a class="btn btn-sm" href="/tags">Tags</a>
-						<a class="btn btn-sm" href="/languages">Languages</a>
-						<a class="btn btn-sm" href="/search">Search</a>
+						<a class="btn btn-sm" href="/toots">{$t('pagelinks.toots')}</a>
+						<a class="btn btn-sm" href="/websites">{$t('pagelinks.websites')}</a>
+						<a class="btn btn-sm" href="/tags">{$t('pagelinks.tags')}</a>
+						<a class="btn btn-sm" href="/languages">{$t('pagelinks.languages')}</a>
+						<a class="btn btn-sm" href="/search">{$t('pagelinks.search')}</a>
 					</span>
 				</div>
 				<button on:click={handleLocaleChange}><Languages /></button>
