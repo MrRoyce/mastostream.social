@@ -12,6 +12,7 @@
 	import { truncateHTML } from '$lib/utils/truncateHTML';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { showSensitiveStore } from '$lib/stores';
+	import { formatCreatedAt } from '$lib/utils';
 
 	export let showTableHead: Boolean = true;
 	export let sourceData: Array<AccountRow>;
@@ -53,11 +54,11 @@
 					{item.sensitive ? '❌' : '✅'}
 				</TableBodyCell>
 				<TableBodyCell class="text-center">
-					{item.createdAt}
+					{formatCreatedAt(item.createdAt)}
 				</TableBodyCell>
 				<TableBodyCell class="text-left">
 					{#if item.sensitive && !showSensitive}
-						{item.spoiler_text || 'Sensitive content'}
+						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 					{:else}
 						{@html truncateHTML(item.content, 100)}
 					{/if}

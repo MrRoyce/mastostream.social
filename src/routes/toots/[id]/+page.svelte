@@ -14,6 +14,7 @@
 	import { goto } from '$app/navigation';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
+	import { formatCreatedAt } from '$lib/utils';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -78,7 +79,7 @@
 									d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"
 								/>
 							</svg>
-							{entity.createdAt.toLocaleString()}
+							{formatCreatedAt(entity.createdAt)}
 
 							<A target="_blank" href={entity.uri}
 								><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
@@ -94,20 +95,20 @@
 						/>
 					{/if}
 					{#if entity.sensitive && !showSensitive}
-						{#if entity.spoiler_text}
-							<p class="text-2xl pb-4">{entity.spoiler_text}</p>
-						{:else}
-							<div class="pt-10">
-								<Section name="maintenance">
-									<Maintenance>
-										<svelte:fragment slot="h1">Sensitive Content</svelte:fragment>
-										<svelte:fragment slot="paragraph"
-											>Toggle the above 'Show Senstive' switch to view.</svelte:fragment
-										>
-									</Maintenance>
-								</Section>
-							</div>
-						{/if}
+						<div class="pt-10">
+							<Section name="maintenance">
+								<Maintenance>
+									<svelte:fragment slot="h1"
+										>{entity.spoiler_text ||
+											entity.spoilerText ||
+											'Sensitive Content'}</svelte:fragment
+									>
+									<svelte:fragment slot="paragraph"
+										>Toggle the above 'Show Senstive' switch to view.</svelte:fragment
+									>
+								</Maintenance>
+							</Section>
+						</div>
 					{:else}
 						<p class="pt-4 pb-8 text-2xl overflow-x-clip">
 							{@html formatText(

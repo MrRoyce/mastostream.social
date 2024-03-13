@@ -21,6 +21,7 @@
 	import { browser } from '$app/environment';
 	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 	import type { PageData } from '../$types';
+	import { formatCreatedAt } from '$lib/utils';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -125,7 +126,7 @@
 								{item.bot ? '🤖' : '👤'}
 							</TableBodyCell>
 							<TableBodyCell>
-								{`${item.createdAt.split('T')[1].split('.')[0]}`}
+								{`${formatCreatedAt(item.createdAt)}`}
 							</TableBodyCell>
 							<TableBodyCell>
 								{item.acct}
@@ -135,7 +136,7 @@
 							</TableBodyCell>
 							<TableBodyCell>
 								{#if item.sensitive && !showSensitive}
-									{item.spoiler_text || 'Sensitive content'}
+									{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 								{:else}
 									{@html truncateHTML(item.content, 50)}
 								{/if}
