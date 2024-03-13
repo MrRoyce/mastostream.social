@@ -6,7 +6,7 @@
 	export let height: number = 128;
 	export let width: number = 128;
 	export let punch: number = 1;
-	let className: string = '';
+	let className: string = 'mx-auto';
 	export { className as class };
 </script>
 
