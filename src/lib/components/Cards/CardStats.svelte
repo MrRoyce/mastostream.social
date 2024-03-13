@@ -1,6 +1,4 @@
 <script>
-	// core components
-
 	export let statEntity;
 	export let statValue;
 	// The value must match one of these strings
@@ -39,11 +37,12 @@
 		</div>
 		<p class="text-sm mt-4">
 			<span class="mr-2 {statPercentColor}">
-				{statsCount}:
+				{statsCount}
+				{statDescription}
 				<i class={statArrow === 'up' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}></i>
-				( <span class={statPercent < 0 ? 'text-red-700' : 'text-green-400'}>{statPercent}%</span>
+				<span class={statPercent < 0 ? 'text-red-700' : 'text-green-400'}>{statPercent}%</span>
 			</span>
-			<span>{statDescription})</span>
+			<span></span>
 		</p>
 	</div>
 </div>
