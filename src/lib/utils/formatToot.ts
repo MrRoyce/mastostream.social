@@ -23,17 +23,17 @@ export const formatToot = (toot: Toot,) => {
 
   return {
     ...toot,
-    id: toot.id,
-    avatar: toot.avatar,
-    sensitive: toot.sensitive,
-    type: toot.bot,
-    createdAt: `${createdAtArray[0]} ${createdAtArray[1].split('.')[0]}`,
-    acct: toot.acct,
-    language: toot.language,
-    content: toot.content,
-    uri: toot.uri,
-    visibility: toot.visibility,
     accountId,
-    tootId
+    acct: toot.acct,
+    avatar: toot.avatar,
+    content: toot.content,
+    createdAt: `${createdAtArray[0]} ${createdAtArray[1].split('.')[0]}`,
+    id: toot.id,
+    language: toot.language,
+    sensitive: toot.sensitive,
+    tootId,
+    type: toot.bot,
+    uri: toot.uri,
+    visibility: toot.visibility
   }
 }
