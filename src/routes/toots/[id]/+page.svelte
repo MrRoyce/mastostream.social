@@ -22,8 +22,8 @@
 	const replies = data.replies;
 	const replyTo = data.replyTo ? [data.replyTo] : false;
 	const card = data.card;
-	// if (browser) console.log('entity', entity);
-	// if (browser) console.log('card', card);
+	if (browser) console.log('entity', entity);
+	if (browser) console.log('card', card);
 
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
@@ -100,7 +100,9 @@
 											'Sensitive Content'}</svelte:fragment
 									>
 									<svelte:fragment slot="paragraph"
-										>Toggle the above 'Show Senstive' switch to view.</svelte:fragment
+										><span class="text-red-700">
+											Toggle the above 'Show Senstive' switch to view.</span
+										></svelte:fragment
 									>
 								</Maintenance>
 							</Section>
