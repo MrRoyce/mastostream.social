@@ -15,6 +15,7 @@
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { formatCreatedAt } from '$lib/utils';
+	import { collection } from 'firebase/firestore';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -35,6 +36,8 @@
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
 			: { videos: [], pictures: [] };
+
+	// console.log('images', images);
 
 	const accountNote =
 		entity && entity.account && entity.account.note
@@ -65,9 +68,9 @@
 {#if entity.acct}
 	<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 		<div class=" p-5">
-			<div class="grid sm:grid-cols-1 md:grid-cols-12 gap-4">
+			<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 				<!-- Toot -->
-				<div class="md:col-span-9 md:col-start-4 order-first md:order-last">
+				<div class="md:col-span-3 md:col-start-2 order-first md:order-last">
 					<span class="text-left">
 						<p class="pt-4 text-base font-bold flex lg:justify-start">
 							<svg
@@ -110,7 +113,7 @@
 							</Section>
 						</div>
 					{:else}
-						<p class="pt-4 pb-8 text-2xl overflow-x-clip">
+						<p class="pt-4 pb-8 text-2xl overflow-x-clip flex-wrap">
 							{@html formatText(
 								entity.content
 									.replaceAll('</p><p>', '</p><br /><p>')
@@ -164,17 +167,17 @@
 							<br />
 						{:else if card.provider_name === 'YouTube'}
 							<YouTube
-								cardImage={card.image}
-								videoSource={card.html}
-								title={card.title}
 								authorName={card.author_name}
+								cardImage={card.image}
 								imageDescription={card.image_description}
+								title={card.title}
 								url={card.url}
+								videoSource={card.html}
 							/>
-						{:else}<CardWithLink
+						{:else if card.image}<CardWithLink
 								cardImage={card.image}
 								description={card.description}
-								imageDescription={card.image_description}
+								imageDescription={card.image_description || card.description}
 								providerName={card.provider_name}
 								title={card.title}
 								url={card.url}
@@ -191,12 +194,12 @@
 					{/if}
 				</div>
 				<!-- Profile -->
-				<div class="md:col-span-3 md:col-start-1 order-last md:order-first">
+				<div class="md:col-span-1 md:col-start-1 order-last md:order-first">
 					<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
 						<div class=" items-top h-auto mx-auto lg:my-0">
 							<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
 								<div class="p-6 text-center lg:text-left">
-									<p class="text-3xl pb-5">
+									<p class="text-3xl pb-5 text-ellipsis overflow-hidden">
 										{entity.account?.displayName || entity.account?.display_name || ''}
 									</p>
 									<div class="image overflow-hidden pb-5">
