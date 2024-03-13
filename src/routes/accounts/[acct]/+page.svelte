@@ -141,9 +141,11 @@
 						<TableBody>
 							{#each entity.fields as field}
 								<TableBodyRow>
-									<TableBodyCell>{field.name.toUpperCase()}:</TableBodyCell>
-									<TableBodyCell>
-										<span
+									<TableBodyCell class="pb-0">{field.name.toUpperCase()}:</TableBodyCell>
+								</TableBodyRow>
+								<TableBodyRow>
+									<TableBodyCell class="whitespace-normal break-words py-0">
+										<span class="px-10"
 											>{@html formatText(
 												field.value.replaceAll(
 													'class="invisible"',
