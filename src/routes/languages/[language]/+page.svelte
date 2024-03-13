@@ -2,11 +2,12 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
-	import TootTable from '$lib/components/UI/TootTable.svelte';
+	import { TootTable, CardWithLink, TootsRadio } from '$lib/components';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import { getLanguage } from '$lib/utils/getLanguage';
-	import CardWithLink from '$lib/components/Cards/Card.svelte';
+	import { Button, Modal } from 'flowbite-svelte';
+	let clickOutsideModal = false;
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -20,8 +21,16 @@
 	const toots = data.toots;
 	const id = data.id;
 	const wikiData = data.wikiData;
+	const tootTypePassed = data.tootTypePassed;
+
 	const wikiTitle = `${wikiData.title}: ${wikiData.description}`;
-	// console.log('wikiData', wikiData);
+	let tootType = tootTypePassed || 'human';
+
+	function getTootType() {
+		if (browser) {
+			goto(`/languages/${entity.language}?type=${tootType}`);
+		}
+	}
 
 	if (!entity.language && browser) {
 		goto('/languages/notfound');
@@ -46,29 +55,39 @@
 </div>
 <div class="dark:bg-gray-800">
 	<div class="container mx-auto my-5 p-5">
+		<!-- Header setion -->
 		<div class="md:flex no-wrap md:-mx-2">
 			<!-- Left Side -->
-			<div class="w-full md:w-3/12 md:mx-2">
+			<div class="w-full md:w-3/12 md:mx-2 flex items-center justify-center">
 				<!-- Profile Card -->
+				{#if wikiData.extract}
+					<div class="6">
+						<Button on:click={() => (clickOutsideModal = true)}>WikiData</Button>
+					</div>
+					<Modal title="WikiData" bind:open={clickOutsideModal} autoclose outsideclose
+						><CardWithLink
+							cardImage={wikiData.originalimage?.source ||
+								'https://commons.wikimedia.org/static/images/project-logos/commonswiki-2x.png'}
+							description={wikiData.extract}
+							imageDescription={wikiData.extract}
+							providerName="en.wikipedia.org"
+							title={wikiTitle}
+							url={wikiData.content_urls?.desktop?.page}
+						/></Modal
+					>
+				{/if}
 			</div>
 			<!-- Right Side -->
 			<div class="w-full md:w-9/12 mx-2">
 				<div class="bg-grey-900 p-3 shadow-sm rounded-sm">
-					<h3 class="mt-5">
-						{#if wikiData.extract}
-							<CardWithLink
-								cardImage={wikiData.originalimage?.source ||
-									'https://commons.wikimedia.org/static/images/project-logos/commonswiki-2x.png'}
-								description={wikiData.extract}
-								providerName="en.wikipedia.org"
-								title={wikiTitle}
-								url={wikiData.content_urls?.desktop?.page}
-							/>
-						{/if}
+					<h3 class="">
+						<TootsRadio bind:tootType {getTootType} />
 					</h3>
 				</div>
 			</div>
 		</div>
+
+		<!-- Toots setion -->
 		<div class="my-4 text-white">
 			<h2 class="text-gray-200 font-bold text-xl leading-8 my-1">
 				Latest <span class="bg-green-500">{entity.language}</span>

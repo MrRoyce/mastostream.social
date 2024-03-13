@@ -7,6 +7,7 @@ import { getLanguage } from '$lib/utils/getLanguage';
 async function getWikiMediaData(fetch, language) {
   const translatedLanguage = getLanguage(language)
   const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${translatedLanguage.englishValue}%20Language`
+
   try {
     const response = await fetch(url)
 
@@ -26,12 +27,15 @@ async function getWikiMediaData(fetch, language) {
 }
 
 // Get languages and its toots
-export const load: PageLoad = (async ({ fetch, params }) => {
+export const load: PageLoad = (async ({ fetch, params, url }) => {
+
+  const tootType = url.searchParams.get('type') ?? 'human'
+
   const lowerCase = params.language && typeof params.language === 'string' ? params.language.toLowerCase() : params.language;
 
   const entity: DocumentData = await getDocument({ entity: 'languages', id: lowerCase });
 
-  const toots: DocumentData[] = await getToots({ entity: 'languages', id: lowerCase, max: 100, orderByField: 'createdAt' })
+  const toots: DocumentData[] = await getToots({ entity: 'languages', id: lowerCase, max: 100, orderByField: 'createdAt', tootType })
 
   const items = toots.map((item) => {
     return formatToot(item)
@@ -39,5 +43,5 @@ export const load: PageLoad = (async ({ fetch, params }) => {
 
   const wikiData = await getWikiMediaData(fetch, params.language)
 
-  return { entity: { ...entity }, id: params.language, toots: items, wikiData: { ...wikiData } };
+  return { entity: { ...entity }, id: params.language, toots: items, wikiData: { ...wikiData }, tootTypePassed: tootType };
 });
