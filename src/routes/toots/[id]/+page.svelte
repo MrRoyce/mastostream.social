@@ -3,19 +3,12 @@
 	import { A, Breadcrumb, BreadcrumbItem, Button } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
-	import { formatText } from '$lib/utils/formatText';
-	import { formatImages } from '$lib/utils/formatImages';
-	import TootTable from '$lib/components/UI/TootTable.svelte';
-	import YouTube from '$lib/components/Cards/YouTube.svelte';
-	import CardWithLink from '$lib/components/Cards/Card.svelte';
-	import BlurHash from '$lib/components/BlurHash/BlurHash.svelte';
-	import ImageGallery from '$lib/components/UI/ImageGallery.svelte';
-	import showSensitiveStore from '$lib/stores/SensitiveStore';
+	import { BlurHash, CardWithLink, ImageGallery, TootTable, YouTube } from '$lib/components';
+	import { showSensitiveStore } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { formatCreatedAt } from '$lib/utils';
-	import { collection } from 'firebase/firestore';
+	import { formatCreatedAt, formatImages, formatText } from '$lib/utils';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -205,16 +198,16 @@
 									<div class="image overflow-hidden pb-5">
 										<img class="h-auto w-full mx-auto" src={entity.avatar} alt="" />
 									</div>
-									<p class="pb-5">
-										<span class=" truncate">
-											<Button
-												color="dark"
-												class=""
-												on:click={() => {
-													goto(`/accounts/${entity.acct}`);
-												}}>{entity.acct}</Button
-											>
-										</span>
+									<p class="pb-5 text-ellipsis overflow-hidden">
+										<Button
+											color="dark"
+											class=""
+											on:click={() => {
+												goto(`/accounts/${entity.acct}`);
+											}}
+										>
+											<span class="">{entity.acct}</span></Button
+										>
 									</p>
 									<div
 										class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"
