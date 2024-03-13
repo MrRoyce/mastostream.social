@@ -23,10 +23,6 @@
 
 	let domain: string;
 
-	const items = toots.map((item) => {
-		return formatToot(item);
-	});
-
 	try {
 		domain = new URL(entity?.url).hostname;
 	} catch (error) {
