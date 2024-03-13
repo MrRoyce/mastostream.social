@@ -89,7 +89,7 @@
 	</div>
 	<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 		<div class="container mx-auto my-5 p-5">
-			<div class="md:flex no-wrap md:-mx-2">
+			<div class="md:flex text-wrap md:-mx-2">
 				<!-- Left Side -->
 				<div class="w-full md:w-3/12 md:mx-2">
 					<!-- Profile Card -->

@@ -18,7 +18,7 @@
 			/>
 		{:else}
 			<CardWithLink
-				cardImage={picture.remoteUrl}
+				cardImage={picture.src || picture.preview_url || picture.remote_url || picture.remoteUrl}
 				description={picture.description || ''}
 				imageDescription={picture.description || ''}
 				providerName="View image"

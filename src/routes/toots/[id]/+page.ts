@@ -58,11 +58,9 @@ export const load: PageLoad = (async ({ params }) => {
     card = cardResult?.card || null
     entity.account = cardResult?.account || entity.account  // Override with better data
     entity.content = cardResult?.content || entity.content  // Override with better data
+    entity.mediaAttachments = cardResult?.media_attachments || entity.mediaAttachments  // Override with better data
 
-    // console.log('entity.content', entity.content)
-    // console.log('cardResult', cardResult)
-    // console.log('replyTo', replyTo)
   }
 
-  return { card, entity: { ...entity }, id: params.id, replies: replies, replyTo: replyTo };
+  return { card, entity: { ...entity }, id: params.id, replies, replyTo };
 });
