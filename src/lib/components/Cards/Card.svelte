@@ -13,7 +13,7 @@
 <a
 	href={url}
 	target="_blank"
-	class="flex flex-col items-center bg-white border border-gray-200 shadow md:flex-row md:max-w-2xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+	class="flex mx-auto flex-col items-center bg-white border border-gray-200 shadow md:flex-row md:max-w-2xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
 >
 	<img
 		class="object-cover w-full h-96 md:h-auto md:w-48"
