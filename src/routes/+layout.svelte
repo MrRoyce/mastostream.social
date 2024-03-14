@@ -2,7 +2,7 @@
 	import '@fontsource/dosis';
 	import { t } from '$lib/translations';
 	import '../app.pcss';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, initializeStores, Toast } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate } from '$app/navigation';
 	import { navigating } from '$app/stores';
@@ -31,6 +31,8 @@
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import Languages from '$lib/components/Languages/Languages.svelte';
+
+	initializeStores();
 
 	let hideDrawer = true;
 	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
@@ -173,6 +175,8 @@
 		</SidebarWrapper>
 	</Sidebar>
 </Drawer>
+
+<Toast />
 
 <AppShell slotSidebarLeft="bg-surface-500/5 w-0 lg:w-56" class="dark:text-white">
 	<svelte:fragment slot="header">

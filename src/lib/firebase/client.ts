@@ -2,6 +2,9 @@ import { getApps, getApp, deleteApp, initializeApp, type FirebaseApp } from "fir
 import { getFirestore } from "firebase/firestore";
 import {
   getAuth,
+  isSignInWithEmailLink,
+  sendSignInLinkToEmail,
+  signInWithEmailLink
 } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getFunctions } from 'firebase/functions';
@@ -53,6 +56,28 @@ export const getClientApp: () => FirebaseApp = () => {
   const clientApp = initializeApp(firebaseConfig)
 
   return clientApp
+}
+
+export const isMagicLink = (link: string) => {
+  const auth = getAuth(getClientApp())
+
+  return isSignInWithEmailLink(auth, link)
+}
+
+export const signInWithMagicLink = (email: string, link: string) => {
+  const auth = getAuth(getClientApp())
+
+  return signInWithEmailLink(auth, email, link)
+}
+
+export const sendMagicLink = (email: string, redirectUrl: string) => {
+  const auth = getAuth(getClientApp())
+  const actionCodeSettings = {
+    url: redirectUrl,
+    handleCodeInApp: true,
+  }
+
+  return sendSignInLinkToEmail(auth, email, actionCodeSettings)
 }
 
 
