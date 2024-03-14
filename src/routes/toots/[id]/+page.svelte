@@ -28,9 +28,9 @@
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
-			: { videos: [], pictures: [] };
+			: { audio: [], videos: [], pictures: [] };
 
-	// console.log('images', images);
+	if (browser) console.log('images', images);
 
 	const accountNote =
 		entity && entity.account && entity.account.note
@@ -157,6 +157,10 @@
 						<ImageGallery pictures={images.pictures} sensitive={entity.sensitive} {showSensitive} />
 					{/if}
 
+					{#each images.audio as audio}
+						<audio controls muted={false} src={audio.src}></audio>
+					{/each}
+
 					{#if card}
 						{#if entity.sensitive && !showSensitive}
 							<br />
@@ -227,7 +231,7 @@
 										</svg>
 										{entity.domain}
 									</p>
-									<p class="pt-2 text-base">
+									<p class="pt-2 text-base text-left">
 										{@html accountNote}
 									</p>
 								</div>
