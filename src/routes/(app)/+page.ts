@@ -1,4 +1,4 @@
-import type { PageLoad } from './$types';
+import type { PageLoad } from '../$types';
 import { getCount, getCounts, getWords } from '$lib/getCollection';
 import { summarizeCounts } from '$lib/utils/summarizeCounts';
 import { convertToK } from '$lib/utils/convertToK';

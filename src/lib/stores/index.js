@@ -1,4 +1,5 @@
 import showSensitiveStore from '$lib/stores/SensitiveStore';
 import loading from '$lib/stores/Loading';
+import { authUser } from '$lib/stores/authStore';
 
-export { loading, showSensitiveStore };
+export { authUser, loading, showSensitiveStore };
