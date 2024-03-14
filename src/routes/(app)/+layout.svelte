@@ -175,8 +175,6 @@
 	</Sidebar>
 </Drawer>
 
-<Toast />
-
 <AppShell slotSidebarLeft="bg-surface-500/5 w-0 lg:w-56" class="dark:text-white">
 	<svelte:fragment slot="header">
 		<AppBar>
