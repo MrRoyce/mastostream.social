@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import type { PageData } from './$types';
+	import { t } from '$lib/translations';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 
 	if (browser && isSupported()) {
@@ -30,9 +30,11 @@
 					/>
 				</svg>
 			</p>
-			<h1 class="mt-3 text-2xl font-semibold text-gray-800 md:text-3xl">Page not found</h1>
+			<h1 class="mt-3 text-2xl font-semibold text-gray-800 md:text-3xl">
+				{$t('general.pageNotFound')}
+			</h1>
 			<p class="mt-4 text-gray-500 dark:text-gray-400">
-				The page you are looking for doesn't exist. Here are some helpful links:
+				{$t('general.helpfulLinks')}:
 			</p>
 
 			<div class="flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto">
@@ -53,13 +55,13 @@
 							d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
 						/>
 					</svg>
-					<a href="/accounts"><span>Go back</span></a>
+					<a href="/accounts"><span>{$t('general.goBack')}</span></a>
 				</button>
 
 				<button
 					class="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
 				>
-					<a href="/">Take me home</a>
+					<a href="/">{$t('general.takeMeHome')}</a>
 				</button>
 			</div>
 		</div>

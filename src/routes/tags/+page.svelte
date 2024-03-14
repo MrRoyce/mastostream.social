@@ -49,7 +49,7 @@
 		<BreadcrumbItem>Tags</BreadcrumbItem>
 	</Breadcrumb>
 </div>
-<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5" hoverable={true}>
 	<TableSearch
 		placeholder={`Search by tag`}
 		hoverable={true}
