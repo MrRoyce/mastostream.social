@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { initialized } from '$lib/translations';
+	import { t } from '$lib/translations';
 	import type { PageData } from './$types';
 	import { Marquee } from '@selemondev/svelte-marquee';
 	import '@selemondev/svelte-marquee/dist/style.css';
@@ -47,7 +48,7 @@
 				on:click={() => {
 					goto(`/toots/${item.accountId}_${item.tootId}`);
 				}}
-				><img class=" w-10 h-auto max-w-xs mr-4" src={item.avatar} alt="User" />
+				><img class=" w-10 h-auto max-w-xs mr-4" src={item.avatar} alt={$t('general.user')} />
 				{@html truncateHTML(item.content, 50)}</Button
 			>
 		{/each}
@@ -116,7 +117,7 @@
 			</div>
 		</div>
 	{:else}
-		<div>Locale initializing...</div>
+		<div>{$t('general.localeInitializing')}</div>
 	{/if}
 </div>
 

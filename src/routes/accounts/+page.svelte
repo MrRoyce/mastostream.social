@@ -21,15 +21,22 @@
 	import { browser } from '$app/environment';
 	import { searchStyles } from '$lib/assets/styles/search';
 	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
+	import { t } from '$lib/translations';
 
 	let searchTerm = '';
 	export let data: PageData;
 	const tootTypePassed = data.tootTypePassed;
 
-	console.log('tootTypePassed', tootTypePassed);
-
 	const tableData = {
-		tableHead: ['Pic', 'Type', 'Account', 'Followers', 'Following', '# Toots', 'Last Post (UTC)']
+		tableHead: [
+			$t('pageHeaders.pic'),
+			$t('pageHeaders.type'),
+			$t('pageHeaders.account'),
+			$t('pageHeaders.followers'),
+			$t('pageHeaders.following'),
+			$t('pageHeaders.numberToots'),
+			$t('pageHeaders.lastPostUTC')
+		]
 	};
 
 	const orderByField = 'timestamp';
@@ -75,9 +82,9 @@
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-	<Breadcrumb aria-label="Link to Dashboard">
-		<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
-		<BreadcrumbItem>Accounts</BreadcrumbItem>
+	<Breadcrumb aria-label="$t('breadCrumb.BreadcrumbLinks')">
+		<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
+		<BreadcrumbItem>{$t('pagelinks.accounts')}</BreadcrumbItem>
 	</Breadcrumb>
 </div>
 <div
@@ -88,7 +95,7 @@
 			<!-- Left Side -->
 			<div class="w-full md:w-3/12 md:mx-2">
 				<!-- Profile Card -->
-				<h1>Latest Account toots</h1>
+				<h1>{$t('general.latestAccountToots')}</h1>
 			</div>
 			<!-- Right Side -->
 			<div class="w-full md:w-9/12 mx-2">

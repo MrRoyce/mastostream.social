@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/translations';
 	import { browser } from '$app/environment';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
@@ -35,7 +36,12 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Safe', 'Created', 'Content', 'Link']
+		tableHead: [
+			$t('tableHeaders.safe'),
+			$t('tableHeaders.created'),
+			$t('tableHeaders.content'),
+			$t('tableHeaders.link')
+		]
 	};
 
 	if (browser && isSupported()) {
@@ -48,9 +54,9 @@
 
 {#if entity}
 	<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-		<Breadcrumb aria-label="Links to Dashboard and Accounts">
-			<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
-			<BreadcrumbItem href="/accounts">Accounts</BreadcrumbItem>
+		<Breadcrumb aria-label={$t('aria.breadcrumbLink')}>
+			<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+			<BreadcrumbItem href="/accounts">{$t('pagelinks.accounts')}</BreadcrumbItem>
 			<BreadcrumbItem>{id}</BreadcrumbItem>
 		</Breadcrumb>
 	</div>
@@ -163,7 +169,8 @@
 			</div>
 			<div class="my-4 text-white">
 				<h2 class="text-gray-200 font-bold text-xl leading-8 my-1 mb-4">
-					Latest toots from {entity.acct}:
+					{$t('general.latestTootsFrom')}
+					{entity.acct}:
 				</h2>
 
 				<OwnersTootTable {tableData} sourceData={toots} />

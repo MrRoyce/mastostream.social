@@ -34,7 +34,7 @@
 	const tootTypePassed = data.tootTypePassed;
 
 	const tableData = {
-		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
+		tableHead: ['Pic', 'Safe', 'Type', 'Language', 'Created', 'Account', 'Content', 'Link']
 	};
 
 	const orderByField = 'timestamp';
@@ -105,7 +105,11 @@
 				</div>
 			</div>
 
-			<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+			<Table
+				name="advancedTable"
+				classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+				hoverable={true}
+			>
 				<TableHead>
 					{#each tableData.tableHead as tableHead}
 						<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
@@ -126,19 +130,20 @@
 								{item.bot ? '🤖' : '👤'}
 							</TableBodyCell>
 							<TableBodyCell>
+								{item.language}
+							</TableBodyCell>
+							<TableBodyCell>
 								{`${formatCreatedAt(item.createdAt)}`}
 							</TableBodyCell>
 							<TableBodyCell>
 								{item.acct}
 							</TableBodyCell>
-							<TableBodyCell>
-								{item.language}
-							</TableBodyCell>
-							<TableBodyCell>
+
+							<TableBodyCell class="whitespace-normal break-words py-2">
 								{#if item.sensitive && !showSensitive}
 									{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 								{:else}
-									{@html truncateHTML(item.content, 50)}
+									{@html truncateHTML(item.content, 300)}
 								{/if}
 							</TableBodyCell>
 							<TableBodyCell>
