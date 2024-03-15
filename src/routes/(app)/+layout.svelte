@@ -86,6 +86,17 @@
 		'/search': 'Full Text Search'
 	};
 
+	const stringsToCheck = ['toots', 'accounts', 'websites', 'tags', 'languages', 'search'];
+
+	$: getDropdownLabel = (activeUrl) => {
+		let response = siteDropdown[activeUrl];
+		if (!response) {
+			response = stringsToCheck.filter((str) => activeUrl.includes(str));
+			response = response ? siteDropdown[`/${response}`] : 'Dashboard';
+		}
+		return response;
+	};
+
 	$: activeUrl = $page.url.pathname;
 
 	$: $loading = !!$navigating;
@@ -227,7 +238,7 @@
 				<div class="hidden-on-mobile">
 					{@debug activeUrl}
 					<Button outline color="green"
-						>{siteDropdown[activeUrl]}...
+						>{getDropdownLabel(activeUrl)}...
 						<ChevronDownSolid class="w-3 h-3 ms-2 text-white dark:text-white" />
 					</Button>
 					<Dropdown {activeUrl}>
