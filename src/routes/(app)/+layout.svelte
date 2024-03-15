@@ -1,7 +1,8 @@
 <script lang="ts">
 	import '@fontsource/dosis';
 	import { t } from '$lib/translations';
-	import { AppBar, AppShell, initializeStores, Toast } from '@skeletonlabs/skeleton';
+	import { page } from '$app/stores';
+	import { AppBar, AppShell, initializeStores } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate } from '$app/navigation';
 	import { navigating } from '$app/stores';
@@ -14,6 +15,8 @@
 		Button,
 		CloseButton,
 		Drawer,
+		Dropdown,
+		DropdownItem,
 		Sidebar,
 		SidebarGroup,
 		SidebarItem,
@@ -24,6 +27,7 @@
 		ArrowRightToBracketSolid,
 		BugSolid,
 		ChartSolid,
+		ChevronDownSolid,
 		GridSolid,
 		MailBoxSolid,
 		UsersSolid
@@ -71,6 +75,18 @@
 		value = getTargetLanguage(event?.target?.innerHTML || 'English');
 		$locale = value;
 	}
+
+	const siteDropdown = {
+		'/': 'Dashboard',
+		'/accounts': 'Accounts',
+		'/toots': 'Toots',
+		'/websites': 'Web Sites',
+		'/tags': 'Tags',
+		'/languages': 'Languages',
+		'/search': 'Full Text Search'
+	};
+
+	$: activeUrl = $page.url.pathname;
 
 	$: $loading = !!$navigating;
 </script>
@@ -209,15 +225,20 @@
 					>
 				</div>
 				<div class="hidden-on-mobile">
-					<span class="">
-						<a class="btn btn-sm" href="/">{$t('pagelinks.dashboard')}</a>
-						<a class="btn btn-sm" href="/accounts">{$t('pagelinks.accounts')}</a>
-						<a class="btn btn-sm" href="/toots">{$t('pagelinks.toots')}</a>
-						<a class="btn btn-sm" href="/websites">{$t('pagelinks.websites')}</a>
-						<a class="btn btn-sm" href="/tags">{$t('pagelinks.tags')}</a>
-						<a class="btn btn-sm" href="/languages">{$t('pagelinks.languages')}</a>
-						<a class="btn btn-sm" href="/search">{$t('pagelinks.search')}</a>
-					</span>
+					{@debug activeUrl}
+					<Button outline color="green"
+						>{siteDropdown[activeUrl]}...
+						<ChevronDownSolid class="w-3 h-3 ms-2 text-white dark:text-white" />
+					</Button>
+					<Dropdown {activeUrl}>
+						<DropdownItem href="/">{$t('pagelinks.dashboard')}</DropdownItem>
+						<DropdownItem href="/accounts">{$t('pagelinks.accounts')}</DropdownItem>
+						<DropdownItem href="/toots">{$t('pagelinks.toots')}</DropdownItem>
+						<DropdownItem href="/websites">{$t('pagelinks.websites')}</DropdownItem>
+						<DropdownItem href="/tags">{$t('pagelinks.tags')}</DropdownItem>
+						<DropdownItem href="/languages">{$t('pagelinks.languages')}</DropdownItem>
+						<DropdownItem href="/search">{$t('pagelinks.search')}</DropdownItem>
+					</Dropdown>
 				</div>
 				<button on:click={handleLocaleChange}><Languages /></button>
 			</svelte:fragment>
