@@ -15,7 +15,7 @@ function replaceUsersSegment(originalUrl: string, replacementText = 'api/v1') {
   return response
 }
 
-async function getStatusWithCard(uriWithCard: string | URL | Request) {
+async function getStatusWithCard(fetch: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: string | URL | Request, init?: RequestInit | undefined): Promise<Response>; (arg0: string | URL | Request): any; }, uriWithCard: string | URL | Request) {
   try {
     const response = await fetch(uriWithCard)
 
@@ -36,7 +36,7 @@ async function getStatusWithCard(uriWithCard: string | URL | Request) {
 }
 
 // Get the toot
-export const load: PageLoad = (async ({ params }) => {
+export const load: PageLoad = (async ({ fetch, params }) => {
   let replies = []
   let replyTo = false
   let card
@@ -54,7 +54,7 @@ export const load: PageLoad = (async ({ params }) => {
     }
 
     const uriWithCard = replaceUsersSegment(entity.uri)
-    const cardResult = await getStatusWithCard(uriWithCard)
+    const cardResult = await getStatusWithCard(fetch, uriWithCard)
     card = cardResult?.card || null
     entity.account = cardResult?.account || entity.account  // Override with better data
     entity.content = cardResult?.content || entity.content  // Override with better data
