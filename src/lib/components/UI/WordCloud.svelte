@@ -42,8 +42,6 @@
 		prev.size < cur.size ? prev.size : cur.size
 	);
 
-	const onWordClick = (d) => console.log('click', d);
-
 	const d3Cloud = cloud()
 		.size([dimensions.width, dimensions.height])
 		.words(hashtags)
