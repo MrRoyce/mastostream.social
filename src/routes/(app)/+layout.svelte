@@ -4,11 +4,12 @@
 	import { page } from '$app/stores';
 	import { AppBar, AppShell, initializeStores } from '@skeletonlabs/skeleton';
 	import type { AfterNavigate } from '@sveltejs/kit';
-	import { afterNavigate } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 	import { locale } from '$lib/translations';
 	import { Footer, Loading } from '$lib/components';
-	import { loading, showSensitiveStore } from '$lib/stores';
+	import { authUser, loading, showSensitiveStore } from '$lib/stores';
+	import { auth } from '$lib/firebase/client';
 	import { getLanguageList } from '$lib/utils/getLanguage';
 	import {
 		A,
@@ -34,8 +35,31 @@
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import Languages from '$lib/components/Languages/Languages.svelte';
+	import { get } from 'svelte/store';
+	import { signOut } from 'firebase/auth';
+	import { onMount } from 'svelte';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 
 	initializeStores();
+
+	onMount(() => {
+		auth.onAuthStateChanged(async (user) => {
+			// if (!user) {
+			// 	unsubscribe();
+			// }
+			let dataToSetToStore = {
+				email: user?.email || null,
+				displayName: user?.displayName || null,
+				uid: user?.uid || null
+			};
+
+			authUser.update((curr: any) => {
+				return { ...curr, ...dataToSetToStore };
+			});
+		});
+	});
 
 	let hideDrawer = true;
 	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
@@ -76,6 +100,24 @@
 		$locale = value;
 	}
 
+	const handleLogout = async () => {
+		signOut(auth)
+			.then(async () => {
+				$authUser = undefined;
+				await fetch('/api/signin', {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+						// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
+					}
+				});
+				goto('/login');
+			})
+			.catch((error) => {
+				console.error('Error logging out', error);
+			});
+	};
+
 	const siteDropdown = {
 		'/': 'Dashboard',
 		'/accounts': 'Accounts',
@@ -100,6 +142,8 @@
 	$: activeUrl = $page.url.pathname;
 
 	$: $loading = !!$navigating;
+
+	$: user = data.user;
 </script>
 
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hideDrawer} id="sidebar2">
@@ -236,7 +280,6 @@
 					>
 				</div>
 				<div class="hidden-on-mobile">
-					{@debug activeUrl}
 					<Button outline color="green"
 						>{getDropdownLabel(activeUrl)}...
 						<ChevronDownSolid class="w-3 h-3 ms-2 text-white dark:text-white" />
@@ -251,6 +294,13 @@
 						<DropdownItem href="/search">{$t('pagelinks.search')}</DropdownItem>
 					</Dropdown>
 				</div>
+				{#if user}
+					<button on:click={handleLogout} type="button" class="btn variant-filled">Sign Out</button>
+				{:else}
+					<button on:click={() => goto('/login')} type="button" class="btn variant-filled"
+						>Sign In</button
+					>
+				{/if}
 				<button on:click={handleLocaleChange}><Languages /></button>
 			</svelte:fragment>
 		</AppBar>
