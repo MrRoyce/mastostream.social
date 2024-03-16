@@ -81,5 +81,3 @@ type TableData = {
 	striped: boolean | true;
 	tableHead: Array<string>;
 }
-
-export { };
