@@ -6,6 +6,7 @@
 		Breadcrumb,
 		BreadcrumbItem,
 		Button,
+		Heading,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -95,7 +96,7 @@
 			<!-- Left Side -->
 			<div class="w-full md:w-3/12 md:mx-2">
 				<!-- Profile Card -->
-				<h1>{$t('general.latestAccountToots')}</h1>
+				<Heading>{$t('general.latestAccountToots')}</Heading>
 			</div>
 			<!-- Right Side -->
 			<div class="w-full md:w-9/12 mx-2">
