@@ -3,8 +3,19 @@
 /// <reference types="@sveltejs/kit" />
 declare namespace App {
 	// interface Error {}
-	// interface Locals {}
-	// interface Error {}
+	interface Locals {
+		user: {
+			admin: boolean
+			email: string
+			picture: string
+			uid: string
+			displayName: string
+		};
+	}
+	interface Error {
+		errorId: string;
+		message: string;
+	}
 	// interface PageData {}
 	// interface Platform {}
 }
