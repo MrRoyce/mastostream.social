@@ -53,7 +53,6 @@
 				const linkCredential = EmailAuthProvider.credentialWithLink(email, window.location.href);
 				if (auth.currentUser) {
 					const userCred = await linkWithCredential(auth.currentUser, linkCredential);
-					console.log('userCred', userCred);
 				}
 			} catch (error) {
 				console.error('Error linkWithCredential', error);
