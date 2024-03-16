@@ -41,6 +41,7 @@ export const load: PageLoad = async ({ data }) => {
     languages: convertToK(languages),
     tags: convertToK(tags),
     toots: convertToK(toots),
-    words
+    words,
+    ...data
   };
 };
