@@ -13,6 +13,7 @@ if (
   !import.meta.env.VITE_APIKEY ||
   !import.meta.env.VITE_APP_ID ||
   !import.meta.env.VITE_AUTH_DOMAIN ||
+  //  !import.meta.env.VITE_DATABASE_URL ||
   !import.meta.env.VITE_MEASUREMENT_ID ||
   !import.meta.env.VITE_MESSAGING_SENDER_ID ||
   !import.meta.env.VITE_PROJECT_ID ||
@@ -27,6 +28,7 @@ const firebaseConfig = {
   authDomain: import.meta.env.VITE_AUTH_DOMAIN,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID, // Needed for analytics
   messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  // databaseURL: import.meta.env.VITE_DATABASE_URL,
   projectId: import.meta.env.VITE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
 };
@@ -79,9 +81,3 @@ export const sendMagicLink = (email: string, redirectUrl: string) => {
 
   return sendSignInLinkToEmail(auth, email, actionCodeSettings)
 }
-
-
-
-
-
-
