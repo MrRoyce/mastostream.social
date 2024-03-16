@@ -1,16 +1,15 @@
 <script lang="ts">
+	import '../../app.pcss';
 	import '@fontsource/dosis';
 	import { t } from '$lib/translations';
 	import { page } from '$app/stores';
-	import { AppBar, AppShell, initializeStores } from '@skeletonlabs/skeleton';
+
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
-	import { locale } from '$lib/translations';
-	import { Footer, Loading } from '$lib/components';
-	import { authUser, loading, showSensitiveStore } from '$lib/stores';
-	import { auth } from '$lib/firebase/client';
-	import { getLanguageList } from '$lib/utils/getLanguage';
+
+	import { Loading } from '$lib/components';
+	import { loading, showSensitiveStore } from '$lib/stores';
 	import {
 		A,
 		Button,
@@ -35,33 +34,23 @@
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import Languages from '$lib/components/Languages/Languages.svelte';
-	import { get } from 'svelte/store';
-	import { signOut } from 'firebase/auth';
-	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import { handleLogout } from '$lib/firebase/handleLogout';
+	import { AppBar } from '@skeletonlabs/skeleton';
+	import { handleLocaleChange } from '$lib/utils/handleLocaleChange';
 
 	export let data: PageData;
 
-	initializeStores();
-
-	onMount(() => {
-		auth.onAuthStateChanged(async (user) => {
-			// if (!user) {
-			// 	unsubscribe();
-			// }
-			let dataToSetToStore = {
-				email: user?.email || null,
-				displayName: user?.displayName || null,
-				uid: user?.uid || null
-			};
-
-			authUser.update((curr: any) => {
-				return { ...curr, ...dataToSetToStore };
-			});
-		});
+	afterNavigate((params: AfterNavigate) => {
+		const isNewPage = params.from?.url?.pathname !== params.to?.url?.pathname;
+		const elemPage = document.querySelector('#page');
+		if (isNewPage && elemPage !== null) {
+			elemPage.scrollTop = 0;
+		}
 	});
 
 	let hideDrawer = true;
+
 	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
 	let transitionParams = {
 		x: -320,
@@ -78,46 +67,6 @@
 		});
 	};
 
-	afterNavigate((params: AfterNavigate) => {
-		const isNewPage = params.from?.url?.pathname !== params.to?.url?.pathname;
-		const elemPage = document.querySelector('#page');
-		if (isNewPage && elemPage !== null) {
-			elemPage.scrollTop = 0;
-		}
-	});
-
-	let value: string = 'en';
-
-	function getTargetLanguage(languageText: string) {
-		const languages = getLanguageList();
-		const result = languages.filter((language) => language.text === languageText);
-		return result[0]?.value || 'en';
-	}
-
-	function handleLocaleChange(event: Event) {
-		event.preventDefault();
-		value = getTargetLanguage(event?.target?.innerHTML || 'English');
-		$locale = value;
-	}
-
-	const handleLogout = async () => {
-		signOut(auth)
-			.then(async () => {
-				$authUser = undefined;
-				await fetch('/api/signin', {
-					method: 'DELETE',
-					headers: {
-						'Content-Type': 'application/json'
-						// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
-					}
-				});
-				goto('/login');
-			})
-			.catch((error) => {
-				console.error('Error logging out', error);
-			});
-	};
-
 	const siteDropdown = {
 		'/': 'Dashboard',
 		'/accounts': 'Accounts',
@@ -130,7 +79,7 @@
 
 	const stringsToCheck = ['toots', 'accounts', 'websites', 'tags', 'languages', 'search'];
 
-	$: getDropdownLabel = (activeUrl) => {
+	$: getRouteDropdownLabel = (activeUrl: string | string[]) => {
 		let response = siteDropdown[activeUrl];
 		if (!response) {
 			response = stringsToCheck.filter((str) => activeUrl.includes(str));
@@ -246,81 +195,76 @@
 	</Sidebar>
 </Drawer>
 
-<AppShell slotSidebarLeft="bg-surface-500/5 w-0 lg:w-56" class="dark:text-white">
-	<svelte:fragment slot="header">
-		<AppBar>
-			<svelte:fragment slot="lead">
-				<div class="flex items-center show-on-mobile dark:text-white">
-					<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
-						<span>
-							<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
-								<rect width="100" height="20" />
-								<rect y="30" width="100" height="20" />
-								<rect y="60" width="100" height="20" />
-							</svg>
-						</span>
-					</Button>
-				</div>
-				<A href="/"
-					><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
+<slot name="header">
+	<AppBar>
+		<svelte:fragment slot="lead">
+			<div class="flex items-center show-on-mobile dark:text-white">
+				<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
+					<span>
+						<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
+							<rect width="100" height="20" />
+							<rect y="30" width="100" height="20" />
+							<rect y="60" width="100" height="20" />
+						</svg>
+					</span>
+				</Button>
+			</div>
+			<A href="/"
+				><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
+			>
+		</svelte:fragment>
+
+		<svelte:fragment slot="trail">
+			<div>
+				<Toggle
+					color="red"
+					checked={false}
+					value="false"
+					on:click={() => {
+						{
+							hideSensitive();
+						}
+					}}>{$t('pagelinks.showSensitive')}</Toggle
 				>
-			</svelte:fragment>
-
-			<svelte:fragment slot="trail">
-				<div>
-					<Toggle
-						color="red"
-						checked={false}
-						value="false"
-						on:click={() => {
-							{
-								hideSensitive();
-							}
-						}}>{$t('pagelinks.showSensitive')}</Toggle
-					>
-				</div>
-				<div class="hidden-on-mobile">
-					<Button outline color="green"
-						>{getDropdownLabel(activeUrl)}...
-						<ChevronDownSolid class="w-3 h-3 ms-2 text-white dark:text-white" />
-					</Button>
-					<Dropdown {activeUrl}>
-						<DropdownItem href="/">{$t('pagelinks.dashboard')}</DropdownItem>
-						<DropdownItem href="/accounts">{$t('pagelinks.accounts')}</DropdownItem>
-						<DropdownItem href="/toots">{$t('pagelinks.toots')}</DropdownItem>
-						<DropdownItem href="/websites">{$t('pagelinks.websites')}</DropdownItem>
-						<DropdownItem href="/tags">{$t('pagelinks.tags')}</DropdownItem>
-						<DropdownItem href="/languages">{$t('pagelinks.languages')}</DropdownItem>
-						<DropdownItem href="/search">{$t('pagelinks.search')}</DropdownItem>
-					</Dropdown>
-				</div>
-				{#if user}
-					<button on:click={handleLogout} type="button" class="btn variant-filled">Sign Out</button>
-				{:else}
-					<button on:click={() => goto('/login')} type="button" class="btn variant-filled"
-						>Sign In</button
-					>
-				{/if}
-				<button on:click={handleLocaleChange}><Languages /></button>
-			</svelte:fragment>
-		</AppBar>
-	</svelte:fragment>
-	<!-- Router Slot -->
-
-	<main class="container mx-auto">
-		<div class="flex-initial">
-			{#if $loading}
-				<Loading />
+			</div>
+			<div class="hidden-on-mobile">
+				<Button outline color="green"
+					>{getRouteDropdownLabel(activeUrl)}...
+					<ChevronDownSolid class="w-3 h-3 ms-2 text-white dark:text-white" />
+				</Button>
+				<Dropdown {activeUrl}>
+					<DropdownItem href="/">{$t('pagelinks.dashboard')}</DropdownItem>
+					<DropdownItem href="/accounts">{$t('pagelinks.accounts')}</DropdownItem>
+					<DropdownItem href="/toots">{$t('pagelinks.toots')}</DropdownItem>
+					<DropdownItem href="/websites">{$t('pagelinks.websites')}</DropdownItem>
+					<DropdownItem href="/tags">{$t('pagelinks.tags')}</DropdownItem>
+					<DropdownItem href="/languages">{$t('pagelinks.languages')}</DropdownItem>
+					<DropdownItem href="/search">{$t('pagelinks.search')}</DropdownItem>
+				</Dropdown>
+			</div>
+			{#if user}
+				<button on:click={handleLogout} type="button" class="btn variant-filled">Sign Out</button>
 			{:else}
-				<slot />
+				<button on:click={() => goto('/login')} type="button" class="btn variant-filled"
+					>Sign In</button
+				>
 			{/if}
-		</div>
-	</main>
+			<button on:click={handleLocaleChange}><Languages /></button>
+		</svelte:fragment>
+	</AppBar>
+</slot>
 
-	<!-- ---- / ---- -->
-	<svelte:fragment slot="pageFooter"><Footer /></svelte:fragment>
-	<svelte:fragment slot="footer"></svelte:fragment>
-</AppShell>
+<!-- Router Slot -->
+
+<main class="container mx-auto">
+	<div class="flex-initial">
+		{#if $loading}
+			<Loading />
+		{:else}
+			<slot />
+		{/if}
+	</div>
+</main>
 
 <style>
 	/* Other styles for your component */
