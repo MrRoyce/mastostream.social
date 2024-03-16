@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
+	import { Breadcrumb, BreadcrumbItem, Heading } from 'flowbite-svelte';
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
@@ -53,7 +53,7 @@
 			<!-- Left Side -->
 			<div class="w-full md:w-3/12 md:mx-2">
 				<!-- Profile Card -->
-				<h1>Tag: {entity.name}</h1>
+				<Heading>Tag: {entity.name}</Heading>
 			</div>
 			<!-- Right Side -->
 			<div class="w-full md:w-9/12 mx-2">
@@ -66,9 +66,9 @@
 			</div>
 		</div>
 		<div class="my-4 text-white">
-			<h2 class="text-gray-200 font-bold text-xl leading-8 my-1 pb-4">
+			<Heading tag="h2" class="text-gray-200 leading-8 my-1 pb-4">
 				Latest toots tagged #{entity.name}:
-			</h2>
+			</Heading>
 			<TootTable {tableData} sourceData={toots} />
 		</div>
 	</div>
