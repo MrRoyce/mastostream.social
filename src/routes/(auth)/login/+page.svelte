@@ -81,25 +81,29 @@
 	}
 
 	async function signInWithGoogle() {
-		const provider = new GoogleAuthProvider();
-		const credential = await signInWithPopup(auth, provider);
+		try {
+			const provider = new GoogleAuthProvider();
+			const credential = await signInWithPopup(auth, provider);
 
-		// Get idToken from Google.
-		// Be careful for other implementations!!
-		const idToken = await credential.user.getIdToken();
+			// Get idToken from Google.
+			// Be careful for other implementations!!
+			const idToken = await credential.user.getIdToken();
 
-		if (analytics) {
-			logEvent(analytics, 'login');
+			if (analytics) {
+				logEvent(analytics, 'login');
+			}
+
+			await setSessionToken(idToken);
+
+			const admin = await isUserAdmin(credential.user?.email || '');
+
+			goto(admin ? '/admin' : '/dashboard', {
+				invalidateAll: true,
+				replaceState: true
+			});
+		} catch (error) {
+			console.log('error in signin in login', error);
 		}
-
-		await setSessionToken(idToken);
-
-		const admin = await isUserAdmin(credential.user?.email || '');
-
-		goto(admin ? '/admin' : '/dashboard', {
-			invalidateAll: true,
-			replaceState: true
-		});
 	}
 </script>
 
