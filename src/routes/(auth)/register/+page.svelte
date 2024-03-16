@@ -19,18 +19,22 @@
 
 	async function addUserToDB(user: any) {
 		const { uid, email, displayName, photoURL } = user;
-		await setDoc(
-			doc(db, 'users', uid),
-			{
-				email,
-				displayName,
-				photoURL
-			},
-			{ merge: true }
-		);
+		try {
+			await setDoc(
+				doc(db, 'users', uid),
+				{
+					email,
+					displayName,
+					photoURL
+				},
+				{ merge: true }
+			);
 
-		if (analytics) {
-			logEvent(analytics, 'sign_up');
+			if (analytics) {
+				logEvent(analytics, 'sign_up');
+			}
+		} catch (error) {
+			console.log('error in register sign_up', error);
 		}
 	}
 
