@@ -70,6 +70,7 @@ const shouldRefreshToken = (token: DecodedIdToken | null) =>
   token && token.exp - Date.now() / 1000 < SIX_DAYS_IN_SECONDS;
 
 async function updateSessionCookie(token: DecodedIdToken, cookies: Cookies) {
+
   const freshSessionCookie = await createSessionCookieForUserId(
     token.uid,
     ONE_WEEK_IN_SECONDS
