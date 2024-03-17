@@ -11,7 +11,6 @@
 	let admin = false;
 
 	const email = user?.email || 'notfound@none.com';
-	console.log('email in (admin) admin +page.svelte', email);
 
 	admin = isUserAdmin(email);
 
