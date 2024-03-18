@@ -58,7 +58,7 @@
 					{item.bot ? '🤖' : '👤'}
 				</TableBodyCell>
 				<TableBodyCell>
-					{formatCreatedAt(item.createdAt)}
+					{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
 				</TableBodyCell>
 				<TableBodyCell>
 					{item.acct}
