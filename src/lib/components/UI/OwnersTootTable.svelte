@@ -54,7 +54,7 @@
 					{item.sensitive ? '❌' : '✅'}
 				</TableBodyCell>
 				<TableBodyCell class="text-center">
-					{formatCreatedAt(item.createdAt)}
+					{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
 				</TableBodyCell>
 				<TableBodyCell class="text-left">
 					{#if item.sensitive && !showSensitive}
