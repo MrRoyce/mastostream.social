@@ -12,6 +12,7 @@
 	import { goto } from '$app/navigation';
 	import { truncateHTML } from '$lib/utils/truncateHTML';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
+	import { formatCreatedAt } from '$lib/utils';
 
 	export let showTableHead: Boolean = true;
 	export let sourceData: Array<AccountRow>;
@@ -57,7 +58,7 @@
 					{item.bot ? '🤖' : '👤'}
 				</TableBodyCell>
 				<TableBodyCell>
-					{item.createdAt}
+					{formatCreatedAt(item.createdAt)}
 				</TableBodyCell>
 				<TableBodyCell>
 					{item.acct}
