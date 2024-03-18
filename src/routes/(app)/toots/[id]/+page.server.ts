@@ -111,7 +111,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
         EX: ttl
       })
 
-      setHeaders({ "cache-control": `max-age=${ttl}` })
+      setHeaders({ "cache-control": `public, max-age=${ttl}` })
 
     }
   }
