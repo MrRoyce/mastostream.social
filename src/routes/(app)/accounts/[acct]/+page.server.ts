@@ -10,8 +10,6 @@ let toots
 export const load: PageServerLoad = (async ({ params, setHeaders }) => {
 
   try {
-
-
     await redis.connect()
 
     const lowerCase = params.acct && typeof params.acct === 'string' ? params.acct.toLowerCase() : params.acct;
@@ -48,7 +46,7 @@ export const load: PageServerLoad = (async ({ params, setHeaders }) => {
       })
     }
 
-    setHeaders({ "cache-control": `max-age=${ttl}` })
+    setHeaders({ "cache-control": `public, max-age=${ttl}` })
 
     return {
       entity: JSON.parse(JSON.stringify(entity)),
@@ -57,7 +55,7 @@ export const load: PageServerLoad = (async ({ params, setHeaders }) => {
     };
 
   } catch (error) {
-    console.error(`Error in accounts +page.server.ts ${error}`, JSON.stringify(error))
+    console.error(`Error in (app) accounts +page.server.ts ${error}`, JSON.stringify(error))
 
   } finally {
     await redis.disconnect()

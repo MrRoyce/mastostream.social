@@ -81,7 +81,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
   await redis.disconnect()
 
   if (languageCached && entityCached && tootsCached) {
-    setHeaders({ "cache-control": `max-age=${ttl}` })
+    setHeaders({ "cache-control": `public, max-age=${ttl}` })
   }
 
   return {
