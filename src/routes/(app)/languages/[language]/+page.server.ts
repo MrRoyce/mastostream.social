@@ -1,18 +1,9 @@
 import type { PageServerLoad } from './$types';
 import { getLanguage } from '$lib/utils/getLanguage';
-import { createClient } from 'redis';
-import { VITE_REDIS_HOST, VITE_REDIS_PASSWORD, VITE_REDIS_PORT } from '$env/static/private'
 import { getDocument, getToots } from '$lib/getCollection';
 import type { DocumentData } from 'firebase/firestore';
 import { formatToot } from '$lib/utils';
-
-const redis = createClient({
-  password: VITE_REDIS_PASSWORD,
-  socket: {
-    host: VITE_REDIS_HOST,
-    port: VITE_REDIS_PORT
-  }
-});
+import { redis } from '$lib/redis/redis';
 
 // Get languages and its toots
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) => {
@@ -39,10 +30,8 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
   ])
 
   if (languageCached) {
-    console.log(`${redisKeyLanguage} found in cache!`)
     wikiData = JSON.parse(languageCached)
   } else {
-    console.log(`${redisKeyLanguage} Not in cache`)
     const translatedLanguage = getLanguage(languageLowerCase)
     const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${translatedLanguage.englishValue}%20Language`
     const res = await fetch(url)
@@ -67,10 +56,8 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
   }
 
   if (entityCached) {
-    console.log('Entity Cached')
     entityObject = JSON.parse(entityCached)
   } else {
-    console.log('Entity Not found')
     entity = await getDocument({ entity: 'languages', id: languageLowerCase });
     entityObject = JSON.parse(JSON.stringify(entity))
     await redis.set(redisKeyLanguagesEntity, JSON.stringify(entity), {
@@ -79,10 +66,8 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
   }
 
   if (tootsCached) {
-    console.log('Toots Cached')
     tootsObject = JSON.parse(tootsCached)
   } else {
-    console.log('Toots Not found')
     toots = await getToots({ entity: 'languages', id: languageLowerCase, max: 100, orderByField: 'createdAt', tootType })
     const items = toots.map((item) => {
       return formatToot(item)
