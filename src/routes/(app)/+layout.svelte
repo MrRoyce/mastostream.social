@@ -8,7 +8,7 @@
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 
-	import { Loading } from '$lib/components';
+	import { Footer, Loading } from '$lib/components';
 	import { loading, showSensitiveStore } from '$lib/stores';
 	import {
 		A,
@@ -265,6 +265,10 @@
 		{/if}
 	</div>
 </main>
+
+<slot name="pageFooter">
+	<Footer />
+</slot>
 
 <style>
 	/* Other styles for your component */

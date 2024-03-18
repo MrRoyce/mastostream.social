@@ -1,11 +1,13 @@
 <script lang="ts">
 	import '../app.pcss';
 	import '@fontsource/dosis';
-	import { AppBar, AppShell, initializeStores, Toast } from '@skeletonlabs/skeleton';
-	import { Footer } from '$lib/components';
+	import { AppShell, initializeStores, Toast } from '@skeletonlabs/skeleton';
+	import { Footer, Loading } from '$lib/components';
 	import { authUser } from '$lib/stores';
 	import { auth } from '$lib/firebase/client';
 	import { onMount } from 'svelte';
+	import { loading } from '$lib/stores';
+	import { navigating } from '$app/stores';
 
 	initializeStores();
 
@@ -25,14 +27,20 @@
 			});
 		});
 	});
+
+	$: $loading = !!$navigating;
 </script>
 
 <Toast />
 
-<AppShell slotSidebarLeft="bg-surface-500/5 w-0 lg:w-56" class="dark:text-white">
-	<svelte:fragment slot="header"></svelte:fragment>
-	<slot />
-	<!-- ---- / ---- -->
-	<svelte:fragment slot="pageFooter"><Footer /></svelte:fragment>
-	<svelte:fragment slot="footer"></svelte:fragment>
-</AppShell>
+{#if $loading}
+	<Loading />
+{:else}
+	<AppShell slotSidebarLeft="bg-surface-500/5 w-0 lg:w-56" class="dark:text-white">
+		<svelte:fragment slot="header"></svelte:fragment>
+		<slot />
+		<!-- ---- / ---- -->
+		<svelte:fragment slot="pageFooter"></svelte:fragment>
+		<!-- <svelte:fragment slot="footer"></svelte:fragment> -->
+	</AppShell>
+{/if}

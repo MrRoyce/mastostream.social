@@ -9,6 +9,7 @@
 	import { A } from 'flowbite-svelte';
 	import Languages from '$lib/components/Languages/Languages.svelte';
 	import { handleLocaleChange } from '$lib/utils/handleLocaleChange';
+	import { Footer } from '$lib/components';
 
 	export let data: LayoutData;
 
@@ -53,4 +54,13 @@
 	</AppBar>
 </slot>
 
-<slot />
+<!-- Router Slot -->
+<main class="container mx-auto">
+	<div class="flex-initial">
+		<slot />
+	</div>
+</main>
+
+<slot name="pageFooter">
+	<Footer />
+</slot>
