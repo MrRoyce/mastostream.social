@@ -3,23 +3,6 @@ import { getLanguage } from '$lib/utils/getLanguage';
 import { createClient } from 'redis';
 import { VITE_REDIS_HOST, VITE_REDIS_PASSWORD, VITE_REDIS_PORT } from '$env/static/private'
 
-async function getWikiMediaData(fetch, language) {
-
-
-  try {
-    const response = await fetch(url)
-
-
-
-    const result = await response.json()
-    return ({ ...result })
-  } catch (err) {
-    const error = `Error calling external API ${url} in getWikiMediaData: ${err.message}.`
-    console.error(error, error)
-    return null
-  }
-}
-
 // Get languages and its toots
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
@@ -68,6 +51,8 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       }
     }
   }
+
+  redis.disconnect()
 
   return { wikiData: { ...wikiData } };
 });
