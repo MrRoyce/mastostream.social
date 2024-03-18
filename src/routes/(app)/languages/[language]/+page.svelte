@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
-	import { TootTable, CardWithLink, TootsRadio } from '$lib/components';
+	import { TootTable, CardWithImage, TootsRadio } from '$lib/components';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import { getLanguage } from '$lib/utils/getLanguage';
@@ -65,7 +65,7 @@
 						<Button on:click={() => (clickOutsideModal = true)}>WikiData</Button>
 					</div>
 					<Modal title="WikiData" bind:open={clickOutsideModal} autoclose outsideclose
-						><CardWithLink
+						><CardWithImage
 							cardImage={wikiData.originalimage?.source ||
 								'https://commons.wikimedia.org/static/images/project-logos/commonswiki-2x.png'}
 							description={wikiData.extract}

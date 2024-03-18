@@ -3,7 +3,14 @@
 	import { A, Breadcrumb, BreadcrumbItem, Button } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
-	import { BlurHash, CardWithLink, ImageGallery, TootTable, YouTube } from '$lib/components';
+	import {
+		BlurHash,
+		CardDefault,
+		CardWithImage,
+		ImageGallery,
+		TootTable,
+		YouTube
+	} from '$lib/components';
 	import { showSensitiveStore } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
@@ -173,10 +180,18 @@
 								url={card.url}
 								videoSource={card.html}
 							/>
-						{:else if card.image}<CardWithLink
+						{:else if card.image}
+							<CardWithImage
 								cardImage={card.image}
 								description={card.description}
 								imageDescription={card.image_description || card.description}
+								providerName={card.provider_name}
+								title={card.title}
+								url={card.url}
+							/>
+						{:else}
+							<CardDefault
+								description={card.description || card.title}
 								providerName={card.provider_name}
 								title={card.title}
 								url={card.url}
