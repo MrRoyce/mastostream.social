@@ -66,7 +66,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     entity = JSON.parse(entityCached)
     replies = JSON.parse(repliesCached)
     replyTo = JSON.parse(replyToCached)
-  } else if (!cardCached || !entityCached || !repliesCached || !replyToCached) {
+  } else {
 
     // Get Entity
     const lowerCase = params.id && typeof params.id === 'string' ? idToLowerCase : params.id;
