@@ -6,41 +6,40 @@ import { getDocument, getToots } from '$lib/getCollection';
 import type { DocumentData } from 'firebase/firestore';
 import { formatToot } from '$lib/utils';
 
+const redis = createClient({
+  password: VITE_REDIS_PASSWORD,
+  socket: {
+    host: VITE_REDIS_HOST,
+    port: VITE_REDIS_PORT
+  }
+});
+
 // Get languages and its toots
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) => {
 
   const tootType = url.searchParams.get('type') ?? 'human'
-
   const languageLowerCase = params.language && typeof params.language === 'string' ? params.language.toLowerCase() : params.language;
-
   const redisKeyLanguage = `language_${languageLowerCase}`
-
-  const entity: DocumentData = await getDocument({ entity: 'languages', id: languageLowerCase });
-
-  const toots: DocumentData[] = await getToots({ entity: 'languages', id: languageLowerCase, max: 100, orderByField: 'createdAt', tootType })
-
-  const items = toots.map((item) => {
-    return formatToot(item)
-  })
-
-  const redis = createClient({
-    password: VITE_REDIS_PASSWORD,
-    socket: {
-      host: VITE_REDIS_HOST,
-      port: VITE_REDIS_PORT
-    }
-  });
+  const redisKeyLanguagesEntity = `languages_${languageLowerCase}`
+  const redisKeyLanguagesToots = `languages_${languageLowerCase}_toots`
 
   await redis.connect()
-  let wikiData = {}
 
-  const languageCached = await redis.get(redisKeyLanguage)
-  let ttl
+  let wikiData = {}
+  let entity: DocumentData | null
+  let toots: DocumentData[] | null
+  let entityObject = {}
+  let tootsObject = {}
+  const ttl = 600
+
+  const [languageCached, entityCached, tootsCached] = await Promise.all([
+    await redis.get(redisKeyLanguage),
+    await redis.get(redisKeyLanguagesEntity),
+    await redis.get(redisKeyLanguagesToots)
+  ])
 
   if (languageCached) {
     console.log(`${redisKeyLanguage} found in cache!`)
-    ttl = await redis.ttl(redisKeyLanguage)
-    setHeaders({ "cache-control": `max-age=${ttl}` })
     wikiData = JSON.parse(languageCached)
   } else {
     console.log(`${redisKeyLanguage} Not in cache`)
@@ -61,18 +60,44 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
         }
 
         await redis.set(redisKeyLanguage, JSON.stringify(wikiData), {
-          EX: 600
+          EX: ttl
         })
       }
     }
   }
 
+  if (entityCached) {
+    console.log('Entity Cached')
+    entityObject = JSON.parse(entityCached)
+  } else {
+    console.log('Entity Not found')
+    entity = await getDocument({ entity: 'languages', id: languageLowerCase });
+    entityObject = JSON.parse(JSON.stringify(entity))
+    await redis.set(redisKeyLanguagesEntity, JSON.stringify(entity), {
+      EX: ttl
+    })
+  }
+
+  if (tootsCached) {
+    console.log('Toots Cached')
+    tootsObject = JSON.parse(tootsCached)
+  } else {
+    console.log('Toots Not found')
+    toots = await getToots({ entity: 'languages', id: languageLowerCase, max: 100, orderByField: 'createdAt', tootType })
+    const items = toots.map((item) => {
+      return formatToot(item)
+    })
+    tootsObject = JSON.parse(JSON.stringify(items))
+    await redis.set(redisKeyLanguagesToots, JSON.stringify(items), {
+      EX: ttl
+    })
+  }
+
   await redis.disconnect()
 
-  // Need to stringify to remove the timestamp object
-  // Then parse to pass an object!!
-  const entityObject = JSON.parse(JSON.stringify(entity))
-  const tootsObject = JSON.parse(JSON.stringify(items))
+  if (languageCached && entityCached && tootsCached) {
+    setHeaders({ "cache-control": `max-age=${ttl}` })
+  }
 
   return {
     entity: entityObject,
