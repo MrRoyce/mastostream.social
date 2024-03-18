@@ -1,7 +1,8 @@
 import BlurHash from '$lib/components/BlurHash/BlurHash.svelte';
+import CardDefault from '$lib/components/Cards/CardDefault.svelte';
 import CardLineChart from '$lib/components/Cards/CardLineChart.svelte';
 import CardStats from '$lib/components/Cards/CardStats.svelte';
-import CardWithLink from '$lib/components/Cards/Card.svelte';
+import CardWithImage from '$lib/components/Cards/Card.svelte';
 import Footer from '$lib/components/Footers/Footer.svelte';
 import FooterPage from '$lib/components/Footers/FooterPage.svelte';
 import ImageGallery from '$lib/components/UI/ImageGallery.svelte';
@@ -14,8 +15,9 @@ import YouTube from '$lib/components/Cards/YouTube.svelte';
 
 export {
 	BlurHash,
+	CardDefault,
 	CardLineChart,
-	CardWithLink,
+	CardWithImage,
 	CardStats,
 	Footer,
 	FooterPage,
