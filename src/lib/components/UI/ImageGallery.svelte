@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { Gallery } from 'flowbite-svelte';
 	import BlurHash from '$lib/components/BlurHash/BlurHash.svelte';
-	import CardWithLink from '$lib/components/Cards/Card.svelte';
+	import CardWithImage from '$lib/components/Cards/Card.svelte';
 
 	export let pictures: Array;
 	export let sensitive: Boolean;
@@ -17,7 +16,7 @@
 				width={picture.meta?.small?.width || 256}
 			/>
 		{:else}
-			<CardWithLink
+			<CardWithImage
 				cardImage={picture.remote_url || picture.remoteUrl || picture.preview_url || picture.src}
 				description={picture.description || ''}
 				imageDescription={picture.description || ''}
