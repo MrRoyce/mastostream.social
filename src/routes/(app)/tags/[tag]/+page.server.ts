@@ -48,7 +48,7 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
       })
 
       // Store toots for the tag in redis
-      toots = JSON.parse(JSON.stringify(items))
+      toots = items
       await redis.set(redisKeyTagToots, JSON.stringify(items), {
         EX: ttl
       })
@@ -64,7 +64,7 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
     };
 
   } catch (error) {
-    console.error(`Error in (app) tags +page.server.ts ${error}`, JSON.stringify(error))
+    console.error(`Error in (app) tags [tag] +page.server.ts ${error}`, JSON.stringify(error))
 
   } finally {
     await redis.disconnect()
