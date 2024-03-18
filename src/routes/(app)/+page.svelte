@@ -25,8 +25,8 @@
 	const direction = 'desc';
 	const max = 15;
 
-	const collectionRef = collection(db, 'toots');
-	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
+	const tootsCollectionRef = collection(db, 'toots');
+	const q = query(tootsCollectionRef, orderBy(orderByField, direction), limit(max));
 	const tootsMarquee = collectionStore(db, q);
 
 	const stats = calculateStats(data);

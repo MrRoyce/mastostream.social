@@ -2,7 +2,7 @@ import { getAuth } from 'firebase-admin/auth';
 import type { App } from 'firebase-admin/app';
 import { getApp, getApps } from 'firebase-admin/app';
 import type { DecodedIdToken } from 'firebase-admin/auth';
-import { FB_CLIENT_EMAIL, FB_PRIVATE_KEY, FB_PROJECT_ID, VITE_APIKEY, VITE_DATABASE_URL } from '$env/static/private'
+import { FB_CLIENT_EMAIL, FB_PRIVATE_KEY, FB_PROJECT_ID, VITE_APIKEY } from '$env/static/private'
 import pkg from 'firebase-admin';
 
 const apiKey = VITE_APIKEY
