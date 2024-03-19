@@ -13,6 +13,7 @@
 	import { truncateHTML } from '$lib/utils/truncateHTML';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { formatCreatedAt } from '$lib/utils';
+	import showSensitiveStore from '$lib/stores/SensitiveStore';
 
 	export let showTableHead: Boolean = true;
 	export let sourceData: Array<AccountRow>;
@@ -23,6 +24,11 @@
 
 	let currentPosition = 0;
 	let totalItems = sourceData.length;
+	let showSensitive: boolean;
+
+	showSensitiveStore.subscribe((data) => {
+		showSensitive = data;
+	});
 
 	$: sourceData;
 	$: totalItems = sourceData.length;
@@ -66,8 +72,12 @@
 				<TableBodyCell>
 					{item.language}
 				</TableBodyCell>
-				<TableBodyCell>
-					{@html truncateHTML(item.content, 50)}
+				<TableBodyCell class="whitespace-normal break-words py-2">
+					{#if item.sensitive && !showSensitive}
+						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
+					{:else}
+						{@html truncateHTML(item.content, 300)}
+					{/if}
 				</TableBodyCell>
 				<TableBodyCell>
 					<A

@@ -56,11 +56,11 @@
 				<TableBodyCell class="text-center">
 					{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
 				</TableBodyCell>
-				<TableBodyCell class="text-left">
+				<TableBodyCell class="whitespace-normal break-words py-2">
 					{#if item.sensitive && !showSensitive}
 						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 					{:else}
-						{@html truncateHTML(item.content, 100)}
+						{@html truncateHTML(item.content, 300)}
 					{/if}
 				</TableBodyCell>
 				<TableBodyCell class="text-center">
