@@ -6,7 +6,7 @@
 	import { A, Breadcrumb, BreadcrumbItem, Li, List } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
-	import { browser } from '$app/environment';
+	import { browser, dev } from '$app/environment';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -19,6 +19,9 @@
 	const entity = data.entity;
 	const toots = data.toots;
 	const id = data.id;
+
+	if (browser && dev) console.log('account entity', entity);
+	if (browser && dev) console.log('account toots', toots);
 
 	let domain: string;
 
@@ -38,7 +41,8 @@
 	};
 </script>
 
-{#if entity?.domain}
+{#if entity?.domain && entity.instance}
+	{@const instance = entity.instance}
 	<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 		<Breadcrumb aria-label="Links to Dashboard and Servers">
 			<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
@@ -54,7 +58,7 @@
 					<!-- Profile Card -->
 					<div class="bg-grey-900 p-3 border-t-4 border-green-400">
 						<div class="image overflow-hidden">
-							<img class="h-auto w-full mx-auto" src={entity.instance?.thumbnail} alt="" />
+							<img class="h-auto w-full mx-auto" src={instance.thumbnail} alt="" />
 						</div>
 						<span class="ml-auto"
 							><span
@@ -85,12 +89,12 @@
 						<List list="none">
 							<Li class="ml-auto text-gray-300 my-1"
 								># Toots: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-									>{entity.instance?.stats?.status_count.toLocaleString()}</span
+									>{instance.stats?.status_count.toLocaleString()}</span
 								></Li
 							>
 							<Li class="ml-auto text-gray-300 my-1"
 								># Users: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-									>{entity.instance?.stats?.user_count.toLocaleString()}</span
+									>{instance.stats?.user_count.toLocaleString()}</span
 								></Li
 							>
 						</List>
@@ -100,23 +104,23 @@
 				<div class="w-full md:w-9/12 mx-2">
 					<div class="bg-grey-900 p-3 shadow-sm rounded-sm">
 						<p class="mt-5 text-xl">
-							{entity.instance?.title || ''}
+							{instance.title || ''}
 						</p>
 						<p class="mt-5 text-l">
 							<span class="pt-10 ml-auto my-1">Email:</span>
-							{entity.instance?.email || 'Not Available'}
+							{instance.email || 'Not Available'}
 						</p>
 						<div class="mt-7 text-gray-200">
 							<p class="text-l">
-								{@html formatText(entity.instance?.short_description, 'underline text-green-200')}
+								{@html formatText(instance.short_description || '', 'underline text-green-200')}
 							</p>
 						</div>
-						{#if entity.instance?.rules?.length > 0}
+						{#if instance.rules?.length > 0}
 							<h2 class="mt-7 text-white">Rules:</h2>
 						{/if}
 						<List list="none">
-							{#if entity.instance?.rules}
-								{#each entity.instance?.rules as rule}
+							{#if instance.rules}
+								{#each instance.rules as rule}
 									<Li class=" pl-4 mb-4">
 										<span class="text-gray-200 mr-3"
 											>{@html formatText(
