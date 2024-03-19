@@ -7,8 +7,10 @@ const ttl = 600
 let replies: { id: any; }[] = []
 let replyTo = false
 let card
-let entity
+let entity = {}
 
+// Convert the toots url with the api string
+// to be able to get the full toot details!
 function replaceUsersSegment(originalUrl: string, replacementText = 'api/v1') {
   const regex = /\/users\/[^\/]*/
   let response
@@ -42,7 +44,7 @@ async function getStatusWithCard(fetch: { (input: URL | RequestInfo, init?: Requ
   }
 }
 
-// Get the toot
+// Get the toot for the passed id
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
   await redis.connect()
@@ -62,21 +64,24 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
   ])
 
   if (cardCached && entityCached && repliesCached && replyToCached) {
+    console.log('cardCached, entityCached, repliesCached, replyToCached cached')
     card = JSON.parse(cardCached)
     entity = JSON.parse(entityCached)
     replies = JSON.parse(repliesCached)
     replyTo = JSON.parse(replyToCached)
   } else {
-
+    console.log('cardCached, entityCached, repliesCached, replyToCached NOT cached')
     // Get Entity
     const lowerCase = params.id && typeof params.id === 'string' ? idToLowerCase : params.id;
     entity = await getDocument({ entity: 'toots', id: lowerCase });
 
-    if (entity) {
+    if (entity && entity.uri) {
       // Get Card
       const uriWithCard = replaceUsersSegment(entity.uri)
+      console.log('entity.url', entity.uri)
+      console.log('uriWithCard', uriWithCard)
       const cardResult = await getStatusWithCard(fetch, uriWithCard)
-      card = cardResult?.card || null
+      card = cardResult?.card || {}
       entity.account = cardResult?.account || entity.account  // Override with better data
       entity.content = cardResult?.content || entity.content  // Override with better data
       entity.mediaAttachments = cardResult?.media_attachments || entity.mediaAttachments  // Override with better data
@@ -113,6 +118,9 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
       setHeaders({ "cache-control": `public, max-age=${ttl}` })
 
+    } else {
+      entity = {}
+      console.error(`No entity found for entity: toots and id: ${lowerCase}`)
     }
   }
 

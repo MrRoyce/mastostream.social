@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Maintenance, Page404, Section } from 'flowbite-svelte-blocks';
+	import { dev } from '$app/environment';
 	import { A, Breadcrumb, BreadcrumbItem, Button } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
@@ -29,15 +30,15 @@
 	const replies = data.replies;
 	const replyTo = data.replyTo ? [data.replyTo] : false;
 	const card = data.card;
-	if (browser) console.log('entity', entity);
-	if (browser) console.log('card', card);
+	if (browser && dev) console.log('entity', entity);
+	if (browser && dev) console.log('card', card);
 
 	const images =
 		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
 			? formatImages(entity?.mediaAttachments)
 			: { audio: [], videos: [], pictures: [] };
 
-	if (browser) console.log('images', images);
+	if (browser && dev) console.log('images', images);
 
 	const accountNote =
 		entity && entity.account && entity.account.note
