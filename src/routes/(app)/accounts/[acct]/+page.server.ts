@@ -1,13 +1,41 @@
 import type { PageServerLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
 import { redis } from '$lib/redis/redis';
+import { browser, dev } from '$app/environment';
 
 const ttl = 600
 let entity
 let toots
+let acct = {}
+
+const replaceFromString = 'users/'
+const replaceToString = 'api/v1/accounts/lookup?acct='
+
+// type EntityInfo = {
+//   fetch: () => {},
+//   lowerCase: string
+// }
+
+async function getLatestEntityInfo(fetch, uriWithLookup) {
+  try {
+    const response = await fetch(uriWithLookup)
+    if (!response.ok) {
+      const error = `HTTP error: ${uriWithLookup}, Status: ${response.status}, Text: ${response.statusText}`
+      console.error(error)
+      return null
+    }
+
+    const result = await response.json()
+    return ({ ...result })
+  } catch (err) {
+    const error = `Error calling external API ${uriWithLookup} in getStatusWithCard: ${err.message}.`
+    console.error(error, error)
+    return null
+  }
+}
 
 // Get account and their toots
-export const load: PageServerLoad = (async ({ params, setHeaders }) => {
+export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
   try {
     await redis.connect()
@@ -24,26 +52,56 @@ export const load: PageServerLoad = (async ({ params, setHeaders }) => {
 
     if (accountCached && accountTootsCached) {
       console.log('accountCached, accountTootsCached cached')
+
       entity = JSON.parse(accountCached)
       toots = JSON.parse(accountTootsCached)
     } else {
       console.log('accountCached, accountTootsCached NOT cached')
+
       const [entityFromPromise, tootsFromPromise] = await Promise.all([
         await getDocument({ entity: 'accounts', id: lowerCase }),
-        await getToots({ entity: 'accounts', id: lowerCase, max: 100, orderByField: 'createdAt' })
+        await getToots({
+          entity: 'accounts',
+          id: lowerCase,
+          max: 100,
+          orderByField: 'createdAt',
+          tootType: 'both'
+        })
       ]);
+
       entity = entityFromPromise
       toots = tootsFromPromise
 
-      // Store entity in redis
-      await redis.set(redisKeyAccount, JSON.stringify(entity), {
-        EX: ttl
-      })
+      // Get the latest account info
+      if (entity && entity.uri) {
+        const uriWithLookup = entity.uri.replace(replaceFromString, replaceToString)
 
-      // Store card in redis
-      await redis.set(redisKeyAccountToots, JSON.stringify(toots), {
-        EX: ttl
-      })
+        acct = await getLatestEntityInfo(fetch, uriWithLookup)
+
+        console.log(`acct from call to ${uriWithLookup}`, acct)
+
+        entity.followingCount = acct.following_count || entity.followingCount
+        entity.followersCount = acct.followers_count || entity.followersCount
+        entity.statusesCount = acct.statuses_count || entity.statusesCount
+        entity.header = acct.header || entity.header
+        entity.headerStatic = acct.header_static || entity.headerStatic
+        entity.avatar = acct.avatar || entity.avatar
+        entity.avatarStatic = acct.avatar_static || entity.avatarStatic
+
+        // Store account entity in redis
+        await redis.set(redisKeyAccount, JSON.stringify(entity), {
+          EX: ttl
+        })
+
+        // Store account toots in redis
+        await redis.set(redisKeyAccountToots, JSON.stringify(toots), {
+          EX: ttl
+        })
+
+      } else {
+        entity = {}
+        console.error(`No entity found for entity: accounts and id: ${lowerCase}`)
+      }
     }
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
@@ -55,7 +113,7 @@ export const load: PageServerLoad = (async ({ params, setHeaders }) => {
     };
 
   } catch (error) {
-    console.error(`Error in (app) accounts +page.server.ts ${error}`, JSON.stringify(error))
+    console.error(`Error in (app) accounts [acct] +page.server.ts ${error}`, JSON.stringify(error))
 
   } finally {
     await redis.disconnect()

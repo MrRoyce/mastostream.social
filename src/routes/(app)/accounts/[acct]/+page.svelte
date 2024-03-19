@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from '$lib/translations';
-	import { browser } from '$app/environment';
+	import { browser, dev } from '$app/environment';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
@@ -21,6 +21,9 @@
 	const entity = data.entity;
 	const toots = data.toots;
 	const id = data.id;
+
+	if (browser && dev) console.log('account entity', entity);
+	if (browser && dev) console.log('account toots', toots);
 
 	let domain: string;
 
