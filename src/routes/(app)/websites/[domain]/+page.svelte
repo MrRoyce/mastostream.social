@@ -2,7 +2,7 @@
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
-	import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
+	import { OwnersTootTable } from '$lib/components';
 	import { A, Breadcrumb, BreadcrumbItem, Li, List } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
@@ -38,7 +38,7 @@
 	};
 </script>
 
-{#if entity.domain}
+{#if entity?.domain}
 	<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 		<Breadcrumb aria-label="Links to Dashboard and Servers">
 			<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
@@ -139,12 +139,7 @@
 					Recent toots from {entity.domain}
 				</h2>
 
-				<OwnersTootTable
-					{tableData}
-					sourceData={toots}
-					getData={() => {}}
-					entity={`Toots from ${entity.domain}`}
-				/>
+				<OwnersTootTable {tableData} sourceData={toots} />
 			</div>
 		</div>
 	</div>
