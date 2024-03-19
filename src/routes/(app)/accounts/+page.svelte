@@ -113,13 +113,13 @@
 			hoverable={true}
 		>
 			<TableSearch
-				placeholder={`Search by account`}
-				hoverable={true}
 				bind:inputValue={searchTerm}
-				divClass={searchStyles.divClass}
-				innerDivClass={searchStyles.innerDivClass}
-				searchClass={searchStyles.searchClass}
 				classInput={searchStyles.classInput}
+				divClass={searchStyles.divClass}
+				hoverable={true}
+				innerDivClass={searchStyles.innerDivClass}
+				placeholder={`Search by account`}
+				searchClass={searchStyles.searchClass}
 			>
 				<div
 					slot="header"
