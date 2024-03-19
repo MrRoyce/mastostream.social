@@ -14,7 +14,7 @@
 		TableBodyRow,
 		TableBodyCell
 	} from 'flowbite-svelte';
-	import { formatText, formatToot } from '$lib/utils';
+	import { formatText } from '$lib/utils';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 
 	export let data: PageData;
