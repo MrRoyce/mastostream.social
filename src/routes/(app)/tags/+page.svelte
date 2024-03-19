@@ -51,13 +51,13 @@
 </div>
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5" hoverable={true}>
 	<TableSearch
-		placeholder={`Search by tag`}
-		hoverable={true}
 		bind:inputValue={searchTerm}
-		divClass={searchStyles.divClass}
-		innerDivClass={searchStyles.innerDivClass}
-		searchClass={searchStyles.searchClass}
 		classInput={searchStyles.classInput}
+		divClass={searchStyles.divClass}
+		hoverable={true}
+		innerDivClass={searchStyles.innerDivClass}
+		placeholder={`Search by tag`}
+		searchClass={searchStyles.searchClass}
 	>
 		<div
 			slot="header"
