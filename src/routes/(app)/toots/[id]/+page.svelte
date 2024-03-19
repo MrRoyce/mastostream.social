@@ -142,7 +142,10 @@
 								volume="1"
 								style="width: 100%;"
 							>
-								<source src={video.remoteUrl || video.src} type={video.type || 'video/mp4'} />
+								<source
+									src={video.remoteUrl || video.src}
+									type={video.type === 'video' ? 'video/mp4' : video.type}
+								/>
 
 								<!-- Add caption track -->
 								<track
