@@ -5,6 +5,8 @@ import { convertToK } from '$lib/utils/convertToK';
 import { getRandomRange } from '$lib/utils/getRandomRange';
 import { redis } from '$lib/redis/redis';
 
+let myWords
+
 const ttl = 600
 let dashboardData = {
   latestCounts: {
@@ -32,9 +34,7 @@ export const load: PageServerLoad = async ({ fetch, locals, setHeaders }) => {
     dashboardData.user = locals.user || { email: '', admin: false }
 
     await redis.connect()
-
     const redisKeyDashboard = 'account_dashboard'
-
     const dashboardCached = await redis.get(redisKeyDashboard)
 
     if (dashboardCached) {
@@ -56,9 +56,8 @@ export const load: PageServerLoad = async ({ fetch, locals, setHeaders }) => {
       ])
 
       const { start } = getRandomRange(tags)
-      dashboardData.words = await Promise.all([
-        getWords({ start, max: 50 })
-      ])
+      myWords = await getWords({ start, max: 50 })
+      dashboardData.words = myWords
 
       try {
         // Sum up the count to the time period
@@ -75,12 +74,19 @@ export const load: PageServerLoad = async ({ fetch, locals, setHeaders }) => {
       dashboardData.latestCounts.tags = convertToK(tags)
       dashboardData.latestCounts.toots = convertToK(toots)
 
-      console.log('dashboardData', dashboardData)
+      // Store dashboard data in redis
+      await redis.set(redisKeyDashboard, JSON.stringify(dashboardData), {
+        EX: ttl
+      })
 
-      return {
-        ...dashboardData
-      };
+
     }
+
+    setHeaders({ "cache-control": `public, max-age=${ttl}` })
+
+    return {
+      ...dashboardData
+    };
   } catch (error) {
     console.error(`Error in (app) +page.server.ts ${error}`, JSON.stringify(error))
   } finally {

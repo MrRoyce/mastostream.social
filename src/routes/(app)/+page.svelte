@@ -13,11 +13,8 @@
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { CardLineChart, CardStats, FooterPage, WordCloud } from '$lib/components';
-	import { get } from 'svelte/store';
-	import { authUser } from '$lib/stores';
 
 	export let data: PageData;
-	console.log('data', data);
 	const counts = data.counts;
 	const words = data.words;
 	const latestCounts = data.latestCounts;
