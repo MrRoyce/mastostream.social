@@ -17,8 +17,10 @@
 	import { authUser } from '$lib/stores';
 
 	export let data: PageData;
+	console.log('data', data);
 	const counts = data.counts;
 	const words = data.words;
+	const latestCounts = data.latestCounts;
 	const activeTab = 0;
 
 	const orderByField = 'timestamp';
@@ -29,7 +31,7 @@
 	const q = query(tootsCollectionRef, orderBy(orderByField, direction), limit(max));
 	const tootsMarquee = collectionStore(db, q);
 
-	const stats = calculateStats(data);
+	const stats = calculateStats(latestCounts);
 	const charts = calculateCharts(counts);
 
 	if (browser && isSupported()) {

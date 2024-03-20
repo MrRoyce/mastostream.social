@@ -1,7 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
 import { redis } from '$lib/redis/redis';
-import { browser, dev } from '$app/environment';
 
 const ttl = 600
 let entity
