@@ -1,11 +1,10 @@
 import type { PageServerLoad } from '../$types';
-import { getCount, getCounts, getWords } from '$lib/getCollection';
-import { summarizeCounts } from '$lib/utils/summarizeCounts';
-import { convertToK } from '$lib/utils/convertToK';
-import { getRandomRange } from '$lib/utils/getRandomRange';
+import { getCount, getCounts, getData, getWords } from '$lib/getCollection';
+import { convertToK, getRandomRange, summarizeCounts } from '$lib/utils';
 import { redis } from '$lib/redis/redis';
 
 let myWords
+let dashboardToots
 
 const ttl = 600
 let dashboardData = {
@@ -18,6 +17,7 @@ let dashboardData = {
   },
   counts: {},
   words: [],
+  toots: [],
   user: {
     email: '',
     admin: false
@@ -27,21 +27,27 @@ let dashboardData = {
 export const ssr = false;
 export const prerender = false;
 
-export const load: PageServerLoad = async ({ fetch, locals, setHeaders }) => {
+export const load: PageServerLoad = async ({ locals, setHeaders }) => {
 
   try {
 
     dashboardData.user = locals.user || { email: '', admin: false }
 
     await redis.connect()
+    const redisKeyTootsBoth = `toots_cached_both`
     const redisKeyDashboard = 'account_dashboard'
-    const dashboardCached = await redis.get(redisKeyDashboard)
 
-    if (dashboardCached) {
-      console.log('dashboardCached cached')
+    const [dashboardCached, tootsCached] = await Promise.all([
+      await redis.get(redisKeyDashboard),
+      await redis.get(redisKeyTootsBoth)
+    ])
+
+    if (dashboardCached && tootsCached) {
+      console.log(`${redisKeyDashboard} && ${redisKeyTootsBoth} cached`)
       dashboardData = JSON.parse(dashboardCached)
+      dashboardData.toots = JSON.parse(tootsCached)
     } else {
-      console.log('dashboardCached NOT cached')
+      console.log(`${redisKeyDashboard} && ${redisKeyTootsBoth} NOT cached`)
 
       const hours = 6
       let summarizedCounts = []
@@ -55,7 +61,7 @@ export const load: PageServerLoad = async ({ fetch, locals, setHeaders }) => {
         await getCount('toots')
       ])
 
-      const { start } = getRandomRange(tags)
+      const { start } = getRandomRange(tags, 100)
       myWords = await getWords({ start, max: 50 })
       dashboardData.words = myWords
 
@@ -74,8 +80,22 @@ export const load: PageServerLoad = async ({ fetch, locals, setHeaders }) => {
       dashboardData.latestCounts.tags = convertToK(tags)
       dashboardData.latestCounts.toots = convertToK(toots)
 
+      dashboardToots = await getData({
+        entity: 'toots',
+        max: 100,
+        orderByField: 'createdAt',
+        sourceType: 'both'
+      })
+
+      dashboardData.toots = JSON.parse(JSON.stringify(dashboardToots))
+
       // Store dashboard data in redis
       await redis.set(redisKeyDashboard, JSON.stringify(dashboardData), {
+        EX: ttl
+      })
+
+      // Store dashboard data in redis
+      await redis.set(redisKeyTootsBoth, JSON.stringify(dashboardToots), {
         EX: ttl
       })
     }
