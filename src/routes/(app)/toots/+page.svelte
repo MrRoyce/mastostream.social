@@ -1,8 +1,5 @@
 <script lang="ts">
 	import { A } from 'flowbite-svelte';
-	import { collection, limit, orderBy, query, where } from 'firebase/firestore';
-	import { db } from '$lib/firebase/client';
-	import { collectionStore } from 'sveltefire';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
