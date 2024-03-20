@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { collection, limit, orderBy, query } from 'firebase/firestore';
-	import { db } from '$lib/firebase/client';
-	import { collectionStore } from 'sveltefire';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -20,6 +17,7 @@
 	import { searchStyles } from '$lib/assets/styles/search';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
+	import type { PageData } from './$types';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -28,19 +26,14 @@
 		});
 	}
 
+	export let data: PageData;
+	const tags = data.tags;
+
 	let searchTerm = '';
 
 	const tableData = {
 		tableHead: ['Name', 'Count', 'Last Toot (UTC)']
 	};
-
-	const orderByField = 'count';
-	const direction = 'desc';
-	const max = 200;
-
-	const collectionRef = collection(db, 'tags');
-	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
-	const tags = collectionStore(db, q);
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
@@ -75,7 +68,7 @@
 			{/each}
 		</TableHead>
 		<TableBody>
-			{#each $tags as item}
+			{#each tags as item}
 				<TableBodyRow on:click={() => goto(`/tags/${item.name}`)}>
 					<TableBodyCell>
 						{item.name}
@@ -84,10 +77,10 @@
 						{item.count.toLocaleString()}
 					</TableBodyCell>
 					<TableBodyCell>
-						{item.timestamp
+						{item.lastSeen
 							? formatDate({
-									seconds: item.timestamp.seconds,
-									nanoseconds: item.timestamp.nanoseconds
+									seconds: item.lastSeen.seconds,
+									nanoseconds: item.lastSeen.nanoseconds
 								})
 							: 'N/A'}
 					</TableBodyCell>
