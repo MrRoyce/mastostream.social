@@ -17,19 +17,28 @@ type Options = {
   entity: string;
   max: number;
   orderByField: string;
-  direction: string | 'desc';
+  sourceType: string;
 };
 
 export const getData = async (options: Options) => {
   try {
-    const { entity, max, orderByField, direction } = options
-
+    const { entity, max, orderByField, sourceType } = options
 
     const responseData: DocumentData[] = [];
     const collectionRef = collection(db, entity)
 
+    let queryCollectionRef
+
+    if (sourceType === 'human') {
+      queryCollectionRef = query(collectionRef, where('bot', '==', false), orderBy(orderByField, "desc"), limit(max))
+    } else if (sourceType === 'bot') {
+      queryCollectionRef = query(collectionRef, where('bot', '==', true), orderBy(orderByField, "desc"), limit(max))
+    } else {
+      queryCollectionRef = query(collectionRef, orderBy(orderByField, "desc"), limit(max))
+    }
+
     const data = await getDocs(
-      query(collectionRef, orderBy(orderByField, direction), limit(max))
+      queryCollectionRef
     );
 
     data.docs.map((doc) => {
@@ -116,8 +125,9 @@ export const getWords = async ({ start, max }) => {
 
 export const getToots = async ({ entity, id, max, orderByField, tootType }) => {
   try {
+    const reference = (entity && id) ? `${entity}/${id}/toots` : `toots`
     const responseData: DocumentData[] = [];
-    const collectionRef = collection(db, `${entity}/${id}/toots`)
+    const collectionRef = collection(db, reference)
 
     let queryCollectionRef
 
