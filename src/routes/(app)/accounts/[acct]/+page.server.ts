@@ -74,18 +74,21 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       // Get the latest account info
       if (entity && entity.uri) {
         const uriWithLookup = entity.uri.replace(replaceFromString, replaceToString)
+        try {
+          acct = await getLatestEntityInfo(fetch, uriWithLookup)
 
-        acct = await getLatestEntityInfo(fetch, uriWithLookup)
+          console.log(`acct from call to ${uriWithLookup}`, acct)
 
-        console.log(`acct from call to ${uriWithLookup}`, acct)
-
-        entity.followingCount = acct.following_count || entity.followingCount
-        entity.followersCount = acct.followers_count || entity.followersCount
-        entity.statusesCount = acct.statuses_count || entity.statusesCount
-        entity.header = acct.header || entity.header
-        entity.headerStatic = acct.header_static || entity.headerStatic
-        entity.avatar = acct.avatar || entity.avatar
-        entity.avatarStatic = acct.avatar_static || entity.avatarStatic
+          entity.followingCount = acct.following_count || entity.followingCount
+          entity.followersCount = acct.followers_count || entity.followersCount
+          entity.statusesCount = acct.statuses_count || entity.statusesCount
+          entity.header = acct.header || entity.header
+          entity.headerStatic = acct.header_static || entity.headerStatic
+          entity.avatar = acct.avatar || entity.avatar
+          entity.avatarStatic = acct.avatar_static || entity.avatarStatic
+        } catch (error) {
+          console.error(`Error fetching ${uriWithLookup} in (app) accounts [acct] +page.server.ts ${error}`, JSON.stringify(error))
+        }
 
         // Store account entity in redis
         await redis.set(redisKeyAccount, JSON.stringify(entity), {
