@@ -5,7 +5,7 @@ import { getData } from '$lib/getCollection';
 let entity = []
 const ttl = 600
 
-export const load: PageServerLoad = (async ({ url, fetch, setHeaders }) => {
+export const load: PageServerLoad = (async ({ url, setHeaders }) => {
 
   try {
     const sourceType = url.searchParams.get('type') ?? 'human'
