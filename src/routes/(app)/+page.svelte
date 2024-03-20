@@ -99,7 +99,7 @@
 		<!-- Wordcloud -->
 
 		<div class="hidden-on-mobile">
-			<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4">
+			<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
 				<WordCloud hashtags={words} />
 			</div>
 		</div>
