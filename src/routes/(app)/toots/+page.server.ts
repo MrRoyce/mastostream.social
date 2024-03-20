@@ -22,7 +22,7 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
       entity = await getData({
         entity: 'toots',
         max: 100,
-        orderByField: 'createdAt',
+        orderByField: 'timestamp',
         sourceType
       })
 
