@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { collection, limit, orderBy, query } from 'firebase/firestore';
-	import { db } from '$lib/firebase/client';
-	import { collectionStore } from 'sveltefire';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -29,19 +26,15 @@
 		});
 	}
 
+	export let data: PageData;
+	const languages = data.languages;
+	console.log('languages', languages);
+
 	let searchTerm = '';
 
 	const tableData = {
 		tableHead: ['Name', 'Language', 'Count', 'First seen']
 	};
-
-	const orderByField = 'language';
-	const direction = 'asc';
-	const max = 200;
-
-	const collectionRef = collection(db, 'languages');
-	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
-	const languages = collectionStore(db, q);
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
@@ -76,7 +69,7 @@
 			{/each}
 		</TableHead>
 		<TableBody>
-			{#each $languages as item}
+			{#each languages as item}
 				{@const translations = getLanguage(item.language)}
 				<TableBodyRow on:click={() => goto(`/languages/${item.language}`)}>
 					<TableBodyCell>
