@@ -28,7 +28,6 @@
 
 	export let data: PageData;
 	const languages = data.languages;
-	console.log('languages', languages);
 
 	let searchTerm = '';
 

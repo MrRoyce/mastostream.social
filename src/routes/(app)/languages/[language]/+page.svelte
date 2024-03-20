@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
-	import type { PageData } from '../$types';
+	import type { PageData } from './$types';
 	import { TootTable, CardWithImage, TootsRadio } from '$lib/components';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
