@@ -172,7 +172,7 @@
 						<audio controls muted={false} src={audio.src}></audio>
 					{/each}
 
-					{#if card}
+					{#if card && (card.provider_name || card.title || card.description || card.image || card.url)}
 						{#if entity.sensitive && !showSensitive}
 							<br />
 						{:else if card.provider_name === 'YouTube'}
