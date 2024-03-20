@@ -31,7 +31,7 @@
 	const q = query(tootsCollectionRef, orderBy(orderByField, direction), limit(max));
 	const tootsMarquee = collectionStore(db, q);
 
-	const stats = calculateStats(latestCounts);
+	const stats = calculateStats({ ...latestCounts, counts });
 	const charts = calculateCharts(counts);
 
 	if (browser && isSupported()) {
