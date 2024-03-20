@@ -78,8 +78,6 @@ export const load: PageServerLoad = async ({ fetch, locals, setHeaders }) => {
       await redis.set(redisKeyDashboard, JSON.stringify(dashboardData), {
         EX: ttl
       })
-
-
     }
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
