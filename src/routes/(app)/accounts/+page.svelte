@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { collection, limit, orderBy, query, where } from 'firebase/firestore';
-	import { db } from '$lib/firebase/client';
-	import { collectionStore } from 'sveltefire';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -19,14 +16,15 @@
 	import { SearchOutline } from 'flowbite-svelte-icons';
 	import { formatDate } from '$lib/utils/formatDate';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
-	import { browser } from '$app/environment';
+	import { browser, dev } from '$app/environment';
 	import { searchStyles } from '$lib/assets/styles/search';
 	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 	import { t } from '$lib/translations';
 
 	let searchTerm = '';
 	export let data: PageData;
-	const tootTypePassed = data.tootTypePassed;
+	const { tootTypePassed, accounts } = data;
+	if (browser && dev) console.log(data);
 
 	const tableData = {
 		tableHead: [
@@ -39,33 +37,6 @@
 			$t('pageHeaders.lastPostUTC')
 		]
 	};
-
-	const orderByField = 'timestamp';
-	const direction = 'desc';
-	const max = 200;
-
-	let queryCollectionRef;
-
-	const collectionRef = collection(db, 'accounts');
-	if (tootTypePassed === 'human') {
-		queryCollectionRef = query(
-			collectionRef,
-			where('bot', '==', false),
-			orderBy(orderByField, direction),
-			limit(max)
-		);
-	} else if (tootTypePassed === 'bot') {
-		queryCollectionRef = query(
-			collectionRef,
-			where('bot', '==', true),
-			orderBy(orderByField, direction),
-			limit(max)
-		);
-	} else {
-		queryCollectionRef = query(collectionRef, orderBy(orderByField, direction), limit(max));
-	}
-	const q = queryCollectionRef;
-	const accounts = collectionStore(db, q);
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -141,7 +112,7 @@
 					{/each}
 				</TableHead>
 				<TableBody>
-					{#each $accounts as item}
+					{#each accounts as item}
 						<TableBodyRow on:click={() => goto(`/accounts/${item.acct}`)}>
 							<TableBodyCell
 								><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
