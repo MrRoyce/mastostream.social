@@ -32,7 +32,7 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Name', 'Language', 'Count', 'First seen']
+		tableHead: ['Name', 'Language', 'Count', 'Last Toot']
 	};
 </script>
 
@@ -82,10 +82,10 @@
 					</TableBodyCell>
 
 					<TableBodyCell>
-						{item.timestamp
+						{item.lastSeen
 							? formatDate({
-									seconds: item.timestamp.seconds,
-									nanoseconds: item.timestamp.nanoseconds
+									seconds: item.lastSeen.seconds,
+									nanoseconds: item.lastSeen.nanoseconds
 								})
 							: 'N/A'}
 					</TableBodyCell>
