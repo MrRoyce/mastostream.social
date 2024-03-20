@@ -4,12 +4,9 @@
 	import type { PageData } from './$types';
 	import { Marquee } from '@selemondev/svelte-marquee';
 	import '@selemondev/svelte-marquee/dist/style.css';
-	import { collection, limit, orderBy, query } from 'firebase/firestore';
-	import { db } from '$lib/firebase/client';
-	import { collectionStore } from 'sveltefire';
 	import { goto } from '$app/navigation';
 	import { Button, Tabs, TabItem } from 'flowbite-svelte';
-	import { calculateCharts, calculateStats, truncateHTML } from '$lib/utils';
+	import { calculateCharts, calculateStats, getRandomRange, truncateHTML } from '$lib/utils';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { CardLineChart, CardStats, FooterPage, WordCloud } from '$lib/components';
@@ -18,15 +15,11 @@
 	const counts = data.counts;
 	const words = data.words;
 	const latestCounts = data.latestCounts;
+	const toots = data.toots;
 	const activeTab = 0;
 
-	const orderByField = 'timestamp';
-	const direction = 'desc';
-	const max = 15;
-
-	const tootsCollectionRef = collection(db, 'toots');
-	const q = query(tootsCollectionRef, orderBy(orderByField, direction), limit(max));
-	const tootsMarquee = collectionStore(db, q);
+	const { start, end } = getRandomRange(toots?.length, 10);
+	const tootsMarquee = toots?.slice(start, end);
 
 	const stats = calculateStats({ ...latestCounts, counts });
 	const charts = calculateCharts(counts);
@@ -42,7 +35,7 @@
 <!-- Marquee -->
 <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 	<Marquee pauseOnHover={true} fade={false} reverse={true} class="py-4 motion-reduce:overflow-auto">
-		{#each $tootsMarquee as item}
+		{#each tootsMarquee as item}
 			<Button
 				color="dark"
 				class="max-w-xs transition duration-300 ease-in-out hover:scale-110"
