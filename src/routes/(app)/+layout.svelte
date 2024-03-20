@@ -195,80 +195,80 @@
 	</Sidebar>
 </Drawer>
 
-<slot name="header">
-	<AppBar>
-		<svelte:fragment slot="lead">
-			<div class="flex items-center show-on-mobile dark:text-white">
-				<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
-					<span>
-						<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
-							<rect width="100" height="20" />
-							<rect y="30" width="100" height="20" />
-							<rect y="60" width="100" height="20" />
-						</svg>
-					</span>
-				</Button>
-			</div>
-			<A href="/"
-				><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
-			>
-		</svelte:fragment>
-
-		<svelte:fragment slot="trail">
-			<div>
-				<Toggle
-					color="red"
-					checked={false}
-					value="false"
-					on:click={() => {
-						{
-							hideSensitive();
-						}
-					}}>{$t('pagelinks.showSensitive')}</Toggle
+{#if $loading}
+	<Loading />
+{:else}
+	<slot name="header">
+		<AppBar>
+			<svelte:fragment slot="lead">
+				<div class="flex items-center show-on-mobile dark:text-white">
+					<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
+						<span>
+							<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
+								<rect width="100" height="20" />
+								<rect y="30" width="100" height="20" />
+								<rect y="60" width="100" height="20" />
+							</svg>
+						</span>
+					</Button>
+				</div>
+				<A href="/"
+					><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
 				>
-			</div>
-			<div class="hidden-on-mobile">
-				<Button outline color="green"
-					>{getRouteDropdownLabel(activeUrl)}...
-					<ChevronDownSolid class="w-3 h-3 ms-2 text-white dark:text-white" />
-				</Button>
-				<Dropdown {activeUrl}>
-					<DropdownItem href="/">{$t('pagelinks.dashboard')}</DropdownItem>
-					<DropdownItem href="/accounts">{$t('pagelinks.accounts')}</DropdownItem>
-					<DropdownItem href="/toots">{$t('pagelinks.toots')}</DropdownItem>
-					<DropdownItem href="/websites">{$t('pagelinks.websites')}</DropdownItem>
-					<DropdownItem href="/tags">{$t('pagelinks.tags')}</DropdownItem>
-					<DropdownItem href="/languages">{$t('pagelinks.languages')}</DropdownItem>
-					<DropdownItem href="/search">{$t('pagelinks.search')}</DropdownItem>
-				</Dropdown>
-			</div>
-			{#if user}
-				<button on:click={handleLogout} type="button" class="btn variant-filled">Sign Out</button>
-			{:else}
-				<button on:click={() => goto('/login')} type="button" class="btn variant-filled"
-					>Sign In</button
-				>
-			{/if}
-			<button on:click={handleLocaleChange}><Languages /></button>
-		</svelte:fragment>
-	</AppBar>
-</slot>
+			</svelte:fragment>
 
-<!-- Router Slot -->
+			<svelte:fragment slot="trail">
+				<div>
+					<Toggle
+						color="red"
+						checked={false}
+						value="false"
+						on:click={() => {
+							{
+								hideSensitive();
+							}
+						}}>{$t('pagelinks.showSensitive')}</Toggle
+					>
+				</div>
+				<div class="hidden-on-mobile">
+					<Button outline color="green"
+						>{getRouteDropdownLabel(activeUrl)}...
+						<ChevronDownSolid class="w-3 h-3 ms-2 text-white dark:text-white" />
+					</Button>
+					<Dropdown {activeUrl}>
+						<DropdownItem href="/">{$t('pagelinks.dashboard')}</DropdownItem>
+						<DropdownItem href="/accounts">{$t('pagelinks.accounts')}</DropdownItem>
+						<DropdownItem href="/toots">{$t('pagelinks.toots')}</DropdownItem>
+						<DropdownItem href="/websites">{$t('pagelinks.websites')}</DropdownItem>
+						<DropdownItem href="/tags">{$t('pagelinks.tags')}</DropdownItem>
+						<DropdownItem href="/languages">{$t('pagelinks.languages')}</DropdownItem>
+						<DropdownItem href="/search">{$t('pagelinks.search')}</DropdownItem>
+					</Dropdown>
+				</div>
+				{#if user}
+					<button on:click={handleLogout} type="button" class="btn variant-filled">Sign Out</button>
+				{:else}
+					<button on:click={() => goto('/login')} type="button" class="btn variant-filled"
+						>Sign In</button
+					>
+				{/if}
+				<button on:click={handleLocaleChange}><Languages /></button>
+			</svelte:fragment>
+		</AppBar>
+	</slot>
 
-<main class="container mx-auto">
-	<div class="flex-initial">
-		{#if $loading}
-			<Loading />
-		{:else}
+	<!-- Router Slot -->
+
+	<main class="container mx-auto">
+		<div class="flex-initial">
 			<slot />
-		{/if}
-	</div>
-</main>
+		</div>
+	</main>
 
-<slot name="pageFooter">
-	<Footer />
-</slot>
+	<slot name="pageFooter">
+		<Footer />
+	</slot>
+{/if}
 
 <style>
 	/* Other styles for your component */
