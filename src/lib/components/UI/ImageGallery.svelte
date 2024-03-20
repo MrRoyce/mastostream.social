@@ -10,11 +10,7 @@
 {#each pictures as picture}
 	<span class="pb-4">
 		{#if sensitive && !showSensitive}
-			<BlurHash
-				hash={picture.blurhash}
-				height={picture.meta?.small?.height || 256}
-				width={picture.meta?.small?.width || 256}
-			/>
+			<BlurHash hash={picture.blurhash} height={256} width={256} />
 		{:else}
 			<CardWithImage
 				cardImage={picture.remote_url || picture.remoteUrl || picture.preview_url || picture.src}
