@@ -32,37 +32,11 @@
 
 	export let data: PageData;
 	const tootTypePassed = data.tootTypePassed;
+	const toots = data.toots;
 
 	const tableData = {
 		tableHead: ['Pic', 'Safe', 'Type', 'Language', 'Created', 'Account', 'Content', 'Link']
 	};
-
-	const orderByField = 'timestamp';
-	const direction = 'desc';
-	const max = 200;
-
-	let queryCollectionRef;
-
-	const collectionRef = collection(db, 'toots');
-	if (tootTypePassed === 'human') {
-		queryCollectionRef = query(
-			collectionRef,
-			where('bot', '==', false),
-			orderBy(orderByField, direction),
-			limit(max)
-		);
-	} else if (tootTypePassed === 'bot') {
-		queryCollectionRef = query(
-			collectionRef,
-			where('bot', '==', true),
-			orderBy(orderByField, direction),
-			limit(max)
-		);
-	} else {
-		queryCollectionRef = query(collectionRef, orderBy(orderByField, direction), limit(max));
-	}
-	const q = queryCollectionRef;
-	const toots = collectionStore(db, q);
 
 	let showSensitive: boolean;
 
@@ -80,7 +54,7 @@
 	showSensitive = $showSensitiveStore;
 </script>
 
-{#if $toots}
+{#if toots}
 	<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 		<Breadcrumb aria-label="Link to Dashboard">
 			<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
@@ -118,7 +92,7 @@
 					{/each}
 				</TableHead>
 				<TableBody>
-					{#each $toots as item}
+					{#each toots as item}
 						<TableBodyRow on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
 							<TableBodyCell
 								><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell

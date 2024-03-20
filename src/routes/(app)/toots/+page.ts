@@ -3,7 +3,10 @@ import type { PageLoad } from './$types';
 export const ssr = false;
 export const prerender = false;
 
-export const load = (async ({ url }) => {
+export const load: PageLoad = (async ({ url, data }) => {
   const tootType = url.searchParams.get('type') ?? 'human'
-  return { tootTypePassed: tootType };
-}) satisfies PageLoad;
+  return {
+    tootTypePassed: tootType,
+    ...data
+  };
+});
