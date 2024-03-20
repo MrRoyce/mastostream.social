@@ -84,8 +84,6 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
         entity.instance.rules = domain.rules
         entity.instance.contact_account = domain.contact_account
 
-
-
         const items = toots.map((item) => {
           return formatToot(item)
         })
@@ -100,12 +98,10 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
         await redis.set(redisKeyDomainToots, JSON.stringify(items), {
           EX: ttl
         })
-
       } else {
         entity = {}
         console.error(`No entity found for entity: domains and id: ${lowerCase}`)
       }
-
     }
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
