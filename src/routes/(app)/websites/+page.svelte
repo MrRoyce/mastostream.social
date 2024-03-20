@@ -1,8 +1,5 @@
 <script lang="ts">
 	import { A } from 'flowbite-svelte';
-	import { collection, limit, orderBy, query } from 'firebase/firestore';
-	import { db } from '$lib/firebase/client';
-	import { collectionStore } from 'sveltefire';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -20,6 +17,7 @@
 	import { searchStyles } from '$lib/assets/styles/search';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
+	import type { PageData } from './$types';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -28,19 +26,14 @@
 		});
 	}
 
+	export let data: PageData;
+	const domains = data.domains;
+
 	let searchTerm = '';
 
 	const tableData = {
 		tableHead: ['Pic', 'Open', 'Name', 'Languages', '# Users', 'Description', 'Link']
 	};
-
-	const orderByField = 'timestamp';
-	const direction = 'desc';
-	const max = 200;
-
-	const collectionRef = collection(db, 'domains');
-	const q = query(collectionRef, orderBy(orderByField, direction), limit(max));
-	const domains = collectionStore(db, q);
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
@@ -83,7 +76,7 @@
 					{/each}
 				</TableHead>
 				<TableBody>
-					{#each $domains as item}
+					{#each domains as item}
 						<TableBodyRow on:click={() => goto(`/websites/${item.domain}`)}>
 							<TableBodyCell
 								><img
