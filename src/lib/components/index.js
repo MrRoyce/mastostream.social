@@ -1,4 +1,6 @@
+import Admin from '$lib/components/Admin/Admin.svelte';
 import AdminSidebar from '$lib/components/AdminSidebar/AdminSidebar.svelte';
+import AdminTootTable from '$lib/components/UI/AdminTootTable.svelte';
 import BlurHash from '$lib/components/BlurHash/BlurHash.svelte';
 import CardDefault from '$lib/components/Cards/CardDefault.svelte';
 import CardLineChart from '$lib/components/Cards/CardLineChart.svelte';
@@ -16,7 +18,9 @@ import WordCloud from '$lib/components/UI/WordCloud.svelte';
 import YouTube from '$lib/components/Cards/YouTube.svelte';
 
 export {
+	Admin,
 	AdminSidebar,
+	AdminTootTable,
 	BlurHash,
 	CardDefault,
 	CardLineChart,

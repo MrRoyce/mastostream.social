@@ -1,4 +1,4 @@
-import type { PageServerLoad } from '../$types';
+import type { PageServerLoad } from './$types';
 import { getCount, getCounts, getData, getWords } from '$lib/getCollection';
 import { convertToK, getRandomRange, summarizeCounts } from '$lib/utils';
 import { redis } from '$lib/redis/redis';
