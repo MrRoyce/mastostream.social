@@ -11,7 +11,7 @@ let searchId
 export const actions = {
   getToot: async ({ request }) => {
     const formData = await request.formData()
-    const searchTerm = String(formData.get('simple-search'))
+    const searchTerm = String(formData.get('entity-search'))
     searchId = searchTerm && typeof searchTerm === 'string' ? searchTerm.toLowerCase() : ''
     searchId = (searchId.startsWith('@')) ? searchId.slice(1) : searchId
 
