@@ -17,14 +17,14 @@
 	$: user = data.user;
 
 	onMount(() => {
-		auth.onAuthStateChanged(async (user) => {
-			// if (!user) {
-			// 	unsubscribe();
-			// }
+		const unsubscribe = auth.onAuthStateChanged(async (user) => {
+			if (!user) {
+				unsubscribe();
+			}
 			let dataToSetToStore = {
-				email: user?.email || null,
-				displayName: user?.displayName || null,
-				uid: user?.uid || null
+				email: user ? user.email : null,
+				displayName: user ? user.displayName : null,
+				uid: user ? user.uid : null
 			};
 
 			authUser.update((curr: any) => {

@@ -6,7 +6,7 @@
 	import { Admin } from '$lib/components';
 
 	export let data: PageData;
-	if (browser) console.log('data', JSON.stringify(data, null, 2));
+	// if (browser) console.log('data', JSON.stringify(data, null, 2));
 
 	let redis = { ...data.adminData.redis };
 	let database = { ...data.adminData.database };
@@ -14,12 +14,9 @@
 	console.log('redis', JSON.stringify(redis, null, 2));
 	console.log('database', JSON.stringify(database, null, 2));
 
-	const user = data.user;
+	const user = data.adminUser;
 	let admin = false;
-
-	const email = user?.email || 'notfound@none.com';
-
-	admin = isUserAdmin(email);
+	admin = user.admin;
 
 	$: admin;
 </script>

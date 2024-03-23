@@ -4,7 +4,6 @@ import { convertToK, summarizeCounts } from '$lib/utils';
 import { redis } from '$lib/redis/redis';
 import { redirect } from '@sveltejs/kit'
 
-const ttl = 600
 
 const adminData = {
   redis: {
@@ -44,12 +43,13 @@ const adminData = {
 export const ssr = false;
 export const prerender = false;
 
-export const load: PageServerLoad = async ({ locals, setHeaders }) => {
+export const load: PageServerLoad = async ({ locals }) => {
   try {
-    const { email, admin } = locals.user || { email: '', admin: false }
+    const { email, admin } = (locals.user) ? locals.user : { email: null, admin: false }
 
     if (!email || !admin) {
-      throw redirect(307, '/')
+      redirect(307, '/')
+      // console.log('Email or admin not found!')
     }
 
     await redis.connect()

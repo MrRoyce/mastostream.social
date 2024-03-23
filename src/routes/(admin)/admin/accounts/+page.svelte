@@ -9,6 +9,7 @@
 	import { formatCreatedAt, formatText } from '$lib/utils';
 	import { Section } from 'flowbite-svelte-blocks';
 	import { invalidateAll } from '$app/navigation';
+	import { isUserAdmin } from '$lib/firebase/isUserAdmin';
 
 	const toastStore = getToastStore();
 
@@ -18,6 +19,7 @@
 	let toots;
 	let entityObject;
 	let tootId: string;
+	let id: string;
 	let deleteModal = false;
 	let loadSpinner = false;
 
@@ -35,15 +37,11 @@
 
 	const search: SubmitFunction = (input) => {
 		// do something before the form submits
-		console.log('input', input);
-
 		return async (options) => {
 			// do something after the form submits
 			loading = false;
 			const { data, status } = options.result;
-			console.log('data', data);
 			toots = data?.toots || [];
-			console.log('toots', JSON.stringify(toots, null, 2));
 
 			entity = data?.entity || {};
 			domain = new URL(entity?.url)?.hostname || '';
@@ -75,7 +73,7 @@
 				});
 				await invalidateAll();
 				const t: ToastSettings = {
-					background: 'variant-filled-error',
+					background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
 					message: `Toot deleted!`,
 					hideDismiss: true
 				};
@@ -85,7 +83,7 @@
 			if (result.type === 'failure' || result.type === 'error') {
 				const errorMessage: string = `Error on delete - Status: ${status}, Type: ${type}, Message: ${message}.`;
 				const t: ToastSettings = {
-					background: 'variant-filled-error',
+					background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
 					message: errorMessage,
 					hideDismiss: true
 				};
@@ -293,7 +291,13 @@
 				<br />Created: {formatCreatedAt(entityObject.createdAt)}?
 			</p>
 			<div class="grid gap-4 mb-4 sm:grid-cols-2">
+				<input type="hidden" name="acct" value={entityObject.acct} />
+				<input type="hidden" name="domain" value={entityObject.domain} />
+				<input type="hidden" name="id" value={entityObject.id} />
+				<input type="hidden" name="language" value={entityObject.language} />
+				<input type="hidden" name="tags" value={entityObject.tags} />
 				<input type="hidden" name="tootId" value={tootId} />
+
 				<button
 					type="button"
 					on:click={() => (deleteModal = false)}
