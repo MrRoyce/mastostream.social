@@ -97,7 +97,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       })
 
       // Get replies
-      if (entity?.replies && entity.replies.length) {
+      if (entity.replies && entity.replies.length) {
         replies = await getDocuments({ entity: 'toots', keysArray: entity.replies })
       }
 
@@ -107,7 +107,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       })
 
       // Get replies
-      if (entity?.inReplyToAccountId && entity?.inReplyToId) {
+      if (entity.inReplyToAccountId && entity.inReplyToId) {
         replyTo = await getDocument({ entity: 'toots', id: `${entity.inReplyToAccountId}_${entity.inReplyToId}` });
       }
 
