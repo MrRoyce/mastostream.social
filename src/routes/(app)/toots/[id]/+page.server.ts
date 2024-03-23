@@ -4,11 +4,6 @@ import { redis } from '$lib/redis/redis';
 
 const ttl = 600
 
-let replies: { id: any; }[] = []
-let replyTo = false
-let card
-let entity = {}
-
 // Convert the toots url with the api string
 // to be able to get the full toot details!
 function replaceUsersSegment(originalUrl: string, replacementText = 'api/v1') {
@@ -48,6 +43,11 @@ async function getStatusWithCard(fetch: { (input: URL | RequestInfo, init?: Requ
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
   await redis.connect()
+
+  let replies: { id: any; }[] = []
+  let replyTo = false
+  let card
+  let entity = {}
 
   const idToLowerCase = params.id?.toLowerCase() || ''
 
