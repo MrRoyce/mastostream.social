@@ -49,6 +49,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@emailjs/browser": "^4.3.3",
 		"@fortawesome/fontawesome-free": "^6.5.1",
 		"@selemondev/svelte-marquee": "^0.0.2",
 		"@sveltejs/vite-plugin-svelte": "^2.5.3",
