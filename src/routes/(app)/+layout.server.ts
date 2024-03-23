@@ -1,10 +1,9 @@
-import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 
 
 export const load: LayoutServerLoad = (async ({ locals }) => {
 
-  const { uid, admin } = locals?.user || { uid: false, admin: false }
+  console.log('user in (app) +layout.server.ts', locals.user)
 
   return { user: locals.user };
 
