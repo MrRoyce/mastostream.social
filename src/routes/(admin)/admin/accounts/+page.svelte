@@ -9,7 +9,6 @@
 	import { formatCreatedAt, formatText } from '$lib/utils';
 	import { Section } from 'flowbite-svelte-blocks';
 	import { invalidateAll } from '$app/navigation';
-	import { isUserAdmin } from '$lib/firebase/isUserAdmin';
 
 	const toastStore = getToastStore();
 
@@ -19,7 +18,6 @@
 	let toots;
 	let entityObject;
 	let tootId: string;
-	let id: string;
 	let deleteModal = false;
 	let loadSpinner = false;
 
