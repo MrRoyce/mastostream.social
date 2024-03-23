@@ -35,6 +35,7 @@
 					</h2>
 					<FooterLinkGroup>
 						<FooterLink liClass="mb-4" href="https://utoots.com/">UToots</FooterLink>
+						<FooterLink liClass="mb-4" href="/contact">Contact Us</FooterLink>
 					</FooterLinkGroup>
 				</div>
 				<div>
