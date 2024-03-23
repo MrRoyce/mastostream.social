@@ -1,9 +1,10 @@
 import { writable } from 'svelte/store';
 
 interface AuthUser {
+	admin: boolean,
 	displayName: string | null,
 	email: string | null,
-	name: string | null,
+	picture: string | null,
 	uid: string | null,
 }
 
