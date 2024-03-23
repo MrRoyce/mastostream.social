@@ -41,11 +41,11 @@ export const handle: Handle = (async ({ event, resolve }) => {
       const admin = Boolean(data.admin);
 
       const user = {
-        email: decodedClaims.email || '',
-        uid: decodedClaims.uid || '',
-        picture: decodedClaims.picture || '',
+        admin,
         displayName: decodedClaims.name || '',
-        admin
+        email: decodedClaims.email || '',
+        picture: decodedClaims.picture || '',
+        uid: decodedClaims.uid || '',
       }
 
       event.locals.user = user;
