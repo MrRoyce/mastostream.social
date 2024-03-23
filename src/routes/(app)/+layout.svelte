@@ -34,18 +34,42 @@
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import Languages from '$lib/components/Languages/Languages.svelte';
-	import type { PageData } from './$types';
+	import type { LayoutData } from './$types';
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import { handleLocaleChange } from '$lib/utils/handleLocaleChange';
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
+	import { auth } from '$lib/firebase/client';
+	import { authUser } from '$lib/stores';
 
-	export let data: PageData;
+	export let data: LayoutData;
+
+	onMount(() => {
+		const unsubscribe = auth.onAuthStateChanged(async (user) => {
+			if (!user) {
+				unsubscribe();
+			}
+			let dataToSetToStore = {
+				email: user ? user.email : null,
+				displayName: user ? user.displayName : null,
+				uid: user ? user.uid : null
+			};
+
+			authUser.update((curr: any) => {
+				return { ...curr, ...dataToSetToStore };
+			});
+		});
+	});
 
 	afterNavigate((params: AfterNavigate) => {
-		const isNewPage = params.from?.url?.pathname !== params.to?.url?.pathname;
-		const elemPage = document.querySelector('#page');
-		if (isNewPage && elemPage !== null) {
-			elemPage.scrollTop = 0;
+		if (browser) {
+			const isNewPage = params.from?.url?.pathname !== params.to?.url?.pathname;
+
+			const elemPage = document.querySelector('#page');
+			if (isNewPage && elemPage !== null) {
+				elemPage.scrollTop = 0;
+			}
 		}
 	});
 
@@ -89,9 +113,7 @@
 	};
 
 	$: activeUrl = $page.url.pathname;
-
 	$: $loading = !!$navigating;
-
 	$: user = data.user;
 </script>
 
