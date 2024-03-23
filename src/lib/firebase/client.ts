@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getFunctions } from 'firebase/functions';
+// import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 if (
   !import.meta.env.VITE_APIKEY ||
@@ -41,6 +42,15 @@ if (!getApps().length) {
   deleteApp(firebaseApp);
   firebaseApp = initializeApp(firebaseConfig);
 }
+
+// Initialize AppCheck
+// const appCheck = initializeAppCheck(firebaseApp, {
+//   provider: new ReCaptchaV3Provider('6LcQUKIpAAAAAGVIaHTTcaD8Q2rLGEL_87QPDrZR'),
+
+//   // Optional argument. If true, the SDK automatically refreshes App Check
+//   // tokens as needed.
+//   isTokenAutoRefreshEnabled: true
+// });
 
 // Initialize Firebase
 export const app = firebaseApp;
