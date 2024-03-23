@@ -6,10 +6,10 @@ declare namespace App {
 	interface Locals {
 		user: {
 			admin: boolean
+			displayName: string
 			email: string
 			picture: string
 			uid: string
-			displayName: string
 		};
 	}
 	interface Error {
