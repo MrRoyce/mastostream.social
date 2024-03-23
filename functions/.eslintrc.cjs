@@ -1,21 +1,26 @@
 /* eslint-disable quote-props */
 module.exports = {
+	root: true,
+	parser: '@typescript-eslint/parser',
+	plugins: ['eslint-plugin-svelte', '@typescript-eslint'],
+	ignorePatterns: ['*.cjs'],
 	env: {
-		es6: true,
+		browser: true,
+		es2017: true,
 		node: true
 	},
 	parserOptions: {
-		ecmaVersion: 2018
+		sourceType: 'module',
+		ecmaVersion: 2020
 	},
 	extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
 	overrides: [
 		{
-			files: ['**/*.spec.*'],
-			env: {
-				mocha: true
-			},
-			rules: {}
+			files: ['*.svelte'],
+			parser: 'svelte-eslint-parser',
+			parserOptions: {
+				parser: '@typescript-eslint/parser'
+			}
 		}
-	],
-	globals: {}
+	]
 };
