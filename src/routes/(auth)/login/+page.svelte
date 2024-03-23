@@ -69,7 +69,7 @@
 
 			await setSessionToken(idToken);
 
-			goto('/dashboard', { invalidateAll: true, replaceState: true });
+			goto('/', { invalidateAll: true, replaceState: true });
 		} catch (error) {
 			const t: ToastSettings = {
 				background: 'variant-filled-error',
@@ -97,7 +97,7 @@
 
 			const admin = await isUserAdmin(credential.user?.email || '');
 
-			goto(admin ? '/admin' : '/dashboard', {
+			goto(admin ? '/admin' : '/', {
 				invalidateAll: true,
 				replaceState: true
 			});
