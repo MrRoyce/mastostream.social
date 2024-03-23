@@ -49,71 +49,74 @@
 	</Marquee>
 </div>
 
-<div>
-	{#if $initialized}
-		<!-- Latest stats -->
-		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
-			{#each stats as stat}
-				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
-					<div class=" transform transition duration-500 hover:scale-110">
-						<a href={stat.href}>
-							<CardStats
-								statEntity={stat.statEntity}
-								statValue={stat.statValue}
-								statArrow={stat.statArrow}
-								statPercent={stat.statPercent}
-								statsCount={stat.statsCount}
-								statPercentColor={stat.statPercentColor}
-								statDescription={stat.statDescription}
-								statIconName={stat.statIconName}
-								statIconColor={stat.statIconColor}
-							/>
-						</a>
+{#if browser}
+	<!-- content here -->
+	<div>
+		{#if $initialized}
+			<!-- Latest stats -->
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+				{#each stats as stat}
+					<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
+						<div class=" transform transition duration-500 hover:scale-110">
+							<a href={stat.href}>
+								<CardStats
+									statEntity={stat.statEntity}
+									statValue={stat.statValue}
+									statArrow={stat.statArrow}
+									statPercent={stat.statPercent}
+									statsCount={stat.statsCount}
+									statPercentColor={stat.statPercentColor}
+									statDescription={stat.statDescription}
+									statIconName={stat.statIconName}
+									statIconColor={stat.statIconColor}
+								/>
+							</a>
+						</div>
 					</div>
+				{/each}
+			</div>
+
+			<!-- Charts -->
+			<div class="hidden-on-mobile">
+				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4">
+					<Tabs
+						class=" focus:ring-gray-400"
+						style="full"
+						defaultClass="flex space-x-4 divide-x rtl:divide-x-reverse divide-gray-200 shadow dark:divide-gray-700"
+					>
+						{#each charts as chart, index}
+							<TabItem class="w-full " open={index === activeTab} title={chart.entity}>
+								<CardLineChart
+									entity={chart.entity}
+									data={chart.data}
+									categories={chart.categories}
+									total={chart.total}
+								/>
+							</TabItem>
+						{/each}
+					</Tabs>
 				</div>
-			{/each}
-		</div>
-
-		<!-- Charts -->
-		<div class="hidden-on-mobile">
-			<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4">
-				<Tabs
-					class=" focus:ring-gray-400"
-					style="full"
-					defaultClass="flex space-x-4 divide-x rtl:divide-x-reverse divide-gray-200 shadow dark:divide-gray-700"
-				>
-					{#each charts as chart, index}
-						<TabItem class="w-full " open={index === activeTab} title={chart.entity}>
-							<CardLineChart
-								entity={chart.entity}
-								data={chart.data}
-								categories={chart.categories}
-								total={chart.total}
-							/>
-						</TabItem>
-					{/each}
-				</Tabs>
 			</div>
-		</div>
 
-		<!-- Wordcloud -->
+			<!-- Wordcloud -->
 
-		<div class="hidden-on-mobile">
-			<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-				<WordCloud hashtags={words} />
+			<div class="hidden-on-mobile">
+				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
+					<WordCloud hashtags={words} />
+				</div>
 			</div>
-		</div>
 
-		<!-- Dashboard Cards -->
-		<div class="overflow-hidden">
-			<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h- mb-4">
-				<FooterPage />
+			<!-- Dashboard Cards -->
+			<div class="overflow-hidden">
+				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h- mb-4">
+					<FooterPage />
+				</div>
 			</div>
-		</div>
-	{:else}
-		<div>{$t('general.localeInitializing')}</div>
-	{/if}
-</div>
+		{:else}
+			<div>{$t('general.localeInitializing')}</div>
+		{/if}
+	</div>
+{/if}
 
 <style>
 	/* Other styles for your component */
