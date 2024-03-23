@@ -4,9 +4,42 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { applyAction, enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
+	import emailjs from '@emailjs/browser';
 
 	let loadSpinner = false;
 	const toastStore = getToastStore();
+
+	const sendMessageViaSDK = (event: Event) => {
+		event.preventDefault();
+		if (document) {
+			const templateParams = {
+				name: document.getElementById('userName').value,
+				email: document.getElementById('userEmail').value,
+				message: document.getElementById('emailMessage').value
+			};
+
+			emailjs.send('service_ed66o1a', 'template_kp3rq3r', templateParams).then(
+				() => {
+					const t: ToastSettings = {
+						background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
+						message: `Email Sent!`,
+						hideDismiss: true
+					};
+					toastStore.trigger(t);
+					// Reset form fields
+					document.getElementById('emailForm').reset();
+				},
+				(error) => {
+					const t: ToastSettings = {
+						background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
+						message: `EMail failed! ${error}`,
+						hideDismiss: true
+					};
+					toastStore.trigger(t);
+				}
+			);
+		}
+	};
 
 	const sendMessage: SubmitFunction = () => {
 		loadSpinner = true;
@@ -48,30 +81,25 @@
 			>Got a technical issue? Want to send feedback about a beta feature? Need details about our
 			Business plan? Let us know.</svelte:fragment
 		>
-		<form
-			class="flex flex-col space-y-8"
-			method="POST"
-			action="?/sendMessage"
-			use:enhance={sendMessage}
-		>
+		<form id="emailForm" class="flex flex-col space-y-8">
 			<div>
-				<Label for="email" class="block mb-2">Your email</Label>
-				<Input id="email" name="email" placeholder="name@flowbite.com" required />
+				<Label for="userEmail" class="block mb-2">Your email</Label>
+				<Input id="userEmail" name="userEmail" placeholder="name@youremail.com" required />
 			</div>
 			<div>
-				<Label for="name" class="block mb-2">Subject</Label>
-				<Input id="name" name="name" placeholder="Please enter your name" required />
+				<Label for="userName" class="block mb-2">Subject</Label>
+				<Input id="userName" name="userName" placeholder="Please enter your name" required />
 			</div>
 			<div>
 				<Textarea
-					id="message"
-					name="message"
+					id="emailMessage"
+					name="emailMessage"
 					placeholder="Leave a comment..."
 					label="Your message"
 					required
 				/>
 			</div>
-			<Button type="submit"
+			<Button on:click={sendMessageViaSDK}
 				><svg
 					class="mr-1 -ml-1 w-6 h-6"
 					fill="currentColor"

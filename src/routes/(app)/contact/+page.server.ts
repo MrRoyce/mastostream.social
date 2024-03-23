@@ -9,9 +9,9 @@ export const actions = {
         template_id: 'template_kp3rq3r',
         user_id: 'd7wo1Pasxle7aNu86',
         template_params: {
-          name: String(formData.get('name')),
-          email: String(formData.get('email')),
-          message: String(formData.get('message')),
+          name: String(formData.get('userName')),
+          email: String(formData.get('userEmail')),
+          message: String(formData.get('emailMessage')),
         }
       }
       const rawResponse = await fetch(emailJSUri, {
