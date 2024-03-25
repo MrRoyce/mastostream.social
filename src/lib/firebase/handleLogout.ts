@@ -23,7 +23,9 @@ export const handleLogout = async () => {
       authUser.update((curr: any) => {
         return { ...curr, ...dataToSetToStore };
       });
-      goto('/login', { invalidateAll: true, replaceState: true });
+      // Do not use goto!
+      // window.location.assign will force a page refresh!
+      window.location.assign('/');
     })
     .catch((error) => {
       console.error('Error logging out', error);
