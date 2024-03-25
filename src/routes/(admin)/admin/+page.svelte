@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { isUserAdmin } from '$lib/firebase/isUserAdmin';
 	import { Section } from 'flowbite-svelte-blocks';
 	import type { PageData } from './$types';
 	import { Admin } from '$lib/components';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 	// if (browser) console.log('data', JSON.stringify(data, null, 2));
@@ -16,7 +16,7 @@
 
 	const user = data.adminUser;
 	let admin = false;
-	admin = user.admin;
+	admin = user?.admin || false;
 
 	$: admin;
 </script>
@@ -27,6 +27,8 @@
 			<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex py-4 m-4 h-fit">
 				<Admin accounts={database.latestCounts.accounts} />
 			</Section>
+		{:else}
+			{goto('/')}
 		{/if}
 	{/if}
 </div>
