@@ -44,10 +44,10 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
   await redis.connect()
 
-  let replies: { id: any; }[] = []
+  let replies: [] = []
   let replyTo = false
-  let card
-  let entity = {}
+  let card = {}
+  let entity = {} || null
 
   const idToLowerCase = params.id?.toLowerCase() || ''
 
@@ -99,22 +99,26 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       // Get replies
       if (entity.replies && entity.replies.length) {
         replies = await getDocuments({ entity: 'toots', keysArray: entity.replies })
+
+        // Store replies in redis
+        if (replies && Array.isArray(replies) && replies.length) {
+          await redis.set(redisKeyReplies, JSON.stringify(replies), {
+            EX: ttl
+          })
+        }
       }
 
-      // Store replies in redis
-      await redis.set(redisKeyReplies, JSON.stringify(replies), {
-        EX: ttl
-      })
-
-      // Get replies
+      // Get replyTo
       if (entity.inReplyToAccountId && entity.inReplyToId) {
         replyTo = await getDocument({ entity: 'toots', id: `${entity.inReplyToAccountId}_${entity.inReplyToId}` });
-      }
 
-      // Store replyTo in redis
-      await redis.set(redisKeyReplyTo, JSON.stringify(replyTo), {
-        EX: ttl
-      })
+        // Store replyTo in redis
+        if (replyTo) {
+          await redis.set(redisKeyReplyTo, JSON.stringify(replyTo), {
+            EX: ttl
+          })
+        }
+      }
 
       setHeaders({ "cache-control": `public, max-age=${ttl}` })
 
