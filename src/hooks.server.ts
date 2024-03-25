@@ -1,10 +1,11 @@
 import { adminAuth, createSessionCookieForUserId, getIdTokenFromSessionCookie } from "$lib/firebase/admin";
-import type { Cookies, Handle, HandleServerError } from "@sveltejs/kit";
+import { redirect, type Cookies, type Handle, type HandleServerError } from "@sveltejs/kit";
 import { locale } from '$lib/translations';
 import { ONE_DAY_IN_SECONDS, ONE_WEEK_IN_SECONDS } from '$lib/constants';
 import type { DecodedIdToken } from 'firebase-admin/auth';
 import { functions } from "$lib/firebase/client";
 import { httpsCallable } from 'firebase/functions';
+import { dev } from "$app/environment";
 
 const SIX_DAYS_IN_SECONDS = ONE_DAY_IN_SECONDS * 6;
 
@@ -13,6 +14,8 @@ const instance = httpsCallable(functions, 'isUserAdmin');
 export const handle: Handle = (async ({ event, resolve }) => {
   const sessionCookie = event.cookies.get("__session");
   const lang = event.request.headers.get('accept-language')?.split(',')[0];
+
+  let isUserAdmin
 
   if (lang) {
     locale.set(lang);
@@ -39,6 +42,7 @@ export const handle: Handle = (async ({ event, resolve }) => {
 
       const data = response.data;
       const admin = Boolean(data.admin);
+      isUserAdmin = admin
 
       const user = {
         admin,
@@ -61,6 +65,13 @@ export const handle: Handle = (async ({ event, resolve }) => {
     }
   } catch (e) {
     console.error('Could not get idToken from session cookie - e:', e)
+  }
+
+  // Only allow admin in dev and for admin users!
+  if (!dev || !isUserAdmin) {
+    if (event.url.pathname.includes('/admin')) {
+      throw redirect(303, '/')
+    }
   }
 
   return await resolve(event);
