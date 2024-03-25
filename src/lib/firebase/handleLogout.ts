@@ -23,7 +23,7 @@ export const handleLogout = async () => {
       authUser.update((curr: any) => {
         return { ...curr, ...dataToSetToStore };
       });
-      goto('/', { invalidateAll: true, replaceState: true });
+      goto('/login', { invalidateAll: true, replaceState: true });
     })
     .catch((error) => {
       console.error('Error logging out', error);
