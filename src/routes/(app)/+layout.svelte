@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../../app.pcss';
 	import { t } from '$lib/translations';
 	import { page } from '$app/stores';
 
