@@ -11,9 +11,6 @@
 	let redis = { ...data.adminData.redis };
 	let database = { ...data.adminData.database };
 
-	console.log('redis', JSON.stringify(redis, null, 2));
-	console.log('database', JSON.stringify(database, null, 2));
-
 	const user = data.adminUser;
 	let admin = false;
 	admin = user?.admin || false;
