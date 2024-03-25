@@ -17,6 +17,7 @@
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { formatCreatedAt, formatImages, formatText } from '$lib/utils';
+	import { redirectPage } from '$lib/utils/redirectPage';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -25,25 +26,9 @@
 		});
 	}
 
-	export let data: PageData;
-	const entity = data.entity;
-	const replies = data.replies;
-	const replyTo = data.replyTo ? [data.replyTo] : false;
-	const card = data.card;
-	if (browser && dev) console.log('entity', entity);
-	if (browser && dev) console.log('card', card);
-
-	const images =
-		entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
-			? formatImages(entity?.mediaAttachments)
-			: { audio: [], videos: [], pictures: [] };
-
-	if (browser && dev) console.log('images', images);
-
-	const accountNote =
-		entity && entity.account && entity.account.note
-			? entity.account.note.replaceAll('</p><p>', '</p><br /><p>')
-			: '';
+	function redirectToPage() {
+		redirectPage(5, '/toots');
+	}
 
 	const tableData = {
 		color: 'blue',
@@ -51,6 +36,35 @@
 		striped: true,
 		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
 	};
+
+	export let data: PageData;
+	const entity = data.entity;
+	let replies: [];
+	let replyTo: {};
+	let card: {};
+	let images: {};
+	let accountNote: string;
+
+	if (entity.acct) {
+		console.log('entity.acct', entity.acct);
+		replies = data.replies;
+		replyTo = data.replyTo ? [data.replyTo] : false;
+		card = data.card;
+		if (browser && dev) console.log('entity', entity);
+		if (browser && dev) console.log('card', card);
+
+		images =
+			entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
+				? formatImages(entity?.mediaAttachments)
+				: { audio: [], videos: [], pictures: [] };
+
+		if (browser && dev) console.log('images', images);
+
+		accountNote =
+			entity && entity.account && entity.account.note
+				? entity.account.note.replaceAll('</p><p>', '</p><br /><p>')
+				: '';
+	}
 
 	let showSensitive: boolean;
 	showSensitiveStore.subscribe((data) => {
@@ -262,6 +276,9 @@
 		</div>
 	</div>
 {:else}
+	{#if browser}
+		{redirectToPage()}
+	{/if}
 	<Page404>
 		<svelte:fragment slot="h1">404</svelte:fragment>
 		<svelte:fragment slot="paragraph">
@@ -269,7 +286,8 @@
 				Something's missing.
 			</p>
 			<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
-				Sorry, we can't find that page. You'll find lots to explore on the home page.
+				Sorry, we can't find that page. You'll find lots to explore on the toots page. Please click
+				here if you are not redirected
 			</p>
 			<Button href="/toots" size="lg" color="red">Back to Toots</Button>
 		</svelte:fragment>
