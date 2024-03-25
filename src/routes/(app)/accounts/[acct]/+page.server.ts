@@ -50,13 +50,9 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     ])
 
     if (accountCached && accountTootsCached) {
-      console.log('accountCached, accountTootsCached cached')
-
       entity = JSON.parse(accountCached)
       toots = JSON.parse(accountTootsCached)
     } else {
-      console.log('accountCached, accountTootsCached NOT cached')
-
       const [entityFromPromise, tootsFromPromise] = await Promise.all([
         await getDocument({ entity: 'accounts', id: lowerCase }),
         await getToots({
@@ -76,8 +72,6 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
         const uriWithLookup = entity.uri.replace(replaceFromString, replaceToString)
         try {
           acct = await getLatestEntityInfo(fetch, uriWithLookup)
-
-          console.log(`acct from call to ${uriWithLookup}`, acct)
 
           entity.followingCount = acct.following_count || entity.followingCount
           entity.followersCount = acct.followers_count || entity.followersCount
