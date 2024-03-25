@@ -5,12 +5,15 @@
 	import { applyAction, enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import emailjs from '@emailjs/browser';
+	import { Turnstile } from 'svelte-turnstile';
+	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
+
+	export let form;
 
 	let loadSpinner = false;
 	const toastStore = getToastStore();
 
-	const sendMessageViaSDK = (event: Event) => {
-		event.preventDefault();
+	const sendMessageViaSDK = () => {
 		if (document) {
 			const templateParams = {
 				name: document.getElementById('userName').value,
@@ -18,45 +21,48 @@
 				message: document.getElementById('emailMessage').value
 			};
 
-			emailjs.send('service_ed66o1a', 'template_kp3rq3r', templateParams).then(
-				() => {
-					const t: ToastSettings = {
-						background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
-						message: `Email Sent!`,
-						hideDismiss: true
-					};
-					toastStore.trigger(t);
-					// Reset form fields
-					document.getElementById('emailForm').reset();
-				},
-				(error) => {
-					const t: ToastSettings = {
-						background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
-						message: `EMail failed! ${error}`,
-						hideDismiss: true
-					};
-					toastStore.trigger(t);
-				}
-			);
+			console.log('templateParams', templateParams);
+
+			emailjs
+				.send(
+					import.meta.env.VITE_EMAILJS_SERVICE_ID,
+					import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+					templateParams
+				)
+				.then(
+					() => {
+						const t: ToastSettings = {
+							background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
+							message: `Email Sent!`,
+							hideDismiss: true
+						};
+						toastStore.trigger(t);
+						// Reset form fields
+						document.getElementById('emailForm').reset();
+					},
+					(error) => {
+						const t: ToastSettings = {
+							background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
+							message: `EMail failed! ${error}`,
+							hideDismiss: true
+						};
+						toastStore.trigger(t);
+					}
+				);
 		}
 	};
 
 	const sendMessage: SubmitFunction = () => {
 		loadSpinner = true;
 
-		// After call
+		// After call to validate turnstile token
 		return async ({ result }) => {
 			console.log('result', result);
 			const { type, status } = result;
 			const { message } = result.data;
 
 			if (result.type === 'success') {
-				const t: ToastSettings = {
-					background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
-					message: `Email Sent!`,
-					hideDismiss: true
-				};
-				toastStore.trigger(t);
+				sendMessageViaSDK();
 			}
 
 			if (result.type === 'failure' || result.type === 'error') {
@@ -81,7 +87,13 @@
 			>Got a technical issue? Want to send feedback about a beta feature? Need details about our
 			Business plan? Let us know.</svelte:fragment
 		>
-		<form id="emailForm" class="flex flex-col space-y-8">
+		<form
+			method="POST"
+			action="?/sendMessage"
+			use:enhance={sendMessage}
+			id="emailForm"
+			class="flex flex-col space-y-8"
+		>
 			<div>
 				<Label for="userEmail" class="block mb-2">Your email</Label>
 				<Input id="userEmail" name="userEmail" placeholder="name@youremail.com" required />
@@ -99,7 +111,7 @@
 					required
 				/>
 			</div>
-			<Button on:click={sendMessageViaSDK}
+			<Button type="submit"
 				><svg
 					class="mr-1 -ml-1 w-6 h-6"
 					fill="currentColor"
@@ -112,6 +124,7 @@
 					/></svg
 				>Send message</Button
 			>
+			<Turnstile siteKey={PUBLIC_TURNSTILE_SITE_KEY} theme="dark" />
 		</form>
 	</Contact>
 </Section>

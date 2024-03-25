@@ -1,31 +1,55 @@
-const emailJSUri = 'https://api.emailjs.com/api/v1.0/email/send'
+
+interface TokenValidateResponse {
+  'error-codes': string[];
+  success: boolean;
+  action: string;
+  cdata: string;
+}
+
+async function validateToken(token: string, secret: string) {
+  const response = await fetch(
+    'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+    {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        response: token,
+        secret: secret,
+      }),
+    },
+  );
+
+  const data: TokenValidateResponse = await response.json();
+
+  return {
+    // Return the status
+    success: data.success,
+
+    // Return the first error if it exists
+    error: data['error-codes']?.length ? data['error-codes'][0] : null,
+  };
+}
 
 export const actions = {
-  sendMessage: async ({ request, fetch }) => {
+  sendMessage: async ({ request }) => {
     try {
-      const formData = await request.formData()
-      const payload = {
-        service_id: 'service_ed66o1a',
-        template_id: 'template_kp3rq3r',
-        user_id: 'd7wo1Pasxle7aNu86',
-        template_params: {
-          name: String(formData.get('userName')),
-          email: String(formData.get('userEmail')),
-          message: String(formData.get('emailMessage')),
-        }
-      }
-      const rawResponse = await fetch(emailJSUri, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      })
-      const content = await rawResponse.json()
+      const data = await request.formData()
+      const token = data.get('cf-turnstile-response')
+      console.log('token from cloudflare turnstile', token)
 
-      console.log('content', content)
-      return { success: true, data: { ...JSON.parse(JSON.stringify(content)) } }
+      const turnstileKey = import.meta.env.VITE_SECRET_TURNSTILE_KEY
+
+      console.log('turnstileKey', turnstileKey)
+
+      const { success, error } = await validateToken(token, turnstileKey)
+      console.log('success', success)
+      console.log('error', error)
+      if (error) {
+        throw new Error(`Error - did not validate captchat token ${error}`);
+      }
+      return { success: true }
     } catch (error) {
       return {
         success: false, error: { ...JSON.parse(JSON.stringify(error)) }
