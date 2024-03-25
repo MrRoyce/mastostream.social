@@ -1,11 +1,11 @@
 <script lang="ts">
 	import emailjs from '@emailjs/browser';
 	import { onMount } from 'svelte';
+	import { PUBLIC_EMAILJS_USER_ID } from '$env/static/public';
 
 	onMount(async () => {
-		console.log('Mounting contact page');
 		await emailjs.init({
-			publicKey: 'd7wo1Pasxle7aNu86',
+			publicKey: PUBLIC_EMAILJS_USER_ID,
 			// Do not allow headless browsers
 			blockHeadless: true,
 			blockList: {
