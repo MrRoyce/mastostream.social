@@ -11,7 +11,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   // Pass idToken to server
   // Be careful for other login solutions!!
   const { idToken } = await request.json();
-  const expiresIn = 60 * 60 * 24 * 5; // 5 days
+  const expiresIn = 60 * 60 * 24 * 5 * 1000; // 5 days
   const auth = getAuth(getAdminApp());
   // Verify token on server to get access to userdata
   const decodedIdToken = await auth.verifyIdToken(idToken);
