@@ -52,6 +52,7 @@
 </script>
 
 {#if toots}
+	<!-- Breadcrumb -->
 	<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 		<Breadcrumb aria-label="Link to Dashboard">
 			<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
@@ -59,7 +60,8 @@
 		</Breadcrumb>
 	</div>
 	<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-		<div class="container mx-auto my-5 p-5">
+		<div class=" mx-auto my-5 p-5">
+			<!-- Top of Page with radio buttons -->
 			<div class="md:flex text-wrap md:-mx-2">
 				<!-- Left Side -->
 				<div class="w-full md:w-3/12 md:mx-2">

@@ -51,6 +51,7 @@
 </script>
 
 {#if entity}
+	<!-- Breadcrumb -->
 	<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
 		<Breadcrumb aria-label={$t('aria.breadcrumbLink')}>
 			<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
@@ -62,6 +63,7 @@
 		class="dark:bg-gray-800 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
 	>
 		<div class=" mx-auto my-5 p-5">
+			<!-- Account Profile -->
 			<div class="md:flex no-wrap md:-mx-2">
 				<!-- Left Side -->
 				<div class="w-full md:w-3/12 md:mx-2">
@@ -165,7 +167,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="my-4 text-white">
+			<!-- OwnersTootTable  -->
+			<div class="my-4 text-gray-200">
 				<h2 class="text-gray-200 font-bold text-xl leading-8 my-1 mb-4">
 					{$t('general.latestTootsFrom')}
 					{entity.acct}:
