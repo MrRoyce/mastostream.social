@@ -13,7 +13,7 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
   try {
     await redis.connect()
 
-    const tootType = url.searchParams.get('type') || 'human'
+    const tootType = url.searchParams.get('type') || 'both'
     const lowerCase = params.tag && typeof params.tag === 'string' ? params.tag.toLowerCase() : params.tag;
 
     const redisKeyTag = `tags_acct_${lowerCase}`
