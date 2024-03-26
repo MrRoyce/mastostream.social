@@ -39,12 +39,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: [
-			$t('tableHeaders.safe'),
-			$t('tableHeaders.created'),
-			$t('tableHeaders.content'),
-			$t('tableHeaders.link')
-		]
+		tableHead: [$t('tableHeaders.safe'), $t('tableHeaders.created'), $t('tableHeaders.link')]
 	};
 
 	if (browser && isSupported()) {

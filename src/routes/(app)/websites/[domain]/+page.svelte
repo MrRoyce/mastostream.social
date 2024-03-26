@@ -37,7 +37,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Safe', 'Created', 'Content', 'Link']
+		tableHead: ['Safe', 'Created', 'Link']
 	};
 </script>
 
