@@ -1,6 +1,7 @@
 import { logger } from 'firebase-functions';
 import admin from 'firebase-admin';
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import { FieldValue } from 'firebase-admin/firestore';
 
 let errorData;
 const db = admin.firestore();
@@ -27,13 +28,24 @@ export const processAdmin = onCall(async (request) => {
 				} else if (collection && collectionId) {
 					requestRef = db.doc(`${collection}/${collectionId}`);
 				} else {
-					errorData = `Invalid combination of ref paremeters: ${collection}/${collectionId}/${subCollection}/${subCollectionId}`;
+					errorData = `Invalid combination of ref paremeters for delete: ${collection}/${collectionId}/${subCollection}/${subCollectionId}`;
 					logger.error(errorData);
 					throw new HttpsError('unknown', JSON.stringify(errorData));
 				}
 
 				await requestRef.delete();
+				break;
 
+			case 'decrement':
+				if (collection && collectionId) {
+					requestRef = db.doc(`${collection}/${collectionId}`);
+				} else {
+					errorData = `Invalid combination of ref paremeters for decremet: ${collection}/${collectionId}`;
+					logger.error(errorData);
+					throw new HttpsError('unknown', JSON.stringify(errorData));
+				}
+
+				await requestRef.update({ count: FieldValue.increment(-1) }); // Update the count
 				break;
 
 			default:

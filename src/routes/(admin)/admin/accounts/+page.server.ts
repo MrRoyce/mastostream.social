@@ -54,6 +54,13 @@ export const actions = {
             subCollectionId: id
           }
           await processAdmin({ ref, task: 'delete' })
+          await processAdmin({
+            ref: {
+              collection: ref.collection,
+              collectionId: ref.collectionId
+            },
+            task: 'decrement'
+          })
         });
       }
 
@@ -74,6 +81,13 @@ export const actions = {
         subCollectionId: id
       }
       await processAdmin({ ref, task: 'delete' })
+      await processAdmin({
+        ref: {
+          collection: ref.collection,
+          collectionId: ref.collectionId
+        },
+        task: 'decrement'
+      })
 
       // Delete from Language
       ref = {
@@ -83,6 +97,13 @@ export const actions = {
         subCollectionId: id
       }
       await processAdmin({ ref, task: 'delete' })
+      await processAdmin({
+        ref: {
+          collection: ref.collection,
+          collectionId: ref.collectionId
+        },
+        task: 'decrement'
+      })
 
       // Delete toot
       ref = {
