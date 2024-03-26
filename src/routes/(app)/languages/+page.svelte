@@ -8,8 +8,7 @@
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell,
-		TableSearch
+		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 	import { SearchOutline } from 'flowbite-svelte-icons';
@@ -43,54 +42,34 @@
 	</Breadcrumb>
 </div>
 <Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5" hoverable={true}>
-	<TableSearch
-		placeholder={`Search by language`}
-		hoverable={true}
-		bind:inputValue={searchTerm}
-		divClass={searchStyles.divClass}
-		innerDivClass={searchStyles.innerDivClass}
-		searchClass={searchStyles.searchClass}
-		classInput={searchStyles.classInput}
-	>
-		<div
-			slot="header"
-			class="w-full md:w-auto md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-left md:space-x-3 flex-shrink-0"
-		>
-			<Button class="!p-2.5" on:click={() => goto(`/languages/${searchTerm}`)}>
-				<SearchOutline class="w-5 h-5" />
-			</Button>
-		</div>
-		<TableHead>
-			{#each tableData.tableHead as tableHead}
-				<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
-					>{tableHead}</TableHeadCell
-				>
-			{/each}
-		</TableHead>
-		<TableBody>
-			{#each languages as item}
-				{@const translations = getLanguage(item.language)}
-				<TableBodyRow on:click={() => goto(`/languages/${item.language}`)}>
-					<TableBodyCell>
-						{item.language}
-					</TableBodyCell>
-					<TableBodyCell>
-						{translations.englishValue}
-					</TableBodyCell>
-					<TableBodyCell class="text-right">
-						{item.count.toLocaleString()}
-					</TableBodyCell>
+	<TableHead>
+		{#each tableData.tableHead as tableHead}
+			<TableHeadCell class="text-center" padding="px-4 py-3" scope="col">{tableHead}</TableHeadCell>
+		{/each}
+	</TableHead>
+	<TableBody>
+		{#each languages as item}
+			{@const translations = getLanguage(item.language)}
+			<TableBodyRow on:click={() => goto(`/languages/${item.language}`)}>
+				<TableBodyCell>
+					{item.language}
+				</TableBodyCell>
+				<TableBodyCell>
+					{translations.englishValue}
+				</TableBodyCell>
+				<TableBodyCell class="text-right">
+					{item.count.toLocaleString()}
+				</TableBodyCell>
 
-					<TableBodyCell>
-						{item.lastSeen
-							? formatDate({
-									seconds: item.lastSeen.seconds,
-									nanoseconds: item.lastSeen.nanoseconds
-								})
-							: 'N/A'}
-					</TableBodyCell>
-				</TableBodyRow>
-			{/each}
-		</TableBody>
-	</TableSearch>
+				<TableBodyCell>
+					{item.lastSeen
+						? formatDate({
+								seconds: item.lastSeen.seconds,
+								nanoseconds: item.lastSeen.nanoseconds
+							})
+						: 'N/A'}
+				</TableBodyCell>
+			</TableBodyRow>
+		{/each}
+	</TableBody>
 </Table>

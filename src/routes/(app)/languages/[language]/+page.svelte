@@ -4,8 +4,8 @@
 	import type { PageData } from './$types';
 	import { TootTable, CardWithImage, TootsRadio } from '$lib/components';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
-	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
-	import { getLanguage } from '$lib/utils/getLanguage';
+	import { Breadcrumb, BreadcrumbItem, Heading } from 'flowbite-svelte';
+	import { getLanguage } from '$lib/utils';
 	import { Button, Modal } from 'flowbite-svelte';
 	let clickOutsideModal = false;
 
@@ -24,7 +24,7 @@
 	const tootTypePassed = data.tootTypePassed;
 
 	const wikiTitle = `${wikiData.title}: ${wikiData.description}`;
-	let tootType = tootTypePassed || 'human';
+	let tootType = tootTypePassed || 'both';
 
 	function getTootType() {
 		if (browser) {
@@ -88,11 +88,11 @@
 		</div>
 
 		<!-- Toots setion -->
-		<div class="my-4 text-white">
-			<h2 class="text-gray-200 font-bold text-xl leading-8 my-1">
-				Latest <span class="bg-green-500">{entity.language}</span>
+		<div class="my-4 text-grey-200">
+			<Heading class="pb-6">
+				Latest <span>{entity.language}</span>
 				({language.englishValue}) toots:
-			</h2>
+			</Heading>
 
 			<TootTable {tableData} sourceData={toots} getData={() => {}} />
 		</div>

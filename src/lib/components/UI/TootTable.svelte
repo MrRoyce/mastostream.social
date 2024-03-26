@@ -72,13 +72,7 @@
 				<TableBodyCell>
 					{item.language}
 				</TableBodyCell>
-				<TableBodyCell class="whitespace-normal break-words py-2">
-					{#if item.sensitive && !showSensitive}
-						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
-					{:else}
-						{@html truncateHTML(item.content, 300)}
-					{/if}
-				</TableBodyCell>
+
 				<TableBodyCell>
 					<A
 						rel="noopener nofollow"
@@ -88,6 +82,15 @@
 						><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" /></A
 					></TableBodyCell
 				>
+			</TableBodyRow>
+			<TableBodyRow>
+				<TableBodyCell colspan="7" class="whitespace-normal break-words py-2">
+					{#if item.sensitive && !showSensitive}
+						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
+					{:else}
+						{@html truncateHTML(item.content, 300)}
+					{/if}
+				</TableBodyCell>
 			</TableBodyRow>
 		{/each}
 	</TableBody>
