@@ -11,6 +11,7 @@ import FooterPage from '$lib/components/Footers/FooterPage.svelte';
 import ImageGallery from '$lib/components/UI/ImageGallery.svelte';
 import Languages from '$lib/components/Languages/Languages.svelte';
 import Loading from '$lib/components/Loading/Loading.svelte';
+import Navigation from '$lib/components/Navigation/Navigation.svelte';
 import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
 import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 import TootTable from '$lib/components/UI/TootTable.svelte';
@@ -31,6 +32,7 @@ export {
 	ImageGallery,
 	Languages,
 	Loading,
+	Navigation,
 	OwnersTootTable,
 	TootsRadio,
 	TootTable,
