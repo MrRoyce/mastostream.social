@@ -8,7 +8,6 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import { goto } from '$app/navigation';
 	import { truncateHTML } from '$lib/utils/truncateHTML';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { showSensitiveStore } from '$lib/stores';
@@ -17,7 +16,7 @@
 	export let showTableHead: Boolean = true;
 	export let sourceData: Array<AccountRow>;
 	export let tableData: TableData;
-	export let delData: () => {};
+	export let delData: (item: any) => {};
 
 	const itemsPerPage = 100;
 
@@ -74,11 +73,10 @@
 					></TableBodyCell
 				>
 				<TableBodyCell class="text-center">
-					<a
-						href="#"
+					<button
 						type="button"
 						class="font-medium text-red-600 dark:text-red-500 hover:underline"
-						on:click={() => delData(item)}>Del</a
+						on:click={() => delData(item)}>Del</button
 					>
 				</TableBodyCell>
 			</TableBodyRow>
