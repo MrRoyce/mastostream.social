@@ -28,10 +28,10 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
+		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Link']
 	};
 
-	let tootType = tootTypePassed || 'human';
+	$: tootType = tootTypePassed || 'both';
 
 	function getTootType() {
 		if (browser) {
@@ -49,26 +49,18 @@
 </div>
 <div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 	<div class="container mx-auto my-5 p-5">
-		<div class="md:flex no-wrap md:-mx-2">
+		<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 			<!-- Left Side -->
-			<div class="w-full md:w-3/12 md:mx-2">
+			<div class="md:col-span-2 md:col-start-1 order-first">
 				<!-- Profile Card -->
-				<Heading>Tag: {entity.name}</Heading>
+				<Heading>Latest toots tagged #{entity.name}:</Heading>
 			</div>
 			<!-- Right Side -->
-			<div class="w-full md:w-9/12 mx-2">
-				<div class="bg-grey-900 p-3 shadow-sm rounded-sm">
-					<div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8"></div>
-					<h3 class="mt-5">
-						<TootsRadio bind:tootType entityName={entity.name} {getTootType} />
-					</h3>
-				</div>
+			<div class="md:col-span-2 md:col-start-3 order-last">
+				<TootsRadio bind:tootType entityName={entity.name} {getTootType} />
 			</div>
 		</div>
-		<div class="my-4 text-white">
-			<Heading tag="h2" class="text-gray-200 leading-8 my-1 pb-4">
-				Latest toots tagged #{entity.name}:
-			</Heading>
+		<div class="my-4 text-grey-200">
 			<TootTable {tableData} sourceData={toots} />
 		</div>
 	</div>
