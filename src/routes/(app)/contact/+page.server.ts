@@ -41,8 +41,6 @@ export const actions = {
 
       const turnstileKey = import.meta.env.VITE_SECRET_TURNSTILE_KEY
 
-      console.log('turnstileKey', turnstileKey)
-
       const { success, error } = await validateToken(token, turnstileKey)
       console.log('success', success)
       console.log('error', error)
