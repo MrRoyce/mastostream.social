@@ -8,7 +8,7 @@ import { redis } from '$lib/redis/redis';
 // Get languages and its toots
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) => {
 
-  const tootType = url.searchParams.get('type') ?? 'human'
+  const tootType = url.searchParams.get('type') ?? 'both'
   const languageLowerCase = params.language && typeof params.language === 'string' ? params.language.toLowerCase() : params.language;
   const redisKeyLanguage = `language_${languageLowerCase}`
   const redisKeyLanguagesEntity = `languages_${languageLowerCase}`

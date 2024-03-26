@@ -8,7 +8,7 @@ const ttl = 600
 export const load: PageServerLoad = (async ({ url, setHeaders }) => {
 
   try {
-    const sourceType = url.searchParams.get('type') ?? 'human'
+    const sourceType = url.searchParams.get('type') ?? 'both'
 
     await redis.connect()
     const redisKeyAccountsType = `accounts_cached_${sourceType}`
