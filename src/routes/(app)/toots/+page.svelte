@@ -90,7 +90,10 @@
 				</TableHead>
 				<TableBody>
 					{#each toots as item}
-						<TableBodyRow on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
+						<TableBodyRow
+							class="border-none"
+							on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}
+						>
 							<TableBodyCell
 								><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
 							>
@@ -119,7 +122,7 @@
 								></TableBodyCell
 							>
 						</TableBodyRow>
-						<TableBodyRow>
+						<TableBodyRow on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
 							<TableBodyCell></TableBodyCell>
 							<TableBodyCell colspan="6" class="whitespace-normal break-words py-2">
 								{#if item.sensitive && !showSensitive}

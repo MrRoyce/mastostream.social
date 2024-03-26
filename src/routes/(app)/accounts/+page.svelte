@@ -2,22 +2,18 @@
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
-		Button,
 		Heading,
 		Table,
 		TableBody,
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell,
-		TableSearch
+		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
-	import { SearchOutline } from 'flowbite-svelte-icons';
 	import { formatDate } from '$lib/utils/formatDate';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser, dev } from '$app/environment';
-	import { searchStyles } from '$lib/assets/styles/search';
 	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 	import { t } from '$lib/translations';
 	import type { PageData } from './$types';
@@ -142,7 +138,10 @@
 			</TableHead>
 			<TableBody>
 				{#each accounts as item}
-					<TableBodyRow on:click={() => goto(`/accounts/${item.acct}`)}>
+					<TableBodyRow
+						class="border-none cursor-pointer"
+						on:click={() => goto(`/accounts/${item.acct}`)}
+					>
 						<TableBodyCell
 							><img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" /></TableBodyCell
 						>

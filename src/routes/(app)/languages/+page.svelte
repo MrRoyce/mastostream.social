@@ -50,7 +50,7 @@
 	<TableBody>
 		{#each languages as item}
 			{@const translations = getLanguage(item.language)}
-			<TableBodyRow on:click={() => goto(`/languages/${item.language}`)}>
+			<TableBodyRow class="cursor-pointer" on:click={() => goto(`/languages/${item.language}`)}>
 				<TableBodyCell>
 					{item.language}
 				</TableBodyCell>

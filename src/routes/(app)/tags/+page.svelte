@@ -2,20 +2,16 @@
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
-		Button,
 		Heading,
 		Table,
 		TableBody,
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell,
-		TableSearch
+		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
-	import { SearchOutline } from 'flowbite-svelte-icons';
 	import { formatDate } from '$lib/utils/formatDate';
-	import { searchStyles } from '$lib/assets/styles/search';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
@@ -121,7 +117,7 @@
 			</TableHead>
 			<TableBody>
 				{#each tags as item}
-					<TableBodyRow on:click={() => goto(`/tags/${item.name}`)}>
+					<TableBodyRow class="cursor-pointer" on:click={() => goto(`/tags/${item.name}`)}>
 						<TableBodyCell>
 							{item.name}
 						</TableBodyCell>

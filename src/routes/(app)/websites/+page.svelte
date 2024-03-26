@@ -3,18 +3,15 @@
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
-		Button,
 		Table,
 		TableBody,
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell,
-		TableSearch
+		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
-	import { ArrowUpRightFromSquareOutline, SearchOutline } from 'flowbite-svelte-icons';
-	import { searchStyles } from '$lib/assets/styles/search';
+	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
@@ -120,7 +117,7 @@
 			</TableHead>
 			<TableBody>
 				{#each domains as item}
-					<TableBodyRow on:click={() => goto(`/websites/${item.domain}`)}>
+					<TableBodyRow class="cursor-pointer" on:click={() => goto(`/websites/${item.domain}`)}>
 						<TableBodyCell
 							><img
 								class=" w-10 h-auto max-w-xs"
