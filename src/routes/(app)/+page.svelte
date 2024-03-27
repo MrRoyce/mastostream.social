@@ -34,7 +34,7 @@
 </script>
 
 {#if browser}
-	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex py-4 m-4 h-fit">
+	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex pt-4 m-4 h-fit">
 		<div>
 			{#if $initialized}
 				<!-- Marquee -->
