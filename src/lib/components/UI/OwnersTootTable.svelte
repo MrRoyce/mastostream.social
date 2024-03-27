@@ -45,6 +45,11 @@
 					scope="col">{tableHead}</TableHeadCell
 				>
 			{/each}
+			<TableHeadCell></TableHeadCell>
+			<TableHeadCell></TableHeadCell>
+			<TableHeadCell></TableHeadCell>
+			<TableHeadCell></TableHeadCell>
+			<TableHeadCell></TableHeadCell>
 		</TableHead>
 	{/if}
 	<TableBody>
@@ -69,13 +74,18 @@
 						><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" /></A
 					></TableBodyCell
 				>
+				<TableBodyCell>&nbsp;</TableBodyCell>
+				<TableBodyCell>&nbsp;</TableBodyCell>
+				<TableBodyCell>&nbsp;</TableBodyCell>
+				<TableBodyCell>&nbsp;</TableBodyCell>
+				<TableBodyCell>&nbsp;</TableBodyCell>
 			</TableBodyRow>
 			<TableBodyRow
 				class=" cursor-pointer"
 				on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}
 			>
 				<TableBodyCell></TableBodyCell>
-				<TableBodyCell colspan="3" class="whitespace-normal break-words py-2">
+				<TableBodyCell colspan="8" class="whitespace-normal break-words py-2">
 					{#if item.sensitive && !showSensitive}
 						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 					{:else}
