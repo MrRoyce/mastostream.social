@@ -14,8 +14,6 @@
 		Button,
 		CloseButton,
 		Drawer,
-		Dropdown,
-		DropdownItem,
 		Sidebar,
 		SidebarGroup,
 		SidebarItem,
@@ -26,7 +24,6 @@
 		ArrowRightToBracketSolid,
 		BugSolid,
 		ChartSolid,
-		ChevronDownSolid,
 		GridSolid,
 		MailBoxSolid,
 		UsersSolid
