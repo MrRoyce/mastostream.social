@@ -7,8 +7,9 @@ import { formatCreatedAt } from '$lib/utils/formatCreatedAt';
 import { formatImages } from '$lib/utils/formatImages';
 import { formatText } from '$lib/utils/formatText';
 import { formatToot } from '$lib/utils/formatToot';
-import { truncateHTML } from '$lib/utils/truncateHTML';
 import { summarizeCounts } from '$lib/utils/summarizeCounts';
+import { truncateHTML } from '$lib/utils/truncateHTML';
+import { validateToken } from '$lib/utils/validateToken';
 
 export {
 	calculateCharts,
@@ -21,5 +22,6 @@ export {
 	formatText,
 	formatToot,
 	summarizeCounts,
-	truncateHTML
+	truncateHTML,
+	validateToken
 };
