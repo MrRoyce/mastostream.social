@@ -36,9 +36,7 @@
 				<BreadcrumbItem>Search</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
-		<div
-			class="dark:bg-gray-800 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
-		>
+		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 			<div class="container mx-auto my-5 p-5">
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 					<div class="md:col-span-2 md:col-start-1 order-first">

@@ -54,7 +54,7 @@
 				</Breadcrumb>
 			</div>
 			<div
-				class="dark:bg-gray-800 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
+				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
 			>
 				<div class=" mx-auto my-5 p-5">
 					<div class="md:flex no-wrap md:-mx-2">

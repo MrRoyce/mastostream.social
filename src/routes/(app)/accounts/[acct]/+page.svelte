@@ -53,7 +53,7 @@
 
 {#if entity}
 	<div class="pt-0.5">
-		<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex py-4 m-4 h-fit">
+		<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex pt-4 m-4 h-fit">
 			<!-- Breadcrumb -->
 			<div class="pl-0 pt-0 pb-4">
 				<Breadcrumb aria-label={$t('aria.breadcrumbLink')}>
@@ -63,7 +63,7 @@
 				</Breadcrumb>
 			</div>
 			<div
-				class="dark:bg-gray-800 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
+				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
 			>
 				<div class=" mx-auto my-5 p-5">
 					<!-- Account Profile -->
@@ -176,7 +176,6 @@
 							{$t('general.latestTootsFrom')}
 							{entity.acct}:
 						</h2>
-
 						<OwnersTootTable {tableData} sourceData={toots} />
 					</div>
 				</div>
