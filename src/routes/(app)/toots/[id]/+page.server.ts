@@ -78,8 +78,6 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     if (entity && entity.uri) {
       // Get Card
       const uriWithCard = replaceUsersSegment(entity.uri)
-      console.log('entity.url', entity.uri)
-      console.log('uriWithCard', uriWithCard)
       const cardResult = await getStatusWithCard(fetch, uriWithCard)
       card = cardResult?.card || {}
       entity.account = cardResult?.account || entity.account  // Override with better data

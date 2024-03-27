@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { SubmitFunction } from '@sveltejs/kit';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
@@ -7,8 +8,11 @@
 	import { createUserWithEmailAndPassword } from 'firebase/auth';
 	import { doc, setDoc } from 'firebase/firestore';
 	import type { PageData } from './$types';
-
+	import { Turnstile } from 'svelte-turnstile';
+	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
 	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+	import { Button } from 'flowbite-svelte';
+	import { enhance } from '$app/forms';
 
 	export let data: PageData;
 
@@ -48,7 +52,6 @@
 	async function signInWithEmailAndPW() {
 		try {
 			const credential = await createUserWithEmailAndPassword(auth, email, password);
-			console.log('credential', credential);
 
 			// Get idToken from Google.
 			// Be careful for other implementations!!
@@ -105,6 +108,22 @@
 
 		goto('/', { invalidateAll: true, replaceState: true });
 	}
+
+	const validateToken: SubmitFunction = () => {
+		// After call to validate turnstile token
+		return async ({ result }) => {
+			console.log('result after validateToken', result);
+			if (!result.data.success) {
+				const t: ToastSettings = {
+					background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
+					message: `An error occured during initial registration validation - Please try again!`,
+					hideDismiss: true
+				};
+			} else {
+				signInWithEmailAndPW();
+			}
+		};
+	};
 </script>
 
 {#if data.email}
@@ -138,7 +157,13 @@
 				<div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
 					<div class="flex flex-row justify-center divide-x divide-solid py-12 sm:px-6 lg:px-8">
 						<div class="w-1/2 p-4">
-							<form class="space-y-6" method="POST" action="#">
+							<form
+								class="space-y-6"
+								method="POST"
+								action="?/validateTurnstile"
+								use:enhance={validateToken}
+								id="registerForm"
+							>
 								<div>
 									<label for="username" class="block text-sm font-medium text-gray-700"
 										>Username</label
@@ -220,15 +245,13 @@
 								</div>
 
 								<div class="mt-6">
-									<span class="block w-full rounded-md shadow-sm">
-										<button
-											type="button"
-											class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-											on:click={signInWithEmailAndPW}
-										>
-											Create an Account
-										</button>
-									</span>
+									<Button
+										type="submit"
+										class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+									>
+										Create an Account
+									</Button>
+									<Turnstile siteKey={PUBLIC_TURNSTILE_SITE_KEY} theme="dark" />
 								</div>
 							</form>
 						</div>

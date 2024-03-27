@@ -57,7 +57,6 @@
 
 		// After call to validate turnstile token
 		return async ({ result }) => {
-			console.log('result', result);
 			const { type, status } = result;
 			const { message } = result.data;
 
