@@ -15,7 +15,7 @@
 	name="tableheader"
 	sectionClass="bg-gray-50 dark:bg-gray-900 flex py-4 ml-4 mt-4 mb-4 h-fit"
 >
-	<Sidebar {activeUrl}>
+	<Sidebar {activeUrl} asideClass="w-80">
 		<SidebarWrapper>
 			<SidebarGroup class="pb-6">
 				<SidebarItem>
