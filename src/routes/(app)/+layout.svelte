@@ -99,18 +99,6 @@
 		'/search': 'Full Text Search'
 	};
 
-	const stringsToCheck = ['toots', 'accounts', 'websites', 'tags', 'languages', 'search'];
-
-	$: getRouteDropdownLabel = (activeUrl: string | string[]) => {
-		let response = siteDropdown[activeUrl];
-		if (!response) {
-			response = stringsToCheck.filter((str) => activeUrl.includes(str));
-			response = response ? siteDropdown[`/${response}`] : 'Dashboard';
-		}
-		return response;
-	};
-
-	$: activeUrl = $page.url.pathname;
 	$: $loading = !!$navigating;
 	$: user = data.user;
 </script>
