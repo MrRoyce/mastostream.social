@@ -16,6 +16,8 @@
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { Section } from 'flowbite-svelte-blocks';
+	import { formatCreatedAt } from '$lib/utils';
+	import { formatDate } from '$lib/utils/formatDate';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -30,7 +32,7 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Pic', 'Open', 'Name', 'Languages', '# Users', 'Description', 'Link']
+		tableHead: ['Pic', 'Open', 'Name', 'Languages', 'Last Toot', '# Users', 'Link']
 	};
 </script>
 
@@ -121,7 +123,7 @@
 					<TableBody>
 						{#each domains as item}
 							<TableBodyRow
-								class="cursor-pointer"
+								class=" border-none cursor-pointer"
 								on:click={() => goto(`/websites/${item.domain}`)}
 							>
 								<TableBodyCell
@@ -148,16 +150,20 @@
 										? item.instance.languages[0].slice(0, 4)
 										: '❓'}
 								</TableBodyCell>
+								<TableBodyCell>
+									{item.lastSeen
+										? formatDate({
+												seconds: item.lastSeen.seconds,
+												nanoseconds: item.lastSeen.nanoseconds
+											})
+										: 'N/A'}
+								</TableBodyCell>
 								<TableBodyCell class="text-right">
 									{item.instance?.stats?.user_count
 										? item.instance.stats.user_count.toLocaleString()
 										: '❓'}
 								</TableBodyCell>
-								<TableBodyCell>
-									{item.instance?.short_description
-										? item.instance.short_description.substring(0, 100 - 3) + '...'
-										: ''}
-								</TableBodyCell>
+
 								<TableBodyCell>
 									<A
 										rel="noopener nofollow"
@@ -167,6 +173,17 @@
 										><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" /></A
 									></TableBodyCell
 								>
+							</TableBodyRow>
+							<TableBodyRow
+								class=" cursor-pointer"
+								on:click={() => goto(`/websites/${item.domain}`)}
+							>
+								<TableBodyCell></TableBodyCell>
+								<TableBodyCell colspan="6">
+									{item.instance?.short_description
+										? item.instance.short_description.substring(0, 115 - 3) + '...'
+										: ''}
+								</TableBodyCell>
 							</TableBodyRow>
 						{/each}
 					</TableBody>
