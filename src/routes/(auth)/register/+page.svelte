@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
-
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { auth, db } from '$lib/firebase/client';
 	import { createUserWithEmailAndPassword } from 'firebase/auth';
 	import { doc, setDoc } from 'firebase/firestore';
@@ -12,6 +12,7 @@
 
 	export let data: PageData;
 
+	const toastStore = getToastStore();
 	const analytics = typeof window !== 'undefined' ? getAnalytics() : null;
 
 	let email = '';
@@ -35,28 +36,44 @@
 			}
 		} catch (error) {
 			console.log('error in register sign_up', error);
+			const t: ToastSettings = {
+				background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
+				message: `An error occured during registration setup - please contact us to complete your registration: ${error}`,
+				hideDismiss: true
+			};
+			toastStore.trigger(t);
 		}
 	}
 
 	async function signInWithEmailAndPW() {
-		const credential = await createUserWithEmailAndPassword(auth, email, password);
+		try {
+			const credential = await createUserWithEmailAndPassword(auth, email, password);
+			console.log('credential', credential);
 
-		// Get idToken from Google.
-		// Be careful for other implementations!!
-		const idToken = await credential.user.getIdToken();
+			// Get idToken from Google.
+			// Be careful for other implementations!!
+			const idToken = await credential.user.getIdToken();
 
-		await addUserToDB(credential.user);
+			await addUserToDB(credential.user);
 
-		const res = await fetch('/api/signin', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-				// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
-			},
-			body: JSON.stringify({ idToken })
-		});
+			const res = await fetch('/api/signin', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+					// 'CSRF-Token': csrfToken  // HANDLED by sveltekit automatically
+				},
+				body: JSON.stringify({ idToken })
+			});
 
-		goto('/', { invalidateAll: true, replaceState: true });
+			goto('/', { invalidateAll: true, replaceState: true });
+		} catch (error) {
+			const t: ToastSettings = {
+				background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
+				message: `An error occured during registration: ${error}`,
+				hideDismiss: true
+			};
+			toastStore.trigger(t);
+		}
 	}
 
 	async function setSessionToken(idToken: string) {
