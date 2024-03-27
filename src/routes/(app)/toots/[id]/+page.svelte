@@ -156,7 +156,7 @@
 									<BlurHash hash={video.blurhash} />
 								{:else}
 									<video
-										controls
+										controls loop
 										class="h-80"
 										poster={video.previewUrl}
 										muted
@@ -169,7 +169,7 @@
 									>
 										<source
 											src={video.src || video.remoteUrl}
-											type={video.type === 'video' ? 'video/mp4' : video.type}
+											type={video.type === 'video' || video.src.endsWith('mp4')? 'video/mp4' : video.type}
 										/>
 
 										<!-- Add caption track -->
