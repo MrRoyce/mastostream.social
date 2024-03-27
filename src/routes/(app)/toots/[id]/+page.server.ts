@@ -126,7 +126,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     }
   }
 
-  await redis.disconnect()
+  await redis.quit()
 
   return {
     card: JSON.parse(JSON.stringify(card)),

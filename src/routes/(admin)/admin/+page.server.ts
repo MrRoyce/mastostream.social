@@ -114,6 +114,6 @@ export const load: PageServerLoad = async ({ locals }) => {
   } catch (error) {
     console.error(`Error in (admin) +page.server.ts ${error}`, JSON.stringify(error))
   } finally {
-    await redis.disconnect()
+    await redis.quit()
   }
 }

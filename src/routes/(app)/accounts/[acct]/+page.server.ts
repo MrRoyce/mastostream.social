@@ -112,7 +112,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     console.error(`Error in (app) accounts [acct] +page.server.ts ${error}`, JSON.stringify(error))
 
   } finally {
-    await redis.disconnect()
+    await redis.quit()
   }
 
 });

@@ -67,6 +67,6 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
     console.error(`Error in (app) tags [tag] +page.server.ts ${error}`, JSON.stringify(error))
 
   } finally {
-    await redis.disconnect()
+    await redis.quit()
   }
 });

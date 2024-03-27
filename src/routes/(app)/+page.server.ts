@@ -108,6 +108,6 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
   } catch (error) {
     console.error(`Error in (app) +page.server.ts ${error}`, JSON.stringify(error))
   } finally {
-    await redis.disconnect()
+    await redis.quit()
   }
 };
