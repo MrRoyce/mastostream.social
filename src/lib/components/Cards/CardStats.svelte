@@ -39,9 +39,14 @@
 			<span class="mr-2 {statPercentColor}">
 				{statsCount}
 				{statDescription}
-				<i class={statArrow === 'up' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}></i>
-				<span class={statPercent < 0 ? 'text-red-700' : 'text-green-400'}>{statPercent}%</span>
 			</span>
+		</p>
+		<p>
+			<span class={statPercent < 0 ? 'text-red-700' : 'text-green-400'}
+				><i class={statArrow === 'up' ? 'fas fa-arrow-up' : 'fas fa-arrow-down'}></i></span
+			>
+			<span class={statPercent < 0 ? 'text-red-700' : 'text-green-400'}>{statPercent}%</span>
+
 			<span></span>
 		</p>
 	</div>

@@ -14,14 +14,28 @@ function calculateChange(latestCount, previousCount) {
 export const calculateStats = (
 	/** @type {{ locale: string; route: string; accounts: string | number; counts: {} | undefined; domains: string | number; languages: string | number; tags: string | number; toots: string | number; }} */ stats
 ) => {
-	// console.log('stats', JSON.stringify(stats, null, 2));
+	const tootsPercent = calculateChange(stats?.counts?.toots['-1'], stats?.counts?.toots['-2']);
+	const accountsPercent = calculateChange(
+		stats?.counts?.accounts['-1'],
+		stats?.counts?.accounts['-2']
+	);
+	const languagesPercent = calculateChange(
+		stats?.counts?.languages['-1'],
+		stats?.counts?.languages['-2']
+	);
+	const domainsPercent = calculateChange(
+		stats?.counts?.domains['-1'],
+		stats?.counts?.domains['-2']
+	);
+	const tagsPercent = calculateChange(stats?.counts?.tags['-1'], stats?.counts?.tags['-2']);
+
 	const response = [
 		{
 			href: '/toots',
 			statEntity: 'Toots',
 			statValue: stats.toots,
-			statArrow: 'up',
-			statPercent: calculateChange(stats?.counts?.toots['-1'], stats?.counts?.toots['-2']),
+			statArrow: tootsPercent >= 0 ? 'up' : 'down',
+			statPercent: tootsPercent,
 			statsCount: stats?.counts?.toots['-1'] || 0,
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
@@ -32,8 +46,8 @@ export const calculateStats = (
 			href: '/accounts',
 			statEntity: 'Accounts',
 			statValue: stats.accounts,
-			statArrow: 'up',
-			statPercent: calculateChange(stats?.counts?.accounts['-1'], stats?.counts?.accounts['-2']),
+			statArrow: accountsPercent >= 0 ? 'up' : 'down',
+			statPercent: accountsPercent,
 			statsCount: stats?.counts?.accounts['-1'] || 0,
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
@@ -44,8 +58,8 @@ export const calculateStats = (
 			href: '/languages',
 			statEntity: 'Languages',
 			statValue: stats.languages,
-			statArrow: 'up',
-			statPercent: calculateChange(stats?.counts?.languages['-1'], stats?.counts?.languages['-2']),
+			statArrow: languagesPercent >= 0 ? 'up' : 'down',
+			statPercent: languagesPercent,
 			statsCount: stats?.counts?.languages['-1'] || 0,
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
@@ -56,8 +70,8 @@ export const calculateStats = (
 			href: '/websites',
 			statEntity: 'Web Sites',
 			statValue: stats.domains,
-			statArrow: 'up',
-			statPercent: calculateChange(stats?.counts?.domains['-1'], stats?.counts?.domains['-2']),
+			statArrow: domainsPercent >= 0 ? 'up' : 'down',
+			statPercent: domainsPercent,
 			statsCount: stats?.counts?.domains['-1'] || 0,
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
@@ -68,8 +82,8 @@ export const calculateStats = (
 			href: '/tags',
 			statEntity: 'Tags',
 			statValue: stats.tags,
-			statArrow: 'up',
-			statPercent: calculateChange(stats?.counts?.tags['-1'], stats?.counts?.tags['-2']),
+			statArrow: tagsPercent >= 0 ? 'up' : 'down',
+			statPercent: tagsPercent,
 			statsCount: stats?.counts?.tags['-1'] || 0,
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
