@@ -4,7 +4,13 @@
 	import { Sidebar, SidebarGroup, SidebarItem, SidebarWrapper, Tooltip } from 'flowbite-svelte';
 	import { Section } from 'flowbite-svelte-blocks';
 
-	import { ArrowRightOutline } from 'flowbite-svelte-icons';
+	import {
+		ArrowRightOutline,
+		UserSolid,
+		ChartSolid,
+		MailBoxSolid,
+		GridSolid
+	} from 'flowbite-svelte-icons';
 	$: activeUrl = $page.url.pathname;
 
 	export let image: String;
@@ -33,10 +39,15 @@
 			<SidebarGroup>
 				<SidebarItem label={$t('pagelinks.dashboard')} href="/" active={activeUrl === '/'}>
 					<svelte:fragment slot="icon">
-						<ArrowRightOutline
-							name="computer-speaker-solid"
+						<ChartSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
+					</svelte:fragment>
+				</SidebarItem>
+
+				<SidebarItem label={$t('pagelinks.toots')} href="/toots" active={activeUrl === '/toots'}>
+					<svelte:fragment slot="icon">
+						<i class="far fa-chart-bar" />
 					</svelte:fragment>
 				</SidebarItem>
 
@@ -46,19 +57,7 @@
 					active={activeUrl === '/accounts'}
 				>
 					<svelte:fragment slot="icon">
-						<ArrowRightOutline
-							name="computer-speaker-solid"
-							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-						/>
-					</svelte:fragment>
-				</SidebarItem>
-
-				<SidebarItem label={$t('pagelinks.toots')} href="/toots" active={activeUrl === '/toots'}>
-					<svelte:fragment slot="icon">
-						<ArrowRightOutline
-							name="computer-speaker-solid"
-							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-						/>
+						<i class="fa-sharp fa-solid fa-users" />
 					</svelte:fragment>
 				</SidebarItem>
 
@@ -68,8 +67,7 @@
 					active={activeUrl === '/websites'}
 				>
 					<svelte:fragment slot="icon">
-						<ArrowRightOutline
-							name="computer-speaker-solid"
+						<GridSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
@@ -90,10 +88,7 @@
 					active={activeUrl === '/languages'}
 				>
 					<svelte:fragment slot="icon">
-						<ArrowRightOutline
-							name="computer-speaker-solid"
-							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-						/>
+						<i class="fa-solid fa-globe" />
 					</svelte:fragment>
 				</SidebarItem>
 
