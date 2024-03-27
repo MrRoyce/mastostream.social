@@ -24,7 +24,7 @@
 	};
 </script>
 
-<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+<div class="p-3 sm:p-5">
 	<Breadcrumb aria-label="Breadcrumbs for search term page">
 		<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
 		<BreadcrumbItem href="/search">Search</BreadcrumbItem>

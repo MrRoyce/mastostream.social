@@ -10,7 +10,20 @@ const config = {
 		'./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}'
 	],
 
-	plugins: [require('flowbite/plugin'), tailwindcss(), skeleton],
+	plugins: [
+		require('flowbite/plugin'),
+		tailwindcss(),
+		skeleton({
+			themes: {
+				preset: [
+					{
+						name: 'skeleton',
+						enhancements: true
+					}
+				]
+			}
+		})
+	],
 	darkMode: 'class',
 	theme: {
 		extend: {

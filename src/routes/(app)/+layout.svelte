@@ -7,7 +7,7 @@
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 
-	import { Footer, Loading } from '$lib/components';
+	import { Footer, Loading, UserSidebar } from '$lib/components';
 	import { loading, showSensitiveStore } from '$lib/stores';
 	import {
 		A,
@@ -35,14 +35,16 @@
 	import Languages from '$lib/components/Languages/Languages.svelte';
 	import type { LayoutData } from './$types';
 	import { handleLogout } from '$lib/firebase/handleLogout';
-	import { AppBar } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { handleLocaleChange } from '$lib/utils/handleLocaleChange';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/client';
 	import { authUser } from '$lib/stores';
+	import { UserIcon } from '$lib/components/icons';
 
 	export let data: LayoutData;
+	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
 
 	onMount(() => {
 		const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -219,76 +221,74 @@
 {#if $loading}
 	<Loading />
 {:else}
-	<slot name="header">
-		<AppBar>
-			<svelte:fragment slot="lead">
-				<div class="flex items-center show-on-mobile dark:text-white">
-					<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
-						<span>
-							<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
-								<rect width="100" height="20" />
-								<rect y="30" width="100" height="20" />
-								<rect y="60" width="100" height="20" />
-							</svg>
-						</span>
-					</Button>
-				</div>
-				<A href="/"
-					><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
-				>
-			</svelte:fragment>
+	<AppShell>
+		<svelte:fragment slot="sidebarLeft">
+			<div class="hidden-on-mobile">
+				<UserSidebar image={userImage} email={data.user?.email || ''} />
+			</div>
+		</svelte:fragment>
 
-			<svelte:fragment slot="trail">
-				<div>
-					<Toggle
-						color="red"
-						checked={false}
-						value="false"
-						on:click={() => {
-							{
-								hideSensitive();
-							}
-						}}>{$t('pagelinks.showSensitive')}</Toggle
+		<svelte:fragment slot="header">
+			<AppBar
+				gridColumns="grid-cols-3"
+				slotDefault="place-self-center"
+				slotTrail="place-content-end"
+			>
+				<svelte:fragment slot="lead">
+					<div class="flex items-center show-on-mobile dark:text-white">
+						<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
+							<span>
+								<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
+									<rect width="100" height="20" />
+									<rect y="30" width="100" height="20" />
+									<rect y="60" width="100" height="20" />
+								</svg>
+							</span>
+						</Button>
+					</div>
+					<A href="/"
+						><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
 					>
-				</div>
-				<div class="hidden-on-mobile">
-					<Button outline color="green"
-						>{getRouteDropdownLabel(activeUrl)}...
-						<ChevronDownSolid class="w-3 h-3 ms-2 text-white dark:text-white" />
-					</Button>
-					<Dropdown {activeUrl}>
-						<DropdownItem href="/">{$t('pagelinks.dashboard')}</DropdownItem>
-						<DropdownItem href="/accounts">{$t('pagelinks.accounts')}</DropdownItem>
-						<DropdownItem href="/toots">{$t('pagelinks.toots')}</DropdownItem>
-						<DropdownItem href="/websites">{$t('pagelinks.websites')}</DropdownItem>
-						<DropdownItem href="/tags">{$t('pagelinks.tags')}</DropdownItem>
-						<DropdownItem href="/languages">{$t('pagelinks.languages')}</DropdownItem>
-						<DropdownItem href="/search">{$t('pagelinks.search')}</DropdownItem>
-					</Dropdown>
-				</div>
-				{#if user}
-					<button on:click={handleLogout} type="button" class="btn variant-filled">Sign Out</button>
-				{:else}
-					<button on:click={() => goto('/login')} type="button" class="btn variant-filled"
-						>Sign In</button
-					>
-				{/if}
-				<button on:click={handleLocaleChange}><Languages /></button>
-			</svelte:fragment>
-		</AppBar>
-	</slot>
+				</svelte:fragment>
 
-	<!-- Router Slot -->
+				<svelte:fragment slot="trail">
+					<div>
+						<Toggle
+							color="red"
+							checked={false}
+							value="false"
+							on:click={() => {
+								{
+									hideSensitive();
+								}
+							}}>{$t('pagelinks.showSensitive')}</Toggle
+						>
+					</div>
+					{#if user}
+						<button on:click={handleLogout} type="button" class="btn variant-filled"
+							>Sign Out</button
+						>
+					{:else}
+						<button on:click={() => goto('/login')} type="button" class="btn variant-filled"
+							>Sign In</button
+						>
+					{/if}
+					<button on:click={handleLocaleChange}><Languages /></button>
+				</svelte:fragment>
+			</AppBar>
+		</svelte:fragment>
 
-	<main class="container mx-auto">
-		<div class="flex-initial">
-			<slot />
-		</div>
-	</main>
+		<!-- +page.svelte Slot -->
+		<main class="container mx-auto">
+			<div class="flex-initial">
+				<slot />
+			</div>
+		</main>
 
-	<slot name="pageFooter">
-		<Footer />
-	</slot>
+		<svelte:fragment slot="pageFooter">
+			<Footer />
+		</svelte:fragment>
+	</AppShell>
 {/if}
 
 <style>

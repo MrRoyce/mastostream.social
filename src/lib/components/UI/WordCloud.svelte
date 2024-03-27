@@ -66,6 +66,7 @@
 >
 	<g transform={`translate(0 ${dimensions.margin.top})`}>
 		{#each cloudWords as word}
+			{console.log(word)}
 			<a href={`/tags/${word.text}`}>
 				<text
 					class=""

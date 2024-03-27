@@ -2,7 +2,7 @@
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
-		Button,
+		Heading,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -11,12 +11,11 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
-	import { SearchOutline } from 'flowbite-svelte-icons';
 	import { formatDate } from '$lib/utils/formatDate';
-	import { searchStyles } from '$lib/assets/styles/search';
 	import { getLanguage } from '$lib/utils/getLanguage';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
+	import { Section } from 'flowbite-svelte-blocks';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -35,41 +34,63 @@
 	};
 </script>
 
-<div class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
-	<Breadcrumb aria-label="Link to Dashboard">
-		<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
-		<BreadcrumbItem>Languages</BreadcrumbItem>
-	</Breadcrumb>
-</div>
-<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5" hoverable={true}>
-	<TableHead>
-		{#each tableData.tableHead as tableHead}
-			<TableHeadCell class="text-center" padding="px-4 py-3" scope="col">{tableHead}</TableHeadCell>
-		{/each}
-	</TableHead>
-	<TableBody>
-		{#each languages as item}
-			{@const translations = getLanguage(item.language)}
-			<TableBodyRow class="cursor-pointer" on:click={() => goto(`/languages/${item.language}`)}>
-				<TableBodyCell>
-					{item.language}
-				</TableBodyCell>
-				<TableBodyCell>
-					{translations.englishValue}
-				</TableBodyCell>
-				<TableBodyCell class="text-right">
-					{item.count.toLocaleString()}
-				</TableBodyCell>
+<div class="pt-0.5">
+	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex p-4t m-4 h-fit">
+		<div class="pl-0 pt-0 pb-4">
+			<Breadcrumb aria-label="Link to Dashboard">
+				<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
+				<BreadcrumbItem>Languages</BreadcrumbItem>
+			</Breadcrumb>
+		</div>
+		<div
+			class="dark:bg-gray-800 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
+		>
+			<div class="container mx-auto my-5 p-5">
+				<div class="col-span-2 mb-6">
+					<Heading>Toots by Language</Heading>
+				</div>
+				<Table
+					name="advancedTable"
+					classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+					hoverable={true}
+				>
+					<TableHead>
+						{#each tableData.tableHead as tableHead}
+							<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
+								>{tableHead}</TableHeadCell
+							>
+						{/each}
+					</TableHead>
+					<TableBody>
+						{#each languages as item}
+							{@const translations = getLanguage(item.language)}
+							<TableBodyRow
+								class="cursor-pointer"
+								on:click={() => goto(`/languages/${item.language}`)}
+							>
+								<TableBodyCell>
+									{item.language}
+								</TableBodyCell>
+								<TableBodyCell>
+									{translations.englishValue}
+								</TableBodyCell>
+								<TableBodyCell class="text-right">
+									{item.count.toLocaleString()}
+								</TableBodyCell>
 
-				<TableBodyCell>
-					{item.lastSeen
-						? formatDate({
-								seconds: item.lastSeen.seconds,
-								nanoseconds: item.lastSeen.nanoseconds
-							})
-						: 'N/A'}
-				</TableBodyCell>
-			</TableBodyRow>
-		{/each}
-	</TableBody>
-</Table>
+								<TableBodyCell>
+									{item.lastSeen
+										? formatDate({
+												seconds: item.lastSeen.seconds,
+												nanoseconds: item.lastSeen.nanoseconds
+											})
+										: 'N/A'}
+								</TableBodyCell>
+							</TableBodyRow>
+						{/each}
+					</TableBody>
+				</Table>
+			</div>
+		</div></Section
+	>
+</div>

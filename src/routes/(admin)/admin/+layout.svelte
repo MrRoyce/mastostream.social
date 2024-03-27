@@ -37,7 +37,9 @@
 <slot name="header">
 	<AppShell>
 		<svelte:fragment slot="sidebarLeft">
-			<AdminSidebar image={userImage} email={data.user?.email || ''} />
+			<div class="hidden-on-mobile">
+				<AdminSidebar image={userImage} email={data.user?.email || ''} />
+			</div>
 		</svelte:fragment>
 		<AppBar>
 			<svelte:fragment slot="lead">
@@ -57,7 +59,7 @@
 				<button on:click={handleLocaleChange}><Languages /></button>
 			</svelte:fragment>
 		</AppBar>
-		<!-- Router Slot -->
+		<!-- +page.svelte Slot -->
 		<main class="container mx-auto">
 			<div class="flex-initial">
 				<slot />

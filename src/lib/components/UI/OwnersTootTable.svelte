@@ -49,20 +49,17 @@
 	{/if}
 	<TableBody>
 		{#each currentPageItems as item}
-			<TableBodyRow on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
+			<TableBodyRow
+				class="border-none cursor-pointer"
+				on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}
+			>
 				<TableBodyCell class="text-center">
 					{item.sensitive ? '❌' : '✅'}
 				</TableBodyCell>
 				<TableBodyCell class="text-center">
 					{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
 				</TableBodyCell>
-				<TableBodyCell class="whitespace-normal break-words py-2">
-					{#if item.sensitive && !showSensitive}
-						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
-					{:else}
-						{@html truncateHTML(item.content, 300)}
-					{/if}
-				</TableBodyCell>
+
 				<TableBodyCell class="text-center">
 					<A
 						rel="noopener nofollow"
@@ -72,6 +69,19 @@
 						><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" /></A
 					></TableBodyCell
 				>
+			</TableBodyRow>
+			<TableBodyRow
+				class=" cursor-pointer"
+				on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}
+			>
+				<TableBodyCell></TableBodyCell>
+				<TableBodyCell colspan="3" class="whitespace-normal break-words py-2">
+					{#if item.sensitive && !showSensitive}
+						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
+					{:else}
+						{@html truncateHTML(item.content, 300)}
+					{/if}
+				</TableBodyCell>
 			</TableBodyRow>
 		{/each}
 	</TableBody>
