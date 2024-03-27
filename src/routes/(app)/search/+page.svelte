@@ -1,17 +1,6 @@
 <script lang="ts">
-	import {
-		Breadcrumb,
-		BreadcrumbItem,
-		Button,
-		Dropdown,
-		DropdownItem,
-		Radio,
-		TableSearch
-	} from 'flowbite-svelte';
-	import { ChevronDownSolid } from 'flowbite-svelte-icons';
-	import {} from 'flowbite-svelte-icons';
+	import { Breadcrumb, BreadcrumbItem, Radio } from 'flowbite-svelte';
 	import { page } from '$app/stores';
-	import { searchStyles } from '$lib/assets/styles/search';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { Section } from 'flowbite-svelte-blocks';
