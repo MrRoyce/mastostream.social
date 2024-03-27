@@ -26,6 +26,13 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+
+	interface TokenValidateResponse {
+		'error-codes': string[];
+		success: boolean;
+		action: string;
+		cdata: string;
+	}
 	interface ImportMetaEnv {
 		// safe to share
 		readonly VITE_APIKEY: string
