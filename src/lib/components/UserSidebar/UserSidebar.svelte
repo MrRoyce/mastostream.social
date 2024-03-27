@@ -18,9 +18,14 @@
 	<Sidebar {activeUrl}>
 		<SidebarWrapper>
 			<SidebarGroup class="pb-6">
-				<SidebarItem label={email}>
+				<SidebarItem>
 					<svelte:fragment slot="icon">
-						<img id="users-picture" height="48" src={image} alt="User" />
+						{#if image && typeof image === 'string'}
+							<img id="users-picture" height="48" src={image} alt="User" />
+						{:else}
+							<i class={'fas fa-user-secret fa-5x'}></i>
+						{/if}
+
 						<Tooltip triggeredBy="[id^='users-picture']">{email}</Tooltip>
 					</svelte:fragment>
 				</SidebarItem>
