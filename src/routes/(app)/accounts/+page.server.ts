@@ -10,7 +10,7 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
   try {
     const sourceType = url.searchParams.get('type') ?? 'both'
 
-    await redis.connect()
+    //await redis.connect()
     const redisKeyAccountsType = `accounts_cached_${sourceType}`
     const accountsCached = await redis.get(redisKeyAccountsType)
 
@@ -27,9 +27,7 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
       })
 
       // Store account entity in redis
-      await redis.set(redisKeyAccountsType, JSON.stringify(entity), {
-        EX: ttl
-      })
+      await redis.set(redisKeyAccountsType, JSON.stringify(entity), 'EX', ttl)
     }
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
@@ -40,6 +38,6 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
   } catch (error) {
     console.error(`Error in (app) accounts +page.server.ts ${error}`, JSON.stringify(error))
   } finally {
-    await redis.quit()
+    //await redis.quit()
   }
 });

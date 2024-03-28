@@ -30,7 +30,7 @@ async function getLatestEntityInfo(fetch, uriWithLookup) {
 // Get domain and their toots
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
   try {
-    await redis.connect()
+    //await redis.connect()
 
     const lowerCase = params.domain && typeof params.domain === 'string' ? params.domain.toLowerCase() : params.domain;
 
@@ -89,15 +89,11 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
         })
 
         // Store entity in redis
-        await redis.set(redisKeyDomain, JSON.stringify(entity), {
-          EX: ttl
-        })
+        await redis.set(redisKeyDomain, JSON.stringify(entity), 'EX', ttl)
 
         // Store toots for the domain in redis
         toots = items
-        await redis.set(redisKeyDomainToots, JSON.stringify(items), {
-          EX: ttl
-        })
+        await redis.set(redisKeyDomainToots, JSON.stringify(items), 'EX', ttl)
       } else {
         entity = {}
         console.error(`No entity found for entity: domains and id: ${lowerCase}`)
@@ -115,6 +111,6 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
   } catch (error) {
     console.error(`Error in (app) websites [domain] +page.server.ts ${error}`, JSON.stringify(error))
   } finally {
-    await redis.quit()
+    //await redis.quit()
   }
 });

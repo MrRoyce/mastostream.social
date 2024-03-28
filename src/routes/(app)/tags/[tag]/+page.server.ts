@@ -11,7 +11,7 @@ let toots
 export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
 
   try {
-    await redis.connect()
+    //await redis.connect()
 
     const tootType = url.searchParams.get('type') || 'both'
     const lowerCase = params.tag && typeof params.tag === 'string' ? params.tag.toLowerCase() : params.tag;
@@ -43,15 +43,11 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
       })
 
       // Store entity in redis
-      await redis.set(redisKeyTag, JSON.stringify(entity), {
-        EX: ttl
-      })
+      await redis.set(redisKeyTag, JSON.stringify(entity), 'EX', ttl)
 
       // Store toots for the tag in redis
       toots = items
-      await redis.set(redisKeyTagToots, JSON.stringify(items), {
-        EX: ttl
-      })
+      await redis.set(redisKeyTagToots, JSON.stringify(items), 'EX', ttl)
     }
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
@@ -67,6 +63,6 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
     console.error(`Error in (app) tags [tag] +page.server.ts ${error}`, JSON.stringify(error))
 
   } finally {
-    await redis.quit()
+    //await redis.quit()
   }
 });

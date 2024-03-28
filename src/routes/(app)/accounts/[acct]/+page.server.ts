@@ -37,7 +37,7 @@ async function getLatestEntityInfo(fetch, uriWithLookup) {
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
   try {
-    await redis.connect()
+    //await redis.connect()
 
     const lowerCase = params.acct && typeof params.acct === 'string' ? params.acct.toLowerCase() : params.acct;
 
@@ -85,14 +85,10 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
         }
 
         // Store account entity in redis
-        await redis.set(redisKeyAccount, JSON.stringify(entity), {
-          EX: ttl
-        })
+        await redis.set(redisKeyAccount, JSON.stringify(entity), 'EX', ttl)
 
         // Store account toots in redis
-        await redis.set(redisKeyAccountToots, JSON.stringify(toots), {
-          EX: ttl
-        })
+        await redis.set(redisKeyAccountToots, JSON.stringify(toots), 'EX', ttl)
 
       } else {
         entity = {}
@@ -112,7 +108,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     console.error(`Error in (app) accounts [acct] +page.server.ts ${error}`, JSON.stringify(error))
 
   } finally {
-    await redis.quit()
+    //await redis.quit()
   }
 
 });

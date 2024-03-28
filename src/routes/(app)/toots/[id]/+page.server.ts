@@ -42,7 +42,7 @@ async function getStatusWithCard(fetch: { (input: URL | RequestInfo, init?: Requ
 // Get the toot for the passed id
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
-  await redis.connect()
+  //await redis.connect()
 
   let replies: [] = []
   let replyTo = false
@@ -85,14 +85,10 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       entity.mediaAttachments = cardResult?.media_attachments || entity.mediaAttachments  // Override with better data
 
       // Store entity in redis
-      await redis.set(redisKeyEntity, JSON.stringify(entity), {
-        EX: ttl
-      })
+      await redis.set(redisKeyEntity, JSON.stringify(entity), 'EX', ttl)
 
       // Store card in redis
-      await redis.set(redisKeyCard, JSON.stringify(card), {
-        EX: ttl
-      })
+      await redis.set(redisKeyCard, JSON.stringify(card), 'EX', ttl)
 
       // Get replies
       if (entity.replies && entity.replies.length) {
@@ -100,9 +96,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
         // Store replies in redis
         if (replies && Array.isArray(replies) && replies.length) {
-          await redis.set(redisKeyReplies, JSON.stringify(replies), {
-            EX: ttl
-          })
+          await redis.set(redisKeyReplies, JSON.stringify(replies), 'EX', ttl)
         }
       }
 
@@ -112,9 +106,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
         // Store replyTo in redis
         if (replyTo) {
-          await redis.set(redisKeyReplyTo, JSON.stringify(replyTo), {
-            EX: ttl
-          })
+          await redis.set(redisKeyReplyTo, JSON.stringify(replyTo), 'EX', ttl)
         }
       }
 
@@ -126,7 +118,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     }
   }
 
-  await redis.quit()
+  //await redis.quit()
 
   return {
     card: JSON.parse(JSON.stringify(card)),

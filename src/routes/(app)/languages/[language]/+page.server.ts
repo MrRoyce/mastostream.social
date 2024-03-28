@@ -14,7 +14,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
   const redisKeyLanguagesEntity = `languages_${languageLowerCase}`
   const redisKeyLanguagesToots = `languages_${languageLowerCase}_toots`
 
-  await redis.connect()
+  //await redis.connect()
 
   let wikiData = {}
   let entity: DocumentData | null
@@ -48,9 +48,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
           setHeaders({ "cache-control": cacheControl })
         }
 
-        await redis.set(redisKeyLanguage, JSON.stringify(wikiData), {
-          EX: ttl
-        })
+        await redis.set(redisKeyLanguage, JSON.stringify(wikiData), 'EX', ttl)
       }
     }
   }
@@ -60,9 +58,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
   } else {
     entity = await getDocument({ entity: 'languages', id: languageLowerCase });
     entityObject = JSON.parse(JSON.stringify(entity))
-    await redis.set(redisKeyLanguagesEntity, JSON.stringify(entity), {
-      EX: ttl
-    })
+    await redis.set(redisKeyLanguagesEntity, JSON.stringify(entity), 'EX', ttl)
   }
 
   if (tootsCached) {
@@ -73,12 +69,10 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
       return formatToot(item)
     })
     tootsObject = JSON.parse(JSON.stringify(items))
-    await redis.set(redisKeyLanguagesToots, JSON.stringify(items), {
-      EX: ttl
-    })
+    await redis.set(redisKeyLanguagesToots, JSON.stringify(items), 'EX', ttl)
   }
 
-  await redis.quit()
+  //await redis.quit()
 
   if (languageCached && entityCached && tootsCached) {
     setHeaders({ "cache-control": `public, max-age=${ttl}` })

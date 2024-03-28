@@ -33,7 +33,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
 
     dashboardData.user = locals.user || { email: '', admin: false }
 
-    await redis.connect()
+    //await redis.connect()
     const redisKeyTootsBoth = `toots_cached_both`
     const redisKeyDashboard = 'account_dashboard'
 
@@ -90,14 +90,10 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
       dashboardData.toots = JSON.parse(JSON.stringify(dashboardToots))
 
       // Store dashboard data in redis
-      await redis.set(redisKeyDashboard, JSON.stringify(dashboardData), {
-        EX: ttl
-      })
+      await redis.set(redisKeyDashboard, JSON.stringify(dashboardData), 'EX', ttl)
 
       // Store dashboard data in redis
-      await redis.set(redisKeyTootsBoth, JSON.stringify(dashboardToots), {
-        EX: ttl
-      })
+      await redis.set(redisKeyTootsBoth, JSON.stringify(dashboardToots), 'EX', ttl)
     }
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
@@ -108,6 +104,6 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
   } catch (error) {
     console.error(`Error in (app) +page.server.ts ${error}`, JSON.stringify(error))
   } finally {
-    await redis.quit()
+    // await redis.quit()
   }
 };

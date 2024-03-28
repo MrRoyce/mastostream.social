@@ -9,7 +9,7 @@ export const load: PageServerLoad = (async ({ setHeaders }) => {
 
   try {
 
-    await redis.connect()
+    //await redis.connect()
     const redisKeyDomains = `domains_cached`
     const domainsCached = await redis.get(redisKeyDomains)
 
@@ -26,9 +26,7 @@ export const load: PageServerLoad = (async ({ setHeaders }) => {
       })
 
       // Store account entity in redis
-      await redis.set(redisKeyDomains, JSON.stringify(entity), {
-        EX: ttl
-      })
+      await redis.set(redisKeyDomains, JSON.stringify(entity), 'EX', ttl)
     }
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
@@ -39,6 +37,6 @@ export const load: PageServerLoad = (async ({ setHeaders }) => {
   } catch (error) {
     console.error(`Error in (app) domains +page.server.ts ${error}`, JSON.stringify(error))
   } finally {
-    await redis.quit()
+    //await redis.quit()
   }
 });
