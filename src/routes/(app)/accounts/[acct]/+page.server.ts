@@ -73,13 +73,15 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
         try {
           acct = await getLatestEntityInfo(fetch, uriWithLookup)
 
-          entity.followingCount = acct.following_count || entity.followingCount
-          entity.followersCount = acct.followers_count || entity.followersCount
-          entity.statusesCount = acct.statuses_count || entity.statusesCount
-          entity.header = acct.header || entity.header
+          // Need to have optional chaining in case
+          // the call to get the latest account fails!
+          entity.followingCount = acct?.following_count || entity.followingCount
+          entity.followersCount = acct?.followers_count || entity.followersCount
+          entity.statusesCount = acct?.statuses_count || entity.statusesCount
+          entity.header = acct?.header || entity.header
           entity.headerStatic = acct.header_static || entity.headerStatic
-          entity.avatar = acct.avatar || entity.avatar
-          entity.avatarStatic = acct.avatar_static || entity.avatarStatic
+          entity.avatar = acct?.avatar || entity.avatar
+          entity.avatarStatic = acct?.avatar_static || entity.avatarStatic
         } catch (error) {
           console.error(`Error fetching ${uriWithLookup} in (app) accounts [acct] +page.server.ts ${error}`, JSON.stringify(error))
         }
