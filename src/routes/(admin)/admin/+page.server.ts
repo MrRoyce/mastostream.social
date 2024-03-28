@@ -52,7 +52,7 @@ export const load: PageServerLoad = async ({ locals }) => {
       // console.log('Email or admin not found!')
     }
 
-    await redis.connect()
+    // await redis.connect()
     const redisKeyTootsBoth = `toots_cached_both`
     const redisKeyDashboard = 'account_dashboard'
 
@@ -114,6 +114,6 @@ export const load: PageServerLoad = async ({ locals }) => {
   } catch (error) {
     console.error(`Error in (admin) +page.server.ts ${error}`, JSON.stringify(error))
   } finally {
-    await redis.quit()
+    // await redis.quit()
   }
 }
