@@ -39,7 +39,7 @@ export const calculateStats = (
 			statsCount: stats?.counts?.toots['-1'] || 0,
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
-			statIconName: 'far fa-chart-bar',
+			statIconName: 'fa-solid fa-bullhorn',
 			statIconColor: 'bg-red-500'
 		},
 		{
@@ -63,7 +63,7 @@ export const calculateStats = (
 			statsCount: stats?.counts?.languages['-1'] || 0,
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
-			statIconName: 'far fa-chart-bar',
+			statIconName: 'fa-solid fa-globe',
 			statIconColor: 'bg-red-500'
 		},
 		{
@@ -75,7 +75,7 @@ export const calculateStats = (
 			statsCount: stats?.counts?.domains['-1'] || 0,
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
-			statIconName: 'far fa-chart-bar',
+			statIconName: 'fa-solid fa-network-wired',
 			statIconColor: 'bg-red-500'
 		},
 		{
@@ -87,7 +87,7 @@ export const calculateStats = (
 			statsCount: stats?.counts?.tags['-1'] || 0,
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
-			statIconName: 'far fa-chart-bar',
+			statIconName: 'fa-solid fa-hashtag',
 			statIconColor: 'bg-red-500'
 		}
 	];

@@ -47,7 +47,7 @@
 
 				<SidebarItem label={$t('pagelinks.toots')} href="/toots" active={activeUrl === '/toots'}>
 					<svelte:fragment slot="icon">
-						<i class="far fa-chart-bar" />
+						<i class="fa-solid fa-bullhorn" />
 					</svelte:fragment>
 				</SidebarItem>
 
@@ -67,18 +67,13 @@
 					active={activeUrl === '/websites'}
 				>
 					<svelte:fragment slot="icon">
-						<GridSolid
-							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-						/>
+						<i class="fa-solid fa-network-wired" />
 					</svelte:fragment>
 				</SidebarItem>
 
 				<SidebarItem label={$t('pagelinks.tags')} href="/tags" active={activeUrl === '/tags'}>
 					<svelte:fragment slot="icon">
-						<ArrowRightOutline
-							name="computer-speaker-solid"
-							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-						/>
+						<i class="fa-solid fa-hashtag" />
 					</svelte:fragment>
 				</SidebarItem>
 
