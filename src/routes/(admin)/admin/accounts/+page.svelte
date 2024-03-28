@@ -47,7 +47,7 @@
 	};
 
 	const delData = (appdata) => {
-		console.log('appdata', appdata);
+		console.log('data to delete', appdata);
 		deleteModal = true;
 		entityObject = appdata;
 		tootId = `${entityObject.accountId}_${entityObject.id}`;
@@ -71,7 +71,6 @@
 				});
 				await invalidateAll();
 				const t: ToastSettings = {
-					background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
 					message: `Toot deleted!`,
 					hideDismiss: true
 				};
