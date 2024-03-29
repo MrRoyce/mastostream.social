@@ -44,6 +44,7 @@
 						fade={false}
 						reverse={true}
 						class="py-4 motion-reduce:overflow-auto"
+						innerClassName="motion-reduce:animate-none motion-reduce:first:hidden"
 					>
 						{#each tootsMarquee as item}
 							<Button
