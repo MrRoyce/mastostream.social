@@ -11,9 +11,10 @@
 	} from 'flowbite-svelte';
 	import { TableWrap } from '..';
 	let year = new Date().getFullYear();
+	const mb = 'mb-4';
 </script>
 
-<TableWrap>
+<TableWrap {mb}>
 	<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 		<Footer footerType="socialmedia">
 			<div class="grid gap-12 lg:grid-cols-6 lg:gap-24">
