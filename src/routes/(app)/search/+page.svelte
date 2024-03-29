@@ -5,6 +5,7 @@
 	import { browser } from '$app/environment';
 	import { Section } from 'flowbite-svelte-blocks';
 	import { goto } from '$app/navigation';
+	import { TableWrap } from '$lib/components';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -18,7 +19,7 @@
 </script>
 
 <div class="pt-0.5">
-	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex pt-4 m-4 h-fit">
+	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Link to Dashboard">
 				<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
@@ -103,5 +104,5 @@
 				</div>
 			</div>
 		</div>
-	</Section>
+	</TableWrap>
 </div>

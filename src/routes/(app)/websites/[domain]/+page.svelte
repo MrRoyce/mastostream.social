@@ -2,7 +2,7 @@
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
-	import { OwnersTootTable } from '$lib/components';
+	import { OwnersTootTable, TableWrap } from '$lib/components';
 	import { A, Breadcrumb, BreadcrumbItem, Li, List } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
@@ -45,7 +45,7 @@
 {#if entity?.domain && entity.instance}
 	{@const instance = entity.instance}
 	<div class="pt-0.5">
-		<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex pt-4 m-4 h-fit">
+		<TableWrap>
 			<div class="pl-0 pt-0 pb-4">
 				<Breadcrumb aria-label="Links to Dashboard and Servers">
 					<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
@@ -152,7 +152,7 @@
 						<OwnersTootTable {tableData} sourceData={toots} />
 					</div>
 				</div>
-			</div></Section
+			</div></TableWrap
 		>
 	</div>
 {:else if browser}

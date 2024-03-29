@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import type { PageData } from './$types';
-	import { TootTable, CardWithImage, TootsRadio } from '$lib/components';
+	import { TootTable, CardWithImage, TootsRadio, TableWrap } from '$lib/components';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { Breadcrumb, BreadcrumbItem, Heading } from 'flowbite-svelte';
 	import { getLanguage } from '$lib/utils';
@@ -48,7 +48,7 @@
 </script>
 
 <div class="pt-0.5">
-	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex pt-4 m-4 h-fit">
+	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Links to Dashboard and Languages">
 				<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
@@ -57,7 +57,7 @@
 			</Breadcrumb>
 		</div>
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-			<div class="container mx-auto my-5 p-5">
+			<div class="mx-auto my-5 p-5">
 				<div class="col-span-2">
 					<Heading>
 						<span class="text-gray-200"
@@ -67,7 +67,7 @@
 					</Heading>
 				</div>
 				<div class="dark:bg-gray-800">
-					<div class="container mx-auto my-5 p-5">
+					<div class=" mx-auto my-5 p-5">
 						<!-- Header setion -->
 						<div class="md:flex no-wrap md:-mx-2">
 							<!-- Left Side -->
@@ -108,5 +108,5 @@
 				</div>
 			</div>
 		</div>
-	</Section>
+	</TableWrap>
 </div>

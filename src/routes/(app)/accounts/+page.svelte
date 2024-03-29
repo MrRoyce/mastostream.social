@@ -17,7 +17,7 @@
 	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 	import { t } from '$lib/translations';
 	import type { PageData } from './$types';
-	import { Section } from 'flowbite-svelte-blocks';
+	import { TableWrap } from '$lib/components';
 
 	let searchTerm = '';
 	export let data: PageData;
@@ -52,15 +52,14 @@
 </script>
 
 <div class="pt-0.5">
-	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex pt-4 m-4 h-fit">
-		<div class="pl-0 pt-0 pb-4">
-			<Breadcrumb aria-label="$t('breadCrumb.BreadcrumbLinks')">
-				<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
-				<BreadcrumbItem>{$t('pagelinks.accounts')}</BreadcrumbItem>
-			</Breadcrumb>
-		</div>
+	<TableWrap>
+		<Breadcrumb aria-label="$t('breadCrumb.BreadcrumbLinks')">
+			<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
+			<BreadcrumbItem>{$t('pagelinks.accounts')}</BreadcrumbItem>
+		</Breadcrumb>
+
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-			<div class="container mx-auto my-5 p-5">
+			<div class=" mx-auto my-5 p-5">
 				<div class="col-span-2 mb-6">
 					<Heading>{$t('general.latestAccountToots')}</Heading>
 				</div>
@@ -184,5 +183,5 @@
 				</div>
 			</div>
 		</div>
-	</Section>
+	</TableWrap>
 </div>

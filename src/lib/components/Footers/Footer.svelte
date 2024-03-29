@@ -9,13 +9,11 @@
 		FooterCopyright,
 		FooterIcon
 	} from 'flowbite-svelte';
+	import { TableWrap } from '..';
 	let year = new Date().getFullYear();
 </script>
 
-<Section
-	name="tableheader"
-	sectionClass="bg-gray-50 dark:bg-gray-900 flex pt-4 ml-4 mr-4 mb-4 h-fit"
->
+<TableWrap>
 	<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 		<Footer footerType="socialmedia">
 			<div class="grid gap-12 lg:grid-cols-6 lg:gap-24">
@@ -77,5 +75,5 @@
 				</div>
 			</div>
 		</Footer>
-	</div></Section
+	</div></TableWrap
 >

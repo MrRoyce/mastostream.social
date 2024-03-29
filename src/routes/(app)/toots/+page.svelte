@@ -20,6 +20,7 @@
 	import type { PageData } from '../$types';
 	import { formatCreatedAt } from '$lib/utils';
 	import { Section } from 'flowbite-svelte-blocks';
+	import { TableWrap } from '$lib/components';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -54,7 +55,7 @@
 
 {#if toots}
 	<div class="pt-0.5">
-		<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex pt-4 m-4 h-fit">
+		<TableWrap>
 			<!-- Breadcrumb -->
 			<div class="pl-0 pt-0 pb-4">
 				<Breadcrumb aria-label="Link to Dashboard">
@@ -65,7 +66,7 @@
 			<div
 				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
 			>
-				<div class="container mx-auto my-5 p-5">
+				<div class=" mx-auto my-5 p-5">
 					<!-- Top of Page with radio buttons -->
 					<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 						<div class="col-span-2">
@@ -143,7 +144,7 @@
 					</div>
 				</div>
 			</div>
-		</Section>
+		</TableWrap>
 	</div>
 {:else}
 	{console.log('Waiting for toots')}
