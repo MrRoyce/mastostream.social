@@ -264,11 +264,7 @@
 		</svelte:fragment>
 
 		<!-- +page.svelte Slot -->
-		<main class="container mx-auto">
-			<div class="flex-initial">
-				<slot />
-			</div>
-		</main>
+		<slot />
 
 		<svelte:fragment slot="pageFooter">
 			<Footer />
