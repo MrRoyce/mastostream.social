@@ -8,7 +8,7 @@
 	import { navigating } from '$app/stores';
 
 	import { Footer, Loading, UserSidebar } from '$lib/components';
-	import { loading, showSensitiveStore } from '$lib/stores';
+	import { loading } from '$lib/stores';
 	import {
 		A,
 		Button,
@@ -17,8 +17,7 @@
 		Sidebar,
 		SidebarGroup,
 		SidebarItem,
-		SidebarWrapper,
-		Toggle
+		SidebarWrapper
 	} from 'flowbite-svelte';
 	import {
 		ArrowRightToBracketSolid,
@@ -78,15 +77,6 @@
 		x: -320,
 		duration: 200,
 		easing: sineIn
-	};
-
-	let showSensitive: boolean = false;
-
-	const hideSensitive = () => {
-		showSensitiveStore.update(() => {
-			showSensitive = !showSensitive;
-			return showSensitive;
-		});
 	};
 
 	const siteDropdown = {
@@ -237,18 +227,6 @@
 				</svelte:fragment>
 
 				<svelte:fragment slot="trail">
-					<div>
-						<Toggle
-							color="red"
-							checked={false}
-							value="false"
-							on:click={() => {
-								{
-									hideSensitive();
-								}
-							}}>{$t('pagelinks.showSensitive')}</Toggle
-						>
-					</div>
 					{#if user}
 						<button on:click={handleLogout} type="button" class="btn variant-filled"
 							>Sign Out</button
