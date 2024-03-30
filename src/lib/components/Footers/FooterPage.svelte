@@ -1,5 +1,4 @@
 <script>
-	import { Marquee } from '@selemondev/svelte-marquee';
 	import '@selemondev/svelte-marquee/dist/style.css';
 	import MastodonWhite from '$lib/components/icons/mastodon-wordmark-white-text.svg';
 	import PeertubeBrand from '$lib/components/icons/peertube-brand.svg';
@@ -9,6 +8,7 @@
 	import EFFBrand from '$lib/components/icons/EFF-logo-lockup-reverse.svg';
 	import { Card } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
+	import Marqueeck from '@arisbh/marqueeck';
 	const sites = [
 		{
 			name: 'Mastodon',
@@ -49,7 +49,7 @@
 	];
 </script>
 
-<Marquee pauseOnHover={true} fade={false} reverse={true} class="py-4  motion-reduce:overflow-auto">
+<Marqueeck class="py-4  motion-reduce:overflow-auto">
 	{#each sites as site}
 		<Card>
 			<img class=" w-10 h-auto max-w-xs mr-4" src={site.image} alt="Fediverse site" />
@@ -65,4 +65,4 @@
 			</a>
 		</Card>
 	{/each}
-</Marquee>
+</Marqueeck>
