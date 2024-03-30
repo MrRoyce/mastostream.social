@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { Maintenance, Page404, Section } from 'flowbite-svelte-blocks';
 	import { dev } from '$app/environment';
-	import { A, Breadcrumb, BreadcrumbItem, Button } from 'flowbite-svelte';
+	import { A, Breadcrumb, BreadcrumbItem, Button, Toggle } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
+	import { t } from '$lib/translations';
 	import {
 		BlurHash,
 		CardDefault,
@@ -13,7 +14,6 @@
 		TootTable,
 		YouTube
 	} from '$lib/components';
-	import { showSensitiveStore } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
@@ -67,12 +67,10 @@
 				: '';
 	}
 
-	let showSensitive: boolean;
-	showSensitiveStore.subscribe((data) => {
-		showSensitive = data;
-	});
-
-	showSensitive = $showSensitiveStore;
+	$: showSensitive = false;
+	const hideSensitive = () => {
+		showSensitive = !showSensitive;
+	};
 </script>
 
 {#if entity.acct}
@@ -91,24 +89,39 @@
 					<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 						<!-- Toot -->
 						<div class="md:col-span-3 md:col-start-2 order-first md:order-last">
-							<span class="text-left">
-								<p class="pt-4 text-base font-bold flex lg:justify-start">
-									<svg
-										class="h-4 fill-current text-green-700 pr-4"
-										xmlns="http://www.w3.org/2000/svg"
-										viewBox="0 0 20 20"
-									>
-										<path
-											d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"
-										/>
-									</svg>
-									{formatCreatedAt(entity.createdAt)}
+							<div class="grid grid-cols-2">
+								<!-- Created At date -->
+								<span class="text-left">
+									<p class="pt-4 text-base font-bold flex lg:justify-start">
+										<svg
+											class="h-4 fill-current text-green-700 pr-4"
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 20 20"
+										>
+											<path
+												d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"
+											/>
+										</svg>
+										{formatCreatedAt(entity.createdAt)}
 
-									<A target="_blank" href={entity.uri}
-										><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
-									</A>
-								</p></span
-							>
+										<A target="_blank" href={entity.uri}
+											><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
+										</A>
+									</p></span
+								>
+								<!-- Sensitive Toggle -->
+								<Toggle
+									color="red"
+									checked={false}
+									value="false"
+									on:click={() => {
+										{
+											hideSensitive();
+										}
+									}}>{$t('pagelinks.showSensitive')}</Toggle
+								>
+							</div>
+							<!-- Reply to if any -->
 							{#if replyTo !== false && typeof replyTo == 'object' && replyTo.acct}
 								<TootTable
 									{tableData}
@@ -205,35 +218,39 @@
 							{/each}
 
 							{#if card && (card.provider_name || card.title || card.description || card.image || card.url)}
-								{#if entity.sensitive && !showSensitive}
-									<br />
-								{:else if card.provider_name === 'YouTube'}
-									<YouTube
-										authorName={card.author_name}
-										cardImage={card.image}
-										imageDescription={card.image_description}
-										title={card.title}
-										url={card.url}
-										videoSource={card.html}
-									/>
-								{:else if card.image}
-									<CardWithImage
-										cardImage={card.image}
-										description={card.description}
-										imageDescription={card.image_description || card.description}
-										providerName={card.provider_name}
-										title={card.title}
-										url={card.url}
-									/>
-								{:else}
-									<CardDefault
-										description={card.description || card.title}
-										providerName={card.provider_name}
-										title={card.title}
-										url={card.url}
-									/>
-								{/if}
+								<div class="pt-4 justify-center">
+									{#if entity.sensitive && !showSensitive}
+										<br />
+									{:else if card.provider_name === 'YouTube'}
+										<YouTube
+											authorName={card.author_name}
+											cardImage={card.image}
+											imageDescription={card.image_description}
+											title={card.title}
+											url={card.url}
+											videoSource={card.html}
+										/>
+									{:else if card.image}
+										<CardWithImage
+											cardImage={card.image}
+											description={card.description}
+											imageDescription={card.image_description || card.description}
+											providerName={card.provider_name}
+											title={card.title}
+											url={card.url}
+										/>
+									{:else}
+										<CardDefault
+											description={card.description || card.title}
+											providerName={card.provider_name}
+											title={card.title}
+											url={card.url}
+										/>
+									{/if}
+								</div>
 							{/if}
+
+							<!-- Replies to the toot -->
 							{#if replies && replies.length}
 								<TootTable
 									{tableData}
