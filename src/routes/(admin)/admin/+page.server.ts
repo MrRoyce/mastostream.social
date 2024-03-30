@@ -56,13 +56,19 @@ export const load: PageServerLoad = async ({ locals }) => {
     const redisKeyTootsBoth = `toots_cached_both`
     const redisKeyDashboard = 'account_dashboard'
 
-    const [dashboardCached, tootsCached] = await Promise.all([
-      await redis.get(redisKeyDashboard),
-      await redis.get(redisKeyTootsBoth)
-    ])
+    let dashboardCached
+    let tootsCached
 
-    // console.log('dashboardCached', dashboardCached)
-    // console.log('tootsCached', tootsCached)
+    try {
+      if (redis) {
+        [dashboardCached, tootsCached] = await Promise.all([
+          await redis.get(redisKeyDashboard),
+          await redis.get(redisKeyTootsBoth)
+        ])
+      }
+    } catch (error) {
+      console.error('Error getting redis in (admin) +page.server.ts', error)
+    }
 
     if (dashboardCached) {
       adminData.redis = JSON.parse(dashboardCached)

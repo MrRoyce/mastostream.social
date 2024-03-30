@@ -1,7 +1,18 @@
 import { default as Redis } from "ioredis"
 import { VITE_REDIS_HOST, VITE_REDIS_PASSWORD, VITE_REDIS_PORT } from '$env/static/private'
 
-export const redis = new Redis(`redis://:${VITE_REDIS_PASSWORD}@${VITE_REDIS_HOST}:${VITE_REDIS_PORT}`);
+function getRedis() {
+  let response
+  try {
+    response = new Redis(`redis://:${VITE_REDIS_PASSWORD}@${VITE_REDIS_HOST}:${VITE_REDIS_PORT}`);
+  } catch (error) {
+    console.error('Error connecting to redis', error)
+  }
+  return response
+}
+
+export const redis = getRedis()
+
 
 // export const newRedis = new Redis({
 //   port: 6379, // Redis port

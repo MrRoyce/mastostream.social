@@ -37,10 +37,19 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
     const redisKeyTootsBoth = `toots_cached_both`
     const redisKeyDashboard = 'account_dashboard'
 
-    const [dashboardCached, tootsCached] = await Promise.all([
-      await redis.get(redisKeyDashboard),
-      await redis.get(redisKeyTootsBoth)
-    ])
+    let dashboardCached
+    let tootsCached
+
+    try {
+      if (redis) {
+        [dashboardCached, tootsCached] = await Promise.all([
+          await redis.get(redisKeyDashboard),
+          await redis.get(redisKeyTootsBoth)
+        ])
+      }
+    } catch (error) {
+      console.error('Error getting redis in (app) +page.server.ts', error)
+    }
 
     if (dashboardCached && tootsCached) {
       console.log(`${redisKeyDashboard} && ${redisKeyTootsBoth} cached`)
@@ -89,11 +98,16 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
 
       dashboardData.toots = JSON.parse(JSON.stringify(dashboardToots))
 
-      // Store dashboard data in redis
-      await redis.set(redisKeyDashboard, JSON.stringify(dashboardData), 'EX', ttl)
-
-      // Store dashboard data in redis
-      await redis.set(redisKeyTootsBoth, JSON.stringify(dashboardToots), 'EX', ttl)
+      try {
+        if (redis) {
+          await Promise.all([
+            await redis.set(redisKeyDashboard, JSON.stringify(dashboardData), 'EX', ttl),
+            await redis.set(redisKeyTootsBoth, JSON.stringify(dashboardToots), 'EX', ttl)
+          ])
+        }
+      } catch (error) {
+        console.error('Error setting redis in (app) +page.server.ts', error)
+      }
     }
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
