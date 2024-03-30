@@ -7,19 +7,21 @@
 	export let showSensitive: Boolean;
 </script>
 
-{#each pictures as picture}
-	<span class="pb-4">
-		{#if sensitive && !showSensitive}
-			<BlurHash hash={picture.blurhash} height={256} width={256} />
-		{:else}
-			<CardWithImage
-				cardImage={picture.remote_url || picture.remoteUrl || picture.preview_url || picture.src}
-				description={picture.description || ''}
-				imageDescription={picture.description || ''}
-				providerName="View image"
-				title={picture.description || ''}
-				url={picture.remote_url || picture.remoteUrl || picture.preview_url || picture.src}
-			/>
-		{/if}
-	</span>
-{/each}
+<div class="pt-4">
+	{#each pictures as picture}
+		<span class="pb-4">
+			{#if sensitive && !showSensitive}
+				<BlurHash hash={picture.blurhash} height={256} width={256} />
+			{:else}
+				<CardWithImage
+					cardImage={picture.remote_url || picture.remoteUrl || picture.preview_url || picture.src}
+					description={picture.description || ''}
+					imageDescription={picture.description || ''}
+					providerName="View image"
+					title={picture.description || ''}
+					url={picture.remote_url || picture.remoteUrl || picture.preview_url || picture.src}
+				/>
+			{/if}
+		</span>
+	{/each}
+</div>
