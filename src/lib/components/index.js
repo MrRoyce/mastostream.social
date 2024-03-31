@@ -18,6 +18,7 @@ import TableWrap from '$lib/components/UI/TableWrap.svelte';
 import UserSidebar from '$lib/components/UserSidebar/UserSidebar.svelte';
 import WordCloud from '$lib/components/UI/WordCloud.svelte';
 import YouTube from '$lib/components/Cards/YouTube.svelte';
+import { UserIcon } from '$lib/components/icons';
 
 export {
 	Admin,
@@ -39,5 +40,6 @@ export {
 	TableWrap,
 	UserSidebar,
 	WordCloud,
+	UserIcon,
 	YouTube
 };

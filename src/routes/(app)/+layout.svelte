@@ -28,16 +28,16 @@
 		UsersSolid
 	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
-	import Languages from '$lib/components/Languages/Languages.svelte';
 	import type { LayoutData } from './$types';
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
-	import { handleLocaleChange } from '$lib/utils/handleLocaleChange';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/client';
 	import { authUser } from '$lib/stores';
-	import { UserIcon } from '$lib/components/icons';
+	import { Languages, UserIcon } from '$lib/components';
+	import { locale } from '$lib/translations';
+	import { getLanguageList } from '$lib/utils/getLanguage';
 
 	export let data: LayoutData;
 	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
@@ -88,6 +88,20 @@
 		'/languages': 'Languages',
 		'/search': 'Full Text Search'
 	};
+
+	let defaultLanguage: string = 'en';
+
+	function getTargetLanguage(languageText: string) {
+		const languages = getLanguageList();
+		const result = languages.filter((language) => language.text === languageText);
+		return result[0]?.value || 'en';
+	}
+
+	function handleLocaleChange(event: Event) {
+		event.preventDefault();
+		defaultLanguage = getTargetLanguage(event?.target?.innerHTML || 'English');
+		$locale = defaultLanguage;
+	}
 
 	$: $loading = !!$navigating;
 	$: user = data.user;
