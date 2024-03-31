@@ -269,11 +269,11 @@
 
 	/* Show the slot content only on small screens */
 	.show-on-mobile {
-		@apply block sm:hidden;
+		@apply block lg:hidden;
 	}
 
 	/* Hide the slot fragment on small screens */
 	.hidden-on-mobile {
-		@apply hidden sm:block;
+		@apply hidden lg:block;
 	}
 </style>
