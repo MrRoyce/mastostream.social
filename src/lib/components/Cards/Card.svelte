@@ -10,18 +10,30 @@
 	export let url: string;
 </script>
 
-<a
-	href={url}
-	target="_blank"
-	class="flex mx-auto flex-col items-center bg-white border border-gray-200 shadow md:flex-row md:max-w-2xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+<div
+	class=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
 >
-	<img
-		class="object-cover w-full md:h-auto"
-		src={cardImage}
-		alt={imageDescription || description}
-	/>
-	<div class="flex flex-col justify-between p-4 leading-normal">
-		<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{title}</h5>
+	<a
+		href={url}
+		target="_blank"
+		class="flex mx-auto flex-col items-center bg-white border border-gray-200 shadow md:flex-row md:max-w-2xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+	>
+		<img
+			class="object-cover w-full md:h-auto"
+			src={cardImage}
+			alt={imageDescription || description}
+		/></a
+	>
+	<div class="p-5">
+		<a
+			href={url}
+			target="_blank"
+			class="flex mx-auto flex-col items-center bg-white border border-gray-200 shadow md:flex-row md:max-w-2xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+		>
+			<h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+				{title}
+			</h5></a
+		>
 		<p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
 			{imageDescription || description}
 		</p>
@@ -30,4 +42,4 @@
 			<ArrowRightOutline class="w-3 h-3 ms-2.5" />
 		</A>
 	</div>
-</a>
+</div>
