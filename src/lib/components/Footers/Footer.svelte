@@ -22,8 +22,8 @@
 					<FooterBrand
 						href="https://utoots.com"
 						src="/images/logo.svg"
-						alt="UToots Logo"
-						name="UToots"
+						alt="U Toots Logo"
+						name="U Toots"
 						aClass="flex mb-6"
 					/>
 					<p class="text-gray-600 dark:text-gray-400">

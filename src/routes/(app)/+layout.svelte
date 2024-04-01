@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '../../app.pcss';
 	import { t } from '$lib/translations';
-	import { page } from '$app/stores';
 
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
@@ -223,6 +222,7 @@
 				slotDefault="place-self-center"
 				slotTrail="place-content-end"
 			>
+				<!-- lead left of appbar-->
 				<svelte:fragment slot="lead">
 					<div class="flex items-center show-on-mobile dark:text-white">
 						<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
@@ -235,11 +235,17 @@
 							</span>
 						</Button>
 					</div>
+
 					<A href="/"
-						><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
+						><img class=" w-10 h-auto" src="/images/logo.svg" alt="U Toots Logo " /><strong
+							class="text-xl uppercase dark:text-green-400"
+						>
+							<h1>U Toots</h1></strong
+						></A
 					>
 				</svelte:fragment>
 
+				<!-- trail - right of appbar -->
 				<svelte:fragment slot="trail">
 					{#if user}
 						<button on:click={handleLogout} type="button" class="btn variant-filled"
