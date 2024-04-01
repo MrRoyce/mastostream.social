@@ -37,6 +37,7 @@
 	import { Languages, UserIcon } from '$lib/components';
 	import { locale } from '$lib/translations';
 	import { getLanguageList } from '$lib/utils/getLanguage';
+	import logo from '$lib/assets/logo.svg';
 
 	export let data: LayoutData;
 	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
@@ -237,7 +238,7 @@
 					</div>
 
 					<A href="/"
-						><img class=" w-10 h-auto" src="/images/logo.svg" alt="U Toots Logo " /><strong
+						><img class=" w-10 h-auto" src={logo} alt="U Toots Logo " /><strong
 							class="text-xl uppercase dark:text-green-400"
 						>
 							<h1>U Toots</h1></strong

@@ -1,6 +1,5 @@
 <script>
-	import { Section } from 'flowbite-svelte-blocks';
-	//import { Facebook, Instagram, Github, Twitter } from '../utils';
+	import logo from '$lib/assets/logo.svg';
 	import {
 		Footer,
 		FooterBrand,
@@ -21,7 +20,7 @@
 				<div class="col-span-2">
 					<FooterBrand
 						href="https://utoots.com"
-						src="/images/logo.svg"
+						src={logo}
 						alt="U Toots Logo"
 						name="U Toots"
 						aClass="flex mb-6"
