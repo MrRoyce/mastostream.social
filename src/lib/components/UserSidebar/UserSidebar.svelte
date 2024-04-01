@@ -4,17 +4,14 @@
 	import { Sidebar, SidebarGroup, SidebarItem, SidebarWrapper, Tooltip } from 'flowbite-svelte';
 	import { Section } from 'flowbite-svelte-blocks';
 
-	import {
-		ArrowRightOutline,
-		UserSolid,
-		ChartSolid,
-		MailBoxSolid,
-		GridSolid
-	} from 'flowbite-svelte-icons';
+	import { ArrowRightOutline, ChartSolid } from 'flowbite-svelte-icons';
 	$: activeUrl = $page.url.pathname;
 
 	export let image: String;
 	export let email: String;
+
+	$: image;
+	$: email;
 </script>
 
 <Section
@@ -28,7 +25,7 @@
 					<svelte:fragment slot="icon">
 						{#if image && typeof image === 'string'}
 							<img id="users-picture" height="48" src={image} alt="User" />
-						{:else}
+						{:else if email}
 							<i class={'fas fa-user-secret fa-5x'}></i>
 						{/if}
 
