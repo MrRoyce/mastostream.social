@@ -5,8 +5,8 @@ import { getData } from '$lib/getCollection';
 let entity = []
 const ttl = 600
 
-export const load: PageServerLoad = (async ({ setHeaders }) => {
-
+export const load: PageServerLoad = (async ({ setHeaders, request }) => {
+  console.log('headers in websites', request.headers.get('referer'))
   try {
 
     //await redis.connect()

@@ -5,7 +5,9 @@ import { getData } from '$lib/getCollection';
 let entity = []
 const ttl = 600
 
-export const load: PageServerLoad = (async ({ url, setHeaders }) => {
+export const load: PageServerLoad = (async ({ url, setHeaders, request }) => {
+
+  console.log('headers in accounts', request.headers.get('referer'))
 
   try {
     const sourceType = url.searchParams.get('type') ?? 'both'
@@ -16,7 +18,6 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
     let accountsCached
 
     if (redis) {
-      console.log('redis get', redis)
       try {
         accountsCached = await redis.get(redisKeyAccountsType)
       } catch (error) {
@@ -38,7 +39,6 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
 
       // Store account entity in redis
       if (redis) {
-        console.log('redis set', redis)
         try {
           await redis.set(redisKeyAccountsType, JSON.stringify(entity), 'EX', ttl)
         } catch (error) {
