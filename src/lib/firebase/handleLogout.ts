@@ -25,7 +25,9 @@ export const handleLogout = async () => {
       });
       // Do not use goto!
       // window.location.assign will force a page refresh!
-      window.location.assign('/');
+      //await invalidate('/')
+      await goto('/', { invalidateAll: true, replaceState: true });
+      //window.location.assign('/');
     })
     .catch((error) => {
       console.error('Error logging out', error);

@@ -68,7 +68,7 @@
 				body: JSON.stringify({ idToken })
 			});
 
-			goto('/', { invalidateAll: true, replaceState: true });
+			await goto('/', { invalidateAll: true, replaceState: true });
 		} catch (error) {
 			const t: ToastSettings = {
 				background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
@@ -106,7 +106,7 @@
 
 		await addUserToDB(credential.user);
 
-		goto('/', { invalidateAll: true, replaceState: true });
+		await goto('/', { invalidateAll: true, replaceState: true });
 	}
 
 	const validateToken: SubmitFunction = () => {

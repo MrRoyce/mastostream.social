@@ -4,7 +4,9 @@
 	import { Loading } from '$lib/components';
 	import { loading } from '$lib/stores';
 	import { navigating } from '$app/stores';
+	import type { LayoutData } from './$types';
 
+	export let data: LayoutData;
 	initializeStores();
 
 	$: $loading = !!$navigating;

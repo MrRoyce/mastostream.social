@@ -87,7 +87,7 @@ export const handle: Handle = (async ({ event, resolve }) => {
     }
   }
 
-  return await resolve(event);
+  return resolve(event);
 });
 
 const shouldRefreshToken = (token: DecodedIdToken | null) =>

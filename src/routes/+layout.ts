@@ -11,7 +11,8 @@ export const load: LayoutLoad = async ({ url, data }) => {
   return {
     locale: initLocale,
     route: pathname,
-    ...(typeof data === 'object' ? data : {})
+    ...(typeof data === 'object' ? data : {}),
+    user: data.user
   };
 };
 

@@ -62,7 +62,7 @@
 				logEvent(analytics, 'login');
 			}
 
-			goto('/', { invalidateAll: true, replaceState: true });
+			await goto('/', { invalidateAll: true, replaceState: true });
 		} catch (error) {
 			const t: ToastSettings = {
 				background: 'variant-filled-error',
