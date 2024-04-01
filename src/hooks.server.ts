@@ -6,12 +6,25 @@ import type { DecodedIdToken } from 'firebase-admin/auth';
 import { functions } from "$lib/firebase/client";
 import { httpsCallable } from 'firebase/functions';
 import { dev } from "$app/environment";
+import { VITE_VALID_DOMAIN } from '$env/static/private'
+import { error } from '@sveltejs/kit';
 
 const SIX_DAYS_IN_SECONDS = ONE_DAY_IN_SECONDS * 6;
 
 const instance = httpsCallable(functions, 'isUserAdmin');
 
 export const handle: Handle = (async ({ event, resolve }) => {
+
+  const validDomain = VITE_VALID_DOMAIN
+  const referer = event.request.headers.get('referer')
+
+  if (!referer?.startsWith(validDomain)) {
+    console.error(`Invalid domain request prohibited', validDomain: ${validDomain}, referer: ${referer}`)
+    error(403, {
+      message: 'Forbidden'
+    });
+  }
+
   const sessionCookie = event.cookies.get("__session");
   const lang = event.request.headers.get('accept-language')?.split(',')[0];
 
