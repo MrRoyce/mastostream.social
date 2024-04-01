@@ -94,7 +94,6 @@
 									entity={chart.entity}
 									data={chart.data}
 									categories={chart.categories}
-									total={chart.total}
 								/>
 							</TabItem>
 						{/each}
