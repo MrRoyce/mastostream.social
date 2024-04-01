@@ -9,6 +9,7 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { Cta, Section } from 'flowbite-svelte-blocks';
 	import { setMagicEmail } from '$lib/localStorage/magicEmail';
+	import { Button } from 'flowbite-svelte';
 
 	type FormState = 'idle' | 'submitting' | 'success' | Error;
 	let state: FormState = 'idle';
@@ -69,7 +70,7 @@
 
 			await setSessionToken(idToken);
 
-			goto('/', { invalidateAll: true, replaceState: true });
+			await goto('/', { invalidateAll: true, replaceState: true });
 		} catch (error) {
 			const t: ToastSettings = {
 				background: 'variant-filled-error',
@@ -102,7 +103,7 @@
 				replaceState: true
 			});
 		} catch (error) {
-			console.log('error in signin in login', error);
+			console.error('error in signin in login', error);
 		}
 	}
 </script>
@@ -150,12 +151,12 @@
 							</div>
 
 							<div>
-								<button
-									type="submit"
-									class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+								<Button
+									type="button"
+									class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white"
 								>
 									Send Magic Link
-								</button>
+								</Button>
 							</div>
 							{#if state === 'submitting'}
 								<p class="mt-2 text-center text-sm text-gray-600 max-w">
@@ -226,13 +227,13 @@
 							</div>
 
 							<div>
-								<button
+								<Button
 									type="button"
-									class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+									class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white"
 									on:click={signInWithEmailAndPW}
 								>
 									Sign in
-								</button>
+								</Button>
 							</div>
 						</form>
 					</div>
