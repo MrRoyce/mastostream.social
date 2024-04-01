@@ -22,7 +22,7 @@
 	let searchTerm = '';
 	export let data: PageData;
 	const { tootTypePassed, accounts } = data;
-	if (browser && dev) console.log(data);
+	if (browser && dev) console.log('data in accounts', data);
 
 	const tableData = {
 		tableHead: [
