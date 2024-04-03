@@ -1,3 +1,5 @@
+import { t } from '$lib/translations';
+
 /**
  * @param {number} latestCount
  * @param {number} previousCount
@@ -32,7 +34,7 @@ export const calculateStats = (
 	const response = [
 		{
 			href: '/toots',
-			statEntity: 'Toots',
+			statEntity: stats.routeTranslations.toots,
 			statValue: stats.toots,
 			statArrow: tootsPercent >= 0 ? 'up' : 'down',
 			statPercent: tootsPercent,
@@ -44,7 +46,7 @@ export const calculateStats = (
 		},
 		{
 			href: '/accounts',
-			statEntity: 'Accounts',
+			statEntity: stats.routeTranslations.accounts,
 			statValue: stats.accounts,
 			statArrow: accountsPercent >= 0 ? 'up' : 'down',
 			statPercent: accountsPercent,
@@ -55,20 +57,8 @@ export const calculateStats = (
 			statIconColor: 'bg-red-500'
 		},
 		{
-			href: '/languages',
-			statEntity: 'Languages',
-			statValue: stats.languages,
-			statArrow: languagesPercent >= 0 ? 'up' : 'down',
-			statPercent: languagesPercent,
-			statsCount: stats?.counts?.languages['-1'] || 0,
-			statPercentColor: 'text-emerald-500',
-			statDescription: 'In the last hour',
-			statIconName: 'fa-solid fa-globe',
-			statIconColor: 'bg-red-500'
-		},
-		{
 			href: '/websites',
-			statEntity: 'Web Sites',
+			statEntity: stats.routeTranslations.domains,
 			statValue: stats.domains,
 			statArrow: domainsPercent >= 0 ? 'up' : 'down',
 			statPercent: domainsPercent,
@@ -80,7 +70,7 @@ export const calculateStats = (
 		},
 		{
 			href: '/tags',
-			statEntity: 'Tags',
+			statEntity: stats.routeTranslations.tags,
 			statValue: stats.tags,
 			statArrow: tagsPercent >= 0 ? 'up' : 'down',
 			statPercent: tagsPercent,
@@ -88,6 +78,18 @@ export const calculateStats = (
 			statPercentColor: 'text-emerald-500',
 			statDescription: 'In the last hour',
 			statIconName: 'fa-solid fa-hashtag',
+			statIconColor: 'bg-red-500'
+		},
+		{
+			href: '/languages',
+			statEntity: stats.routeTranslations.languages,
+			statValue: stats.languages,
+			statArrow: languagesPercent >= 0 ? 'up' : 'down',
+			statPercent: languagesPercent,
+			statsCount: stats?.counts?.languages['-1'] || 0,
+			statPercentColor: 'text-emerald-500',
+			statDescription: 'In the last hour',
+			statIconName: 'fa-solid fa-globe',
 			statIconColor: 'bg-red-500'
 		}
 	];
