@@ -86,6 +86,9 @@ dependencies:
   sveltekit-i18n:
     specifier: ^2.4.2
     version: 2.4.2(svelte@4.2.7)
+  vanilla-cookieconsent:
+    specifier: v3.0.0
+    version: 3.0.0
 
 devDependencies:
   '@fontsource/dosis':
@@ -6124,6 +6127,10 @@ packages:
   /uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
+    dev: false
+
+  /vanilla-cookieconsent@3.0.0:
+    resolution: {integrity: sha512-oeK7FivRDb424mt3/UT8DG98Pu5m6Uuye7JsdzO6HnYkstW5QHXhkslXyUpE3phtKz3NEeIo7hzLUtfRNRMfbQ==}
     dev: false
 
   /vary@1.1.2:

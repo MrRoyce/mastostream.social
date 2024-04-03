@@ -76,6 +76,7 @@
 		"svelte-chartjs": "^3.1.5",
 		"svelte-kit-inspector": "^1.0.3",
 		"sveltefire": "github:MrRoyce/sveltefire",
-		"sveltekit-i18n": "^2.4.2"
+		"sveltekit-i18n": "^2.4.2",
+		"vanilla-cookieconsent": "v3.0.0"
 	}
 }
