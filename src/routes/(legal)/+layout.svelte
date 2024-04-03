@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../../app.pcss';
 	import { t } from '$lib/translations';
-	import { TOCSidebar } from '$lib/components';
+	import { LegalSidebar } from '$lib/components';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { sineIn } from 'svelte/easing';
 	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
@@ -12,16 +12,14 @@
 	import { Footer, Languages, UserIcon } from '$lib/components';
 	import { locale } from '$lib/translations';
 	import { getLanguageList } from '$lib/utils/getLanguage';
-	import logo from '$lib/assets/logo.svg';
-	import { loading } from '$lib/stores';
 	import { goto } from '$app/navigation';
 	import type { LayoutData } from '../$types';
 
 	export let data: LayoutData;
 	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
+	const pathname = data.pathname.slice(1);
 
 	let hideDrawer = true;
-	let spanClass = 'flex-1 ms-3 whitespace-nowrap';
 	let transitionParams = {
 		x: -320,
 		duration: 200,
@@ -80,7 +78,7 @@
 	<!-- (header) -->
 	<svelte:fragment slot="sidebarLeft">
 		<div class="hidden-on-mobile">
-			<TOCSidebar image={userImage} email={data.user?.email || ''} />
+			<LegalSidebar {pathname} />
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="header">
