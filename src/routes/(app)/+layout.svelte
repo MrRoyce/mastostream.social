@@ -228,6 +228,7 @@
 			>
 				<!-- lead left of appbar-->
 				<svelte:fragment slot="lead">
+					<!-- Mobile Only -->
 					<div class="flex items-center show-on-mobile dark:text-white">
 						<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
 							<span>
@@ -248,15 +249,25 @@
 				<!-- trail - right of appbar -->
 				<svelte:fragment slot="trail">
 					{#if user}
-						<button on:click={handleLogout} type="button" class="btn variant-filled"
-							>Sign Out</button
+						<Button
+							color="alternative"
+							on:click={handleLogout}
+							type="button"
+							class="btn variant-filled border-none"
+							><span class="text-gray-200">Sign Out</span></Button
 						>
 					{:else}
-						<button on:click={() => goto('/login')} type="button" class="btn variant-filled"
-							>Sign In</button
+						<Button
+							color="alternative"
+							on:click={() => goto('/login')}
+							type="button"
+							class="btn variant-filled border-none"
+							><span class="text-gray-200">Sign In</span></Button
 						>
 					{/if}
-					<button on:click={handleLocaleChange}><Languages /></button>
+					<Button class="border-none" color="alternative" on:click={handleLocaleChange}
+						><Languages /></Button
+					>
 				</svelte:fragment>
 			</AppBar>
 		</svelte:fragment>
