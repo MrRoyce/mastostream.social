@@ -7,6 +7,7 @@
 	import emailjs from '@emailjs/browser';
 	import { Turnstile } from 'svelte-turnstile';
 	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
+	import { SideWrap } from '$lib/components';
 
 	export let form;
 
@@ -79,51 +80,55 @@
 	};
 </script>
 
-<Section name="contact">
-	<Contact>
-		<svelte:fragment slot="h2">Contact Us</svelte:fragment>
-		<svelte:fragment slot="paragraph"
-			>Got a technical issue? Want to send feedback about a beta feature? Need details about our
-			Business plan? Let us know.</svelte:fragment
-		>
-		<form
-			method="POST"
-			action="?/sendMessage"
-			use:enhance={sendMessage}
-			id="emailForm"
-			class="flex flex-col space-y-8"
-		>
-			<div>
-				<Label for="userEmail" class="block mb-2">Your email</Label>
-				<Input id="userEmail" name="userEmail" placeholder="name@youremail.com" required />
-			</div>
-			<div>
-				<Label for="userName" class="block mb-2">Subject</Label>
-				<Input id="userName" name="userName" placeholder="Please enter your name" required />
-			</div>
-			<div>
-				<Textarea
-					id="emailMessage"
-					name="emailMessage"
-					placeholder="Leave a comment..."
-					label="Your message"
-					required
-				/>
-			</div>
-			<Button type="submit"
-				><svg
-					class="mr-1 -ml-1 w-6 h-6"
-					fill="currentColor"
-					viewBox="0 0 20 20"
-					xmlns="http://www.w3.org/2000/svg"
-					><path
-						fill-rule="evenodd"
-						d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-						clip-rule="evenodd"
-					/></svg
-				>Send message</Button
-			>
-			<Turnstile siteKey={PUBLIC_TURNSTILE_SITE_KEY} theme="dark" />
-		</form>
-	</Contact>
-</Section>
+<SideWrap>
+	<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
+		<Section name="contact">
+			<Contact>
+				<svelte:fragment slot="h2">Contact Us</svelte:fragment>
+				<svelte:fragment slot="paragraph"
+					>Got a technical issue? Want to send feedback about a beta feature? Need details about our
+					Business plan? Let us know.</svelte:fragment
+				>
+				<form
+					method="POST"
+					action="?/sendMessage"
+					use:enhance={sendMessage}
+					id="emailForm"
+					class="flex flex-col space-y-8"
+				>
+					<div>
+						<Label for="userEmail" class="block mb-2">Your email</Label>
+						<Input id="userEmail" name="userEmail" placeholder="name@youremail.com" required />
+					</div>
+					<div>
+						<Label for="userName" class="block mb-2">Subject</Label>
+						<Input id="userName" name="userName" placeholder="Please enter your name" required />
+					</div>
+					<div>
+						<Textarea
+							id="emailMessage"
+							name="emailMessage"
+							placeholder="Leave a comment..."
+							label="Your message"
+							required
+						/>
+					</div>
+					<Button type="submit"
+						><svg
+							class="mr-1 -ml-1 w-6 h-6"
+							fill="currentColor"
+							viewBox="0 0 20 20"
+							xmlns="http://www.w3.org/2000/svg"
+							><path
+								fill-rule="evenodd"
+								d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+								clip-rule="evenodd"
+							/></svg
+						>Send message</Button
+					>
+					<Turnstile siteKey={PUBLIC_TURNSTILE_SITE_KEY} theme="dark" />
+				</form>
+			</Contact>
+		</Section>
+	</div>
+</SideWrap>
