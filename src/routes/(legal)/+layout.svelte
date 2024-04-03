@@ -2,9 +2,19 @@
 	import '../../app.pcss';
 	import { t } from '$lib/translations';
 	import { LegalSidebar } from '$lib/components';
+	import { getSidebarItems } from '$lib/utils';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { sineIn } from 'svelte/easing';
-	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
+	import {
+		A,
+		Button,
+		CloseButton,
+		Drawer,
+		Sidebar,
+		SidebarGroup,
+		SidebarItem,
+		SidebarWrapper
+	} from 'flowbite-svelte';
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/client';
@@ -17,7 +27,6 @@
 
 	export let data: LayoutData;
 	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
-	const pathname = data.pathname.slice(1);
 
 	let hideDrawer = true;
 	let transitionParams = {
@@ -56,7 +65,12 @@
 		$locale = defaultLanguage;
 	}
 
+	let pathname = data.pathname.slice(1);
+
+	const pageSidebarItems = getSidebarItems({ group: 'legal', page: pathname });
+
 	$: user = data.user;
+	$: pathname;
 </script>
 
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hideDrawer} id="sidebar2">
@@ -70,7 +84,23 @@
 		<CloseButton on:click={() => (hideDrawer = true)} class="mb-4" />
 	</div>
 	<Sidebar class="dark:text-white">
-		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800"></SidebarWrapper>
+		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
+			{#if pageSidebarItems}
+				{#each pageSidebarItems.groups as group}
+					<!-- content here -->
+					<SidebarGroup class="pb-6">
+						{group.name}
+						{#each group.items as item}
+							<SidebarItem
+								on:click={() => (hideDrawer = true)}
+								label={item.label}
+								href={item.href}
+							/>
+						{/each}
+					</SidebarGroup>
+				{/each}
+			{/if}
+		</SidebarWrapper>
 	</Sidebar>
 </Drawer>
 
