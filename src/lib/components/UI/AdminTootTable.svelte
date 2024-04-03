@@ -56,13 +56,7 @@
 				<TableBodyCell class="text-center">
 					{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
 				</TableBodyCell>
-				<TableBodyCell class="whitespace-normal break-words py-2">
-					{#if item.sensitive && !showSensitive}
-						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
-					{:else}
-						{@html truncateHTML(item.content, 300)}
-					{/if}
-				</TableBodyCell>
+
 				<TableBodyCell class="text-center">
 					<A
 						rel="noopener nofollow"
@@ -78,6 +72,15 @@
 						class="font-medium text-red-600 dark:text-red-500 hover:underline"
 						on:click={() => delData(item)}>Del</button
 					>
+				</TableBodyCell>
+			</TableBodyRow>
+			<TableBodyRow>
+				<TableBodyCell class="whitespace-normal break-words py-2">
+					{#if item.sensitive && !showSensitive}
+						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
+					{:else}
+						{@html truncateHTML(item.content, 300)}
+					{/if}
 				</TableBodyCell>
 			</TableBodyRow>
 		{/each}
