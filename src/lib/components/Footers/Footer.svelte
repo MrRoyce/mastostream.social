@@ -61,6 +61,7 @@
 					<h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Legal</h2>
 					<FooterLinkGroup>
 						<FooterLink liClass="mb-4" href="/toc">Terms and Condtions</FooterLink>
+						<FooterLink liClass="mb-4" href="/privacy">Privacy</FooterLink>
 					</FooterLinkGroup>
 				</div>
 			</div>
