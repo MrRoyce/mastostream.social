@@ -26,8 +26,9 @@
 						aClass="flex mb-6"
 					/>
 					<p class="text-gray-600 dark:text-gray-400">
-						U Toots is a discovery site for Mastodon toots. It respects users privacy (private toots
-						are not searchable) and the standard Mastodon code regarding lawful content.
+						U Toots is a user supported discovery site for Fediverse toots. It respects users
+						privacy (private toots are not searchable) and the standard Fediverse codes regarding
+						lawful content, respect for all, and human decency.
 					</p>
 				</div>
 				<div>
@@ -39,24 +40,7 @@
 						<FooterLink liClass="mb-4" href="/contact">Contact Us</FooterLink>
 					</FooterLinkGroup>
 				</div>
-				<div>
-					<h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">
-						HELP & SUPPORT
-					</h2>
-					<FooterLinkGroup>
-						<FooterLink liClass="mb-4" href="https://utoots.com">Discord</FooterLink>
-						<FooterLink liClass="mb-4" href="https://utoots.com">GitHub</FooterLink>
-					</FooterLinkGroup>
-				</div>
-				<div>
-					<h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">
-						Follow us
-					</h2>
-					<FooterLinkGroup>
-						<FooterLink liClass="mb-4" href="/">Gihub</FooterLink>
-						<FooterLink liClass="mb-4" href="/">Discord</FooterLink>
-					</FooterLinkGroup>
-				</div>
+
 				<div>
 					<h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Legal</h2>
 					<FooterLinkGroup>
