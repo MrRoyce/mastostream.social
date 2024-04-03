@@ -79,16 +79,6 @@
 		easing: sineIn
 	};
 
-	const siteDropdown = {
-		'/': 'Dashboard',
-		'/accounts': 'Accounts',
-		'/toots': 'Toots',
-		'/websites': 'Web Sites',
-		'/tags': 'Tags',
-		'/languages': 'Languages',
-		'/search': 'Full Text Search'
-	};
-
 	let defaultLanguage: string = 'en';
 
 	function getTargetLanguage(languageText: string) {
@@ -120,6 +110,7 @@
 	<Sidebar class="dark:text-white">
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
+				<!-- Dashboard -->
 				<SidebarItem
 					on:click={() => (hideDrawer = true)}
 					label={$t('pagelinks.dashboard')}
@@ -131,17 +122,22 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
+
+				<!-- Toots -->
 				<SidebarItem
 					on:click={() => (hideDrawer = true)}
-					label={$t('pagelinks.fullTextSearch')}
-					href="/search"
+					label={$t('pagelinks.toots')}
+					href="/toots"
+					{spanClass}
 				>
 					<svelte:fragment slot="icon">
-						<ChartSolid
+						<MailBoxSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
 				</SidebarItem>
+
+				<!-- Accounts -->
 				<SidebarItem
 					on:click={() => (hideDrawer = true)}
 					label={$t('pagelinks.accounts')}
@@ -161,18 +157,8 @@
 						</span>
 					</svelte:fragment>
 				</SidebarItem>
-				<SidebarItem
-					on:click={() => (hideDrawer = true)}
-					label={$t('pagelinks.toots')}
-					href="/toots"
-					{spanClass}
-				>
-					<svelte:fragment slot="icon">
-						<MailBoxSolid
-							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
-						/>
-					</svelte:fragment>
-				</SidebarItem>
+
+				<!-- Web Sites -->
 				<SidebarItem
 					on:click={() => (hideDrawer = true)}
 					label={$t('pagelinks.websites')}
@@ -184,6 +170,8 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
+
+				<!-- Tags -->
 				<SidebarItem on:click={() => (hideDrawer = true)} label={$t('pagelinks.tags')} href="/tags">
 					<svelte:fragment slot="icon">
 						<BugSolid
@@ -191,6 +179,8 @@
 						/>
 					</svelte:fragment>
 				</SidebarItem>
+
+				<!-- Languages -->
 				<SidebarItem
 					on:click={() => (hideDrawer = true)}
 					label={$t('pagelinks.languages')}
@@ -198,6 +188,19 @@
 				>
 					<svelte:fragment slot="icon">
 						<ArrowRightToBracketSolid
+							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+						/>
+					</svelte:fragment>
+				</SidebarItem>
+
+				<!-- Full Text Searcb -->
+				<SidebarItem
+					on:click={() => (hideDrawer = true)}
+					label={$t('pagelinks.fullTextSearch')}
+					href="/search"
+				>
+					<svelte:fragment slot="icon">
+						<ChartSolid
 							class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
 						/>
 					</svelte:fragment>
