@@ -70,9 +70,15 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
         await getCount('toots')
       ])
 
+      const valuesToRemove = {
+        words: [
+          'gootloader'
+        ]
+      }
+
       const { start } = getRandomRange(tags, 100)
       myWords = await getWords({ start, max: 50 })
-      dashboardData.words = myWords
+      dashboardData.words = myWords.filter(item => !valuesToRemove.words.includes(item))
 
       try {
         // Sum up the count to the time period
@@ -98,6 +104,7 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
 
       dashboardData.toots = JSON.parse(JSON.stringify(dashboardToots))
 
+      // Store in redis
       try {
         if (redis) {
           await Promise.all([
