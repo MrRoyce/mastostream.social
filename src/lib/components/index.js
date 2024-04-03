@@ -12,6 +12,7 @@ import ImageGallery from '$lib/components/UI/ImageGallery.svelte';
 import Languages from '$lib/components/Languages/Languages.svelte';
 import Loading from '$lib/components/Loading/Loading.svelte';
 import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
+import SideWrap from '$lib/components/UI/SideWrap.svelte';
 import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 import TootTable from '$lib/components/UI/TootTable.svelte';
 import TableWrap from '$lib/components/UI/TableWrap.svelte';
@@ -36,6 +37,7 @@ export {
 	Languages,
 	Loading,
 	OwnersTootTable,
+	SideWrap,
 	TootsRadio,
 	TootTable,
 	TableWrap,
