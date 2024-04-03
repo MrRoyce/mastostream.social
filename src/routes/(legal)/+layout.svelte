@@ -4,21 +4,12 @@
 	import { TOCSidebar } from '$lib/components';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { sineIn } from 'svelte/easing';
-	import {
-		A,
-		Button,
-		CloseButton,
-		Drawer,
-		Sidebar,
-		SidebarGroup,
-		SidebarItem,
-		SidebarWrapper
-	} from 'flowbite-svelte';
+	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/client';
 	import { authUser } from '$lib/stores';
-	import { Languages, UserIcon } from '$lib/components';
+	import { Footer, Languages, UserIcon } from '$lib/components';
 	import { locale } from '$lib/translations';
 	import { getLanguageList } from '$lib/utils/getLanguage';
 	import logo from '$lib/assets/logo.svg';
@@ -134,7 +125,7 @@
 	<!-- Router Slot -->
 	<slot />
 	<!-- ---- / ---- -->
-	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
+	<svelte:fragment slot="pageFooter"><Footer /></svelte:fragment>
 	<!-- (footer) -->
 </AppShell>
 
