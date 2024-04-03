@@ -15,7 +15,7 @@
 	import { getLanguage } from '$lib/utils/getLanguage';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { Section } from 'flowbite-svelte-blocks';
+	import { TableWrap } from '$lib/components';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -35,7 +35,7 @@
 </script>
 
 <div class="pt-0.5">
-	<Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex p-4t m-4 h-fit">
+	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Link to Dashboard">
 				<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
@@ -89,6 +89,6 @@
 					</TableBody>
 				</Table>
 			</div>
-		</div></Section
+		</div></TableWrap
 	>
 </div>

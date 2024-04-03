@@ -7,7 +7,6 @@
 	import { Breadcrumb, BreadcrumbItem, Heading } from 'flowbite-svelte';
 	import { getLanguage } from '$lib/utils';
 	import { Button, Modal } from 'flowbite-svelte';
-	import { Section } from 'flowbite-svelte-blocks';
 	let clickOutsideModal = false;
 
 	if (browser && isSupported()) {
@@ -43,7 +42,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Content', 'Link']
+		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Link']
 	};
 </script>
 
