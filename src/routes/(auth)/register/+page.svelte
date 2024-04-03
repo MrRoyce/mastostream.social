@@ -39,7 +39,6 @@
 				logEvent(analytics, 'sign_up');
 			}
 		} catch (error) {
-			console.log('error in register sign_up', error);
 			const t: ToastSettings = {
 				background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
 				message: `An error occured during registration setup - please contact us to complete your registration: ${error}`,
@@ -112,7 +111,6 @@
 	const validateToken: SubmitFunction = () => {
 		// After call to validate turnstile token
 		return async ({ result }) => {
-			console.log('result after validateToken', result);
 			if (!result.data.success) {
 				const t: ToastSettings = {
 					background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',

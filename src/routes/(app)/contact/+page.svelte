@@ -22,8 +22,6 @@
 				message: document.getElementById('emailMessage').value
 			};
 
-			console.log('templateParams', templateParams);
-
 			emailjs
 				.send(
 					import.meta.env.VITE_EMAILJS_SERVICE_ID,

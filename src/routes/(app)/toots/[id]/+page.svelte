@@ -47,7 +47,6 @@
 	let accountNote: string;
 
 	if (entity.acct) {
-		console.log('entity.acct', entity.acct);
 		replies = data.replies;
 		replyTo = data.replyTo ? [data.replyTo] : false;
 		card = data.card;
