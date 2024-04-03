@@ -110,16 +110,18 @@
 									</p></span
 								>
 								<!-- Sensitive Toggle -->
-								<Toggle
-									color="red"
-									checked={false}
-									value="false"
-									on:click={() => {
-										{
-											hideSensitive();
-										}
-									}}>{$t('pagelinks.showSensitive')}</Toggle
-								>
+								{#if entity.sensitive}
+									<Toggle
+										color="red"
+										checked={false}
+										value="false"
+										on:click={() => {
+											{
+												hideSensitive();
+											}
+										}}>{$t('pagelinks.showSensitive')}</Toggle
+									>
+								{/if}
 							</div>
 							<!-- Reply to if any -->
 							{#if replyTo !== false && typeof replyTo == 'object' && replyTo.acct}
