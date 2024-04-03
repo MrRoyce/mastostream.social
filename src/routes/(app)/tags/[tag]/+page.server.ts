@@ -14,10 +14,10 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
     //await redis.connect()
 
     const tootType = url.searchParams.get('type') || 'both'
-    const lowerCase = params.tag && typeof params.tag === 'string' ? params.tag.toLowerCase() : params.tag;
+    const paramValueToLowerCase = params.tag && typeof params.tag === 'string' ? params.tag.toLowerCase() : params.tag;
 
-    const redisKeyTag = `tags_acct_${lowerCase}`
-    const redisKeyTagToots = `tags_acct_${lowerCase}_toots_${tootType}`
+    const redisKeyTag = `tags_acct_${paramValueToLowerCase}`
+    const redisKeyTagToots = `tags_acct_${paramValueToLowerCase}_toots_${tootType}`
 
     const [tagCached, tagTootsCached] = await Promise.all([
       await redis.get(redisKeyTag),
@@ -25,14 +25,14 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
     ])
 
     if (tagCached && tagTootsCached) {
-      console.log(`tagCached, tagTootsCached cached for: ${lowerCase} ${tootType}`)
+      console.log(`tagCached, tagTootsCached cached for: ${paramValueToLowerCase} ${tootType}`)
       entity = JSON.parse(tagCached)
       toots = JSON.parse(tagTootsCached)
     } else {
-      console.log(`tagCached, tagTootsCached NOT cached for: ${lowerCase} ${tootType}`)
+      console.log(`tagCached, tagTootsCached NOT cached for: ${paramValueToLowerCase} ${tootType}`)
       const [entityFromPromise, tootsFromPromise] = await Promise.all([
-        await getDocument({ entity: 'tags', id: lowerCase }),
-        await getToots({ entity: 'tags', id: lowerCase, max: 100, orderByField: 'createdAt', tootType })
+        await getDocument({ entity: 'tags', id: paramValueToLowerCase }),
+        await getToots({ entity: 'tags', id: paramValueToLowerCase, max: 100, orderByField: 'createdAt', tootType })
       ]);
 
       entity = entityFromPromise
