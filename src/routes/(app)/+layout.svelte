@@ -241,11 +241,7 @@
 					</div>
 
 					<A href="/"
-						><img class=" w-10 h-auto" src={logo} alt="U Toots Logo " /><strong
-							class="text-xl uppercase dark:text-green-400"
-						>
-							<h1>U Toots</h1></strong
-						></A
+						><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
 					>
 				</svelte:fragment>
 

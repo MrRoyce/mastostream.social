@@ -87,7 +87,7 @@
 		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
 			<!-- lead left of appbar-->
 			<svelte:fragment slot="lead">
-				<div class="flex items-center show-on-mobile dark:text-white">
+				<div class="flex show-on-mobile dark:text-white">
 					<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
 						<span>
 							<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
@@ -99,12 +99,8 @@
 					</Button>
 				</div>
 
-				<A href="/"
-					><img class=" w-10 h-auto" src={logo} alt="U Toots Logo " /><strong
-						class="text-xl uppercase dark:text-green-400"
-					>
-						<h1>U Toots</h1></strong
-					></A
+				<A href="/" aClass="hover:underline"
+					><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
 				>
 			</svelte:fragment>
 
