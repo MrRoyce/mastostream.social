@@ -15,6 +15,7 @@ import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
 import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 import TootTable from '$lib/components/UI/TootTable.svelte';
 import TableWrap from '$lib/components/UI/TableWrap.svelte';
+import TOCSidebar from '$lib/components/TOCSidebar/TOCSidebar.svelte';
 import UserSidebar from '$lib/components/UserSidebar/UserSidebar.svelte';
 import WordCloud from '$lib/components/UI/WordCloud.svelte';
 import YouTube from '$lib/components/Cards/YouTube.svelte';
@@ -38,6 +39,7 @@ export {
 	TootsRadio,
 	TootTable,
 	TableWrap,
+	TOCSidebar,
 	UserSidebar,
 	WordCloud,
 	UserIcon,

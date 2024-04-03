@@ -53,14 +53,14 @@
 						Follow us
 					</h2>
 					<FooterLinkGroup>
-						<FooterLink liClass="mb-4" href="https://utoots.com">Gihub</FooterLink>
-						<FooterLink liClass="mb-4" href="https://utoots.com">Discord</FooterLink>
+						<FooterLink liClass="mb-4" href="/">Gihub</FooterLink>
+						<FooterLink liClass="mb-4" href="/">Discord</FooterLink>
 					</FooterLinkGroup>
 				</div>
 				<div>
 					<h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Legal</h2>
 					<FooterLinkGroup>
-						<FooterLink liClass="mb-4" href="https://utoots/com">LICENSE</FooterLink>
+						<FooterLink liClass="mb-4" href="/toc">Terms and Condtions</FooterLink>
 					</FooterLinkGroup>
 				</div>
 			</div>
