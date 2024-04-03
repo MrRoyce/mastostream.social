@@ -3,7 +3,6 @@
 	import { page } from '$app/stores';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { Section } from 'flowbite-svelte-blocks';
 	import { goto } from '$app/navigation';
 	import { TableWrap } from '$lib/components';
 

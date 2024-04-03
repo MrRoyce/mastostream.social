@@ -15,8 +15,6 @@
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
-	import { Section } from 'flowbite-svelte-blocks';
-	import { formatCreatedAt } from '$lib/utils';
 	import { formatDate } from '$lib/utils/formatDate';
 	import { TableWrap } from '$lib/components';
 
