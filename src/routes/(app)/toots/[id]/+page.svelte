@@ -91,7 +91,7 @@
 							<div class="grid grid-cols-2">
 								<!-- Created At date -->
 								<span class="text-left">
-									<p class="pt-4 text-base font-bold flex lg:justify-start">
+									<p class="pt-4 text-base font-bold flex lg:justify-start dark:text-gray-200">
 										<svg
 											class="h-4 fill-current text-green-700 pr-4"
 											xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +149,7 @@
 									</Section>
 								</div>
 							{:else}
-								<p class="pt-4 pb-8 text-2xl overflow-x-clip flex-wrap">
+								<p class="pt-4 pb-8 text-2xl overflow-x-clip flex-wrap dark:text-gray-200">
 									{@html formatText(
 										entity.content
 											.replaceAll('</p><p>', '</p><br /><p>')
@@ -267,7 +267,7 @@
 								<div class=" items-top h-auto mx-auto lg:my-0">
 									<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
 										<div class="p-6 text-center lg:text-left">
-											<p class="text-3xl pb-5 text-ellipsis overflow-hidden">
+											<p class="text-3xl pb-5 text-ellipsis overflow-hidden dark:text-gray-200">
 												{entity.account?.displayName || entity.account?.display_name || ''}
 											</p>
 											<div class="image overflow-hidden pb-5">

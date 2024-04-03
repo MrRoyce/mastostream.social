@@ -3,7 +3,7 @@
 	const blog = {
 		id: 'blog-1',
 		title: 'TERMS AND CONDITIONS',
-		lead: 'U Toots Terms and Conditions (TOC) is only available in English.  You may use a translation of this to your native language, to get a general idea, but the official document is shown here.',
+		lead: 'The U Toots Terms and Conditions (TOC) is only available in English.  You may use a translation of this to your native language, to get a general idea, but the official document is shown here.',
 		author: {
 			name: 'U Toots, LLC',
 			title: ''
@@ -11,7 +11,7 @@
 		date: 'April 2024',
 		content: `
 
-<P class="my-3 md:text-xl" weight="light" size="lg" cxolor="text-gray-500 dark:text-gray-400"
+<P class="my-3 md:text-xl" weight="light" size="lg" color="text-gray-500 dark:text-gray-400"
 	>AGREEMENT TO OUR LEGAL TERMS.</P
 >
 
@@ -134,7 +134,7 @@ By posting any Contributions, you grant us an unrestricted, unlimited, irrevocab
 
 <P weight="light" class="mb-3 text-gray-500 dark:text-gray-400">
 <span class="text-gray-200">You are responsible for what you post or upload:</span>By sending us Submissions and/or posting Contributions through any part of the Services or making Contributions accessible through the Services by linking your account through the Services to any of your social networking accounts, you:</P>
-<List  class="liClassColor"><Li >confirm that you have read and agree with our "<a data-custom-class="link" href="#prohibited">PROHIBITED ACTIVITIES</a>" and will not post, send, publish, upload, or transmit through the Services any Submission nor post any Contribution that is illegal, harassing, hateful, harmful, defamatory, obscene, bullying, abusive, discriminatory, threatening to any person or group, sexually explicit, false, inaccurate, deceitful, or misleading;</Li><Li >to the extent permissible by applicable law, waive any and all moral rights to any such Submission and/or Contribution;</Li>
+<List class="liClassColor"><Li >confirm that you have read and agree with our "<a data-custom-class="link" href="#prohibited">PROHIBITED ACTIVITIES</a>" and will not post, send, publish, upload, or transmit through the Services any Submission nor post any Contribution that is illegal, harassing, hateful, harmful, defamatory, obscene, bullying, abusive, discriminatory, threatening to any person or group, sexually explicit, false, inaccurate, deceitful, or misleading;</Li><Li >to the extent permissible by applicable law, waive any and all moral rights to any such Submission and/or Contribution;</Li>
   <Li>warrant that any such Submission and/or Contributions are original to you or that you have the necessary rights and licenses to submit such Submissions and/or Contributions and that you have full authority to grant us the above-mentioned rights in relation to your Submissions and/or Contributions; and</Li>
   <Li>warrant and represent that your Submissions and/or Contributions do not constitute confidential information.</Li>
   </List>
