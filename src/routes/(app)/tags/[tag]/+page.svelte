@@ -57,7 +57,8 @@
 					<!-- Left Side -->
 					<div class="md:col-span-2 md:col-start-1 order-first">
 						<!-- Profile Card -->
-						<Heading>Latest toots tagged #{entity.name}:</Heading>
+						<Heading tag="h-3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200">Latest toots tagged</Heading>
+						<Heading class="text-xl md:text-2xl lg:text-3xl  dark:text-gray-200">#{entity.name}</Heading>
 					</div>
 					<!-- Right Side -->
 					<div class="md:col-span-2 md:col-start-3 order-last">

@@ -58,12 +58,12 @@
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 			<div class="mx-auto my-5 p-5">
 				<div class="col-span-2">
-					<Heading>
-						<span class="text-gray-200"
+					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
+						><span class="text-gray-200"
 							>Latest {entity.language}
 							({language.englishValue}) toots:</span
-						>
-					</Heading>
+						></Heading
+					>
 				</div>
 				<div class="dark:bg-gray-800">
 					<div class=" mx-auto my-5 p-5">

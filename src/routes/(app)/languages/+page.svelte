@@ -45,7 +45,9 @@
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 			<div class="container mx-auto my-5 p-5">
 				<div class="col-span-2 mb-6">
-					<Heading>Toots by Language</Heading>
+					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
+						>Toots by Language</Heading
+					>
 				</div>
 				<Table
 					name="advancedTable"

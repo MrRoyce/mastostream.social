@@ -2,6 +2,7 @@
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
+		Button,
 		Heading,
 		Table,
 		TableBody,
@@ -15,7 +16,6 @@
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
-	import { Section } from 'flowbite-svelte-blocks';
 	import { TableWrap } from '$lib/components';
 
 	if (browser && isSupported()) {
@@ -46,7 +46,7 @@
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 			<div class=" mx-auto my-5 p-5">
 				<div class="col-span-2 mb-6">
-					<Heading>Latest tags</Heading>
+					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200">Latest tags</Heading>
 				</div>
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 					<!-- Search Form -->
@@ -81,9 +81,10 @@
 									required
 								/>
 							</div>
-							<button
+							<Button
+								color="green"
 								on:click={() => goto(`/tags/${searchTerm}`)}
-								class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+								class="rounded-none py-2.5 px-3.5  ms-2 text-sm font-medium text-gray-200"
 							>
 								<svg
 									class="w-4 h-4"
@@ -101,7 +102,7 @@
 									/>
 								</svg>
 								<span class="sr-only">Search</span>
-							</button>
+							</Button>
 						</form>
 					</div>
 				</div>
