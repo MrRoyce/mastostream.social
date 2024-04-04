@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { TableWrap } from '$lib/components';
-	import { Privacy } from '$lib/legal';
+	import { Cookies } from '$lib/policies';
 </script>
 
 <TableWrap>
-	<Privacy />
+	<Cookies />
 </TableWrap>
