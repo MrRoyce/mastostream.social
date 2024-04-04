@@ -1,5 +1,3 @@
-import { t } from '$lib/translations';
-
 /**
  * @param {number} latestCount
  * @param {number} previousCount

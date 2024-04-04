@@ -19,14 +19,13 @@
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/client';
 	import { authUser } from '$lib/stores';
-	import { Footer, Languages, UserIcon } from '$lib/components';
+	import { Footer, Languages } from '$lib/components';
 	import { locale } from '$lib/translations';
 	import { getLanguageList } from '$lib/utils/getLanguage';
 	import { goto } from '$app/navigation';
 	import type { LayoutData } from '../$types';
 
 	export let data: LayoutData;
-	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
 
 	let hideDrawer = true;
 	let transitionParams = {
