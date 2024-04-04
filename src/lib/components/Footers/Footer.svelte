@@ -44,6 +44,7 @@
 					<FooterLinkGroup>
 						<FooterLink liClass="mb-4" href="/toc">Terms and Condtions</FooterLink>
 						<FooterLink liClass="mb-4" href="/privacy">Privacy</FooterLink>
+						<FooterLink liClass="mb-4" href="/cookies">Cookies</FooterLink>
 					</FooterLinkGroup>
 				</div>
 			</div>

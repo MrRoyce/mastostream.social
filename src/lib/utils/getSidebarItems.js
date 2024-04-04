@@ -226,6 +226,49 @@ export const getSidebarItems = ({ group, page }) => {
 						]
 					}
 				]
+			},
+			cookies: {
+				groups: [
+					{
+						name: 'Cookie Policy',
+						items: []
+					},
+					{
+						name: 'Table of Contents',
+						items: [
+							{
+								label: '1. WHAT ARE COOKIES?',
+								href: '#what-are-cookies',
+								url: '#what-are-cookies'
+							},
+							{
+								label: '2. HOW WE USE COOKIES',
+								href: '#how-we-use-cookies',
+								url: '#how-we-use-cookies'
+							},
+							{
+								label: '3. TYPES OF COOKIES?',
+								href: '#types-of-cookies',
+								url: '#types-of-cookies'
+							},
+							{
+								label: '4. CONTROLLING COOKIES',
+								href: '#whoshare',
+								url: '#whoshare'
+							},
+							{
+								label: '5. CONSENT FOR COOKIES',
+								href: '#consent-for-cookies',
+								url: '#consent-for-cookies'
+							},
+							{
+								label: '7. CONTACT US',
+								href: '#contact',
+								url: '#contact'
+							}
+						]
+					}
+				]
 			}
 		},
 		app: {
