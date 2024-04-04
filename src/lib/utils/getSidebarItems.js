@@ -26,7 +26,7 @@ export const getSidebarItems = ({ group, page }) => {
 								url: '#userreps'
 							},
 							{
-								label: '"4. USER REGISTRATION',
+								label: '4. USER REGISTRATION',
 								href: '#userreg',
 								url: '#userreg'
 							},

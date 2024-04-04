@@ -98,7 +98,7 @@
 </script>
 
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hideDrawer} id="sidebar2">
-	<div class="flex items-center dark:text-white">
+	<div class="flex items-center">
 		<h5
 			id="drawer-navigation-label-3"
 			class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400"
@@ -107,7 +107,7 @@
 		</h5>
 		<CloseButton on:click={() => (hideDrawer = true)} class="mb-4" />
 	</div>
-	<Sidebar class="dark:text-white">
+	<Sidebar class="">
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			<SidebarGroup>
 				<!-- Dashboard -->
@@ -229,7 +229,7 @@
 				<!-- lead left of appbar-->
 				<svelte:fragment slot="lead">
 					<!-- Mobile Only -->
-					<div class="flex items-center show-on-mobile dark:text-white">
+					<div class="flex items-center show-on-mobile">
 						<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
 							<span>
 								<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">

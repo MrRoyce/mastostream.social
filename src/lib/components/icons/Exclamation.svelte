@@ -1,5 +1,5 @@
 <svg
-	class="w-[48px] h-[48px] text-gray-800 dark:text-white"
+	class="w-[48px] h-[48px] text-gray-800"
 	aria-hidden="true"
 	xmlns="http://www.w3.org/2000/svg"
 	fill="none"

@@ -18,20 +18,22 @@
 
 <SideWrap {mb}>
 	<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-		<Sidebar {activeUrl} asideClass="w-80">
+		<Sidebar {activeUrl} asideClass="w-80 ">
 			<SidebarWrapper>
 				<SidebarGroup class="pb-6">
-					<SidebarItem>
-						<svelte:fragment slot="icon">
-							{#if image && typeof image === 'string'}
-								<img id="users-picture" height="48" src={image} alt="User" />
-							{:else if email}
-								<i class={'fas fa-user-secret fa-5x'}></i>
-							{/if}
+					<div class="flex items-center justify-center">
+						<SidebarItem>
+							<svelte:fragment slot="icon">
+								{#if image && typeof image === 'string'}
+									<img id="users-picture" height="48" src={image} alt="User" />
+								{:else if email}
+									<i class={'fas fa-user-secret fa-5x'}></i>
+								{/if}
 
-							<Tooltip triggeredBy="[id^='users-picture']">{email}</Tooltip>
-						</svelte:fragment>
-					</SidebarItem>
+								<Tooltip triggeredBy="[id^='users-picture']">{email}</Tooltip>
+							</svelte:fragment>
+						</SidebarItem>
+					</div>
 				</SidebarGroup>
 				<SidebarGroup>
 					<SidebarItem label={$t('pagelinks.dashboard')} href="/" active={activeUrl === '/'}>

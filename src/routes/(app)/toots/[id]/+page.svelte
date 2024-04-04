@@ -88,12 +88,14 @@
 					<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 						<!-- Toot -->
 						<div class="md:col-span-3 md:col-start-2 order-first md:order-last">
-							<!-- Date and Sensitive Toggle -->
+							<!-- Date and Sensitive Toggle Grid -->
 							<div class="grid col-span-1 md:grid-cols-2">
 								<!-- Created At date -->
-								<div class=" pt-4 col-span-1 md:col-start-1 order-first">
-									<div class="flex items-center justify-center">
-										<p class="text-base font-bold flex lg:justify-start dark:text-gray-200">
+								<div class=" pt-4 col-span-1 md:col-start-1">
+									<div
+										class="flex sm:items-center md:items-start sm:justify-center md:justify-start"
+									>
+										<p class="text-base font-bold flex dark:text-gray-200">
 											<svg
 												class="h-4 fill-current text-green-700 pr-4"
 												xmlns="http://www.w3.org/2000/svg"
@@ -111,8 +113,9 @@
 										</p>
 									</div>
 								</div>
+
 								<!-- Sensitive Toggle -->
-								<div class="pt-4 col-span-1 md:col-start-2 order-last">
+								<div class="pt-4 col-span-1 md:col-start-2">
 									<div class="flex items-center justify-center">
 										<!-- Sensitive Toggle -->
 										{#if entity.sensitive}
@@ -157,7 +160,7 @@
 									</Section>
 								</div>
 							{:else}
-								<p class="pt-4 pb-8 text-2xl overflow-x-clip flex-wrap dark:text-gray-200">
+								<p class="pt-8 pb-8 text-2xl overflow-x-clip flex-wrap dark:text-gray-200">
 									{@html formatText(
 										entity.content
 											.replaceAll('</p><p>', '</p><br /><p>')
@@ -328,7 +331,7 @@
 	<Page404>
 		<svelte:fragment slot="h1">404</svelte:fragment>
 		<svelte:fragment slot="paragraph">
-			<p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
+			<p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">
 				Something's missing.
 			</p>
 			<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">

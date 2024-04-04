@@ -20,10 +20,10 @@
 	<div class="flex-auto p-4">
 		<div class="flex flex-wrap">
 			<div class="relative w-full pr-4 max-w-full flex-grow flex-1">
-				<h5 class=" uppercase font-bold text-xs dark:text-white">
+				<h5 class=" uppercase font-bold text-xs dark:text-gray-200">
 					{statEntity}
 				</h5>
-				<span class="font-semibold text-xl dark:text-white">
+				<span class="font-semibold text-xl">
 					{statValue}
 				</span>
 			</div>
