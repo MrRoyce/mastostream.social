@@ -88,39 +88,47 @@
 					<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 						<!-- Toot -->
 						<div class="md:col-span-3 md:col-start-2 order-first md:order-last">
-							<div class="grid grid-cols-2">
+							<!-- Date and Sensitive Toggle -->
+							<div class="grid col-span-1 md:grid-cols-2">
 								<!-- Created At date -->
-								<span class="text-left">
-									<p class="pt-4 text-base font-bold flex lg:justify-start dark:text-gray-200">
-										<svg
-											class="h-4 fill-current text-green-700 pr-4"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 20 20"
-										>
-											<path
-												d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"
-											/>
-										</svg>
-										{formatCreatedAt(entity.createdAt)}
+								<div class=" pt-4 col-span-1 md:col-start-1 order-first">
+									<div class="flex items-center justify-center">
+										<p class="text-base font-bold flex lg:justify-start dark:text-gray-200">
+											<svg
+												class="h-4 fill-current text-green-700 pr-4"
+												xmlns="http://www.w3.org/2000/svg"
+												viewBox="0 0 20 20"
+											>
+												<path
+													d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"
+												/>
+											</svg>
+											{formatCreatedAt(entity.createdAt)}
 
-										<A target="_blank" href={entity.uri}
-											><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
-										</A>
-									</p></span
-								>
+											<A target="_blank" href={entity.uri}
+												><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
+											</A>
+										</p>
+									</div>
+								</div>
 								<!-- Sensitive Toggle -->
-								{#if entity.sensitive}
-									<Toggle
-										color="red"
-										checked={false}
-										value="false"
-										on:click={() => {
-											{
-												hideSensitive();
-											}
-										}}>{$t('pagelinks.showSensitive')}</Toggle
-									>
-								{/if}
+								<div class="pt-4 col-span-1 md:col-start-2 order-last">
+									<div class="flex items-center justify-center">
+										<!-- Sensitive Toggle -->
+										{#if entity.sensitive}
+											<Toggle
+												color="red"
+												checked={false}
+												value="false"
+												on:click={() => {
+													{
+														hideSensitive();
+													}
+												}}>{$t('pagelinks.showSensitive')}</Toggle
+											>
+										{/if}
+									</div>
+								</div>
 							</div>
 							<!-- Reply to if any -->
 							{#if replyTo !== false && typeof replyTo == 'object' && replyTo.acct}
