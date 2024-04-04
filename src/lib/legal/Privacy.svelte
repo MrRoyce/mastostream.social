@@ -91,8 +91,6 @@
 
 <P weight="light" class="mb-3 text-gray-500 dark:text-gray-400"><span class="text-gray-200 italic">In Short </span> We may share information in specific situations described in this section and/or with the following third parties.</P><List class="liClassColor"><Li ><span class="text-gray-200">Business Transfers:</span> We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.</Li><Li ><span class="text-gray-200">Affiliates:</span> We may share your information with our affiliates, in which case we will require those affiliates to honor this privacy notice. Affiliates include our parent company and any subsidiaries, joint venture partners, or other companies that we control or that are under common control with us.</Li><Li><span class="text-gray-200">Law Enforcement:</span> After a legal review, we may share your information with valid court orders submitted to our Registered Agent</Li></List>
 
-<P weight="light" class="mb-3 text-gray-500 dark:text-gray-400"></P>
-
 <P
 	class="mb-3 md:text-xl"
 	weight="light"
