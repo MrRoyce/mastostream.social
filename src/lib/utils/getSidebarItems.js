@@ -227,6 +227,59 @@ export const getSidebarItems = ({ group, page }) => {
 					}
 				]
 			}
+		},
+		app: {
+			home: {
+				groups: [
+					{
+						name: '',
+						items: [
+							{
+								label: 'Dashboard',
+								href: '/',
+								url: '/',
+								icon: 'fa-solid fa-house'
+							},
+							{
+								label: 'Toots',
+								href: '/toots',
+								url: '/toots',
+								icon: 'fa-solid fa-bullhorn'
+							},
+							{
+								label: 'Accounts',
+								href: '/accounts',
+								url: '/accounts',
+								icon: 'fa-sharp fa-solid fa-users'
+							},
+							{
+								label: 'Websites',
+								href: '/websites',
+								url: '/websites',
+								icon: 'fa-solid fa-network-wired'
+							},
+							{
+								label: 'Tags',
+								href: '/tags',
+								url: '/tags',
+								icon: 'fa-solid fa-hashtag'
+							},
+							{
+								label: 'Languages',
+								href: '/languages',
+								url: '/languages',
+								icon: 'fa-solid fa-globe'
+							},
+							{
+								label: 'Search',
+								href: '/search',
+								url: '/search',
+								icon: 'fa-solid fa-magnifying-glass'
+							}
+						]
+					}
+				]
+			}
 		}
 	};
 
