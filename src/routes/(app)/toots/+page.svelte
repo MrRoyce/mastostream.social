@@ -34,18 +34,7 @@
 	const toots = data.toots;
 
 	const tableData = {
-		tableHead: [
-			'Pic',
-			'Safe',
-			'Type',
-			'Language',
-			'Created',
-			'Account',
-			'Pics',
-			'Video',
-			'Audio',
-			'Link'
-		]
+		tableHead: ['Picture', 'Safe', 'Type', 'Language', 'Pics', 'Video', 'Audio', 'Link']
 	};
 
 	let showSensitive: boolean;
@@ -97,7 +86,7 @@
 							>
 								<TableHead>
 									{#each tableData.tableHead as tableHead}
-										<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
+										<TableHeadCell class="text-center " padding="px-4 py-3" scope="col"
 											>{tableHead}</TableHeadCell
 										>
 									{/each}
@@ -108,13 +97,10 @@
 											class="border-none"
 											on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}
 										>
-											<TableBodyCell
-												><img
-													class=" w-10 h-auto max-w-xs"
-													src={item.avatar}
-													alt="User"
-												/></TableBodyCell
-											>
+											<TableBodyCell>
+												<img class=" w-10 h-auto max-w-xs" src={item.avatar} alt="User" />
+											</TableBodyCell>
+
 											<TableBodyCell>
 												{item.sensitive ? '❌' : '✅'}
 											</TableBodyCell>
@@ -124,12 +110,7 @@
 											<TableBodyCell>
 												{item.language}
 											</TableBodyCell>
-											<TableBodyCell>
-												{`${formatCreatedAt(item.createdAt)}`}
-											</TableBodyCell>
-											<TableBodyCell>
-												{item.acct}
-											</TableBodyCell>
+
 											<TableBodyCell class="text-right"
 												>{item.mediaAttachementCounts.totalPictures}</TableBodyCell
 											>
@@ -149,16 +130,22 @@
 												></TableBodyCell
 											>
 										</TableBodyRow>
-										<TableBodyRow on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}>
-											<TableBodyCell></TableBodyCell>
-											<TableBodyCell colspan="6" class="whitespace-normal break-words py-2">
+
+										<TableBodyRow
+											><TableBodyCell colspan="10" class="whitespace-normal break-words py-2">
 												{#if item.sensitive && !showSensitive}
 													{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 												{:else}
 													{@html truncateHTML(item.content, 300)}
+													{@html '<br /><br />'}
+													{item.acct}
+													{@html '<br />'}
+													{`${formatCreatedAt(item.createdAt)}`}
 												{/if}
 											</TableBodyCell>
 										</TableBodyRow>
+
+										<TableBodyRow></TableBodyRow>
 									{/each}
 								</TableBody>
 							</Table>
