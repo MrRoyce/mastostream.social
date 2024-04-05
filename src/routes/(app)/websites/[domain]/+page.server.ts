@@ -1,8 +1,9 @@
 import type { PageServerLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
-import type { DocumentData } from 'firebase/firestore';
 import { formatToot } from '$lib/utils/formatToot';
 import { redis } from '$lib/redis/redis';
+import { addMediaAttachmentCounts } from '$lib/utils';
+
 
 const ttl = 600
 let entity
@@ -42,7 +43,9 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       await redis.get(redisKeyDomainToots)
     ])
 
-    if (domainCached && domainTootsCached) {
+    const checkCache = false  // TODO always check this!
+
+    if (domainCached && domainTootsCached && checkCache) {
       console.log(`domainCached, domainTootsCached cached for: ${lowerCase}`)
 
       entity = JSON.parse(domainCached)
@@ -56,7 +59,8 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
           entity: 'domains',
           id: lowerCase,
           max: 100,
-          orderByField: 'createdAt'
+          orderByField: 'createdAt',
+          tootType: 'both'
         })
       ]);
 
@@ -84,9 +88,12 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
         entity.instance.rules = domain.rules
         entity.instance.contact_account = domain.contact_account
 
-        const items = toots.map((item) => {
+        let items = toots.map((item) => {
           return formatToot(item)
         })
+
+        // Get the media counts
+        items = addMediaAttachmentCounts(items)
 
         // Store entity in redis
         await redis.set(redisKeyDomain, JSON.stringify(entity), 'EX', ttl)

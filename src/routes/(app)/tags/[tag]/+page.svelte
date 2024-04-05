@@ -84,7 +84,7 @@
 								<!-- Contet -->
 								<TootContent {toot} />
 								<!-- Metadata -->
-								<TootMeta counts={toot.mediaAttachementCounts} />
+								<TootMeta createdAt={toot.createdAt} counts={toot.mediaAttachementCounts} />
 								<!-- Profile -->
 								<div class="md:col-span-1 md:col-start-1 order-last md:order-first">
 									<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">

@@ -4,7 +4,7 @@
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
 	import type { PageData } from '../$types';
-	import { OwnersTootTable, TableWrap } from '$lib/components';
+	import { OwnersTootTable, TableWrap, TootContent, TootMeta } from '$lib/components';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -12,7 +12,8 @@
 		List,
 		TableBody,
 		TableBodyRow,
-		TableBodyCell
+		TableBodyCell,
+		Button
 	} from 'flowbite-svelte';
 	import { formatText } from '$lib/utils';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
@@ -40,7 +41,14 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: [$t('tableHeaders.safe'), $t('tableHeaders.created'), $t('tableHeaders.link')]
+		tableHead: [
+			$t('tableHeaders.safe'),
+			$t('tableHeaders.created'),
+			'Pics',
+			'Video',
+			'Audio',
+			$t('tableHeaders.link')
+		]
 	};
 
 	if (browser && isSupported()) {
@@ -173,7 +181,23 @@
 						{$t('general.latestTootsFrom')}
 						{entity.acct}:
 					</h2>
-					<OwnersTootTable {tableData} sourceData={toots} />
+					<div class="hidden-on-mobile">
+						<OwnersTootTable {tableData} sourceData={toots} />
+					</div>
+					<!-- Mobile view -->
+					<div class="show-on-mobile">
+						{#each toots as toot}
+							{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
+							<a href={url}>
+								<TableWrap>
+									<!-- Contet -->
+									<TootContent {toot} />
+									<!-- Metadata -->
+									<TootMeta createdAt={toot.createdAt} counts={toot.mediaAttachementCounts} />
+								</TableWrap></a
+							>
+						{/each}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -181,3 +205,17 @@
 {:else if browser}
 	{goto('/accounts/notfound')}
 {/if}
+
+<style>
+	/* Other styles for your component */
+
+	/* Show the slot content only on small screens */
+	.show-on-mobile {
+		@apply block lg:hidden;
+	}
+
+	/* Hide the slot fragment on small screens */
+	.hidden-on-mobile {
+		@apply hidden lg:block;
+	}
+</style>

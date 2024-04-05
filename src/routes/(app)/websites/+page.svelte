@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { A, Heading } from 'flowbite-svelte';
+	import { A, Heading, Li, List, P } from 'flowbite-svelte';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -46,7 +46,9 @@
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 			<div class=" mx-auto my-5 p-5">
 				<div class="col-span-2 mb-6">
-					<Heading>Latest toots from Mastodon</Heading>
+					<Heading tag="h3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200"
+						>Latest toots from Mastodon Sites</Heading
+					>
 				</div>
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 					<!-- Search Form -->
@@ -105,87 +107,151 @@
 						</form>
 					</div>
 				</div>
-				<Table
-					name="advancedTable"
-					classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
-					hoverable={true}
-				>
-					<TableHead>
-						{#each tableData.tableHead as tableHead}
-							<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
-								>{tableHead}</TableHeadCell
-							>
-						{/each}
-					</TableHead>
-					<TableBody>
-						{#each domains as item}
-							<TableBodyRow
-								class=" border-none cursor-pointer"
-								on:click={() => goto(`/websites/${item.domain}`)}
-							>
-								<TableBodyCell
-									><img
-										class=" w-10 h-auto max-w-xs"
-										src={item.instance.contact_account?.avatar_static}
-										alt="User"
-									/></TableBodyCell
+				<div class="hidden-on-mobile">
+					<Table
+						name="advancedTable"
+						classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+						hoverable={true}
+					>
+						<TableHead>
+							{#each tableData.tableHead as tableHead}
+								<TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
+									>{tableHead}</TableHeadCell
 								>
-								<TableBodyCell>
-									{item.instance?.registrations
-										? item.instance.registrations
-											? '✅'
-											: '❌'
-										: '❓'}
-								</TableBodyCell>
-								<TableBodyCell>
-									{item.instance?.uri ? item.instance.uri : '❓'}
-								</TableBodyCell>
-								<TableBodyCell>
-									{item.instance?.languages &&
-									Array.isArray(item.instance.languages) &&
-									item.instance.languages[0]
-										? item.instance.languages[0].slice(0, 4)
-										: '❓'}
-								</TableBodyCell>
-								<TableBodyCell>
-									{item.lastSeen
-										? formatDate({
-												seconds: item.lastSeen.seconds,
-												nanoseconds: item.lastSeen.nanoseconds
-											})
-										: 'N/A'}
-								</TableBodyCell>
-								<TableBodyCell class="text-right">
-									{item.instance?.stats?.user_count
-										? item.instance.stats.user_count.toLocaleString()
-										: '❓'}
-								</TableBodyCell>
+							{/each}
+						</TableHead>
+						<TableBody>
+							{#each domains as item}
+								<TableBodyRow
+									class=" border-none cursor-pointer"
+									on:click={() => goto(`/websites/${item.domain}`)}
+								>
+									<TableBodyCell
+										><img
+											class=" w-10 h-auto max-w-xs"
+											src={item.instance.contact_account?.avatar_static}
+											alt="User"
+										/></TableBodyCell
+									>
+									<TableBodyCell>
+										{item.instance?.registrations
+											? item.instance.registrations
+												? '✅'
+												: '❌'
+											: '❓'}
+									</TableBodyCell>
+									<TableBodyCell>
+										{item.instance?.uri ? item.instance.uri : '❓'}
+									</TableBodyCell>
+									<TableBodyCell>
+										{item.instance?.languages &&
+										Array.isArray(item.instance.languages) &&
+										item.instance.languages[0]
+											? item.instance.languages[0].slice(0, 4)
+											: '❓'}
+									</TableBodyCell>
+									<TableBodyCell>
+										{item.lastSeen
+											? formatDate({
+													seconds: item.lastSeen.seconds,
+													nanoseconds: item.lastSeen.nanoseconds
+												})
+											: 'N/A'}
+									</TableBodyCell>
+									<TableBodyCell class="text-right">
+										{item.instance?.stats?.user_count
+											? item.instance.stats.user_count.toLocaleString()
+											: '❓'}
+									</TableBodyCell>
 
-								<TableBodyCell>
-									<A
-										rel="noopener nofollow"
-										href="https://{item.domain}"
-										target="_blank"
-										class="font-medium hover:underline"
-										><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" /></A
-									></TableBodyCell
+									<TableBodyCell>
+										<A
+											rel="noopener nofollow"
+											href="https://{item.domain}"
+											target="_blank"
+											class="font-medium hover:underline"
+											><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" /></A
+										></TableBodyCell
+									>
+								</TableBodyRow>
+								<TableBodyRow
+									class=" cursor-pointer"
+									on:click={() => goto(`/websites/${item.domain}`)}
 								>
-							</TableBodyRow>
-							<TableBodyRow
-								class=" cursor-pointer"
-								on:click={() => goto(`/websites/${item.domain}`)}
-							>
-								<TableBodyCell></TableBodyCell>
-								<TableBodyCell colspan="6">
-									{item.instance?.short_description
-										? item.instance.short_description.substring(0, 115 - 3) + '...'
-										: ''}
-								</TableBodyCell>
-							</TableBodyRow>
-						{/each}
-					</TableBody>
-				</Table>
+									<TableBodyCell></TableBodyCell>
+									<TableBodyCell colspan="6">
+										{item.instance?.short_description
+											? item.instance.short_description.substring(0, 115 - 3) + '...'
+											: ''}
+									</TableBodyCell>
+								</TableBodyRow>
+							{/each}
+						</TableBody>
+					</Table>
+				</div>
+
+				<!-- Mobile view -->
+				<div class="show-on-mobile">
+					{#each domains as item}
+						{@const url = `/websites/${item.domain}`}
+						<a href={url}>
+							<TableWrap>
+								<div class="w-full md:w-3/12 md:mx-2">
+									<!-- Profile Card -->
+									<div class="bg-grey-900 p-3 border-t-4 border-green-400">
+										<div class="image overflow-hidden">
+											<img class="h-auto w-full mx-auto" src={item.instance.thumbnail} alt="" />
+										</div>
+										<span class="ml-auto"
+											><span
+												class="{item.locked
+													? 'bg-red-500'
+													: 'bg-green-500'} py-1 px-2 rounded text-white text-sm"
+												>{item.instance.approval_required ? 'Needs Approval' : 'Open'}</span
+											></span
+										>
+										<span class=" ml-3 text-gray-200 font-bold text-xl leading-8 my-1"
+											><A
+												rel="noopener nofollow"
+												href={`https://${item.domain}`}
+												target="_blank"
+												class="font-medium hover:underline">{item.domain}</A
+											></span
+										>
+										<P>{item.instance.short_description}</P>
+										<List list="none">
+											<Li class="ml-auto text-gray-300 my-1"
+												># Toots: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
+													>{item.instance.stats?.status_count.toLocaleString()}</span
+												></Li
+											>
+											<Li class="ml-auto text-gray-300 my-1"
+												># Users: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
+													>{item.instance.stats?.user_count.toLocaleString()}</span
+												></Li
+											>
+										</List>
+									</div>
+								</div>
+							</TableWrap></a
+						>
+					{/each}
+				</div>
 			</div>
 		</div></TableWrap
 	>
 </div>
+
+<style>
+	/* Other styles for your component */
+
+	/* Show the slot content only on small screens */
+	.show-on-mobile {
+		@apply block lg:hidden;
+	}
+
+	/* Hide the slot fragment on small screens */
+	.hidden-on-mobile {
+		@apply hidden lg:block;
+	}
+</style>

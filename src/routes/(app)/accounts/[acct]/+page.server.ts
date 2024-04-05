@@ -1,6 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
 import { redis } from '$lib/redis/redis';
+import { addMediaAttachmentCounts } from '$lib/utils';
 
 const ttl = 600
 let entity
@@ -49,7 +50,9 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       await redis.get(redisKeyAccountToots)
     ])
 
-    if (accountCached && accountTootsCached) {
+    const checkCache = true  // TODO always check this!
+
+    if (accountCached && accountTootsCached && checkCache) {
       entity = JSON.parse(accountCached)
       toots = JSON.parse(accountTootsCached)
     } else {
@@ -88,6 +91,8 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
         // Store account entity in redis
         await redis.set(redisKeyAccount, JSON.stringify(entity), 'EX', ttl)
+
+        toots = addMediaAttachmentCounts(toots)
 
         // Store account toots in redis
         await redis.set(redisKeyAccountToots, JSON.stringify(toots), 'EX', ttl)
