@@ -66,12 +66,16 @@
 				<TableBodyCell>
 					{item.bot ? '🤖' : '👤'}
 				</TableBodyCell>
-				<TableBodyCell>
-					{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
-				</TableBodyCell>
-				<TableBodyCell>
-					{item.acct}
-				</TableBodyCell>
+				<TableBodyCell class="text-right"
+					>{item.mediaAttachementCounts?.totalPictures || 0}</TableBodyCell
+				>
+				<TableBodyCell class="text-right"
+					>{item.mediaAttachementCounts?.totalVideos || 0}</TableBodyCell
+				>
+				<TableBodyCell class="text-right"
+					>{item.mediaAttachementCounts?.totalAudio || 0}</TableBodyCell
+				>
+
 				<TableBodyCell>
 					{item.language}
 				</TableBodyCell>
@@ -90,12 +94,15 @@
 				class="cursor-pointer"
 				on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}
 			>
-				<TableBodyCell></TableBodyCell>
 				<TableBodyCell colspan="6" class="whitespace-normal break-words py-2">
 					{#if item.sensitive && !showSensitive}
 						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 					{:else}
 						{@html truncateHTML(item.content, 300)}
+						{@html '<br /><br />'}
+						{item.acct}
+						{@html '<br />'}
+						{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
 					{/if}
 				</TableBodyCell>
 			</TableBodyRow>

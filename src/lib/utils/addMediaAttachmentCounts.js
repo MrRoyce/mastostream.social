@@ -43,7 +43,6 @@ export const addMediaAttachmentCounts = (toots) => {
 				Array.isArray(toot.mediaAttachments) &&
 				toot.mediaAttachments.length > 0
 			) {
-				console.log('length after', toot.mediaAttachments.length);
 				const { totalAttachments, totalAudio, totalPictures, totalVideos } = getAttachmentCounts(
 					toot.mediaAttachments
 				);

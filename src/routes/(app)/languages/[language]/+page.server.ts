@@ -2,7 +2,7 @@ import type { PageServerLoad } from './$types';
 import { getLanguage } from '$lib/utils/getLanguage';
 import { getDocument, getToots } from '$lib/getCollection';
 import type { DocumentData } from 'firebase/firestore';
-import { formatToot } from '$lib/utils';
+import { addMediaAttachmentCounts, formatToot } from '$lib/utils';
 import { redis } from '$lib/redis/redis';
 
 // Get languages and its toots
@@ -53,7 +53,9 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
     }
   }
 
-  if (entityCached) {
+  const checkCache = true  // TODO always check this!
+
+  if (entityCached && checkCache) {
     entityObject = JSON.parse(entityCached)
   } else {
     entity = await getDocument({ entity: 'languages', id: languageLowerCase });
@@ -61,13 +63,17 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
     await redis.set(redisKeyLanguagesEntity, JSON.stringify(entity), 'EX', ttl)
   }
 
-  if (tootsCached) {
+  if (tootsCached && checkCache) {
     tootsObject = JSON.parse(tootsCached)
   } else {
     toots = await getToots({ entity: 'languages', id: languageLowerCase, max: 100, orderByField: 'createdAt', tootType })
-    const items = toots.map((item) => {
+    let items = toots.map((item) => {
       return formatToot(item)
     })
+
+    // Get the media counts
+    items = addMediaAttachmentCounts(items)
+
     tootsObject = JSON.parse(JSON.stringify(items))
     await redis.set(redisKeyLanguagesToots, JSON.stringify(items), 'EX', ttl)
   }

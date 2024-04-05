@@ -2,6 +2,7 @@ import type { PageServerLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
 import { formatToot } from '$lib/utils/formatToot';
 import { redis } from '$lib/redis/redis';
+import { addMediaAttachmentCounts } from '$lib/utils';
 
 const ttl = 600
 let entity
@@ -11,8 +12,6 @@ let toots
 export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
 
   try {
-    //await redis.connect()
-
     const tootType = url.searchParams.get('type') || 'both'
     const paramValueToLowerCase = params.tag && typeof params.tag === 'string' ? params.tag.toLowerCase() : params.tag;
 
@@ -24,7 +23,9 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
       await redis.get(redisKeyTagToots)
     ])
 
-    if (tagCached && tagTootsCached) {
+    const checkCache = true  // TODO always check this!
+
+    if (tagCached && tagTootsCached && checkCache) {
       console.log(`tagCached, tagTootsCached cached for: ${paramValueToLowerCase} ${tootType}`)
       entity = JSON.parse(tagCached)
       toots = JSON.parse(tagTootsCached)
@@ -36,11 +37,14 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
       ]);
 
       entity = entityFromPromise
-      toots = tootsFromPromise
+      toots = (tootsFromPromise)
 
-      const items = toots.map((item) => {
+      let items = toots.map((item) => {
         return formatToot(item)
       })
+
+      // Get the media counts
+      items = addMediaAttachmentCounts(items)
 
       // Store entity in redis
       await redis.set(redisKeyTag, JSON.stringify(entity), 'EX', ttl)

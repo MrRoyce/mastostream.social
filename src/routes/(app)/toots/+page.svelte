@@ -69,7 +69,9 @@
 					<!-- Top of Page with radio buttons -->
 					<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 						<div class="col-span-2">
-							<Heading><span class="text-gray-200">Latest Toots</span></Heading>
+							<Heading tag="h-3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200"
+								>Latest Toots</Heading
+							>
 						</div>
 						<!-- Right Side -->
 						<div class="md:col-span-2 md:col-start-3">
@@ -92,6 +94,8 @@
 								</TableHead>
 								<TableBody>
 									{#each toots as toot}
+										{console.log('toot', toot)}
+										{console.log('counts', toot.mediaAttachementCounts)}
 										<TableBodyRow
 											class="border-none"
 											on:click={() => goto(`/toots/${toot.accountId}_${toot.tootId}`)}
