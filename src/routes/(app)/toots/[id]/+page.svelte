@@ -11,6 +11,7 @@
 		CardWithImage,
 		ImageGallery,
 		TableWrap,
+		TootContent,
 		TootTable,
 		YouTube
 	} from '$lib/components';
@@ -160,21 +161,7 @@
 									</Section>
 								</div>
 							{:else}
-								<p class="pt-8 pb-8 text-2xl overflow-x-clip flex-wrap dark:text-gray-200">
-									{@html formatText(
-										entity.content
-											.replaceAll('</p><p>', '</p><br /><p>')
-											.replaceAll(
-												'class="invisible"',
-												'class="font-medium text-green-400 underline"'
-											)
-											.replaceAll(
-												'class="ellipsis"',
-												'class="font-medium text-green-400 underline"'
-											),
-										'underline text-green-400'
-									)}
-								</p>
+								<TootContent toot={entity} />
 							{/if}
 
 							{#each images.videos as video}
