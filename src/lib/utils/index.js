@@ -2,6 +2,7 @@ import { convertToK } from '$lib/utils/convertToK';
 import { calculateCharts } from '$lib/utils/calculateCharts';
 import { calculateStats } from '$lib/utils/calculateStats';
 import { getLanguage } from '$lib/utils/getLanguage';
+import { getLanguageList } from '$lib/utils/getLanguage';
 import { getRandomRange } from '$lib/utils/getRandomRange';
 import { getSidebarItems } from '$lib/utils/getSidebarItems';
 import { formatCreatedAt } from '$lib/utils/formatCreatedAt';
@@ -17,6 +18,7 @@ export {
 	calculateStats,
 	convertToK,
 	getLanguage,
+	getLanguageList,
 	getRandomRange,
 	getSidebarItems,
 	formatCreatedAt,
