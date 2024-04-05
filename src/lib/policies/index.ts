@@ -1,9 +1,9 @@
 import Cookies from '$lib/policies/Cookies.svelte'
 import Privacy from '$lib/policies/Privacy.svelte'
-import TOS from '$lib/policies/TOS.svelte'
+import TAC from '$lib/policies/TAC.svelte'
 
 export {
   Cookies,
   Privacy,
-  TOS
+  TAC
 }
