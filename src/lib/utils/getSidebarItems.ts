@@ -1,4 +1,6 @@
-export const getSidebarItems = ({ group, page }) => {
+
+
+export const getSidebarItems: SideBarMenuItems = ({ group, page }) => {
 	const sidebarItems = {
 		policies: {
 			tac: {
