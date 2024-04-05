@@ -93,8 +93,6 @@
 							</TableHead>
 							<TableBody>
 								{#each toots as toot}
-									{console.log('toot', toot)}
-									{console.log('counts', toot.mediaAttachementCounts)}
 									<TableBodyRow
 										class="border-none"
 										on:click={() => goto(`/toots/${toot.accountId}_${toot.tootId}`)}
