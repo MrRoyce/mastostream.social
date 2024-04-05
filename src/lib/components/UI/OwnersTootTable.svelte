@@ -45,11 +45,6 @@
 					scope="col">{tableHead}</TableHeadCell
 				>
 			{/each}
-			<TableHeadCell></TableHeadCell>
-			<TableHeadCell></TableHeadCell>
-			<TableHeadCell></TableHeadCell>
-			<TableHeadCell></TableHeadCell>
-			<TableHeadCell></TableHeadCell>
 		</TableHead>
 	{/if}
 	<TableBody>
@@ -64,6 +59,15 @@
 				<TableBodyCell class="text-center">
 					{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
 				</TableBodyCell>
+				<TableBodyCell class="text-right"
+					>{item.mediaAttachementCounts?.totalPictures || 0}</TableBodyCell
+				>
+				<TableBodyCell class="text-right"
+					>{item.mediaAttachementCounts?.totalVideos || 0}</TableBodyCell
+				>
+				<TableBodyCell class="text-right"
+					>{item.mediaAttachementCounts?.totalAudio || 0}</TableBodyCell
+				>
 
 				<TableBodyCell class="text-center">
 					<A
@@ -74,11 +78,6 @@
 						><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" /></A
 					></TableBodyCell
 				>
-				<TableBodyCell>&nbsp;</TableBodyCell>
-				<TableBodyCell>&nbsp;</TableBodyCell>
-				<TableBodyCell>&nbsp;</TableBodyCell>
-				<TableBodyCell>&nbsp;</TableBodyCell>
-				<TableBodyCell>&nbsp;</TableBodyCell>
 			</TableBodyRow>
 			<TableBodyRow
 				class=" cursor-pointer"
