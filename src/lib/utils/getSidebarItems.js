@@ -1,7 +1,7 @@
 export const getSidebarItems = ({ group, page }) => {
 	const sidebarItems = {
-		legal: {
-			toc: {
+		policies: {
+			tac: {
 				groups: [
 					{
 						name: 'Terms and Conditions',
@@ -253,8 +253,8 @@ export const getSidebarItems = ({ group, page }) => {
 							},
 							{
 								label: '4. CONTROLLING COOKIES',
-								href: '#whoshare',
-								url: '#whoshare'
+								href: '#controlling-cookies',
+								url: '#controlling-cookies'
 							},
 							{
 								label: '5. CONSENT FOR COOKIES',
