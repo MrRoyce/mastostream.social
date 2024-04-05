@@ -74,8 +74,6 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
         domain = await getLatestEntityInfo(fetch, uriWithLookup)
 
-        console.log(`domain from call to ${uriWithLookup}`, domain)
-
         entity.instance.stats = domain.stats
         entity.instance.background_image = domain.background_image
         entity.instance.thumbnail = domain.thumbnail
