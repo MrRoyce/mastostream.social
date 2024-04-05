@@ -33,6 +33,7 @@
 				analytics: {}
 			},
 
+			// Cookie Consent text
 			language: {
 				default: 'en',
 				translations: {
