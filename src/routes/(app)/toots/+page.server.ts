@@ -15,7 +15,7 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
     const redisKeyTootsType = `toots_cached_${sourceType}`
     const tootsCached = await redis.get(redisKeyTootsType)
 
-    const checkCache = true
+    const checkCache = true  // TODO always check this!
 
     if (tootsCached && checkCache) {
       console.log(`${redisKeyTootsType} for ${sourceType} cached`)
