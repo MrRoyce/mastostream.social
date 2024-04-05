@@ -28,22 +28,20 @@
 	weight="light"
 	size="lg"
 	class="mb-3 text-gray-500 dark:text-gray-400"
-	id="infocollect">2. HOW WE USE COOKIES</P
+	id="how-we-use-cookies">2. HOW WE USE COOKIES</P
 >
 
 <P weight="light" class="mb-3 text-gray-500 dark:text-gray-400">We use cookies for a number of different purposes. Some cookies are necessary for technical reasons; some enable a personalized experience for both visitors and registered users; and some allow the display of advertising from selected third party networks. Some of these cookies may be set when a page is loaded, or when a visitor takes a particular action (clicking the &quot;like&quot; or &quot;follow&quot; button on a post, for example). Many of the cookies we use are only set if you are a registered YOUR-COMPANY-WEBSITE user (so you don’t have to log in every time, for example), while others are set whenever you visit one of our websites, irrespective of whether you have an account. For more information on the choices you have about the cookies we use, please see the Controlling Cookies section below.</P>
+
 
 <P
 	class="mb-3 md:text-xl"
 	weight="light"
 	size="lg"
 	class="mb-3 text-gray-500 dark:text-gray-400"
-	id="infocollect">3. TYPES OF COOKIES?</P
+	id="types-of-cookies">3. TYPES OF COOKIES</P
 >
 
-
-<P weight="light" class="mb-3 text-gray-500 dark:text-gray-400">We use cookies for a number of different purposes. Some cookies are necessary for technical reasons; some enable a personalized experience for both visitors and registered users; and some allow the display of advertising from selected third party networks. Some of these cookies may be set when a page is loaded, or when a visitor takes a particular action (clicking the &quot;like&quot; or &quot;follow&quot; button on a post, for example). Many of the cookies we use are only set if you are a registered YOUR-COMPANY-WEBSITE user (so you don’t have to log in every time, for example), while others are set whenever you visit one of our websites, irrespective of whether you have an account. For more information on the choices you have about the cookies we use, please see the Controlling Cookies section below.</p>
-<h3 id="types-of-cookies">Types of Cookies</h3>
 <p>The table below explains the types of cookies we use on our websites and why we use them.</p>
 <table>
 <thead>
@@ -91,17 +89,15 @@
 </tr>
 </tbody>
 </table></P>
+<P class="pb-6"></P>
 
 <P
 	class="mb-3 md:text-xl"
 	weight="light"
 	size="lg"
 	class="mb-3 text-gray-500 dark:text-gray-400"
-	id="infocollect">4. CONTROLLING COOKIES</P
+	id="controlling-cookies">4. CONTROLLING COOKIES</P
 >
-
-
-
 
 <P weight="light" class="mb-3 text-gray-500 dark:text-gray-400">Visitors may wish to restrict the use of cookies or completely prevent them from being set. Most browsers provide for ways to control cookie behavior such as the length of time they are stored – either through built-in functionality or by utilizing third party plugins. If you disable cookies, please be aware that some of the features of our service may not function correctly. To find out more on how to manage and delete cookies, visit aboutcookies.org. For more details on your choices regarding use of your web browsing activity for interest-based advertising visit <a href="http://youronlinechoices.eu">youronlinechoices.eu</a> (EU based) or <a href="http://optout.aboutads.info">optout.aboutads.info</a> (US based). On a mobile device, you may also be to adjust your settings to limit ad tracking.   You can opt out of Google Analytics by installing <a href="https://tools.google.com/dlpage/gaoptout">Google’s opt-out browser add-on</a>.</P>
 
@@ -110,9 +106,8 @@
 	weight="light"
 	size="lg"
 	class="mb-3 text-gray-500 dark:text-gray-400"
-	id="whoshare">5. CONSENT FOR COOKIES?</P
+	id="consent-for-cookies">5. CONSENT FOR COOKIES?</P
 >
-
 
 <P weight="light" class="mb-3 text-gray-500 dark:text-gray-400">You may see a “cookie banner” on our websites, particularly if you are in the European Union. If so, then we do not allow our partners to set cookies before you accept, except for those exempt from the consent requirement and therefore not subject to preventive blocking (strictly necessary technical cookies and statistical anonymized cookies). When you consent, we and our partners may set third party cookies in order to, for example, provide more engaging advertising to users, remember the most recent searches or interactions, or improve campaign performance reports.</P>
 
