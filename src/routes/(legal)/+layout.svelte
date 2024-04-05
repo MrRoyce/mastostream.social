@@ -69,8 +69,8 @@
 
 	const pageSidebarItems = getSidebarItems({ group, page: pathname });
 
-	function closeDrawer {
-		hideDrawer = true
+	function closeDrawer() {
+		hideDrawer = true;
 	}
 
 	$: user = data.user;

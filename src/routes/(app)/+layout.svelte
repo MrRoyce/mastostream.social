@@ -6,7 +6,7 @@
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 
-	import { Footer, Loading, UserSidebar } from '$lib/components';
+	import { Footer, Loading, SidebarItemWrapper, UserSidebar } from '$lib/components';
 	import { loading } from '$lib/stores';
 	import {
 		A,
@@ -85,8 +85,8 @@
 		$locale = defaultLanguage;
 	}
 
-	function closeDrawer {
-		hideDrawer = true
+	function closeDrawer() {
+		hideDrawer = true;
 	}
 
 	$: $loading = !!$navigating;
@@ -107,7 +107,7 @@
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			{#if pageSidebarItems}
 				{#each pageSidebarItems.groups as group}
-					SidebarItemWrapper {group} {closeDrawer} />
+					<SidebarItemWrapper {group} {closeDrawer} />
 				{/each}
 			{/if}
 		</SidebarWrapper>
