@@ -6,7 +6,6 @@
 	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { Section } from 'flowbite-svelte-blocks';
 	import { TableWrap, TootContent, TootMeta } from '$lib/components';
 
 	if (browser && isSupported()) {
