@@ -18,6 +18,7 @@ import SidebarItemWrapper from '$lib/components/UI/SidebarItemWrapper.svelte';
 import SideWrap from '$lib/components/UI/SideWrap.svelte';
 import TableWrap from '$lib/components/UI/TableWrap.svelte';
 import TootContent from '$lib/components/UI/TootContent.svelte';
+import TootMeta from '$lib/components/UI/TootMeta.svelte';
 import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 import TootTable from '$lib/components/UI/TootTable.svelte';
 import UserSidebar from '$lib/components/UserSidebar/UserSidebar.svelte';
@@ -44,6 +45,7 @@ export {
 	SideWrap,
 	TableWrap,
 	TootContent,
+	TootMeta,
 	TootsRadio,
 	TootTable,
 	UserIcon,
