@@ -34,7 +34,18 @@
 	const toots = data.toots;
 
 	const tableData = {
-		tableHead: ['Pic', 'Safe', 'Type', 'Language', 'Created', 'Account', 'Link']
+		tableHead: [
+			'Pic',
+			'Safe',
+			'Type',
+			'Language',
+			'Created',
+			'Account',
+			'Pics',
+			'Video',
+			'Audio',
+			'Link'
+		]
 	};
 
 	let showSensitive: boolean;
@@ -119,6 +130,15 @@
 											<TableBodyCell>
 												{item.acct}
 											</TableBodyCell>
+											<TableBodyCell class="text-right"
+												>{item.mediaAttachementCounts.totalPictures}</TableBodyCell
+											>
+											<TableBodyCell class="text-right"
+												>{item.mediaAttachementCounts.totalVideos}</TableBodyCell
+											>
+											<TableBodyCell class="text-right"
+												>{item.mediaAttachementCounts.totalAudio}</TableBodyCell
+											>
 											<TableBodyCell>
 												<A
 													rel="noopener nofollow"

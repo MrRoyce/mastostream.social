@@ -6,8 +6,9 @@ function getAttachmentCounts(mediaAttachments) {
 	let videos = 0
 
 	mediaAttachments.map((image) => {
-		if (image.type === 'video' || image.type === 'gifv') { videos++}
-		else if (image.type === 'audio') {
+		if (image.type === 'video' || image.type === 'gifv') {
+			videos++
+		} else if (image.type === 'audio') {
 			audio++
 		} else {
 			pictures++
