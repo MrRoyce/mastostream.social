@@ -5,8 +5,9 @@
 	import { getSidebarItems } from '$lib/utils';
 
 	export let pathname;
+	export let group;
 
-	const pageSidebarItems = getSidebarItems({ group: 'legal', page: pathname });
+	const pageSidebarItems = getSidebarItems({ group, page: pathname });
 
 	const mb = 'mb-4';
 
