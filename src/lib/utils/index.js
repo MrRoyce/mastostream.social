@@ -1,3 +1,4 @@
+import { addMediaAttachmentCounts } from '$lib/utils/addMediaAttachmentCounts';
 import { convertToK } from '$lib/utils/convertToK';
 import { calculateCharts } from '$lib/utils/calculateCharts';
 import { calculateStats } from '$lib/utils/calculateStats';
@@ -14,6 +15,7 @@ import { truncateHTML } from '$lib/utils/truncateHTML';
 import { validateToken } from '$lib/utils/validateToken';
 
 export {
+	addMediaAttachmentCounts,
 	calculateCharts,
 	calculateStats,
 	convertToK,

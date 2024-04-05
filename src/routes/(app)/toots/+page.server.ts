@@ -1,6 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { redis } from '$lib/redis/redis';
 import { getData } from '$lib/getCollection';
+import { addMediaAttachmentCounts } from '$lib/utils';
 
 let entity = []
 const ttl = 600
@@ -14,7 +15,9 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
     const redisKeyTootsType = `toots_cached_${sourceType}`
     const tootsCached = await redis.get(redisKeyTootsType)
 
-    if (tootsCached) {
+    const checkCache = true
+
+    if (tootsCached && checkCache) {
       console.log(`${redisKeyTootsType} for ${sourceType} cached`)
       entity = JSON.parse(tootsCached)
     } else {
@@ -25,6 +28,8 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
         orderByField: 'timestamp',
         sourceType
       })
+
+      entity = addMediaAttachmentCounts(entity)
 
       // Store account entity in redis
       await redis.set(redisKeyTootsType, JSON.stringify(entity), 'EX', ttl)
