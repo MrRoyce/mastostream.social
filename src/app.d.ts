@@ -94,4 +94,23 @@ declare global {
 		striped: boolean | true;
 		tableHead: Array<string>;
 	}
+
+	type SideBarItem = {
+		label: string
+		href: string
+		url: string
+	}
+
+	type SideBarItemGroup = {
+		name: string
+		items: [SideBarItem]
+	}
+
+
+	type SideBarMenuItems = {
+		name: string
+		items: {
+			groups: [SideBarItemGroup]
+		}
+	}
 }
