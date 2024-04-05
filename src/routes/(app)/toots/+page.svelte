@@ -69,7 +69,7 @@
 					<!-- Top of Page with radio buttons -->
 					<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 						<div class="col-span-2">
-							<Heading tag="h-3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200"
+							<Heading tag="h3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200"
 								>Latest Toots</Heading
 							>
 						</div>
