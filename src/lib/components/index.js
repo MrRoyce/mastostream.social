@@ -13,6 +13,7 @@ import Languages from '$lib/components/Languages/Languages.svelte';
 import LegalSidebar from '$lib/components/LegalSidebar/LegalSidebar.svelte';
 import Loading from '$lib/components/Loading/Loading.svelte';
 import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
+import SidebarItemWrapper from '$lib/components/UI/SidebarItemWrapper.svelte';
 import SideWrap from '$lib/components/UI/SideWrap.svelte';
 import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 import TootTable from '$lib/components/UI/TootTable.svelte';
@@ -38,6 +39,7 @@ export {
 	LegalSidebar,
 	Loading,
 	OwnersTootTable,
+	SidebarItemWrapper,
 	SideWrap,
 	TootsRadio,
 	TootTable,

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../../app.pcss';
 	import { t } from '$lib/translations';
-	import { LegalSidebar } from '$lib/components';
+	import { LegalSidebar, SidebarItemWrapper } from '$lib/components';
 	import { getSidebarItems } from '$lib/utils';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { sineIn } from 'svelte/easing';
@@ -65,8 +65,13 @@
 	}
 
 	let pathname = data.pathname.slice(1);
+	let group = 'legal';
 
-	const pageSidebarItems = getSidebarItems({ group: 'legal', page: pathname });
+	const pageSidebarItems = getSidebarItems({ group, page: pathname });
+
+	function closeDrawer {
+		hideDrawer = true
+	}
 
 	$: user = data.user;
 	$: pathname;
@@ -87,16 +92,7 @@
 			{#if pageSidebarItems}
 				{#each pageSidebarItems.groups as group}
 					<!-- content here -->
-					<SidebarGroup class="pb-6">
-						{group.name}
-						{#each group.items as item}
-							<SidebarItem
-								on:click={() => (hideDrawer = true)}
-								label={item.label}
-								href={item.href}
-							/>
-						{/each}
-					</SidebarGroup>
+					<SidebarItemWrapper {group} {closeDrawer} />
 				{/each}
 			{/if}
 		</SidebarWrapper>
@@ -107,7 +103,7 @@
 	<!-- (header) -->
 	<svelte:fragment slot="sidebarLeft">
 		<div class="hidden-on-mobile">
-			<LegalSidebar {pathname} />
+			<LegalSidebar {group} {pathname} />
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="header">

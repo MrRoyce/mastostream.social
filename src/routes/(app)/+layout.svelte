@@ -18,14 +18,6 @@
 		SidebarItem,
 		SidebarWrapper
 	} from 'flowbite-svelte';
-	import {
-		ArrowRightToBracketSolid,
-		BugSolid,
-		ChartSolid,
-		GridSolid,
-		MailBoxSolid,
-		UsersSolid
-	} from 'flowbite-svelte-icons';
 	import { sineIn } from 'svelte/easing';
 	import type { LayoutData } from './$types';
 	import { handleLogout } from '$lib/firebase/handleLogout';
@@ -36,7 +28,7 @@
 	import { authUser } from '$lib/stores';
 	import { Languages, UserIcon } from '$lib/components';
 	import { locale } from '$lib/translations';
-	import { getLanguageList } from '$lib/utils/getLanguage';
+	import { getLanguageList } from '$lib/utils';
 
 	export let data: LayoutData;
 	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
@@ -93,6 +85,10 @@
 		$locale = defaultLanguage;
 	}
 
+	function closeDrawer {
+		hideDrawer = true
+	}
+
 	$: $loading = !!$navigating;
 	$: user = data.user;
 </script>
@@ -111,16 +107,7 @@
 		<SidebarWrapper divClass="overflow-y-auto py-4 px-3 rounded dark:bg-gray-800">
 			{#if pageSidebarItems}
 				{#each pageSidebarItems.groups as group}
-					<SidebarGroup class="pb-6">
-						{group.name}
-						{#each group.items as item}
-							<SidebarItem on:click={() => (hideDrawer = true)} label={item.label} href={item.href}>
-								<svelte:fragment slot="icon">
-									<i class={item.icon} />
-								</svelte:fragment>
-							</SidebarItem>
-						{/each}
-					</SidebarGroup>
+					SidebarItemWrapper {group} {closeDrawer} />
 				{/each}
 			{/if}
 		</SidebarWrapper>
