@@ -32,7 +32,7 @@ export const calculateStats = (
 	const response = [
 		{
 			href: '/toots',
-			statEntity: stats.routeTranslations.toots,
+			statEntity: 'Toots',
 			statValue: stats.toots,
 			statArrow: tootsPercent >= 0 ? 'up' : 'down',
 			statPercent: tootsPercent,
@@ -44,7 +44,7 @@ export const calculateStats = (
 		},
 		{
 			href: '/accounts',
-			statEntity: stats.routeTranslations.accounts,
+			statEntity: 'Accounts',
 			statValue: stats.accounts,
 			statArrow: accountsPercent >= 0 ? 'up' : 'down',
 			statPercent: accountsPercent,
@@ -56,7 +56,7 @@ export const calculateStats = (
 		},
 		{
 			href: '/websites',
-			statEntity: stats.routeTranslations.domains,
+			statEntity: 'Websites',
 			statValue: stats.domains,
 			statArrow: domainsPercent >= 0 ? 'up' : 'down',
 			statPercent: domainsPercent,
@@ -68,7 +68,7 @@ export const calculateStats = (
 		},
 		{
 			href: '/tags',
-			statEntity: stats.routeTranslations.tags,
+			statEntity: 'Tags',
 			statValue: stats.tags,
 			statArrow: tagsPercent >= 0 ? 'up' : 'down',
 			statPercent: tagsPercent,
@@ -80,7 +80,7 @@ export const calculateStats = (
 		},
 		{
 			href: '/languages',
-			statEntity: stats.routeTranslations.languages,
+			statEntity: 'Languages',
 			statValue: stats.languages,
 			statArrow: languagesPercent >= 0 ? 'up' : 'down',
 			statPercent: languagesPercent,

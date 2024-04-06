@@ -83,14 +83,7 @@
 		});
 	}
 
-	const routeTranslations = {
-		toots: $t('pagelinks.toots'),
-		accounts: $t('pagelinks.accounts'),
-		domains: $t('pagelinks.websites'),
-		tags: $t('pagelinks.tags'),
-		languages: $t('pagelinks.languages')
-	};
-	const statsParams = { ...latestCounts, counts, routeTranslations };
+	const statsParams = { ...latestCounts, counts };
 	const stats = calculateStats(statsParams);
 	const charts = calculateCharts(counts);
 
@@ -134,7 +127,7 @@
 						<div class=" transform transition duration-500 hover:scale-110">
 							<a href={stat.href}>
 								<CardStats
-									statEntity={stat.statEntity}
+									statEntity={$t(stat.statEntity)}
 									statValue={stat.statValue}
 									statArrow={stat.statArrow}
 									statPercent={stat.statPercent}

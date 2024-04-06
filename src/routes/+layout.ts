@@ -22,6 +22,7 @@ function getInitialLocale(): string {
       return window.navigator.language.split('-')[0];
     }
     catch (e) {
+      console.warn('Error getting initial locale', e)
       return 'en';
     }
   }
