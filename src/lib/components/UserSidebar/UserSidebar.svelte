@@ -4,7 +4,6 @@
 	import { Sidebar, SidebarGroup, SidebarItem, SidebarWrapper, Tooltip } from 'flowbite-svelte';
 	import { SideWrap } from '$lib/components';
 	import { getSidebarItems } from '$lib/utils';
-	import { ArrowRightOutline, ChartSolid } from 'flowbite-svelte-icons';
 	$: activeUrl = $page.url.pathname;
 
 	export let image: String;
@@ -37,20 +36,40 @@
 						</SidebarItem>
 					</div>
 				</SidebarGroup>
-				{#if pageSidebarItems}
-					{#each pageSidebarItems.groups as group}
-						<SidebarGroup class="pb-6">
-							{group.name}
-							{#each group.items as item}
-								<SidebarItem label={item.label} href={item.href}>
-									<svelte:fragment slot="icon">
-										<i class={item.icon} />
-									</svelte:fragment>
-								</SidebarItem>
-							{/each}
-						</SidebarGroup>
-					{/each}
-				{/if}
+
+				<SidebarGroup class="pb-6">
+					{$t('pagelinks.dashboard')}
+					<SidebarItem label={$t('pagelinks.toots')} href="/toots">
+						<svelte:fragment slot="icon">
+							<i class="fa-solid fa-bullhorn" />
+						</svelte:fragment>
+					</SidebarItem>
+					<SidebarItem label={$t('pagelinks.accounts')} href="/accounts">
+						<svelte:fragment slot="icon">
+							<i class="fa-sharp fa-solid fa-users" />
+						</svelte:fragment>
+					</SidebarItem>
+					<SidebarItem label={$t('pagelinks.websites')} href="/websites">
+						<svelte:fragment slot="icon">
+							<i class="fa-solid fa-network-wired" />
+						</svelte:fragment>
+					</SidebarItem>
+					<SidebarItem label={$t('pagelinks.tags')} href="/tags">
+						<svelte:fragment slot="icon">
+							<i class="fa-solid fa-hashtag" />
+						</svelte:fragment>
+					</SidebarItem>
+					<SidebarItem label={$t('pagelinks.languages')} href="/languages">
+						<svelte:fragment slot="icon">
+							<i class="fa-solid fa-globe" />
+						</svelte:fragment>
+					</SidebarItem>
+					<SidebarItem label={$t('pagelinks.search')} href="/search">
+						<svelte:fragment slot="icon">
+							<i class="fa-solid fa-magnifying-glass" />
+						</svelte:fragment>
+					</SidebarItem>
+				</SidebarGroup>
 			</SidebarWrapper>
 		</Sidebar>
 	</div>
