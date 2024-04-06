@@ -1,13 +1,20 @@
 <script lang="ts">
 	import '../../app.pcss';
 	import { t } from '$lib/translations';
-	import { getSidebarItems } from '$lib/utils';
+	import { getLanguageList, getSidebarItems } from '$lib/utils';
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 
-	import { Footer, Loading, SidebarItemWrapper, UserSidebar } from '$lib/components';
-	import { loading } from '$lib/stores';
+	import {
+		Footer,
+		Languages,
+		Loading,
+		SidebarItemWrapper,
+		UserIcon,
+		UserSidebar
+	} from '$lib/components';
+	import { authUser, loading } from '$lib/stores';
 	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
 	import type { LayoutData } from './$types';
@@ -16,10 +23,7 @@
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/client';
-	import { authUser } from '$lib/stores';
-	import { Languages, UserIcon } from '$lib/components';
 	import { locale } from '$lib/translations';
-	import { getLanguageList } from '$lib/utils';
 
 	export let data: LayoutData;
 	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
