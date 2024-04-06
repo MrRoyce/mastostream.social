@@ -9,9 +9,11 @@
 </script>
 
 <div class="grid grid-cols-2 pb-4">
+	<!-- createdAt -->
 	<div class="grid col-span-1">
 		{createdAt?.includes('T') ? formatCreatedAt(createdAt) : createdAt}
 	</div>
+	<!-- mediaAttachmentCounts -->
 	<div class="grid col-span-1 grid-rows-1 grid-flow-col gap-4">
 		<div>
 			<span class="sr-only">Count of pictures</span>
