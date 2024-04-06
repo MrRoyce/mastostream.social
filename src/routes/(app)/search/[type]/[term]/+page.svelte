@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { A, Breadcrumb, BreadcrumbItem, Heading } from 'flowbite-svelte';
 	import type { PageData } from './$types';
-	import TootTable from '$lib/components/UI/TootTable.svelte';
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { TableWrap, TootContent, TootMeta } from '$lib/components';
+	import { TableWrap, TootContent, TootMeta, TootTable } from '$lib/components';
 
 	if (browser) {
 		const analytics = getAnalytics();
@@ -21,7 +20,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Link']
+		tableHead: ['Pic', 'Safe', 'Type', 'Pics', 'Video', 'Audio', 'Language', 'Link']
 	};
 </script>
 
@@ -50,12 +49,7 @@
 					</Heading>
 					<div class="hidden-on-mobile">
 						<div class="my-4 text-grey-200">
-							<TootTable
-								{tableData}
-								sourceData={toots}
-								getData={() => {}}
-								entity={`Toots from ${term}`}
-							/>
+							<TootTable {tableData} sourceData={toots} />
 						</div>
 					</div>
 					<!-- Mobile view -->
