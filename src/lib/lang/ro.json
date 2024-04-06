@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "Link-uri către tabloul de bord și conturi",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "Tablou de bord",
 	"error.aware": "Lucrăm deja pentru a rezolva problema.",
 	"error.internal": "Eroare internă de server în rute",
 	"general.goBack": "Întoarce-te",

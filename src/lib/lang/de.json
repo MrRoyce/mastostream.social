@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "Links zum Dashboard und zu Konten",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "Instrumententafel",
 	"error.aware": "Wir arbeiten bereits an der Lösung des Problems.",
 	"error.internal": "Interner Serverfehler in Routen",
 	"general.goBack": "Geh zurück",

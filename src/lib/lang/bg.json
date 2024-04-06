@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "Връзки към табло за управление и акаунти",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "Табло",
 	"error.aware": "Вече работим по решаването на проблема.",
 	"error.internal": "Вътрешна сървърна грешка в маршрутите",
 	"general.goBack": "Върни се",

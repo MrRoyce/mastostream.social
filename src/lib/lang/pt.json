@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "Links para painel e contas",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "Painel de controle",
 	"error.aware": "Já estamos trabalhando para resolver o problema.",
 	"error.internal": "Erro interno do servidor nas rotas",
 	"general.goBack": "Volte",

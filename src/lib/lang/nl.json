@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "Links naar dashboard en accounts",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "Dashboard",
 	"error.aware": "We zijn al bezig om het probleem op te lossen.",
 	"error.internal": "Interne serverfout in routes",
 	"general.goBack": "Ga terug",

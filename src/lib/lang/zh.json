@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "仪表板和帐户的链接",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "仪表板",
 	"error.aware": "我们已经在努力解决这个问题。",
 	"error.internal": "路由中的内部服务器错误",
 	"general.goBack": "回去",

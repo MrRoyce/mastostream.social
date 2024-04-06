@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "Collegamenti a Dashboard e Account",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "Cruscotto",
 	"error.aware": "Stiamo già lavorando per risolvere il problema.",
 	"error.internal": "Errore interno del server nei percorsi",
 	"general.goBack": "Torna Indietro",

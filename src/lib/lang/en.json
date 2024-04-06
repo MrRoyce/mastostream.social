@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "Links to Dashboard and Accounts",
 	"breadCrumb.BreadcrumbLinks": "Breadcrumb links",
+	"dashboard": "Dashboard",
 	"error.aware": "We are already working to solve the problem.",
 	"error.internal": "Internal Server Error in routes",
 	"general.goBack": "Go back",

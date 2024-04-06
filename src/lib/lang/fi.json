@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "Linkit hallintapaneeliin ja tileihin",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "Kojelauta",
 	"error.aware": "Työskentelemme jo ongelman ratkaisemiseksi.",
 	"error.internal": "Sisäinen palvelinvirhe reiteissä",
 	"general.goBack": "Mene takaisin",

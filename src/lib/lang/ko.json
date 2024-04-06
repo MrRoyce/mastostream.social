@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "대시보드 및 계정에 대한 링크",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "계기반",
 	"error.aware": "우리는 이미 문제를 해결하기 위해 노력하고 있습니다.",
 	"error.internal": "경로의 내부 서버 오류",
 	"general.goBack": "돌아가",

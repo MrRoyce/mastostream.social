@@ -1,6 +1,7 @@
 {
 	"aria.breadcrumbLink": "Liens vers le tableau de bord et les comptes",
 	"breadCrumb.BreadcrumbLinks": "",
+	"dashboard": "Tableau de bord",
 	"error.aware": "Nous travaillons déjà pour résoudre le problème.",
 	"error.internal": "Erreur de serveur interne dans les routes",
 	"general.goBack": "Retourner",
