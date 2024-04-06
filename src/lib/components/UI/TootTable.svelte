@@ -94,11 +94,11 @@
 				class="cursor-pointer"
 				on:click={() => goto(`/toots/${item.accountId}_${item.tootId}`)}
 			>
-				<TableBodyCell colspan="6" class="whitespace-normal break-words py-2">
+				<TableBodyCell colspan="8" class="whitespace-normal break-words py-2">
 					{#if item.sensitive && !showSensitive}
 						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 					{:else}
-						{@html truncateHTML(item.content, 300)}
+						{@html truncateHTML(item.content, 120)}
 						{@html '<br /><br />'}
 						{item.acct}
 						{@html '<br />'}
