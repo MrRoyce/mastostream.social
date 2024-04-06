@@ -67,7 +67,7 @@
 
 					<!-- Right Side -->
 					<div class="md:col-span-2 md:col-start-3 order-last">
-						<TootsRadio bind:tootType entityName={entity.name} {getTootType} />
+						<TootsRadio bind:tootType {getTootType} />
 					</div>
 				</div>
 				<div class="hidden-on-mobile">
