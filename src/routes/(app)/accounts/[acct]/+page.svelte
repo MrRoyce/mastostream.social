@@ -137,25 +137,23 @@
 							<h3 class="mt-5">
 								<span class="pt-10 ml-auto text-gray-200 my-1">@{entity.acct}</span>
 							</h3>
-							<div class="mt-7 text-gray-200">
-								<p>
-									{@html formatText(
-										entity.note
-											.replaceAll('</p><p>', '</p><br /><p>')
-											.replaceAll(
-												'class="invisible"',
-												'class="font-medium hover:text-blue-300 hover:underline'
-											)
-											.replaceAll('class="mention hashtag"', ''),
-										'underline text-green-200'
-									)}
-								</p>
-							</div>
+							{@html formatText(
+								entity.note
+									.replaceAll('</p><p>', '</p><br /><p>')
+									.replaceAll(
+										'class="invisible"',
+										'class="font-medium hover:text-blue-300 hover:underline'
+									)
+									.replaceAll('class="mention hashtag"', ''),
+								'underline text-green-200'
+							)}
 
 							<TableBody>
 								{#each entity.fields as field}
 									<TableBodyRow>
-										<TableBodyCell class="pb-0">{field.name.toUpperCase()}:</TableBodyCell>
+										<TableBodyCell class="pb-0 break-words truncate"
+											>{field.name.toUpperCase()}:</TableBodyCell
+										>
 									</TableBodyRow>
 									<TableBodyRow>
 										<TableBodyCell class="whitespace-normal break-words py-0">
@@ -181,10 +179,11 @@
 						{$t('general.latestTootsFrom')}
 						{entity.acct}:
 					</h2>
+					<!-- hidden-on-mobile -->
 					<div class="hidden-on-mobile">
 						<OwnersTootTable {tableData} sourceData={toots} />
 					</div>
-					<!-- Mobile view -->
+					<!-- show-on-mobile view -->
 					<div class="show-on-mobile">
 						{#each toots as toot}
 							{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
