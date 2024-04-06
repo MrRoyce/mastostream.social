@@ -3,6 +3,7 @@ import { formatToot } from '$lib/utils/formatToot';
 import { functions } from "$lib/firebase/client";
 import { httpsCallable } from 'firebase/functions';
 import { sortByAttribute } from '$lib/utils/sortObject';
+import { addMediaAttachmentCounts } from '$lib/utils';
 
 const searchES = httpsCallable(functions, 'searchES');
 
@@ -17,7 +18,9 @@ export const load: PageServerLoad = (async (event) => {
     return formattedToot
   })
 
-  const sortedItems = sortByAttribute(items, 'createdAt')
+  let sortedItems = sortByAttribute(items, 'createdAt')
+
+  sortedItems = addMediaAttachmentCounts(sortedItems)
 
   return { success: true, toots: sortedItems, term };
 });
