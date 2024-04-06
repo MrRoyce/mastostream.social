@@ -49,7 +49,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Link']
+		tableHead: ['Pic', 'Safe', 'Type', 'Pics', 'Video', 'Audio', 'Language', 'Link']
 	};
 </script>
 
