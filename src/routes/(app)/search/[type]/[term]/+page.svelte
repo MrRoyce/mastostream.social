@@ -1,14 +1,12 @@
 <script lang="ts">
-	import { A, Breadcrumb, BreadcrumbItem, Button, Heading } from 'flowbite-svelte';
-	import type { PageData } from '../$types';
+	import { A, Breadcrumb, BreadcrumbItem, Heading } from 'flowbite-svelte';
+	import type { PageData } from './$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { Section } from 'flowbite-svelte-blocks';
 	import { TableWrap, TootContent, TootMeta } from '$lib/components';
-	import { goto } from '$app/navigation';
 
-	if (browser && isSupported()) {
+	if (browser) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Search_[type]_[term]'

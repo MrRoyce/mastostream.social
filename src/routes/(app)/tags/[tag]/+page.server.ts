@@ -29,6 +29,8 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
       console.log(`tagCached, tagTootsCached cached for: ${paramValueToLowerCase} ${tootType}`)
       entity = JSON.parse(tagCached)
       toots = JSON.parse(tagTootsCached)
+      // not sure why need to re-add the counts??
+      toots = addMediaAttachmentCounts(toots)
     } else {
       console.log(`tagCached, tagTootsCached NOT cached for: ${paramValueToLowerCase} ${tootType}`)
       const [entityFromPromise, tootsFromPromise] = await Promise.all([

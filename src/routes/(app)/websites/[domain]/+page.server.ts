@@ -43,13 +43,15 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       await redis.get(redisKeyDomainToots)
     ])
 
-    const checkCache = false  // TODO always check this!
+    const checkCache = true  // TODO always check this!
 
     if (domainCached && domainTootsCached && checkCache) {
       console.log(`domainCached, domainTootsCached cached for: ${lowerCase}`)
 
       entity = JSON.parse(domainCached)
       toots = JSON.parse(domainTootsCached)
+      // not sure why need to re-add the counts??
+      toots = addMediaAttachmentCounts(toots)
     } else {
       console.log(`domainCached, domainTootsCached NOT cached for: ${lowerCase}`)
 

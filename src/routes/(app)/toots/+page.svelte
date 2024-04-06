@@ -33,7 +33,7 @@
 	const toots = data.toots;
 
 	const tableData = {
-		tableHead: ['Picture', 'Safe', 'Type', 'Language', 'Pics', 'Video', 'Audio', 'Link']
+		tableHead: ['Pic', 'Safe', 'Type', 'Language', 'Pics', 'Video', 'Audio', 'Link']
 	};
 
 	let showSensitive: boolean;
@@ -63,9 +63,10 @@
 				</Breadcrumb>
 			</div>
 			<div
-				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
+				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 			>
 				<!-- Top of Page with radio buttons -->
+
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 					<div class="col-span-2">
 						<Heading tag="h3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200"
@@ -77,6 +78,7 @@
 						<TootsRadio bind:tootType {getTootType} />
 					</div>
 				</div>
+
 				<div class="hidden-on-mobile">
 					<div class="mt-6">
 						<Table
@@ -93,6 +95,7 @@
 							</TableHead>
 							<TableBody>
 								{#each toots as toot}
+									{console.log('toot in toots view', toot)}
 									<TableBodyRow
 										class="border-none"
 										on:click={() => goto(`/toots/${toot.accountId}_${toot.tootId}`)}
@@ -132,20 +135,24 @@
 									</TableBodyRow>
 
 									<TableBodyRow on:click={() => goto(`/toots/${toot.accountId}_${toot.tootId}`)}
-										><TableBodyCell colspan="10" class="whitespace-normal break-words py-2">
+										><TableBodyCell
+											colspan="10"
+											class="whitespace-normal break-words py-2 dark:text-gray-200"
+										>
 											{#if toot.sensitive && !showSensitive}
 												{toot.spoiler_text || toot.spoilerText || 'Sensitive content'}
 											{:else}
 												{@html truncateHTML(toot.content, 300)}
-												{@html '<br /><br />'}
-												{toot.acct}
-												{@html '<br />'}
-												{`${formatCreatedAt(toot.createdAt)}`}
+												<span class="text-gray-400">
+													{@html '<br /><br />'}
+													{toot.acct}
+													{@html '<br />'}
+
+													{`${formatCreatedAt(toot.createdAt)}`}
+												</span>
 											{/if}
 										</TableBodyCell>
 									</TableBodyRow>
-
-									<TableBodyRow></TableBodyRow>
 								{/each}
 							</TableBody>
 						</Table>

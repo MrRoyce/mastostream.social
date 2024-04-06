@@ -29,6 +29,7 @@ export const addMediaAttachmentCounts = (toots) => {
 	try {
 		response = toots.map((toot) => {
 
+			const myToot = toot
 			const mediaAttachementCounts = {
 				totalAttachments: 0,
 				totalVideos: 0,
@@ -36,24 +37,24 @@ export const addMediaAttachmentCounts = (toots) => {
 				totalPictures: 0
 			};
 
-			toot.mediaAttachementCounts = mediaAttachementCounts;
+			myToot.mediaAttachementCounts = mediaAttachementCounts;
 
 			if (
-				toot.mediaAttachments &&
-				Array.isArray(toot.mediaAttachments) &&
-				toot.mediaAttachments.length > 0
+				myToot.mediaAttachments &&
+				Array.isArray(myToot.mediaAttachments) &&
+				myToot.mediaAttachments.length > 0
 			) {
 				const { totalAttachments, totalAudio, totalPictures, totalVideos } = getAttachmentCounts(
-					toot.mediaAttachments
+					myToot.mediaAttachments
 				);
 
-				toot.mediaAttachementCounts.totalAttachments = totalAttachments;
-				toot.mediaAttachementCounts.totalVideos = totalVideos;
-				toot.mediaAttachementCounts.totalAudio = totalAudio;
-				toot.mediaAttachementCounts.totalPictures = totalPictures;
+				myToot.mediaAttachementCounts.totalAttachments = totalAttachments;
+				myToot.mediaAttachementCounts.totalVideos = totalVideos;
+				myToot.mediaAttachementCounts.totalAudio = totalAudio;
+				myToot.mediaAttachementCounts.totalPictures = totalPictures;
 			}
 
-			return toot;
+			return myToot;
 		});
 	} catch (error) {
 		console.warn('Error getting mediaattchment counts', error);

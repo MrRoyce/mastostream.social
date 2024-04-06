@@ -3,10 +3,10 @@ import { redis } from '$lib/redis/redis';
 import { getData } from '$lib/getCollection';
 import { addMediaAttachmentCounts } from '$lib/utils';
 
-let entity = []
-const ttl = 600
-
 export const load: PageServerLoad = (async ({ url, setHeaders }) => {
+
+  let toots = []
+  const ttl = 600
 
   try {
     const sourceType = url.searchParams.get('type') ?? 'both'
@@ -17,26 +17,29 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
 
     if (tootsCached && checkCache) {
       console.log(`${redisKeyTootsType} for ${sourceType} cached`)
-      entity = JSON.parse(tootsCached)
+      console.log('toots cached')
+      toots = JSON.parse(tootsCached)
+      // not sure why need to re-add the counts??
+      toots = addMediaAttachmentCounts(toots)
     } else {
       console.log(`${redisKeyTootsType} for ${sourceType} NOT cached`)
-      entity = await getData({
+      toots = await getData({
         entity: 'toots',
         max: 100,
         orderByField: 'timestamp',
         sourceType
       })
 
-      entity = addMediaAttachmentCounts(entity)
+      toots = addMediaAttachmentCounts(toots)
 
-      // Store account entity in redis
-      await redis.set(redisKeyTootsType, JSON.stringify(entity), 'EX', ttl)
+      // Store toots in redis
+      await redis.set(redisKeyTootsType, JSON.stringify(toots), 'EX', ttl)
     }
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
 
     return {
-      'toots': JSON.parse(JSON.stringify(entity))
+      'toots': JSON.parse(JSON.stringify(toots))
     };
   } catch (error) {
     console.error(`Error in (app) toots +page.server.ts ${error}`, JSON.stringify(error))

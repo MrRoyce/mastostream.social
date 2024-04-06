@@ -65,6 +65,8 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) 
 
   if (tootsCached && checkCache) {
     tootsObject = JSON.parse(tootsCached)
+    // not sure why need to re-add the counts??
+    tootsObject = addMediaAttachmentCounts(tootsObject)
   } else {
     toots = await getToots({ entity: 'languages', id: languageLowerCase, max: 100, orderByField: 'createdAt', tootType })
     let items = toots.map((item) => {

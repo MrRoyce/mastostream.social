@@ -55,6 +55,8 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     if (accountCached && accountTootsCached && checkCache) {
       entity = JSON.parse(accountCached)
       toots = JSON.parse(accountTootsCached)
+      // not sure why need to re-add the counts??
+      toots = addMediaAttachmentCounts(toots)
     } else {
       const [entityFromPromise, tootsFromPromise] = await Promise.all([
         await getDocument({ entity: 'accounts', id: lowerCase }),

@@ -298,7 +298,7 @@
 												</svg>
 												{entity.domain}
 											</p>
-											<p class="pt-2 text-base text-left">
+											<p class="pt-2 text-base text-left overflow-hidden">
 												{@html accountNote}
 											</p>
 										</div>
