@@ -1,5 +1,3 @@
-
-
 export const getSidebarItems: SideBarMenuItems = ({ group, page }) => {
 	const sidebarItems = {
 		policies: {

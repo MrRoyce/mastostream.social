@@ -8,16 +8,7 @@
 
 	import { Footer, Loading, SidebarItemWrapper, UserSidebar } from '$lib/components';
 	import { loading } from '$lib/stores';
-	import {
-		A,
-		Button,
-		CloseButton,
-		Drawer,
-		Sidebar,
-		SidebarGroup,
-		SidebarItem,
-		SidebarWrapper
-	} from 'flowbite-svelte';
+	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
 	import type { LayoutData } from './$types';
 	import { handleLogout } from '$lib/firebase/handleLogout';
