@@ -38,7 +38,6 @@
 				</SidebarGroup>
 				{#if pageSidebarItems}
 					{#each pageSidebarItems.groups as group}
-						{@const name = $t('dashboard')}
 						<SidebarGroup class="pb-6">
 							{$t(group.name)}
 							{#each group.items as item}
