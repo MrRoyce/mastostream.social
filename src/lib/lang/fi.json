@@ -1,7 +1,8 @@
 {
+	"Accounts": "Tilit",
 	"aria.breadcrumbLink": "Linkit hallintapaneeliin ja tileihin",
 	"breadCrumb.BreadcrumbLinks": "",
-	"dashboard": "Kojelauta",
+	"Dashboard": "Kojelauta",
 	"error.aware": "Työskentelemme jo ongelman ratkaisemiseksi.",
 	"error.internal": "Sisäinen palvelinvirhe reiteissä",
 	"general.goBack": "Mene takaisin",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "Sivua ei löydetty",
 	"general.takeMeHome": "Vie minut kotiin",
 	"general.user": "Käyttäjä",
+	"Languages": "Kieli (kielet",
 	"pageHeaders.account": "Tili",
 	"pageHeaders.followers": "Seuraajaa",
 	"pageHeaders.following": "Seurata",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "Tunnisteet",
 	"pagelinks.toots": "Toots",
 	"pagelinks.websites": "Web-sivustot",
+	"Search": "Hae",
 	"tableHeaders.content": "Sisältö",
 	"tableHeaders.created": "Luotu",
 	"tableHeaders.link": "Linkki",
-	"tableHeaders.safe": "Turvallinen"
+	"tableHeaders.safe": "Turvallinen",
+	"Tags": "Tunnisteet",
+	"Toots": "Toots",
+	"Websites": "Sivustot"
 }

@@ -1,7 +1,8 @@
 {
+	"Accounts": "Accounts",
 	"aria.breadcrumbLink": "Links naar dashboard en accounts",
 	"breadCrumb.BreadcrumbLinks": "",
-	"dashboard": "Dashboard",
+	"Dashboard": "Dashboard",
 	"error.aware": "We zijn al bezig om het probleem op te lossen.",
 	"error.internal": "Interne serverfout in routes",
 	"general.goBack": "Ga terug",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "Pagina niet gevonden",
 	"general.takeMeHome": "Breng me naar huis",
 	"general.user": "Gebruiker",
+	"Languages": "Talen",
 	"pageHeaders.account": "Account",
 	"pageHeaders.followers": "Volgers",
 	"pageHeaders.following": "Volgend op",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "Labels",
 	"pagelinks.toots": "Toet",
 	"pagelinks.websites": "Websites",
+	"Search": "Zoeken",
 	"tableHeaders.content": "Inhoud",
 	"tableHeaders.created": "Aangemaakt",
 	"tableHeaders.link": "Link",
-	"tableHeaders.safe": "Veilig"
+	"tableHeaders.safe": "Veilig",
+	"Tags": "Labels",
+	"Toots": "Toet",
+	"Websites": "Websites"
 }

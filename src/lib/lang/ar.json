@@ -1,7 +1,8 @@
 {
+	"Accounts": "حسابات",
 	"aria.breadcrumbLink": "روابط إلى لوحة التحكم والحسابات",
 	"breadCrumb.BreadcrumbLinks": "",
-	"dashboard": "لوحة القيادة",
+	"Dashboard": "لوحة القيادة",
 	"error.aware": "نحن نعمل بالفعل على حل المشكلة.",
 	"error.internal": "خطأ داخلي في الخادم في المسارات",
 	"general.goBack": "عد",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "الصفحة غير موجودة",
 	"general.takeMeHome": "خذنى إلى المنزل",
 	"general.user": "المستعمل",
+	"Languages": "اللغات",
 	"pageHeaders.account": "الحساب",
 	"pageHeaders.followers": "متابعون",
 	"pageHeaders.following": "التالية",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "الكلمات",
 	"pagelinks.toots": "توتس",
 	"pagelinks.websites": "مواقع الويب",
+	"Search": "بحث",
 	"tableHeaders.content": "يحتوى",
 	"tableHeaders.created": "خلقت",
 	"tableHeaders.link": "حلقة الوصل",
-	"tableHeaders.safe": "آمنة"
+	"tableHeaders.safe": "آمنة",
+	"Tags": "الكلمات",
+	"Toots": "توتس",
+	"Websites": "المواقع"
 }

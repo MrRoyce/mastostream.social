@@ -278,46 +278,46 @@ export const getSidebarItems: SideBarMenuItems = ({ group, page }) => {
 						name: '',
 						items: [
 							{
-								label: 'Dashboard',
 								href: '/',
+								icon: 'fa-solid fa-house',
+								label: 'Dashboard',
 								url: '/',
-								icon: 'fa-solid fa-house'
 							},
 							{
-								label: 'Toots',
 								href: '/toots',
+								icon: 'fa-solid fa-bullhorn',
+								label: 'Toots',
 								url: '/toots',
-								icon: 'fa-solid fa-bullhorn'
 							},
 							{
-								label: 'Accounts',
 								href: '/accounts',
+								icon: 'fa-sharp fa-solid fa-users',
+								label: 'Accounts',
 								url: '/accounts',
-								icon: 'fa-sharp fa-solid fa-users'
 							},
 							{
-								label: 'Websites',
 								href: '/websites',
+								icon: 'fa-solid fa-network-wired',
+								label: 'Websites',
 								url: '/websites',
-								icon: 'fa-solid fa-network-wired'
 							},
 							{
-								label: 'Tags',
 								href: '/tags',
+								icon: 'fa-solid fa-hashtag',
+								label: 'Tags',
 								url: '/tags',
-								icon: 'fa-solid fa-hashtag'
 							},
 							{
-								label: 'Languages',
 								href: '/languages',
+								icon: 'fa-solid fa-globe',
+								label: 'Languages',
 								url: '/languages',
-								icon: 'fa-solid fa-globe'
 							},
 							{
-								label: 'Search',
 								href: '/search',
+								icon: 'fa-solid fa-magnifying-glass',
+								label: 'Search',
 								url: '/search',
-								icon: 'fa-solid fa-magnifying-glass'
 							}
 						]
 					}

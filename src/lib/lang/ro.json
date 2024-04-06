@@ -1,7 +1,8 @@
 {
+	"Accounts": "Conturi",
 	"aria.breadcrumbLink": "Link-uri către tabloul de bord și conturi",
 	"breadCrumb.BreadcrumbLinks": "",
-	"dashboard": "Tablou de bord",
+	"Dashboard": "Tablou de bord",
 	"error.aware": "Lucrăm deja pentru a rezolva problema.",
 	"error.internal": "Eroare internă de server în rute",
 	"general.goBack": "Întoarce-te",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "Pagina nu a fost gasita",
 	"general.takeMeHome": "Du-mă acasă",
 	"general.user": "Utilizator",
+	"Languages": "Limbile",
 	"pageHeaders.account": "Cont",
 	"pageHeaders.followers": "Urmăritori",
 	"pageHeaders.following": "Ca urmare a",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "Etichete",
 	"pagelinks.toots": "Toots",
 	"pagelinks.websites": "Site-uri web",
+	"Search": "Căutare",
 	"tableHeaders.content": "Conținut",
 	"tableHeaders.created": "Creată",
 	"tableHeaders.link": "Legătură",
-	"tableHeaders.safe": "Sigur"
+	"tableHeaders.safe": "Sigur",
+	"Tags": "Etichete",
+	"Toots": "Toots",
+	"Websites": "Site-uri"
 }

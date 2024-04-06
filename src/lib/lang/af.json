@@ -1,7 +1,8 @@
 {
+	"Accounts": "Rekeninge",
 	"aria.breadcrumbLink": "Skakels na Dashboard en Rekeninge",
 	"breadCrumb.BreadcrumbLinks": "",
-	"dashboard": "Dashboard",
+	"Dashboard": "Dashboard",
 	"error.aware": "Ons is reeds besig om die probleem op te los.",
 	"error.internal": "Interne bedienerfout in roetes",
 	"general.goBack": "Gaan terug",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "Bladsy nie gevind nie",
 	"general.takeMeHome": "Vat my huis toe",
 	"general.user": "Gebruiker",
+	"Languages": "Tale",
 	"pageHeaders.account": "Rekening",
 	"pageHeaders.followers": "Volgelinge",
 	"pageHeaders.following": "Volgende",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "Merkers",
 	"pagelinks.toots": "Toots",
 	"pagelinks.websites": "Webwerwe",
+	"Search": "Soek",
 	"tableHeaders.content": "Inhoud",
 	"tableHeaders.created": "Geskep",
 	"tableHeaders.link": "Skakel",
-	"tableHeaders.safe": "Veilig"
+	"tableHeaders.safe": "Veilig",
+	"Tags": "Merkers",
+	"Toots": "Toots",
+	"Websites": "Webwerwe"
 }

@@ -1,7 +1,8 @@
 {
+	"Accounts": "መለያዎች",
 	"aria.breadcrumbLink": "ወደ ዳሽቦርድ እና መለያዎች አገናኞች",
 	"breadCrumb.BreadcrumbLinks": "",
-	"dashboard": "ዳሽቦርድ",
+	"Dashboard": "ዳሽቦርድ",
 	"error.aware": "ችግሩን ለመፍታት ከወዲሁ እየሰራን ነው።",
 	"error.internal": "በመንገዶች ላይ የውስጥ አገልጋይ ስህተት",
 	"general.goBack": "ተመለስ",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "ገጹ አልተገኘም",
 	"general.takeMeHome": "እቤቴ ውሰደኝ",
 	"general.user": "ተጠቃሚ",
+	"Languages": "ቋንቋዎች",
 	"pageHeaders.account": "መለያ",
 	"pageHeaders.followers": "ተከታዮች",
 	"pageHeaders.following": "በመከተል ላይ",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "መለያዎች",
 	"pagelinks.toots": "ቶትስ",
 	"pagelinks.websites": "የድር ጣቢያዎች",
+	"Search": "ይፈልጉ",
 	"tableHeaders.content": "ይዘት",
 	"tableHeaders.created": "ተፈጠረ",
 	"tableHeaders.link": "አገናኝ",
-	"tableHeaders.safe": "አስተማማኝ"
+	"tableHeaders.safe": "አስተማማኝ",
+	"Tags": "መለያዎች",
+	"Toots": "ቶትስ",
+	"Websites": "ድር ጣቢያዎች"
 }

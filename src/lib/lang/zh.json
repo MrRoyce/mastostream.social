@@ -1,7 +1,8 @@
 {
+	"Accounts": "帐号",
 	"aria.breadcrumbLink": "仪表板和帐户的链接",
 	"breadCrumb.BreadcrumbLinks": "",
-	"dashboard": "仪表板",
+	"Dashboard": "仪表板",
 	"error.aware": "我们已经在努力解决这个问题。",
 	"error.internal": "路由中的内部服务器错误",
 	"general.goBack": "回去",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "网页未找到",
 	"general.takeMeHome": "带我回家",
 	"general.user": "用户",
+	"Languages": "语言",
 	"pageHeaders.account": "帐户",
 	"pageHeaders.followers": "追随者",
 	"pageHeaders.following": "以下",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "标签",
 	"pagelinks.toots": "图茨",
 	"pagelinks.websites": "网站",
+	"Search": "搜索",
 	"tableHeaders.content": "内容",
 	"tableHeaders.created": "创建",
 	"tableHeaders.link": "链接",
-	"tableHeaders.safe": "安全"
+	"tableHeaders.safe": "安全",
+	"Tags": "标签",
+	"Toots": "图茨",
+	"Websites": "网站"
 }

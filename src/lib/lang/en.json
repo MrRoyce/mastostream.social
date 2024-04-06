@@ -1,7 +1,8 @@
 {
+	"Accounts": "Accounts",
 	"aria.breadcrumbLink": "Links to Dashboard and Accounts",
 	"breadCrumb.BreadcrumbLinks": "Breadcrumb links",
-	"dashboard": "Dashboard",
+	"Dashboard": "Dashboard",
 	"error.aware": "We are already working to solve the problem.",
 	"error.internal": "Internal Server Error in routes",
 	"general.goBack": "Go back",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "Page not found",
 	"general.takeMeHome": "Take me home",
 	"general.user": "User",
+	"Languages": "Languages",
 	"pageHeaders.account": "Account",
 	"pageHeaders.followers": "Followers",
 	"pageHeaders.following": "Following",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "Tags",
 	"pagelinks.toots": "Toots",
 	"pagelinks.websites": "Web Sites",
+	"Search": "Search",
 	"tableHeaders.content": "Content",
 	"tableHeaders.created": "Created",
 	"tableHeaders.link": "Link",
-	"tableHeaders.safe": "Safe"
+	"tableHeaders.safe": "Safe",
+	"Tags": "Tags",
+	"Toots": "Toots",
+	"Websites": "Websites"
 }

@@ -1,7 +1,8 @@
 {
+	"Accounts": "Сметки",
 	"aria.breadcrumbLink": "Връзки към табло за управление и акаунти",
 	"breadCrumb.BreadcrumbLinks": "",
-	"dashboard": "Табло",
+	"Dashboard": "Табло",
 	"error.aware": "Вече работим по решаването на проблема.",
 	"error.internal": "Вътрешна сървърна грешка в маршрутите",
 	"general.goBack": "Върни се",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "Страницата не е намерена",
 	"general.takeMeHome": "Заведи ме вкъщи",
 	"general.user": "Потребител",
+	"Languages": "Езици",
 	"pageHeaders.account": "Сметка",
 	"pageHeaders.followers": "Последователи",
 	"pageHeaders.following": "Следното",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "Tags",
 	"pagelinks.toots": "Тоутс",
 	"pagelinks.websites": "Уеб сайтове",
+	"Search": "Търсене",
 	"tableHeaders.content": "Съдържание",
 	"tableHeaders.created": "Създаден",
 	"tableHeaders.link": "Връзка",
-	"tableHeaders.safe": "Сейф"
+	"tableHeaders.safe": "Сейф",
+	"Tags": "Tags",
+	"Toots": "Тоутс",
+	"Websites": "Уебсайтове"
 }

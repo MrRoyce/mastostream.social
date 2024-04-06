@@ -1,7 +1,8 @@
 {
+	"Accounts": "Cuentas",
 	"aria.breadcrumbLink": "Enlaces al panel y a las cuentas",
 	"breadCrumb.BreadcrumbLinks": "",
-	"dashboard": "Tablero",
+	"Dashboard": "Tablero",
 	"error.aware": "Ya estamos trabajando para solucionar el problema.",
 	"error.internal": "Error interno del servidor en rutas",
 	"general.goBack": "Regresa",
@@ -12,6 +13,7 @@
 	"general.pageNotFound": "Página no encontrada",
 	"general.takeMeHome": "Llévame a casa",
 	"general.user": "Usuario",
+	"Languages": "Idiomas",
 	"pageHeaders.account": "Cuenta",
 	"pageHeaders.followers": "Seguidores",
 	"pageHeaders.following": "Siguiendo",
@@ -29,8 +31,12 @@
 	"pagelinks.tags": "Etiquetas",
 	"pagelinks.toots": "Pitidos",
 	"pagelinks.websites": "Sitios web",
+	"Search": "Buscar",
 	"tableHeaders.content": "Contenido",
 	"tableHeaders.created": "Creado",
 	"tableHeaders.link": "Enlazar",
-	"tableHeaders.safe": "Seguro"
+	"tableHeaders.safe": "Seguro",
+	"Tags": "Etiquetas",
+	"Toots": "Pitidos",
+	"Websites": "Sitios web"
 }
