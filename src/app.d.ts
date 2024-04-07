@@ -113,4 +113,6 @@ declare global {
 			groups: [SideBarItemGroup]
 		}
 	}
-}
+};
+
+declare module 'svelte-share-buttons-component'

@@ -75,6 +75,7 @@
 		"redis": "^4.6.13",
 		"svelte-chartjs": "^3.1.5",
 		"svelte-kit-inspector": "^1.0.3",
+		"svelte-share-buttons-component": "^3.0.0",
 		"sveltefire": "github:MrRoyce/sveltefire",
 		"sveltekit-i18n": "^2.4.2",
 		"vanilla-cookieconsent": "v3.0.0"
