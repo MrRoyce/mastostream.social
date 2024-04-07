@@ -55,13 +55,13 @@
 <div class="pt-0.5">
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
-			<Breadcrumb aria-label="$t('aria.breadcrumbLink')">
+			<Breadcrumb aria-label={$t('aria.breadcrumbLink')}>
 				<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
 				<BreadcrumbItem>{$t('pagelinks.accounts')}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-			<div class=" mx-auto my-5 p-5">
+			<div class=" mx-auto mb-5 p-5">
 				<div class="col-span-2 mb-6">
 					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
 						>{$t('general.latestAccountToots')}</Heading

@@ -40,12 +40,12 @@
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Breadcrumbs for tags page">
-				<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
 				<BreadcrumbItem>{$t('pagelinks.tags')}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-			<div class=" mx-auto my-5 p-5">
+			<div class=" mx-auto mb-5 p-5">
 				<div class="col-span-2 mb-6">
 					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
 						>{$t('general.latestTags')}</Heading

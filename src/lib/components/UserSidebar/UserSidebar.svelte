@@ -6,6 +6,11 @@
 	import { getSidebarItems } from '$lib/utils';
 	$: activeUrl = $page.url.pathname;
 
+	let activeClass =
+		'flex items-center p-2 text-base font-normal text-primary-900 bg-primary-200 dark:bg-gray-900  dark:text-white hover:bg-primary-100 dark:hover:bg-gray-700';
+	let nonActiveClass =
+		'flex items-center p-2 text-base font-normal text-green-900  dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
+
 	export let image: String;
 	export let email: String;
 
@@ -19,7 +24,7 @@
 
 <SideWrap {mb}>
 	<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-		<Sidebar {activeUrl} asideClass="w-80 ">
+		<Sidebar {activeUrl} {activeClass} {nonActiveClass} asideClass="w-80 ">
 			<SidebarWrapper>
 				<SidebarGroup class="pb-6">
 					<div class="flex items-center justify-center">

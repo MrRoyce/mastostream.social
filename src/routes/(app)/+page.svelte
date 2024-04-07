@@ -98,84 +98,98 @@
 {#if browser}
 	<TableWrap>
 		{#if $initialized}
-			<!-- Marquee -->
-			<div class="overflow-hidden">
-				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 z-10">
-					<Marqueeck options={{ direction: 'left', onHover: 'stop' }}>
-						{#each tootsMarquee as item}
-							<Button
-								color="dark"
-								class="max-w-xs transition duration-300 ease-in-out hover:scale-110"
-								on:click={() => {
-									goto(`/toots/${item.accountId}_${item.tootId}`);
-								}}
-								><img
-									class=" w-10 h-auto max-w-xs mr-4"
-									src={item.avatar}
-									alt={$t('general.user')}
-								/>
-								{@html truncateHTML(item.content, 50)}</Button
-							>
-						{/each}
-					</Marqueeck>
-				</div>
-			</div>
-			<!-- Latest stats -->
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
-				{#each stats as stat}
-					<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
-						<div class=" transform transition duration-500 hover:scale-110">
-							<a href={stat.href}>
-								<CardStats
-									statEntity={$t(stat.statEntity)}
-									statValue={stat.statValue}
-									statArrow={stat.statArrow}
-									statPercent={stat.statPercent}
-									statsCount={stat.statsCount}
-									statPercentColor={stat.statPercentColor}
-									statDescription={stat.statDescription}
-									statIconName={stat.statIconName}
-									statIconColor={stat.statIconColor}
-								/>
-							</a>
-						</div>
+			<div
+				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
+			>
+				<!-- Marquee -->
+				<div class="overflow-hidden">
+					<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
+						<Marqueeck options={{ direction: 'left', onHover: 'stop' }}>
+							{#each tootsMarquee as item}
+								<Button
+									color="dark"
+									class="max-w-xs transition duration-300 ease-in-out hover:scale-110 dark:bg-gray-900"
+									on:click={() => {
+										goto(`/toots/${item.accountId}_${item.tootId}`);
+									}}
+									><img
+										class=" w-10 h-auto max-w-xs mr-4"
+										src={item.avatar}
+										alt={$t('general.user')}
+									/>
+									{@html truncateHTML(item.content, 50)}</Button
+								>
+							{/each}
+						</Marqueeck>
 					</div>
-				{/each}
-			</div>
+				</div>
+				<!-- Latest stats -->
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+					{#each stats as stat}
+						<div
+							class="border-2 border-dashed border-gray-300 dark:border-gray-600 dark:bg-gray-900"
+						>
+							<div class=" transform transition duration-500 hover:scale-110">
+								<a href={stat.href}>
+									<CardStats
+										statEntity={$t(stat.statEntity)}
+										statValue={stat.statValue}
+										statArrow={stat.statArrow}
+										statPercent={stat.statPercent}
+										statsCount={stat.statsCount}
+										statPercentColor={stat.statPercentColor}
+										statDescription={stat.statDescription}
+										statIconName={stat.statIconName}
+										statIconColor={stat.statIconColor}
+									/>
+								</a>
+							</div>
+						</div>
+					{/each}
+				</div>
 
-			<!-- Charts -->
-			<div class="hidden-on-mobile">
-				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4">
-					<Tabs
-						class=" focus:ring-gray-400"
-						style="full"
-						defaultClass="flex space-x-4 divide-x rtl:divide-x-reverse divide-gray-200 shadow dark:divide-gray-700"
+				<!-- Charts -->
+				<div class="hidden-on-mobile">
+					<div
+						class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-36 md:h-64 mb-4"
 					>
-						{#each charts as chart, index}
-							<TabItem class="w-full " open={index === activeTab} title={$t(chart.entity)}>
-								<CardLineChart
-									entity={$t(chart.entity)}
-									data={chart.data}
-									categories={chart.categories}
-								/>
-							</TabItem>
-						{/each}
-					</Tabs>
+						<Tabs
+							class=" focus:ring-gray-400 "
+							style="full"
+							defaultClass="flex space-x-4 divide-x rtl:divide-x-reverse divide-gray-200 shadow dark:divide-gray-700 "
+						>
+							{#each charts as chart, index}
+								<TabItem
+									class="w-full dark:bg-gray-900"
+									open={index === activeTab}
+									title={$t(chart.entity)}
+								>
+									<CardLineChart
+										entity={$t(chart.entity)}
+										data={chart.data}
+										categories={chart.categories}
+									/>
+								</TabItem>
+							{/each}
+						</Tabs>
+					</div>
 				</div>
-			</div>
 
-			<!-- Wordcloud -->
+				<!-- Wordcloud -->
 
-			<div class="hidden-on-mobile">
-				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4">
-					<WordCloud hashtags={words} />
+				<div class="hidden-on-mobile">
+					<div
+						class="border-2 border-dashed border-gray-300 dark:border-gray-600 h-96 mb-4 dark:bg-gray-900"
+					>
+						<WordCloud hashtags={words} />
+					</div>
 				</div>
-			</div>
 
-			<!-- Dashboard Marquee Cards -->
-			<div class="overflow-hidden">
-				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h- mb-4">
-					<FooterPage />
+				<!-- Dashboard Marquee Cards -->
+				<div class="overflow-hidden">
+					<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
+						<FooterPage />
+					</div>
 				</div>
 			</div>
 		{:else}

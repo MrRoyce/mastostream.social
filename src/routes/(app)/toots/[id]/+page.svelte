@@ -36,7 +36,7 @@
 		color: 'blue',
 		hoverable: true,
 		striped: true,
-		tableHead: ['Pic', 'Safe', 'Type', 'Created', 'Account', 'Language', 'Link']
+		tableHead: ['Pic', 'Safe', 'Type', 'Pics', 'Video', 'Audio', 'Language', 'Link']
 	};
 
 	export let data: PageData;
@@ -76,6 +76,7 @@
 {#if entity.acct}
 	<div class="pt-0.5">
 		<TableWrap>
+			<!-- Breadcrumb -->
 			<div class="pl-0 pt-0 pb-4">
 				<Breadcrumb aria-label={$t('aria.breadcrumbLink')}>
 					<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
@@ -83,9 +84,9 @@
 				</Breadcrumb>
 			</div>
 			<div
-				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
+				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 			>
-				<div class=" p-5">
+				<div class="dark:bg-gray-900 p-5">
 					<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 						<!-- Toot -->
 						<div class="md:col-span-3 md:col-start-2 order-first md:order-last">

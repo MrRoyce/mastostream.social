@@ -67,10 +67,9 @@
 				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 			>
 				<!-- Top of Page with radio buttons -->
-
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 					<div class="col-span-2">
-						<Heading tag="h3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200"
+						<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
 							>{$t('general.latestToots')}</Heading
 						>
 					</div>
@@ -158,18 +157,20 @@
 						</Table>
 					</div>
 				</div>
+
 				<!-- Mobile view -->
 				<div class="show-on-mobile">
 					{#each toots as toot}
 						{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
 						<a href={url}>
-							<TableWrap>
+							<TableWrap spacing="px-4">
 								<!-- Contet -->
 								<TootContent {toot} />
 								<!-- Metadata -->
 								<TootMeta createdAt={toot.createdAt} counts={toot.mediaAttachementCounts} />
 								<!-- Profile -->
 								<div class="md:col-span-1 md:col-start-1 order-last md:order-first">
+									<!-- Account Profile -->
 									<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
 										<div class=" items-top h-auto mx-auto lg:my-0">
 											<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">

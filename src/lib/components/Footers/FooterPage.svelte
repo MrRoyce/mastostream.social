@@ -51,10 +51,10 @@
 
 <Marqueeck class="py-4  motion-reduce:overflow-auto">
 	{#each sites as site}
-		<Card>
+		<Card class="dark:bg-gray-900">
 			<img class=" w-10 h-auto max-w-xs mr-4" src={site.image} alt="Fediverse site" />
 			<a href={site.url} target="_blank">
-				<h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900">
+				<h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-200">
 					{site.name}
 				</h5>
 			</a>

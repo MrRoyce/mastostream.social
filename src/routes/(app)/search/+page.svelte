@@ -22,7 +22,7 @@
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Link to Dashboard">
-				<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
 				<BreadcrumbItem>{$t('pagelinks.search')}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
