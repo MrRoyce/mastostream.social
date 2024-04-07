@@ -13,6 +13,7 @@
 	"general.pageNotFound": "페이지를 찾을 수 없음",
 	"general.takeMeHome": "집에 데려다",
 	"general.user": "사용자",
+	"general.vision": "U Toots는 Fediverse toots에 대한 사용자 지원 검색 사이트입니다. 이는 사용자의 개인 정보 보호(개인 정보는 검색할 수 없음)와 합법적인 콘텐츠, 모두에 대한 존중 및 인간의 품위에 관한 표준 Fediverse 코드를 존중합니다.",
 	"Languages": "언어",
 	"pageHeaders.account": "계정",
 	"pageHeaders.followers": "팔로워",

@@ -13,6 +13,7 @@
 	"general.pageNotFound": "Sivua ei löydetty",
 	"general.takeMeHome": "Vie minut kotiin",
 	"general.user": "Käyttäjä",
+	"general.vision": "U Toots on käyttäjien tukema Fediverse Tootsin etsintäsivusto. Se kunnioittaa käyttäjien yksityisyyttä (yksityiset toot eivät ole haettavissa) ja fediverse-standardeja koskevia koodeja koskien laillista sisältöä, kaikkien kunnioittamista ja ihmisarvoa.",
 	"Languages": "Kieli (kielet",
 	"pageHeaders.account": "Tili",
 	"pageHeaders.followers": "Seuraajaa",
