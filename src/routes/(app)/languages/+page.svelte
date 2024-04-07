@@ -11,8 +11,8 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
-	import { formatDate } from '$lib/utils/formatDate';
-	import { getLanguage } from '$lib/utils/getLanguage';
+	import { formatDate, getLanguage } from '$lib/utils';
+	import { t } from '$lib/translations';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { TableWrap } from '$lib/components';
@@ -38,15 +38,15 @@
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Link to Dashboard">
-				<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
-				<BreadcrumbItem>Languages</BreadcrumbItem>
+				<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem>{$t('pagelinks.languages')}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 			<div class="container mx-auto my-5 p-5">
 				<div class="col-span-2 mb-6">
 					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
-						>Toots by Language</Heading
+						>{$t('general.tootsByLanguage')}</Heading
 					>
 				</div>
 				<Table

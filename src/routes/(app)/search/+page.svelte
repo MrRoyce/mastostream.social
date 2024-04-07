@@ -5,6 +5,7 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { TableWrap } from '$lib/components';
+	import { t } from '$lib/translations';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -21,8 +22,8 @@
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Link to Dashboard">
-				<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
-				<BreadcrumbItem>Search</BreadcrumbItem>
+				<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem>{$t('pagelinks.search')}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">

@@ -11,6 +11,7 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
+	import { t } from '$lib/translations';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
@@ -39,15 +40,15 @@
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Link to Dashboard">
-				<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
-				<BreadcrumbItem>Web Sites</BreadcrumbItem>
+				<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem>{$t('pagelinks.websites')}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 			<div class=" mx-auto my-5 p-5">
 				<div class="col-span-2 mb-6">
-					<Heading tag="h3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200"
-						>Latest toots from Mastodon Sites</Heading
+					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
+						>{$t('general.latestTootsFromAllSites')}</Heading
 					>
 				</div>
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">

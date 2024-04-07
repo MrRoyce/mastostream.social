@@ -17,6 +17,7 @@
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { TableWrap } from '$lib/components';
+	import { t } from '$lib/translations';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -39,14 +40,16 @@
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Breadcrumbs for tags page">
-				<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
-				<BreadcrumbItem>Tags</BreadcrumbItem>
+				<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem>{$t('pagelinks.tags')}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 			<div class=" mx-auto my-5 p-5">
 				<div class="col-span-2 mb-6">
-					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200">Latest tags</Heading>
+					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
+						>{$t('general.latestTags')}</Heading
+					>
 				</div>
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 					<!-- Search Form -->

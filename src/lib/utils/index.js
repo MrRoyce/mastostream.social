@@ -8,6 +8,7 @@ import { getLanguageString } from '$lib/utils/getLanguage';
 import { getRandomRange } from '$lib/utils/getRandomRange';
 import { getSidebarItems } from '$lib/utils/getSidebarItems';
 import { formatCreatedAt } from '$lib/utils/formatCreatedAt';
+import { formatDate } from '$lib/utils/formatDate';
 import { formatImages } from '$lib/utils/formatImages';
 import { formatText } from '$lib/utils/formatText';
 import { formatToot } from '$lib/utils/formatToot';
@@ -26,6 +27,7 @@ export {
 	getRandomRange,
 	getSidebarItems,
 	formatCreatedAt,
+	formatDate,
 	formatImages,
 	formatText,
 	formatToot,

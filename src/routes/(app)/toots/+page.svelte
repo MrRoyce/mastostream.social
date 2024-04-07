@@ -20,6 +20,7 @@
 	import type { PageData } from '../$types';
 	import { formatCreatedAt } from '$lib/utils';
 	import { TableWrap, TootContent, TootMeta } from '$lib/components';
+	import { t } from '$lib/translations';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -58,8 +59,8 @@
 			<!-- Breadcrumb -->
 			<div class="pl-0 pt-0 pb-4">
 				<Breadcrumb aria-label="Link to Dashboard">
-					<BreadcrumbItem href="/" home>Dashboard</BreadcrumbItem>
-					<BreadcrumbItem>Toots</BreadcrumbItem>
+					<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
+					<BreadcrumbItem>{$t('pagelinks.toots')}</BreadcrumbItem>
 				</Breadcrumb>
 			</div>
 			<div
@@ -70,7 +71,7 @@
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 					<div class="col-span-2">
 						<Heading tag="h3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200"
-							>Latest Toots</Heading
+							>{$t('general.latestToots')}</Heading
 						>
 					</div>
 					<!-- Right Side -->

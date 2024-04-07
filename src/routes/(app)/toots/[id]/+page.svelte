@@ -77,9 +77,9 @@
 	<div class="pt-0.5">
 		<TableWrap>
 			<div class="pl-0 pt-0 pb-4">
-				<Breadcrumb aria-label="Links to Dashboard and Toots">
-					<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
-					<BreadcrumbItem href="/toots">Toots</BreadcrumbItem>
+				<Breadcrumb aria-label={$t('aria.breadcrumbLink')}>
+					<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+					<BreadcrumbItem href="/toots">{$t('pagelinks.toots')}</BreadcrumbItem>
 				</Breadcrumb>
 			</div>
 			<div

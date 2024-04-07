@@ -4,6 +4,7 @@
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { TableWrap, TootContent, TootMeta, TootTable } from '$lib/components';
+	import { t } from '$lib/translations';
 
 	if (browser) {
 		const analytics = getAnalytics();
@@ -28,8 +29,8 @@
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Breadcrumbs for search term page">
-				<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
-				<BreadcrumbItem href="/search">Search</BreadcrumbItem>
+				<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem href="/search">{$t('pagelinks.search')}</BreadcrumbItem>
 				<BreadcrumbItem>{term}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
@@ -45,7 +46,8 @@
 				</div>
 				<div class="my-4">
 					<Heading tag="h3" class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200">
-						Latest toots having {term}:
+						{$t('general.latestTootsInTerm')}
+						{term}:
 					</Heading>
 					<div class="hidden-on-mobile">
 						<div class="my-4 text-grey-200">

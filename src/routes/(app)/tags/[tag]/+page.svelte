@@ -7,6 +7,7 @@
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { TableWrap, TootContent, TootMeta } from '$lib/components';
+	import { t } from '$lib/translations';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -46,8 +47,8 @@
 		<!-- Breadcrumb -->
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Links to Dashboard and Tags">
-				<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
-				<BreadcrumbItem href="/tags">Tags</BreadcrumbItem>
+				<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem href="/tags">{$t('pagelinks.tags')}</BreadcrumbItem>
 				<BreadcrumbItem>{id}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
@@ -58,7 +59,7 @@
 					<div class="md:col-span-2 md:col-start-1 order-first">
 						<!-- Profile Card -->
 						<Heading tag="h3" class="text-xl md:text-2xl lg:text-3xl dark:text-gray-200"
-							>Latest toots tagged</Heading
+							>{$t('general.latestTootsInTerm')}</Heading
 						>
 						<Heading class="text-xl md:text-2xl lg:text-3xl  dark:text-gray-200"
 							>#{entity.name}</Heading

@@ -7,6 +7,7 @@
 	import { formatText } from '$lib/utils/formatText';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser, dev } from '$app/environment';
+	import { t } from '$lib/translations';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -47,8 +48,8 @@
 		<TableWrap>
 			<div class="pl-0 pt-0 pb-4">
 				<Breadcrumb aria-label="Links to Dashboard and Servers">
-					<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
-					<BreadcrumbItem href="/websites">Web Sites</BreadcrumbItem>
+					<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+					<BreadcrumbItem href="/websites">{$t('pagelinks.websites')}</BreadcrumbItem>
 					<BreadcrumbItem>{id}</BreadcrumbItem>
 				</Breadcrumb>
 			</div>

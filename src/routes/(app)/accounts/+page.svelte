@@ -55,7 +55,7 @@
 <div class="pt-0.5">
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
-			<Breadcrumb aria-label="$t('breadCrumb.BreadcrumbLinks')">
+			<Breadcrumb aria-label="$t('aria.breadcrumbLink')">
 				<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
 				<BreadcrumbItem>{$t('pagelinks.accounts')}</BreadcrumbItem>
 			</Breadcrumb>

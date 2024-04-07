@@ -14,6 +14,7 @@
 	import { Breadcrumb, BreadcrumbItem, Heading } from 'flowbite-svelte';
 	import { getLanguage } from '$lib/utils';
 	import { Button, Modal } from 'flowbite-svelte';
+	import { t } from '$lib/translations';
 	let clickOutsideModal = false;
 
 	if (browser && isSupported()) {
@@ -57,8 +58,8 @@
 	<TableWrap>
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label="Links to Dashboard and Languages">
-				<BreadcrumbItem href="/">Dashboard</BreadcrumbItem>
-				<BreadcrumbItem href="/languages">Languages</BreadcrumbItem>
+				<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem href="/languages">{$t('pagelinks.languages')}</BreadcrumbItem>
 				<BreadcrumbItem>{id}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
@@ -66,8 +67,9 @@
 			<div class="mx-auto my-5 p-5">
 				<div class="col-span-2">
 					<Heading tag="h3" class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
-						>Latest {entity.language}
-						({language.englishValue}) toots:</Heading
+						>{$t('general.latestTootsIn')}
+						{entity.language}
+						({language.englishValue}):</Heading
 					>
 				</div>
 				<div class="dark:bg-gray-800">
