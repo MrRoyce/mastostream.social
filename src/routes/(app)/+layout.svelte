@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../../app.pcss';
 	import { t } from '$lib/translations';
-	import { getLanguageList, getSidebarItems } from '$lib/utils';
+	import { getLanguageList, getLanguageString, getSidebarItems } from '$lib/utils';
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
@@ -27,6 +27,9 @@
 
 	export let data: LayoutData;
 	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
+
+	const languages = getLanguageList();
+	const languageStrings = getLanguageString();
 
 	const pageSidebarItems = getSidebarItems({ group: 'app', page: 'home' });
 
@@ -69,15 +72,18 @@
 	let defaultLanguage: string = 'en';
 
 	function getTargetLanguage(languageText: string) {
-		const languages = getLanguageList();
 		const result = languages.filter((language) => language.text === languageText);
 		return result[0]?.value || 'en';
 	}
 
 	function handleLocaleChange(event: Event) {
 		event.preventDefault();
-		defaultLanguage = getTargetLanguage(event?.target?.innerHTML || 'English');
-		$locale = defaultLanguage;
+		const target = event?.target?.innerHTML;
+		if (languageStrings.includes(target)) {
+			const language = getTargetLanguage(event?.target?.innerHTML);
+			defaultLanguage = language;
+			$locale = defaultLanguage;
+		}
 	}
 
 	function closeDrawer() {
@@ -164,8 +170,11 @@
 							><span class="text-gray-200">Sign In</span></Button
 						>
 					{/if}
-					<Button class="border-none" color="alternative" on:click={handleLocaleChange}
-						><Languages /></Button
+					<Button
+						id="flags-button"
+						class="border-none"
+						color="alternative"
+						on:click={handleLocaleChange}><Languages {handleLocaleChange} /></Button
 					>
 				</svelte:fragment>
 			</AppBar>

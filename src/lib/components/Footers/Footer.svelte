@@ -1,5 +1,6 @@
 <script>
 	import logo from '$lib/assets/logo.svg';
+	import { t } from '$lib/translations';
 	import {
 		Footer,
 		FooterBrand,
@@ -26,9 +27,7 @@
 						aClass="flex mb-6"
 					/>
 					<p class="text-gray-600 dark:text-gray-400">
-						U Toots is a user supported discovery site for Fediverse toots. It respects users
-						privacy (private toots are not searchable) and the standard Fediverse codes regarding
-						lawful content, respect for all, and human decency.
+						{$t('general.vision')}
 					</p>
 				</div>
 				<div>

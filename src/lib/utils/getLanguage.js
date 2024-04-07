@@ -593,6 +593,23 @@ Object.keys(files).map((file) => {
 	};
 });
 
+export const getLanguageString = () => {
+	/**
+	 * @type {any[]}
+	 */
+	const response = [];
+
+	for (const [key, value] of Object.entries(fileNames)) {
+		if (displayedLanguages[key]) {
+			response.push(
+				value.value
+			);
+		}
+	}
+
+	return response;
+}
+
 export const getLanguageList = () => {
 	/**
 	 * @type {any[]}

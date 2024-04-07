@@ -95,7 +95,6 @@
 							</TableHead>
 							<TableBody>
 								{#each toots as toot}
-									{console.log('toot in toots view', toot)}
 									<TableBodyRow
 										class="border-none"
 										on:click={() => goto(`/toots/${toot.accountId}_${toot.tootId}`)}

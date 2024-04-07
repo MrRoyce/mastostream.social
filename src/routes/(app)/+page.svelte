@@ -152,9 +152,9 @@
 						defaultClass="flex space-x-4 divide-x rtl:divide-x-reverse divide-gray-200 shadow dark:divide-gray-700"
 					>
 						{#each charts as chart, index}
-							<TabItem class="w-full " open={index === activeTab} title={chart.entity}>
+							<TabItem class="w-full " open={index === activeTab} title={$t(chart.entity)}>
 								<CardLineChart
-									entity={chart.entity}
+									entity={$t(chart.entity)}
 									data={chart.data}
 									categories={chart.categories}
 								/>
@@ -172,7 +172,7 @@
 				</div>
 			</div>
 
-			<!-- Dashboard Cards -->
+			<!-- Dashboard Marquee Cards -->
 			<div class="overflow-hidden">
 				<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 h- mb-4">
 					<FooterPage />

@@ -15,7 +15,7 @@ export const calculateCharts = (counts) => {
 			total: convertToK(Object.values(counts?.accounts).reduce((a, b) => a + b, 0))
 		},
 		{
-			entity: 'Web Sites',
+			entity: 'Websites',
 			data: Object.values(counts?.domains).slice().reverse(),
 			categories: Object.keys(counts?.domains).slice().reverse(),
 			total: convertToK(Object.values(counts?.domains).reduce((a, b) => a + b, 0))
