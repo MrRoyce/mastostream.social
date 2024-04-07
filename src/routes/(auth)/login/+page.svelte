@@ -10,6 +10,7 @@
 	import { Cta, Section } from 'flowbite-svelte-blocks';
 	import { setMagicEmail } from '$lib/localStorage/magicEmail';
 	import { Button } from 'flowbite-svelte';
+	import { t } from '$lib/translations';
 
 	type FormState = 'idle' | 'submitting' | 'success' | Error;
 	let state: FormState = 'idle';
@@ -145,7 +146,7 @@
 										autocomplete="email"
 										aria-label="email"
 										class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-										placeholder="youremail@email.com"
+										placeholder={$t('general.emailPlaceholder')}
 									/>
 								</div>
 							</div>
@@ -184,7 +185,7 @@
 										type="email"
 										autocomplete="email"
 										class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-										placeholder="Enter your email address"
+										placeholder={$t('general.enterEmailAddress')}
 									/>
 								</div>
 							</div>
@@ -201,7 +202,7 @@
 										type="password"
 										autocomplete="current-password"
 										class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-										placeholder="Enter your password"
+										placeholder={$t('general.enterPassword')}
 									/>
 								</div>
 							</div>

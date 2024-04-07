@@ -8,6 +8,7 @@
 	import { Turnstile } from 'svelte-turnstile';
 	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
 	import { SideWrap } from '$lib/components';
+	import { t } from '$lib/translations.js';
 
 	export let form;
 
@@ -95,12 +96,16 @@
 					class="flex flex-col space-y-8"
 				>
 					<div>
-						<Label for="userEmail" class="block mb-2">Your email</Label>
-						<Input id="userEmail" name="userEmail" placeholder="name@youremail.com" required />
+						<Label for="userEmail" class="block mb-2">{$t('general.yourEmail')}</Label>
+						<Input
+							id="userEmail"
+							name="userEmail"
+							placeholder="{$t('general.emailPlaceholder')}required"
+						/>
 					</div>
 					<div>
-						<Label for="userName" class="block mb-2">Subject</Label>
-						<Input id="userName" name="userName" placeholder="Please enter your name" required />
+						<Label for="userName" class="block mb-2">{$t('general.subject')}</Label>
+						<Input id="userName" name="userName" placeholder={$t('general.username')} required />
 					</div>
 					<div>
 						<Textarea

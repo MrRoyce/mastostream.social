@@ -13,6 +13,7 @@
 	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 	import { Button } from 'flowbite-svelte';
 	import { enhance } from '$app/forms';
+	import { t } from '$lib/translations';
 
 	export let data: PageData;
 
@@ -170,7 +171,7 @@
 										<input
 											id="username"
 											name="username"
-											placeholder="username"
+											placeholder={$t('general.username')}
 											type="text"
 											required
 											value=""
@@ -188,7 +189,7 @@
 											id="email"
 											name="email"
 											bind:value={email}
-											placeholder="user@example.com"
+											placeholder={$t('general.emailPlaceholder')}
 											type="email"
 											required
 											class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5 text-gray-900
