@@ -86,9 +86,9 @@
 			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 		>
 			<div class="dark:bg-gray-900 p-4">
-				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+				<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
 					<!-- Toot -->
-					<div class="md:col-span-3 md:col-start-2 order-first md:order-last">
+					<div class="md:col-span-8 md:col-start-5 order-first md:order-last">
 						<!-- Date and Sensitive Toggle Grid -->
 						<div class="grid col-span-1 md:grid-cols-2">
 							<!-- Created At date -->
@@ -258,7 +258,7 @@
 						{/if}
 					</div>
 					<!-- Profile -->
-					<div class="md:col-span-1 md:col-start-1 order-last md:order-first">
+					<div class="md:col-span-4 md:col-start-1 order-last md:order-first">
 						<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
 							<div class=" items-top h-auto mx-auto lg:my-0">
 								<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
