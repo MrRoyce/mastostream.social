@@ -23,7 +23,7 @@
 				<h5 class=" uppercase font-bold text-xs dark:text-gray-200">
 					{statEntity}
 				</h5>
-				<span class="font-semibold text-xl">
+				<span class="font-semibold text-xl dark:text-gray-200">
 					{statValue}
 				</span>
 			</div>
