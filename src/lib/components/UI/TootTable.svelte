@@ -99,11 +99,11 @@
 						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 					{:else}
 						{@html truncateHTML(item.content, 120)}
-						{@html '<br /><br />'}
-						{item.acct}
-						{@html '<br />'}
-						{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
 					{/if}
+					{@html '<br /><br />'}
+					{item.acct}
+					{@html '<br />'}
+					{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
 				</TableBodyCell>
 			</TableBodyRow>
 		{/each}
