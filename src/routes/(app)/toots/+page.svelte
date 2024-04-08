@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { A, Button, Heading } from 'flowbite-svelte';
+	import { A, Button, Heading, Modal } from 'flowbite-svelte';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -11,15 +11,13 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
-	import { truncateHTML } from '$lib/utils/truncateHTML';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import showSensitiveStore from '$lib/stores/SensitiveStore';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
 	import type { PageData } from '../$types';
-	import { formatCreatedAt } from '$lib/utils';
-	import { TableWrap, TootContent, TootMeta } from '$lib/components';
+	import { formatCreatedAt, truncateHTML } from '$lib/utils';
+	import { ShareButtons, TableWrap, TootContent, TootMeta, TootsRadio } from '$lib/components';
 	import { t } from '$lib/translations';
 
 	if (browser && isSupported()) {
@@ -37,7 +35,23 @@
 		tableHead: ['Pic', 'Safe', 'Type', 'Language', 'Pics', 'Video', 'Audio', 'Link']
 	};
 
+	const shareContent = {
+		acct: '',
+		desc: '',
+		title: '',
+		url: ''
+	};
+
+	function showShareModal(toot) {
+		shareContent.acct = toot.acct;
+		shareContent.desc = truncateHTML(toot.content, 200);
+		shareContent.title = `Found this on utoots.com from : ${toot.acct}`;
+		shareContent.url = `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`;
+		shareModal = true;
+	}
+
 	let showSensitive: boolean;
+	let shareModal = false;
 
 	showSensitiveStore.subscribe((data) => {
 		showSensitive = data;
@@ -162,65 +176,68 @@
 				<div class="show-on-mobile">
 					{#each toots as toot}
 						{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
-						{@const shareContent = {
-							url: `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`,
-							title: `Found this on utoots.com from : ${toot.acct}`,
-							desc: truncateHTML(toot.content, 200)
-						}}
+
 						{@const karmaCounts = {
 							upCount: toot.upCount || 0,
 							downCount: toot.downCount || 0,
 							commentsCount: toot.commentsCount || 0
 						}}
-						<a href={url}>
-							<TableWrap spacing="px-4">
-								<!-- Contet -->
-								<TootContent {toot} />
-								<!-- Metadata -->
-								<TootMeta
-									createdAt={toot.createdAt}
-									counts={toot.mediaAttachementCounts}
-									{karmaCounts}
-									{shareContent}
-								/>
-								<!-- Profile -->
-								<div class="md:col-span-1 md:col-start-1 order-last md:order-first">
-									<!-- Account Profile -->
-									<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
-										<div class=" items-top h-auto mx-auto lg:my-0">
-											<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
-												<div class="p-6 text-center lg:text-left">
-													<p class="text-3xl pb-5 text-ellipsis overflow-hidden dark:text-gray-200">
-														{toot.account?.displayName || toot.account?.display_name || ''}
-													</p>
-													<div class="image overflow-hidden pb-5">
-														<img class="h-auto w-full mx-auto" src={toot.avatar} alt="" />
-													</div>
-													<p class="pb-5 text-ellipsis overflow-hidden">
-														<Button
-															color="dark"
-															class=""
-															on:click={() => {
-																goto(`/accounts/${toot.acct}`);
-															}}
-														>
-															<span class="">{toot.acct}</span></Button
-														>
-													</p>
-													<div
-														class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"
-													></div>
 
-													<p class="pt-2 text-base font-bold lg:justify-start dark:text-gray-200">
-														{toot.domain}
-													</p>
+						<TableWrap spacing="px-4">
+							<!-- Contet -->
+							<a href={url}><TootContent {toot} /></a>
+							<!-- Metadata -->
+							<div class="grid grid-cols-2">
+								<div>
+									{toot.createdAt?.includes('T') ? formatCreatedAt(toot.createdAt) : toot.createdAt}
+								</div>
+								<div>
+									<Button on:click={() => showShareModal(toot)}>Share Page</Button>
+								</div>
+							</div>
+
+							<TootMeta counts={toot.mediaAttachementCounts} {karmaCounts} />
+
+							<Modal title="Share this page" bind:open={shareModal} size="xs"
+								><ShareButtons {shareContent} /></Modal
+							>
+							<!-- Profile -->
+							<div class="md:col-span-1 md:col-start-1 order-last md:order-first">
+								<!-- Account Profile -->
+								<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
+									<div class=" items-top h-auto mx-auto lg:my-0">
+										<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
+											<div class="p-6 text-center lg:text-left">
+												<p class="text-3xl pb-5 text-ellipsis overflow-hidden dark:text-gray-200">
+													{toot.account?.displayName || toot.account?.display_name || ''}
+												</p>
+												<div class="image overflow-hidden pb-5">
+													<img class="h-auto w-full mx-auto" src={toot.avatar} alt="" />
 												</div>
+												<p class="pb-5 text-ellipsis overflow-hidden">
+													<Button
+														color="dark"
+														class=""
+														on:click={() => {
+															goto(`/accounts/${toot.acct}`);
+														}}
+													>
+														<span class="">{toot.acct}</span></Button
+													>
+												</p>
+												<div
+													class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"
+												></div>
+
+												<p class="pt-2 text-base font-bold lg:justify-start dark:text-gray-200">
+													{toot.domain}
+												</p>
 											</div>
 										</div>
 									</div>
 								</div>
-							</TableWrap></a
-						>
+							</div>
+						</TableWrap>
 					{/each}
 				</div>
 			</div>
