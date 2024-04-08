@@ -76,12 +76,13 @@
 						<TootTable {tableData} sourceData={toots} />
 					</div>
 				</div>
+
 				<!-- Mobile view -->
 				<div class="show-on-mobile">
 					{#each toots as toot}
 						{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
 						<a href={url}>
-							<TableWrap>
+							<TableWrap spacing="px-4">
 								<!-- Contet -->
 								<TootContent {toot} />
 								<!-- Metadata -->
