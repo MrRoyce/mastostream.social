@@ -14,6 +14,7 @@ import Languages from '$lib/components/Languages/Languages.svelte';
 import LegalSidebar from '$lib/components/LegalSidebar/LegalSidebar.svelte';
 import Loading from '$lib/components/Loading/Loading.svelte';
 import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
+import ShareButtons from '$lib/components/UI/ShareButtons.svelte';
 import SidebarItemWrapper from '$lib/components/UI/SidebarItemWrapper.svelte';
 import SideWrap from '$lib/components/UI/SideWrap.svelte';
 import TableWrap from '$lib/components/UI/TableWrap.svelte';
@@ -41,6 +42,7 @@ export {
 	LegalSidebar,
 	Loading,
 	OwnersTootTable,
+	ShareButtons,
 	SidebarItemWrapper,
 	SideWrap,
 	TableWrap,
