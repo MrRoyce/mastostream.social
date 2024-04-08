@@ -187,7 +187,7 @@
 
 				<!-- Dashboard Marquee Cards -->
 				<div class="overflow-hidden">
-					<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
+					<div class="border-2 border-dashed border-gray-300 dark:border-gray-600">
 						<FooterPage />
 					</div>
 				</div>

@@ -63,10 +63,12 @@
 				<BreadcrumbItem>{id}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
-		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-			<div class="mx-auto my-5 p-5">
+		<div
+			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
+		>
+			<div class="mx-auto mb-5">
 				<div class="col-span-2">
-					<Heading tag="h3" class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
+					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
 						>{$t('general.latestTootsIn')}
 						{entity.language}
 						({language.englishValue}):</Heading
@@ -78,7 +80,7 @@
 						<div class="md:flex no-wrap md:-mx-2">
 							<!-- Left Side -->
 							<div class="w-full md:w-3/12 md:mx-2 flex items-center justify-center">
-								<!-- Profile Card -->
+								<!-- WikiData button -->
 								{#if wikiData.extract}
 									<div class="6">
 										<Button on:click={() => (clickOutsideModal = true)}>WikiData</Button>
@@ -112,6 +114,7 @@
 								<TootTable {tableData} sourceData={toots} getData={() => {}} />
 							</div>
 						</div>
+
 						<!-- Mobile view -->
 						<div class="show-on-mobile">
 							{#each toots as toot}
