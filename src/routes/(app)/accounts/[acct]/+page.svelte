@@ -12,12 +12,10 @@
 		List,
 		TableBody,
 		TableBodyRow,
-		TableBodyCell,
-		Button
+		TableBodyCell
 	} from 'flowbite-svelte';
 	import { formatText } from '$lib/utils';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
-	import { Section } from 'flowbite-svelte-blocks';
 
 	export let data: PageData;
 	const entity = data.entity;
