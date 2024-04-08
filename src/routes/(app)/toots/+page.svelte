@@ -164,13 +164,13 @@
 						{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
 						{@const shareContent = {
 							url: `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`,
-							title: 'Test title',
-							desc: 'Test desc'
+							title: `Found this on utoots.com from : ${toot.acct}`,
+							desc: truncateHTML(toot.content, 200)
 						}}
 						{@const karmaCounts = {
-							upCount: toot.upCount || 2,
-							downCount: toot.downCount || 4,
-							commentsCount: toot.commentsCount || 6
+							upCount: toot.upCount || 0,
+							downCount: toot.downCount || 0,
+							commentsCount: toot.commentsCount || 0
 						}}
 						<a href={url}>
 							<TableWrap spacing="px-4">
