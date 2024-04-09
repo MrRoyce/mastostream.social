@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { deepStrictEqual } from 'assert';
-	import { Button } from 'flowbite-svelte';
 	import {
 		Email,
 		Facebook,

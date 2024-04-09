@@ -191,8 +191,14 @@
 								<div>
 									{toot.createdAt?.includes('T') ? formatCreatedAt(toot.createdAt) : toot.createdAt}
 								</div>
-								<div>
-									<Button on:click={() => showShareModal(toot)}>Share Page</Button>
+								<div class="justify-self-end">
+									<Button
+										outline={true}
+										class="!p-2"
+										color="green"
+										on:click={() => showShareModal(toot)}
+										><i class="fa-solid fa-share" style="color: #31c48d;" /></Button
+									>
 								</div>
 							</div>
 
