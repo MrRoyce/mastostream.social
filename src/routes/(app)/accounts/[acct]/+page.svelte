@@ -188,7 +188,7 @@
 							{#each toots as toot}
 								{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
 								<a href={url}>
-									<TableWrap divContianerPadding="">
+									<TableWrap divContainerPadding="">
 										<!-- Contet -->
 										<TootContent {toot} />
 										<!-- Metadata -->
