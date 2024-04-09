@@ -22,7 +22,7 @@ export default {
 		inspector: {
 			toggleKeyCombo: 'meta-shift',
 			showToggleButton: 'always',
-			toggleButtonPos: 'bottom-right'
+			toggleButtonPos: 'bottom-left'
 		}
 	},
 	kit: {
