@@ -9,7 +9,7 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { Cta, Section } from 'flowbite-svelte-blocks';
 	import { setMagicEmail } from '$lib/localStorage/magicEmail';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Heading } from 'flowbite-svelte';
 	import { t } from '$lib/translations';
 
 	type FormState = 'idle' | 'submitting' | 'success' | Error;
@@ -110,15 +110,14 @@
 </script>
 
 {#if state !== 'success'}
-	<section class="bg-gray-50 dark:bg-gray-900">
+	<Section class="bg-gray-50 dark:bg-gray-900">
 		<div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
 			<!-- CTA -->
 			<div class="flex flex-col justify-center">
-				<h1
-					class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-gray-200"
-				>
-					U Toots - User supported discovery for the Fediverse!
-				</h1>
+				<Heading class="mb-4  text-gray-900  dark:text-gray-200">U Toots</Heading>
+				<Heading tag="h4" class="mb-4   text-gray-900  dark:text-gray-200">
+					User supported discovery for the Fediverse!
+				</Heading>
 				<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
 					{$t('general.vision')}
 				</p>
@@ -265,7 +264,7 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</Section>
 {:else}
 	<div class="col-span-12">
 		<Section name="cta">

@@ -11,9 +11,10 @@
 	import { Turnstile } from 'svelte-turnstile';
 	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
 	import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-	import { Button } from 'flowbite-svelte';
+	import { Button, Heading } from 'flowbite-svelte';
 	import { enhance } from '$app/forms';
 	import { t } from '$lib/translations';
+	import { Section } from 'flowbite-svelte-blocks';
 
 	export let data: PageData;
 
@@ -130,15 +131,14 @@
 		{goto('/')}
 	{/if}
 {:else}
-	<section class="bg-gray-50 dark:bg-gray-900">
+	<Section class="bg-gray-50 dark:bg-gray-900">
 		<div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
-			<!-- CTA -->
+			<!-- Mission -->
 			<div class="flex flex-col justify-center">
-				<h1
-					class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-gray-200"
-				>
-					U Toots - User supported discovery for the Fediverse!
-				</h1>
+				<Heading class="mb-4  text-gray-900  dark:text-gray-200">U Toots</Heading>
+				<Heading tag="h4" class="mb-4   text-gray-900  dark:text-gray-200">
+					User supported discovery for the Fediverse!
+				</Heading>
 				<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
 					{$t('general.vision')}
 				</p>
@@ -163,6 +163,8 @@
 					</svg>
 				</a>
 			</div>
+
+			<!-- Create account form -->
 			<div>
 				<div class="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white shadow-xl dark:bg-gray-800">
 					<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-200">Create an account</h2>
@@ -279,5 +281,5 @@
 				</div>
 			</div>
 		</div>
-	</section>
+	</Section>
 {/if}
