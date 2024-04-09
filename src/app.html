@@ -21,8 +21,11 @@
 
 <body data-theme="skeleton" class="bg-slate-950 text-white darkk:text-gray-200 relative">
 	<div style="display: contents" class="h-full overflow-hidden">%sveltekit.body%</div>
-	<button style="bottom:8px; right:9px; position: fixed;" onclick="(() => {const elemPage = document.querySelector('#page');
-			elemPage.scrollTop = 0;})()"><i class="fa fa-arrow-up" style="color: #31c48d;" /></button>
 </body>
+<button style="bottom:8px; right:9px; position: fixed;" onclick="(() => {
+			const elemPage = document.querySelector('#page');
+			elemPage.scrollTop = 0;
+		})()"><i class="fa fa-arrow-up" style="color: #31c48d;" />
+</button>
 
 </html>
