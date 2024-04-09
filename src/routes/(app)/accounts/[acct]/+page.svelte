@@ -128,7 +128,7 @@
 						</div>
 						<!-- Right Side -->
 						<div class="w-full md:w-9/12 mx-2">
-							<div class="bg-grey-900 p-3 shadow-sm rounded-sm">
+							<div class="bg-grey-900 p-3 shadow-sm">
 								<div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
 									<div class="text-gray-700">
 										<img src={entity.header} alt="User" />

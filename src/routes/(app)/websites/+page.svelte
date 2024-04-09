@@ -111,7 +111,7 @@
 				<div class="hidden-on-mobile">
 					<Table
 						name="advancedTable"
-						classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+						classSection="bg-gray-50 dark:bg-gray-900  sm:p-5"
 						hoverable={true}
 					>
 						<TableHead>
@@ -179,11 +179,12 @@
 									class=" cursor-pointer"
 									on:click={() => goto(`/websites/${item.domain}`)}
 								>
-									<TableBodyCell></TableBodyCell>
 									<TableBodyCell colspan="6">
-										{item.instance?.short_description
-											? item.instance.short_description.substring(0, 115 - 3) + '...'
-											: ''}
+										<span class="text-xl text-gray-200">
+											{item.instance?.short_description
+												? item.instance.short_description.substring(0, 115 - 3) + '...'
+												: ''}</span
+										>
 									</TableBodyCell>
 								</TableBodyRow>
 							{/each}

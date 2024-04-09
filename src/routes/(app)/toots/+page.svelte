@@ -110,7 +110,7 @@
 							<TableBody>
 								{#each toots as toot}
 									<TableBodyRow
-										class="border-none"
+										class="border-none cursor-pointer"
 										on:click={() => goto(`/toots/${toot.accountId}_${toot.tootId}`)}
 									>
 										<TableBodyCell>
@@ -147,7 +147,9 @@
 										>
 									</TableBodyRow>
 
-									<TableBodyRow on:click={() => goto(`/toots/${toot.accountId}_${toot.tootId}`)}
+									<TableBodyRow
+										class="cursor-pointer"
+										on:click={() => goto(`/toots/${toot.accountId}_${toot.tootId}`)}
 										><TableBodyCell
 											colspan="10"
 											class="whitespace-normal break-words py-2 dark:text-gray-200"
@@ -156,14 +158,14 @@
 												{toot.spoiler_text || toot.spoilerText || 'Sensitive content'}
 											{:else}
 												<span class="text-xl">{@html truncateHTML(toot.content, 300)}</span>
-												<span class="text-gray-400">
-													{@html '<br /><br />'}
-													{toot.acct}
-													{@html '<br />'}
-
-													{`${formatCreatedAt(toot.createdAt)}`}
-												</span>
 											{/if}
+											<span class="text-gray-400">
+												{@html '<br /><br />'}
+												{toot.acct}
+												{@html '<br />'}
+
+												{`${formatCreatedAt(toot.createdAt)}`}
+											</span>
 										</TableBodyCell>
 									</TableBodyRow>
 								{/each}

@@ -44,19 +44,20 @@
 
 {#if entity?.domain && entity.instance}
 	{@const instance = entity.instance}
-	<div class="pt-0.5">
-		<TableWrap>
-			<div class="pl-0 pt-0 pb-4">
-				<Breadcrumb aria-label="Links to Dashboard and Servers">
-					<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
-					<BreadcrumbItem href="/websites">{$t('pagelinks.websites')}</BreadcrumbItem>
-					<BreadcrumbItem>{id}</BreadcrumbItem>
-				</Breadcrumb>
-			</div>
-			<div
-				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
-			>
-				<div class=" mx-auto my-5 p-5">
+	<TableWrap>
+		<div class="pl-0 pt-0 pb-4">
+			<Breadcrumb aria-label="Links to Dashboard and Servers">
+				<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>
+				<BreadcrumbItem href="/websites">{$t('pagelinks.websites')}</BreadcrumbItem>
+				<BreadcrumbItem>{id}</BreadcrumbItem>
+			</Breadcrumb>
+		</div>
+		<div
+			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
+		>
+			<div class="dark:bg-gray-900 p-4">
+				<div class=" mx-auto">
+					<!-- Domain profile -->
 					<div class="md:flex no-wrap md:-mx-2">
 						<!-- Left Side -->
 						<div class="w-full md:w-3/12 md:mx-2">
@@ -108,7 +109,7 @@
 						</div>
 						<!-- Right Side -->
 						<div class="w-full md:w-9/12 mx-2">
-							<div class="bg-grey-900 p-3 shadow-sm rounded-sm">
+							<div class="bg-grey-900 p-3 shadow-sm">
 								<p class="mt-5 text-xl">
 									{instance.title || ''}
 								</p>
@@ -144,12 +145,16 @@
 							</div>
 						</div>
 					</div>
-					<div class="my-4 text-white">
+
+					<!-- Website toots -->
+					<div class="my-4 text-gray-200">
 						<h2 class="text-gray-200 font-bold text-xl leading-8 my-1">
-							Recent toots from {entity.domain}
+							{$t('general.latestTootsFrom')}
+							{entity.domain}
 						</h2>
+						<!-- hidden-on-mobile -->
 						<div class="hidden-on-mobile">
-							<OwnersTootTable {tableData} sourceData={toots} />
+							<OwnersTootTable {tableData} sourceData={toots} showAcct={true} />
 						</div>
 						<!-- Mobile view -->
 						<div class="show-on-mobile">
@@ -167,9 +172,9 @@
 						</div>
 					</div>
 				</div>
-			</div></TableWrap
-		>
-	</div>
+			</div>
+		</div></TableWrap
+	>
 {:else if browser}
 	{goto('/websites/notfound')}
 {/if}
