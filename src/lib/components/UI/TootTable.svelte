@@ -98,12 +98,14 @@
 					{#if item.sensitive && !showSensitive}
 						{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 					{:else}
-						{@html truncateHTML(item.content, 120)}
+						<span class="text-xl">{@html truncateHTML(item.content, 120)}</span>
 					{/if}
-					{@html '<br /><br />'}
-					{item.acct}
-					{@html '<br />'}
-					{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}
+					<span class="text-gray-400">
+						{@html '<br /><br />'}
+						{item.acct}
+						{@html '<br />'}
+						{item.createdAt?.includes('T') ? formatCreatedAt(item.createdAt) : item.createdAt}</span
+					>
 				</TableBodyCell>
 			</TableBodyRow>
 		{/each}
