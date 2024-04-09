@@ -155,7 +155,7 @@
 											{#if toot.sensitive && !showSensitive}
 												{toot.spoiler_text || toot.spoilerText || 'Sensitive content'}
 											{:else}
-												{@html truncateHTML(toot.content, 300)}
+												<span class="text-xl">{@html truncateHTML(toot.content, 300)}</span>
 												<span class="text-gray-400">
 													{@html '<br /><br />'}
 													{toot.acct}
