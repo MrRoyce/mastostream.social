@@ -60,7 +60,7 @@
 			</svelte:fragment>
 		</AppBar>
 		<!-- +page.svelte Slot -->
-		<main class="container mx-auto">
+		<main class=" mx-auto">
 			<div class="flex-initial">
 				<slot />
 			</div>

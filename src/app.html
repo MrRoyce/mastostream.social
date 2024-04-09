@@ -15,11 +15,14 @@
 	<link rel="icon" href="%sveltekit.assets%/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"></script>
+	<script></script>
 	%sveltekit.head%
 </head>
 
 <body data-theme="skeleton" class="bg-slate-950 text-white darkk:text-gray-200 relative">
 	<div style="display: contents" class="h-full overflow-hidden">%sveltekit.body%</div>
+	<button style="bottom:8px; right:9px; position: fixed;" onclick="(() => {const elemPage = document.querySelector('#page');
+			elemPage.scrollTop = 0;})()"><i class="fa fa-arrow-up" style="color: #31c48d;" /></button>
 </body>
 
 </html>
