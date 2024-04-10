@@ -322,6 +322,22 @@ export const getSidebarItems: SideBarMenuItems = ({ group, page }) => {
 						]
 					}
 				]
+			},
+			settings: {
+				groups: [
+					{
+						name: '',
+						auth: 1,
+						items: [
+							{
+								href: '/settings',
+								icon: 'fa-solid fa-gear',
+								label: 'Settings',
+								url: '/settings',
+							}
+						]
+					}
+				]
 			}
 		}
 	};

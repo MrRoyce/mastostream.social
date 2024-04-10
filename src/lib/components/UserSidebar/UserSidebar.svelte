@@ -12,14 +12,17 @@
 		'flex items-center p-2 text-base font-normal text-green-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
 
 	export let image: String;
-	export let email: String;
+	export let user;
+
+	const email = user?.email;
 
 	const pageSidebarItems = getSidebarItems({ group: 'app', page: 'home' });
+	const pageSettingsItems = getSidebarItems({ group: 'app', page: 'settings' });
 
 	const mb = 'mb-4';
 
 	$: image;
-	$: email;
+	$: user;
 </script>
 
 <SideWrap {mb}>
@@ -39,14 +42,14 @@
 										<i class={'fas fa-user-secret fa-5x'}></i>
 									{/if}
 
-									<Tooltip triggeredBy="[id^='users-picture']">{email}</Tooltip>
+									<Tooltip triggeredBy="[id^='users-picture']">{email || ''}</Tooltip>
 								</svelte:fragment>
 							</SidebarItem>
 						</div>
 					</SidebarGroup>
 					{#if pageSidebarItems}
 						{#each pageSidebarItems.groups as group}
-							<SidebarGroup class="pb-6">
+							<SidebarGroup class="pb-4">
 								{$t(group.name)}
 								{#each group.items as item}
 									<SidebarItem label={$t(item.label)} href={item.href}>
@@ -57,6 +60,25 @@
 								{/each}
 							</SidebarGroup>
 						{/each}
+					{/if}
+					{#if email}
+						<!-- User Settings -->
+						{#if pageSettingsItems}
+							{#each pageSettingsItems.groups as group}
+								<SidebarGroup
+									class="scroll-pb-48 pt-4 border-solid border-0 border-t border-gray-200"
+								>
+									{$t(group.name)}
+									{#each group.items as item}
+										<SidebarItem label={$t(item.label)} href={item.href}>
+											<svelte:fragment slot="icon">
+												<i class={item.icon} />
+											</svelte:fragment>
+										</SidebarItem>
+									{/each}
+								</SidebarGroup>
+							{/each}
+						{/if}
 					{/if}
 				</SidebarWrapper>
 			</Sidebar>
