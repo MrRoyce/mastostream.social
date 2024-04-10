@@ -11,20 +11,9 @@
 		TootContent,
 		TootMeta
 	} from '$lib/components';
-	import {
-		Breadcrumb,
-		BreadcrumbItem,
-		Li,
-		List,
-		TableBody,
-		TableBodyRow,
-		TableBodyCell,
-		Button,
-		Modal,
-		Heading
-	} from 'flowbite-svelte';
+	import { Breadcrumb, BreadcrumbItem, Li, List, Button, Modal, Heading } from 'flowbite-svelte';
 	import { formatCreatedAt, formatText, truncateHTML } from '$lib/utils';
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 
 	export let data: PageData;
 	const entity = data.entity;
@@ -171,7 +160,7 @@
 								)}
 							</div>
 
-							<div class="m-2 border-t-4 border-green-400"></div>
+							<div class="m-2 border-t-2 border-green-400"></div>
 
 							<!-- Account Favorites -->
 							<div class="grid grid-cols-1 pt-2">
