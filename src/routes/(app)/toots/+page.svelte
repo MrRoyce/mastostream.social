@@ -17,7 +17,14 @@
 	import { browser } from '$app/environment';
 	import type { PageData } from '../$types';
 	import { formatCreatedAt, truncateHTML } from '$lib/utils';
-	import { ShareButtons, TableWrap, TootContent, TootMeta, TootsRadio } from '$lib/components';
+	import {
+		MobileTootViewWrapper,
+		ShareButtons,
+		TableWrap,
+		TootContent,
+		TootMeta,
+		TootsRadio
+	} from '$lib/components';
 	import { t } from '$lib/translations';
 
 	if (browser) {
@@ -188,71 +195,7 @@
 						}}
 
 						<TableWrap spacing="px-2">
-							<!-- Content -->
-							<a href={url}><TootContent {toot} {limit} /></a>
-							<!-- Metadata -->
-							<div class="grid grid-cols-2">
-								<div>
-									{toot.createdAt?.includes('T') ? formatCreatedAt(toot.createdAt) : toot.createdAt}
-								</div>
-								<div class="justify-self-end">
-									<Button
-										outline={true}
-										class="!p-2"
-										color="green"
-										on:click={() => showShareModal(toot)}
-										><i class="fa-solid fa-share" style="color: #31c48d;" /></Button
-									>
-								</div>
-							</div>
-
-							<TootMeta counts={toot.mediaAttachementCounts} {karmaCounts} />
-
-							<Modal title="Share this page" bind:open={shareModal} size="xs"
-								><ShareButtons {shareContent} /></Modal
-							>
-							<!-- Profile -->
-							<div class="md:col-span-1 md:col-start-1 order-last md:order-first">
-								<!-- Account Profile -->
-								<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
-									<div class=" items-top h-auto mx-auto lg:my-0">
-										<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
-											<div class="p-6 text-center lg:text-left">
-												<p class="text-3xl pb-5 text-ellipsis overflow-hidden dark:text-gray-200">
-													{toot.account?.displayName || toot.account?.display_name || ''}
-												</p>
-												<div class="image overflow-hidden pb-2">
-													<img class="h-auto w-full mx-auto" src={toot.avatar} alt="" />
-												</div>
-
-												<Button
-													color="dark"
-													on:click={() => {
-														goto(`/accounts/${toot.acct}`);
-													}}
-												>
-													<p class=" text-ellipsis overflow-hidden dark:text-gray-200">
-														{toot.acct}
-													</p></Button
-												>
-												<div
-													class="mx-auto lg:mx-0 w-4/5 pt-2 border-b-2 border-green-500 opacity-25 mb-2"
-												></div>
-												<Button
-													color="dark"
-													on:click={() => {
-														goto(`/websites/${toot.domain}`);
-													}}
-												>
-													<p class="text-ellipsis overflow-hiddendark:text-gray-200">
-														{toot.domain}
-													</p></Button
-												>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
+							<MobileTootViewWrapper {toot} {limit} />
 						</TableWrap>
 					{/each}
 				</div>

@@ -2,6 +2,7 @@
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
 	import {
+		MobileTootViewWrapper,
 		OwnersTootTable,
 		Page404,
 		ShareButtons,
@@ -180,36 +181,8 @@
 					<!-- Mobile view -->
 					<div class="show-on-mobile">
 						{#each toots as toot}
-							{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
-
 							<TableWrap spacing="px-4">
-								<!-- Contet -->
-								<a href={url}><TootContent {toot} /></a>
-								<!-- Metadata -->
-								<div class="grid grid-cols-2">
-									<span class="text-gray-400">
-										{@html ''}
-										{toot.acct}
-										{@html '<br />'}
-										{toot.createdAt?.includes('T')
-											? formatCreatedAt(toot.createdAt)
-											: toot.createdAt}</span
-									>
-									<div class="justify-self-end">
-										<Button
-											outline={true}
-											class="!p-2"
-											color="green"
-											on:click={() => showShareModal(toot)}
-											><i class="fa-solid fa-share" style="color: #31c48d;" /></Button
-										>
-									</div>
-								</div>
-
-								<TootMeta createdAt={toot.createdAt} counts={toot.mediaAttachementCounts} />
-								<Modal title="Share this page" bind:open={shareModal} size="xs"
-									><ShareButtons {shareContent} /></Modal
-								>
+								<MobileTootViewWrapper {toot} />
 							</TableWrap>
 						{/each}
 					</div>
