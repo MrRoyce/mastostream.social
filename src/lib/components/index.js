@@ -10,6 +10,7 @@ import CardWithImage from '$lib/components/Cards/Card.svelte';
 import Footer from '$lib/components/Footers/Footer.svelte';
 import FooterPage from '$lib/components/Footers/FooterPage.svelte';
 import ImageGallery from '$lib/components/UI/ImageGallery.svelte';
+import MobileTootViewWrapper from '$lib/components/UI/MobileTootViewWrapper.svelte';
 import Languages from '$lib/components/Languages/Languages.svelte';
 import LegalSidebar from '$lib/components/LegalSidebar/LegalSidebar.svelte';
 import Loading from '$lib/components/Loading/Loading.svelte';
@@ -39,6 +40,7 @@ export {
 	Footer,
 	FooterPage,
 	ImageGallery,
+	MobileTootViewWrapper,
 	Languages,
 	LegalSidebar,
 	Loading,
