@@ -121,7 +121,7 @@
 	<AppShell>
 		<svelte:fragment slot="sidebarLeft">
 			<div class="hidden-on-mobile">
-				<UserSidebar image={userImage} email={data.user?.email || ''} />
+				<UserSidebar image={userImage} user={data.user || ''} />
 			</div>
 		</svelte:fragment>
 
