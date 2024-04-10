@@ -13,14 +13,14 @@
 	import { goto } from '$app/navigation';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import showSensitiveStore from '$lib/stores/SensitiveStore';
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import type { PageData } from '../$types';
 	import { formatCreatedAt, truncateHTML } from '$lib/utils';
 	import { ShareButtons, TableWrap, TootContent, TootMeta, TootsRadio } from '$lib/components';
 	import { t } from '$lib/translations';
 
-	if (browser && isSupported()) {
+	if (browser) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Toots'
@@ -220,27 +220,33 @@
 												<p class="text-3xl pb-5 text-ellipsis overflow-hidden dark:text-gray-200">
 													{toot.account?.displayName || toot.account?.display_name || ''}
 												</p>
-												<div class="image overflow-hidden pb-5">
+												<div class="image overflow-hidden pb-2">
 													<img class="h-auto w-full mx-auto" src={toot.avatar} alt="" />
 												</div>
-												<p class="pb-5 text-ellipsis overflow-hidden">
-													<Button
-														color="dark"
-														class=""
-														on:click={() => {
-															goto(`/accounts/${toot.acct}`);
-														}}
-													>
-														<span class="">{toot.acct}</span></Button
-													>
-												</p>
-												<div
-													class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"
-												></div>
 
-												<p class="pt-2 text-base font-bold lg:justify-start dark:text-gray-200">
-													{toot.domain}
-												</p>
+												<Button
+													color="dark"
+													on:click={() => {
+														goto(`/accounts/${toot.acct}`);
+													}}
+												>
+													<p class=" text-ellipsis overflow-hidden dark:text-gray-200">
+														{toot.acct}
+													</p></Button
+												>
+												<div
+													class="mx-auto lg:mx-0 w-4/5 pt-2 border-b-2 border-green-500 opacity-25 mb-2"
+												></div>
+												<Button
+													color="dark"
+													on:click={() => {
+														goto(`/websites/${toot.domain}`);
+													}}
+												>
+													<p class="text-ellipsis overflow-hiddendark:text-gray-200">
+														{toot.domain}
+													</p></Button
+												>
 											</div>
 										</div>
 									</div>
