@@ -14,12 +14,12 @@
 				<BlurHash hash={picture.blurhash} height={256} width={256} />
 			{:else}
 				<CardWithImage
-					cardImage={picture.remote_url || picture.remoteUrl || picture.preview_url || picture.src}
+					cardImage={picture.remote_url || picture.remoteUrl || picture.src || picture.preview_url}
 					description={picture.description || ''}
 					imageDescription={picture.description || ''}
 					providerName="View image"
 					title={picture.description || ''}
-					url={picture.remote_url || picture.remoteUrl || picture.preview_url || picture.src}
+					url={picture.remote_url || picture.remoteUrl || picture.src || picture.preview_url}
 				/>
 			{/if}
 		</span>
