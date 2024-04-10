@@ -1,3 +1,4 @@
+import { collection } from "firebase/firestore";
 
 
 function getAttachmentCounts(mediaAttachments) {
@@ -26,10 +27,41 @@ function getAttachmentCounts(mediaAttachments) {
 export const addMediaAttachmentCounts = (toots) => {
 	let response = toots;
 
-	try {
-		response = toots.map((toot) => {
+	if (Array.isArray(toots)) {
+		try {
+			response = toots.map((toot) => {
+				const myToot = toot;
+				const mediaAttachementCounts = {
+					totalAttachments: 0,
+					totalVideos: 0,
+					totalAudio: 0,
+					totalPictures: 0
+				};
 
-			const myToot = toot
+				myToot.mediaAttachementCounts = mediaAttachementCounts;
+
+				if (
+					myToot.mediaAttachments &&
+					Array.isArray(myToot.mediaAttachments) &&
+					myToot.mediaAttachments.length > 0
+				) {
+					const { totalAttachments, totalAudio, totalPictures, totalVideos } = getAttachmentCounts(
+						myToot.mediaAttachments
+					);
+
+					myToot.mediaAttachementCounts.totalAttachments = totalAttachments;
+					myToot.mediaAttachementCounts.totalVideos = totalVideos;
+					myToot.mediaAttachementCounts.totalAudio = totalAudio;
+					myToot.mediaAttachementCounts.totalPictures = totalPictures;
+				}
+
+				return myToot;
+			});
+		} catch (error) {
+			console.warn('Error getting mediaattachment counts in array of toots', error);
+		}
+	} else {
+		try {
 			const mediaAttachementCounts = {
 				totalAttachments: 0,
 				totalVideos: 0,
@@ -37,27 +69,26 @@ export const addMediaAttachmentCounts = (toots) => {
 				totalPictures: 0
 			};
 
-			myToot.mediaAttachementCounts = mediaAttachementCounts;
+			response.mediaAttachementCounts = mediaAttachementCounts;
 
 			if (
-				myToot.mediaAttachments &&
-				Array.isArray(myToot.mediaAttachments) &&
-				myToot.mediaAttachments.length > 0
+				response.mediaAttachments &&
+				Array.isArray(response.mediaAttachments) &&
+				response.mediaAttachments.length > 0
 			) {
 				const { totalAttachments, totalAudio, totalPictures, totalVideos } = getAttachmentCounts(
-					myToot.mediaAttachments
+					response.mediaAttachments
 				);
 
-				myToot.mediaAttachementCounts.totalAttachments = totalAttachments;
-				myToot.mediaAttachementCounts.totalVideos = totalVideos;
-				myToot.mediaAttachementCounts.totalAudio = totalAudio;
-				myToot.mediaAttachementCounts.totalPictures = totalPictures;
+				response.mediaAttachementCounts.totalAttachments = totalAttachments;
+				response.mediaAttachementCounts.totalVideos = totalVideos;
+				response.mediaAttachementCounts.totalAudio = totalAudio;
+				response.mediaAttachementCounts.totalPictures = totalPictures;
 			}
 
-			return myToot;
-		});
-	} catch (error) {
-		console.warn('Error getting mediaattchment counts', error);
+		} catch (error) {
+			console.warn('Error getting mediaattachment counts in toot', error);
+		}
 	}
 
 	return response;
