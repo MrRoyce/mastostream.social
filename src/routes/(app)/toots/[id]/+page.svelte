@@ -188,7 +188,7 @@
 							</div>
 						{:else}
 							<TableWrap spacing="px-2" divContainerPadding="">
-								<MobileTootViewWrapper {toot} />
+								<MobileTootViewWrapper {toot} showProfile={false} />
 							</TableWrap>
 						{/if}
 
@@ -287,6 +287,40 @@
 								reply={`Replies to this toot`}
 							/>
 						{/if}
+					</div>
+					<!-- Profile -->
+					<div class="md:col-span-4 md:col-start-1 order-last md:order-first">
+						<div class="bg-grey-900 shadow-sm border-t-2 border-green-400">
+							<div class=" items-top h-auto mx-auto lg:my-0">
+								<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
+									<div class="p-6 text-center lg:text-left">
+										<p class="text-3xl pb-5 text-ellipsis overflow-hidden dark:text-gray-200">
+											{toot.account?.displayName || toot.account?.display_name || ''}
+										</p>
+										<div class="image overflow-hidden pb-2">
+											<img class="h-auto w-full mx-auto" src={toot.avatar} alt="" />
+										</div>
+										<Button
+											color="dark"
+											class=""
+											on:click={() => {
+												goto(`/accounts/${toot.acct}`);
+											}}
+											><p class=" text-ellipsis overflow-hidden dark:text-gray-200">
+												<span class="">{toot.acct}</span>
+											</p></Button
+										>
+										<div
+											class="mx-auto lg:mx-0 w-4/5 pt-2 border-b-2 border-green-500 opacity-25 mb-2"
+										></div>
+
+										<p class="pt-2 text-base text-left overflow-hidden dark:text-gray-200">
+											{@html accountNote}
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
