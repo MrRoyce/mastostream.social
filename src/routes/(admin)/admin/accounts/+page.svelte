@@ -3,7 +3,7 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import type { SubmitFunction } from './$types';
 	import { applyAction, enhance } from '$app/forms';
-	import { AdminTootTable } from '$lib/components';
+	import { AdminTootTable, TableWrap } from '$lib/components';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import { Button, Li, List, Modal, TableBody, TableBodyCell, TableBodyRow } from 'flowbite-svelte';
 	import { formatCreatedAt, formatText } from '$lib/utils';
@@ -35,6 +35,7 @@
 
 	const search: SubmitFunction = (input) => {
 		// do something before the form submits
+
 		return async (options) => {
 			// do something after the form submits
 			loading = false;
@@ -42,7 +43,12 @@
 			toots = data?.toots || [];
 
 			entity = data?.entity || {};
-			domain = new URL(entity?.url)?.hostname || '';
+			try {
+				domain = new URL(entity?.url)?.hostname || '';
+			} catch (error) {
+				console.warn('entity', entity);
+				console.warn('Error getting URL', error);
+			}
 		};
 	};
 
@@ -90,9 +96,12 @@
 			loadSpinner = false;
 		};
 	};
+
+	$: entity;
 </script>
 
 <div class="bg-gray-50 dark:bg-gray-900">
+	<!-- Search field -->
 	<div class="p-5">
 		<form
 			class="flex items-center max-w-sm mx-auto"
@@ -151,17 +160,19 @@
 			</button>
 		</form>
 	</div>
+
 	{#if entity}
-		<div class="bg-gray-50 dark:bg-gray-900 flex py-4 m-4 h-fit">
+		<TableWrap>
 			<div
-				class="dark:bg-gray-800 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
+				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-2"
 			>
-				<div class=" mx-auto my-5 p-5">
+				<div class=" mx-auto my-2 p-2">
+					<!-- Account Profile -->
 					<div class="md:flex no-wrap md:-mx-2">
 						<!-- Left Side -->
 						<div class="w-full md:w-3/12 md:mx-2">
 							<!-- Profile Card -->
-							<div class="bg-grey-900 p-3 border-t-4 border-green-400">
+							<div class="bg-grey-900 p-2 border-t-4 border-green-400">
 								<div class="image overflow-hidden">
 									<img class="h-auto w-full mx-auto" src={entity.avatar} alt="" />
 								</div>
@@ -173,10 +184,10 @@
 										>{entity.locked ? 'Locked' : 'Public'}</span
 									></span
 								>
-								<span class=" ml-3 text-gray-200 font-bold text-xl leading-8 my-1"
-									>{entity.username}</span
-								>
-								<h3 class="text-white font-lg text-semibold leading-6 pt-5">
+								<div class="dark:text-gray-200 font-bold text-xl leading-8 my-1">
+									{entity.username}
+								</div>
+								<h3 class="text-white dark:text-gray-200 font-lg">
 									<a
 										rel="noopener nofollow"
 										target="_blank"
@@ -187,28 +198,29 @@
 										<ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
 									</a>
 								</h3>
-								<List list="none">
-									<Li class="ml-auto text-gray-300 my-1"
-										>Started: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-											>{entity.createdAt.split('T')[0]}</span
-										></Li
-									>
-									<Li class="ml-auto text-gray-300 my-1"
-										># Toots: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-											>{entity.statusesCount.toLocaleString()}</span
-										></Li
-									>
-									<Li class="ml-auto text-gray-300 my-1"
-										>Following: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-											>{entity.followingCount.toLocaleString()}</span
-										></Li
-									>
-									<Li class="ml-auto text-gray-300 my-1"
-										>Followers: <span class="mr-3 bg-green-500 px-1 rounded text-white text-sm"
-											>{entity.followersCount.toLocaleString()}</span
-										></Li
-									>
-								</List>
+								<!-- Account info -->
+								<div class="pt-2 text-gray-200">
+									<List list="none">
+										<Li class="my-1"
+											><span class=" text-lg">Started: </span>{entity.createdAt.split('T')[0]}</Li
+										>
+										<Li class="my-1"
+											><span class=" text-lg"
+												># Toots:
+											</span>{entity.statusesCount.toLocaleString()}</Li
+										>
+										<Li class="my-1"
+											><span class=" text-lg"
+												>Following:
+											</span>{entity.followingCount.toLocaleString()}</Li
+										>
+										<Li class="my-1"
+											><span class=" text-lg"
+												>Followers:
+											</span>{entity.followersCount.toLocaleString()}</Li
+										>
+									</List>
+								</div>
 							</div>
 						</div>
 						<!-- Right Side -->
@@ -270,7 +282,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</TableWrap>
 	{/if}
 </div>
 
