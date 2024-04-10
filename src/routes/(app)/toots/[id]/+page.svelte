@@ -21,7 +21,13 @@
 	import { goto } from '$app/navigation';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { formatCreatedAt, formatImages, getBadWords, truncateHTML } from '$lib/utils';
+	import {
+		formatCreatedAt,
+		formatImages,
+		getBadWords,
+		hasAdultContent,
+		truncateHTML
+	} from '$lib/utils';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -41,7 +47,7 @@
 
 	export let data: PageData;
 	const toot = data.entity;
-	const adultContent = badWords.some((item) => toot.content.toLowerCase().includes(item));
+	const adultContent = hasAdultContent(toot.content, badWords);
 
 	let replies: [];
 	let replyTo: {};
