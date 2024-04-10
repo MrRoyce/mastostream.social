@@ -4,12 +4,12 @@
 	import type { PageData } from '../$types';
 	import TootTable from '$lib/components/UI/TootTable.svelte';
 	import TootsRadio from '$lib/components/UI/TootsRadio.svelte';
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { Page404, TableWrap, TootContent, TootMeta } from '$lib/components';
 	import { t } from '$lib/translations';
 
-	if (browser && isSupported()) {
+	if (browser) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Tags_[tag]'
