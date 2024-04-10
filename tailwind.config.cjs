@@ -12,6 +12,7 @@ const config = {
 
 	plugins: [
 		require('flowbite/plugin'),
+		require('@tailwindcss/forms'),
 		tailwindcss(),
 		skeleton({
 			themes: {
