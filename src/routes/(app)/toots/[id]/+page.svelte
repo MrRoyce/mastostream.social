@@ -21,7 +21,7 @@
 	import { goto } from '$app/navigation';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { formatCreatedAt, formatImages, truncateHTML } from '$lib/utils';
+	import { formatCreatedAt, formatImages, getBadWords, truncateHTML } from '$lib/utils';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -37,8 +37,11 @@
 		tableHead: ['Pic', 'Safe', 'Type', 'Pics', 'Video', 'Audio', 'Language', 'Link']
 	};
 
+	const badWords = getBadWords();
+
 	export let data: PageData;
 	const toot = data.entity;
+	const adultContent = badWords.some((item) => toot.content.toLowerCase().includes(item));
 
 	let replies: [];
 	let replyTo: {};
@@ -134,7 +137,7 @@
 							<!-- Toot -->
 							<div class="flex items-center justify-center">
 								<!-- Sensitive Toggle -->
-								{#if toot.sensitive}
+								{#if toot.sensitive || adultContent}
 									<Toggle
 										color="red"
 										checked={false}
@@ -159,7 +162,7 @@
 							/>
 						{/if}
 
-						{#if toot.sensitive && !showSensitive}
+						{#if (toot.sensitive && !showSensitive) || (adultContent && !showSensitive)}
 							<div class="pt-10">
 								<Section name="maintenance">
 									<Maintenance>
@@ -204,7 +207,7 @@
 						>
 
 						{#each images.videos as video}
-							{#if toot.sensitive && !showSensitive}
+							{#if (toot.sensitive && !showSensitive) || (adultContent && !showSensitive)}
 								<BlurHash hash={video.blurhash} />
 							{:else}
 								<video
@@ -244,7 +247,12 @@
 						{/each}
 
 						{#if images.pictures}
-							<ImageGallery pictures={images.pictures} sensitive={toot.sensitive} {showSensitive} />
+							<ImageGallery
+								pictures={images.pictures}
+								sensitive={toot.sensitive}
+								{showSensitive}
+								{adultContent}
+							/>
 						{/if}
 
 						{#each images.audio as audio}
@@ -253,8 +261,8 @@
 
 						{#if card && (card.provider_name || card.title || card.description || card.image || card.url)}
 							<div class="pt-4 justify-center">
-								{#if toot.sensitive && !showSensitive}
-									<br />
+								{#if (toot.sensitive && !showSensitive) || (adultContent && !showSensitive)}
+									<p>Sensitive or Adult Content</p>
 								{:else if card.provider_name === 'YouTube'}
 									<YouTube
 										authorName={card.author_name}

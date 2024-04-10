@@ -2,6 +2,7 @@ import { addMediaAttachmentCounts } from '$lib/utils/addMediaAttachmentCounts';
 import { convertToK } from '$lib/utils/convertToK';
 import { calculateCharts } from '$lib/utils/calculateCharts';
 import { calculateStats } from '$lib/utils/calculateStats';
+import { getBadWords } from '$lib/utils/getBadWords';
 import { getLanguage } from '$lib/utils/getLanguage';
 import { getLanguageList } from '$lib/utils/getLanguage';
 import { getLanguageString } from '$lib/utils/getLanguage';
@@ -21,6 +22,7 @@ export {
 	calculateCharts,
 	calculateStats,
 	convertToK,
+	getBadWords,
 	getLanguage,
 	getLanguageList,
 	getLanguageString,
