@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Maintenance, Page404, Section } from 'flowbite-svelte-blocks';
+	import { Maintenance, Section } from 'flowbite-svelte-blocks';
 	import { dev } from '$app/environment';
 	import { A, Breadcrumb, BreadcrumbItem, Button, Toggle } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
@@ -10,6 +10,7 @@
 		CardDefault,
 		CardWithImage,
 		ImageGallery,
+		Page404,
 		TableWrap,
 		TootContent,
 		TootTable,
@@ -18,18 +19,13 @@
 	import { goto } from '$app/navigation';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { formatCreatedAt, formatImages, formatText } from '$lib/utils';
-	import { redirectPage } from '$lib/utils/redirectPage';
+	import { formatCreatedAt, formatImages } from '$lib/utils';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Toots_[id]'
 		});
-	}
-
-	function redirectToPage() {
-		redirectPage(5, '/toots');
 	}
 
 	const tableData = {
@@ -85,7 +81,7 @@
 		<div
 			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 		>
-			<div class="dark:bg-gray-900 p-4">
+			<div class="dark:bg-gray-900 p-2">
 				<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
 					<!-- Toot -->
 					<div class="md:col-span-8 md:col-start-5 order-first md:order-last">
@@ -308,21 +304,6 @@
 			</div>
 		</div></TableWrap
 	>
-{:else}
-	{#if browser}
-		{redirectToPage()}
-	{/if}
-	<Page404>
-		<svelte:fragment slot="h1">404</svelte:fragment>
-		<svelte:fragment slot="paragraph">
-			<p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl">
-				Something's missing.
-			</p>
-			<p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
-				Sorry, we can't find that page. You'll find lots to explore on the toots page. Please click
-				here if you are not redirected
-			</p>
-			<Button href="/toots" size="lg" color="red">Back to Toots</Button>
-		</svelte:fragment>
-	</Page404>
+{:else if browser}
+	<Page404 route="toots" />
 {/if}

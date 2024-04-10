@@ -45,7 +45,7 @@
 			</Breadcrumb>
 		</div>
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-			<div class=" mx-auto mb-5 p-5">
+			<div class=" mx-auto mb-5 p-4">
 				<div class="col-span-2 mb-6">
 					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
 						>{$t('general.latestTootsFromAllSites')}</Heading
@@ -197,10 +197,10 @@
 					{#each domains as item}
 						{@const url = `/websites/${item.domain}`}
 						<a href={url}>
-							<TableWrap>
+							<TableWrap spacing="px-2">
 								<div class="w-full md:w-3/12 md:mx-2">
 									<!-- Profile Card -->
-									<div class="bg-grey-900 p-3 border-t-4 border-green-400">
+									<div class="bg-grey-900 pb-4 border-t-4 border-green-400">
 										<div class="image overflow-hidden">
 											<img class="h-auto w-full mx-auto" src={item.instance.thumbnail} alt="" />
 										</div>

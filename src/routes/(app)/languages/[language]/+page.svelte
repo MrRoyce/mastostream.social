@@ -63,47 +63,45 @@
 				<BreadcrumbItem>{id}</BreadcrumbItem>
 			</Breadcrumb>
 		</div>
-		<div
-			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
-		>
-			<div class="mx-auto mb-5">
-				<div class="col-span-2">
-					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
-						>{$t('general.latestTootsIn')}
-						{entity.language}
-						({language.englishValue}):</Heading
-					>
-				</div>
-				<div class="dark:bg-gray-800">
-					<div class=" mx-auto my-5 p-5">
-						<!-- Header setion -->
-						<div class="md:flex no-wrap md:-mx-2">
-							<!-- Left Side -->
-							<div class="w-full md:w-3/12 md:mx-2 flex items-center justify-center">
-								<!-- WikiData button -->
-								{#if wikiData.extract}
-									<div class="6">
-										<Button on:click={() => (clickOutsideModal = true)}>WikiData</Button>
-									</div>
-									<Modal title="WikiData" bind:open={clickOutsideModal} autoclose outsideclose
-										><CardWithImage
-											cardImage={wikiData.originalimage?.source ||
-												'https://commons.wikimedia.org/static/images/project-logos/commonswiki-2x.png'}
-											description={wikiData.extract}
-											imageDescription={wikiData.extract}
-											providerName="en.wikipedia.org"
-											title={wikiTitle}
-											url={wikiData.content_urls?.desktop?.page}
-										/></Modal
-									>
-								{/if}
-							</div>
-							<!-- Right Side -->
-							<div class="w-full md:w-9/12 mx-2">
-								<div class="bg-grey-900 p-3 shadow-sm rounded-sm">
-									<h3 class="">
-										<TootsRadio bind:tootType {getTootType} />
-									</h3>
+		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
+			<div class="mx-auto mb-5 p-4">
+				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+					<!-- Left Side -->
+					<div class="md:col-span-2 md:col-start-1 order-first">
+						<!-- Top of page -->
+						<Heading tag="h3" class="text-xl md:text-2xl lg:text-3xl  dark:text-gray-200"
+							>{$t('general.latestTootsIn')}
+							{entity.language}
+							({language.englishValue}):</Heading
+						>
+					</div>
+					<div class="dark:bg-gray-800">
+						<div class=" mx-auto mb-5 p-2">
+							<!-- Header setion -->
+							<div class="md:flex no-wrap md:-mx-2">
+								<!-- Left Side -->
+								<div class="w-full md:w-3/12 md:mx-2 flex items-center justify-center">
+									<!-- WikiData button -->
+									{#if wikiData.extract}
+										<div class="6">
+											<Button on:click={() => (clickOutsideModal = true)}>WikiData</Button>
+										</div>
+										<Modal title="WikiData" bind:open={clickOutsideModal} autoclose outsideclose
+											><CardWithImage
+												cardImage={wikiData.originalimage?.source ||
+													'https://commons.wikimedia.org/static/images/project-logos/commonswiki-2x.png'}
+												description={wikiData.extract}
+												imageDescription={wikiData.extract}
+												providerName="en.wikipedia.org"
+												title={wikiTitle}
+												url={wikiData.content_urls?.desktop?.page}
+											/></Modal
+										>
+									{/if}
+								</div>
+								<!-- Right Side -->
+								<div class="md:col-span-2 md:col-start-3 order-last">
+									<TootsRadio bind:tootType {getTootType} />
 								</div>
 							</div>
 						</div>
@@ -120,7 +118,7 @@
 							{#each toots as toot}
 								{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
 								<a href={url}>
-									<TableWrap>
+									<TableWrap spacing="px-2">
 										<!-- Contet -->
 										<TootContent {toot} />
 										<!-- Metadata -->

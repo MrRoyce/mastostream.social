@@ -42,6 +42,8 @@
 		url: ''
 	};
 
+	let shareModal = false;
+
 	function showShareModal(toot) {
 		shareContent.acct = toot.acct;
 		shareContent.desc = truncateHTML(toot.content, 200);
@@ -51,7 +53,6 @@
 	}
 
 	let showSensitive: boolean;
-	let shareModal = false;
 
 	showSensitiveStore.subscribe((data) => {
 		showSensitive = data;
@@ -185,8 +186,8 @@
 							commentsCount: toot.commentsCount || 0
 						}}
 
-						<TableWrap spacing="px-4">
-							<!-- Contet -->
+						<TableWrap spacing="px-2">
+							<!-- Content -->
 							<a href={url}><TootContent {toot} /></a>
 							<!-- Metadata -->
 							<div class="grid grid-cols-2">
