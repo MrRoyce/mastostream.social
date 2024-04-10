@@ -26,7 +26,7 @@ export const handleLogout = async () => {
       // Do not use goto!
       // window.location.assign will force a page refresh!
       //await invalidate('/')
-      await goto('/', { invalidateAll: true, replaceState: true });
+      await goto('/', { invalidateAll: true });
       //window.location.assign('/');
     })
     .catch((error) => {
