@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Maintenance, Section } from 'flowbite-svelte-blocks';
 	import { dev } from '$app/environment';
-	import { A, Breadcrumb, BreadcrumbItem, Button, Toggle } from 'flowbite-svelte';
+	import { A, Breadcrumb, BreadcrumbItem, Button, Modal, Toggle } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
 	import { t } from '$lib/translations';
@@ -11,15 +11,17 @@
 		CardWithImage,
 		ImageGallery,
 		Page404,
+		ShareButtons,
 		TableWrap,
 		TootContent,
+		TootMeta,
 		TootTable,
 		YouTube
 	} from '$lib/components';
 	import { goto } from '$app/navigation';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import { formatCreatedAt, formatImages } from '$lib/utils';
+	import { formatCreatedAt, formatImages, truncateHTML } from '$lib/utils';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -36,31 +38,60 @@
 	};
 
 	export let data: PageData;
-	const entity = data.entity;
+	const toot = data.entity;
+
 	let replies: [];
 	let replyTo: {};
 	let card: {};
 	let images: {};
 	let accountNote: string;
 
-	if (entity.acct) {
+	let shareModal = false;
+
+	let karmaCounts = {
+		upCount: 0,
+		downCount: 0,
+		commentsCount: 0
+	};
+
+	if (toot.acct) {
+		karmaCounts = {
+			upCount: toot.upCount || 0,
+			downCount: toot.downCount || 0,
+			commentsCount: toot.commentsCount || 0
+		};
 		replies = data.replies;
 		replyTo = data.replyTo ? [data.replyTo] : false;
 		card = data.card;
-		if (browser && dev) console.log('entity', entity);
+		if (browser && dev) console.log('toot', toot);
 		if (browser && dev) console.log('card', card);
 
 		images =
-			entity && entity.mediaAttachments && Array.isArray(entity.mediaAttachments)
-				? formatImages(entity?.mediaAttachments)
+			toot && toot.mediaAttachments && Array.isArray(toot.mediaAttachments)
+				? formatImages(toot?.mediaAttachments)
 				: { audio: [], videos: [], pictures: [] };
 
 		if (browser && dev) console.log('images', images);
 
 		accountNote =
-			entity && entity.account && entity.account.note
-				? entity.account.note.replaceAll('</p><p>', '</p><br /><p>')
+			toot && toot.account && toot.account.note
+				? toot.account.note.replaceAll('</p><p>', '</p><br /><p>')
 				: '';
+	}
+
+	const shareContent = {
+		acct: '',
+		desc: '',
+		title: '',
+		url: ''
+	};
+
+	function showShareModal(toot) {
+		shareContent.acct = toot.acct;
+		shareContent.desc = truncateHTML(toot.content, 200);
+		shareContent.title = `Found this on utoots.com from : ${toot.acct}`;
+		shareContent.url = `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`;
+		shareModal = true;
 	}
 
 	$: showSensitive = false;
@@ -69,7 +100,7 @@
 	};
 </script>
 
-{#if entity.acct}
+{#if toot.acct}
 	<TableWrap>
 		<!-- Breadcrumb -->
 		<div class="pl-0 pt-0 pb-4">
@@ -88,46 +119,36 @@
 						<!-- Date and Sensitive Toggle Grid -->
 						<div class="grid col-span-1 md:grid-cols-2">
 							<!-- Created At date -->
-							<div class=" pt-4 col-span-1 md:col-start-1">
+							<div class=" pt-2 col-span-1 md:col-start-1">
 								<div class="flex sm:items-center md:items-start sm:justify-center md:justify-start">
 									<p class="text-base font-bold flex dark:text-gray-200">
-										<svg
-											class="h-4 fill-current text-green-700 pr-4"
-											xmlns="http://www.w3.org/2000/svg"
-											viewBox="0 0 20 20"
-										>
-											<path
-												d="M9 12H1v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6h-8v2H9v-2zm0-1H0V5c0-1.1.9-2 2-2h4V2a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1h4a2 2 0 0 1 2 2v6h-9V9H9v2zm3-8V2H8v1h4z"
-											/>
-										</svg>
-										{formatCreatedAt(entity.createdAt)}
+										{formatCreatedAt(toot.createdAt)}
 
-										<A target="_blank" href={entity.uri}
+										<A target="_blank" href={toot.uri}
 											><ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
 										</A>
 									</p>
 								</div>
 							</div>
 
-							<!-- Sensitive Toggle -->
-							<div class="pt-4 col-span-1 md:col-start-2">
-								<div class="flex items-center justify-center">
-									<!-- Sensitive Toggle -->
-									{#if entity.sensitive}
-										<Toggle
-											color="red"
-											checked={false}
-											value="false"
-											on:click={() => {
-												{
-													hideSensitive();
-												}
-											}}>{$t('pagelinks.showSensitive')}</Toggle
-										>
-									{/if}
-								</div>
+							<!-- Toot -->
+							<div class="flex items-center justify-center">
+								<!-- Sensitive Toggle -->
+								{#if toot.sensitive}
+									<Toggle
+										color="red"
+										checked={false}
+										value="false"
+										on:click={() => {
+											{
+												hideSensitive();
+											}
+										}}>{$t('pagelinks.showSensitive')}</Toggle
+									>
+								{/if}
 							</div>
 						</div>
+
 						<!-- Reply to if any -->
 						{#if replyTo !== false && typeof replyTo == 'object' && replyTo.acct}
 							<TootTable
@@ -137,13 +158,14 @@
 								reply={`Replying to this toot`}
 							/>
 						{/if}
-						{#if entity.sensitive && !showSensitive}
+
+						{#if toot.sensitive && !showSensitive}
 							<div class="pt-10">
 								<Section name="maintenance">
 									<Maintenance>
 										<svelte:fragment slot="h1"
-											>{entity.spoiler_text ||
-												entity.spoilerText ||
+											>{toot.spoiler_text ||
+												toot.spoilerText ||
 												'Sensitive Content'}</svelte:fragment
 										>
 										<svelte:fragment slot="paragraph"
@@ -155,11 +177,34 @@
 								</Section>
 							</div>
 						{:else}
-							<TootContent toot={entity} />
+							<TableWrap spacing="px-2" divContainerPadding="">
+								<TootContent {toot} />
+							</TableWrap>
 						{/if}
+						<!-- Metadata -->
+						<div class="grid grid-cols-2">
+							<div>
+								{toot.createdAt?.includes('T') ? formatCreatedAt(toot.createdAt) : toot.createdAt}
+							</div>
+							<div class="justify-self-end">
+								<Button
+									outline={true}
+									class="!p-2"
+									color="green"
+									on:click={() => showShareModal(toot)}
+									><i class="fa-solid fa-share" style="color: #31c48d;" /></Button
+								>
+							</div>
+						</div>
+
+						<TootMeta counts={toot.mediaAttachementCounts} {karmaCounts} />
+
+						<Modal title="Share this page" bind:open={shareModal} size="xs"
+							><ShareButtons {shareContent} /></Modal
+						>
 
 						{#each images.videos as video}
-							{#if entity.sensitive && !showSensitive}
+							{#if toot.sensitive && !showSensitive}
 								<BlurHash hash={video.blurhash} />
 							{:else}
 								<video
@@ -199,11 +244,7 @@
 						{/each}
 
 						{#if images.pictures}
-							<ImageGallery
-								pictures={images.pictures}
-								sensitive={entity.sensitive}
-								{showSensitive}
-							/>
+							<ImageGallery pictures={images.pictures} sensitive={toot.sensitive} {showSensitive} />
 						{/if}
 
 						{#each images.audio as audio}
@@ -212,7 +253,7 @@
 
 						{#if card && (card.provider_name || card.title || card.description || card.image || card.url)}
 							<div class="pt-4 justify-center">
-								{#if entity.sensitive && !showSensitive}
+								{#if toot.sensitive && !showSensitive}
 									<br />
 								{:else if card.provider_name === 'YouTube'}
 									<YouTube
@@ -256,43 +297,42 @@
 
 					<!-- Profile -->
 					<div class="md:col-span-4 md:col-start-1 order-last md:order-first">
-						<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
+						<div class="bg-grey-900 shadow-sm border-t-2 border-green-400">
 							<div class=" items-top h-auto mx-auto lg:my-0">
 								<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
 									<div class="p-6 text-center lg:text-left">
 										<p class="text-3xl pb-5 text-ellipsis overflow-hidden dark:text-gray-200">
-											{entity.account?.displayName || entity.account?.display_name || ''}
+											{toot.account?.displayName || toot.account?.display_name || ''}
 										</p>
-										<div class="image overflow-hidden pb-5">
-											<img class="h-auto w-full mx-auto" src={entity.avatar} alt="" />
+										<div class="image overflow-hidden pb-2">
+											<img class="h-auto w-full mx-auto" src={toot.avatar} alt="" />
 										</div>
-										<p class="pb-5 text-ellipsis overflow-hidden">
-											<Button
-												color="dark"
-												class=""
-												on:click={() => {
-													goto(`/accounts/${entity.acct}`);
-												}}
-											>
-												<span class="">{entity.acct}</span></Button
-											>
-										</p>
+										<Button
+											color="dark"
+											class=""
+											on:click={() => {
+												goto(`/accounts/${toot.acct}`);
+											}}
+											><p class=" text-ellipsis overflow-hidden dark:text-gray-200">
+												<span class="">{toot.acct}</span>
+											</p></Button
+										>
 										<div
-											class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"
+											class="mx-auto lg:mx-0 w-4/5 pt-2 border-b-2 border-green-500 opacity-25 mb-2"
 										></div>
 
-										<p class="pt-2 text-base font-bold lg:justify-start dark:text-gray-200">
-											<svg
-												class="h-4 fill-current text-green-700 pr-4"
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 20 20"
-											>
-												<path
-													d="M10 20a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm7.75-8a8.01 8.01 0 0 0 0-4h-3.82a28.81 28.81 0 0 1 0 4h3.82zm-.82 2h-3.22a14.44 14.44 0 0 1-.95 3.51A8.03 8.03 0 0 0 16.93 14zm-8.85-2h3.84a24.61 24.61 0 0 0 0-4H8.08a24.61 24.61 0 0 0 0 4zm.25 2c.41 2.4 1.13 4 1.67 4s1.26-1.6 1.67-4H8.33zm-6.08-2h3.82a28.81 28.81 0 0 1 0-4H2.25a8.01 8.01 0 0 0 0 4zm.82 2a8.03 8.03 0 0 0 4.17 3.51c-.42-.96-.74-2.16-.95-3.51H3.07zm13.86-8a8.03 8.03 0 0 0-4.17-3.51c.42.96.74 2.16.95 3.51h3.22zm-8.6 0h3.34c-.41-2.4-1.13-4-1.67-4S8.74 3.6 8.33 6zM3.07 6h3.22c.2-1.35.53-2.55.95-3.51A8.03 8.03 0 0 0 3.07 6z"
-												/>
-											</svg>
-											{entity.domain}
-										</p>
+										<Button
+											color="dark"
+											class=""
+											on:click={() => {
+												goto(`/websites/${toot.domain}`);
+											}}
+										>
+											<p class="text-ellipsis overflow-hidden dark:text-gray-200">
+												{toot.domain}
+											</p></Button
+										>
+
 										<p class="pt-2 text-base text-left overflow-hidden">
 											{@html accountNote}
 										</p>

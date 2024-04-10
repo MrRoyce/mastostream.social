@@ -1,6 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { getDocument, getDocuments } from '$lib/getCollection';
 import { redis } from '$lib/redis/redis';
+import { addMediaAttachmentCounts } from '$lib/utils';
 
 const ttl = 600
 
@@ -42,8 +43,6 @@ async function getStatusWithCard(fetch: { (input: URL | RequestInfo, init?: Requ
 // Get the toot for the passed id
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
-  //await redis.connect()
-
   let replies: [] = []
   let replyTo = false
   let card = {}
@@ -69,6 +68,9 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     entity = JSON.parse(entityCached)
     replies = JSON.parse(repliesCached)
     replyTo = JSON.parse(replyToCached)
+    // re-add counts??
+    entity = addMediaAttachmentCounts(entity)
+
   } else {
     console.log('cardCached, entityCached, repliesCached, replyToCached NOT cached')
     // Get Entity
@@ -83,6 +85,8 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       entity.account = cardResult?.account || entity.account  // Override with better data
       entity.content = cardResult?.content || entity.content  // Override with better data
       entity.mediaAttachments = cardResult?.media_attachments || entity.mediaAttachments  // Override with better data
+
+      entity = addMediaAttachmentCounts(entity)
 
       // Store entity in redis
       await redis.set(redisKeyEntity, JSON.stringify(entity), 'EX', ttl)
@@ -118,7 +122,7 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     }
   }
 
-  //await redis.quit()
+
 
   return {
     card: JSON.parse(JSON.stringify(card)),
