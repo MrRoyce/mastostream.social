@@ -4,7 +4,7 @@
 	export let toot;
 </script>
 
-<p class="pt-8 pb-8 text-2xl overflow-x-clip flex-wrap dark:text-gray-200">
+<p class="pt-2 pb-4 text-xl overflow-x-clip flex-wrap dark:text-gray-200">
 	{@html formatText(
 		toot.content
 			.replaceAll('</p><p>', '</p><br /><p>')
