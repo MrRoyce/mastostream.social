@@ -253,6 +253,7 @@
 							/>
 						{/if}
 					</div>
+
 					<!-- Profile -->
 					<div class="md:col-span-4 md:col-start-1 order-last md:order-first">
 						<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
