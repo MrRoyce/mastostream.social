@@ -35,13 +35,15 @@
 			</Breadcrumb>
 		</div>
 		<div
-			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-2"
+			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 		>
-			<div class=" mx-auto by-5 px-2">
-				<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200">
-					{$t('general.latestTootsInTerm')}
-					"{term}"
-				</Heading>
+			<div class=" mx-auto mb-5 p5">
+				<div class="col-span-2 mb-6">
+					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200">
+						{$t('general.latestTootsInTerm')}
+						"{term}"
+					</Heading>
+				</div>
 				<div class="hidden-on-mobile">
 					<div class="my-4 text-grey-200">
 						<TootTable {tableData} sourceData={toots} />
