@@ -71,7 +71,12 @@
 
 			await setSessionToken(idToken);
 
-			await goto('/', { invalidateAll: true, replaceState: true });
+			try {
+				window.location.assign('/');
+				// await goto('/', { invalidateAll: true });
+			} catch (error) {
+				console.error('window.location.assign', error);
+			}
 		} catch (error) {
 			const t: ToastSettings = {
 				background: 'variant-filled-error',
