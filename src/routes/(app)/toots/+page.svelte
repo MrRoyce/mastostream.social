@@ -53,6 +53,7 @@
 	}
 
 	let showSensitive: boolean;
+	const limit = 1000;
 
 	showSensitiveStore.subscribe((data) => {
 		showSensitive = data;
@@ -188,7 +189,7 @@
 
 						<TableWrap spacing="px-2">
 							<!-- Content -->
-							<a href={url}><TootContent {toot} /></a>
+							<a href={url}><TootContent {toot} {limit} /></a>
 							<!-- Metadata -->
 							<div class="grid grid-cols-2">
 								<div>
