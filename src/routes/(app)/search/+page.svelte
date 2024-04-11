@@ -6,9 +6,12 @@
 	import { goto } from '$app/navigation';
 	import { TableWrap } from '$lib/components';
 	import { t } from '$lib/translations';
+	import { getBadWords, hasAdultContent } from '$lib/utils';
 
 	let searchTerm = '';
 	let selected = 'toot';
+
+	const badWords = getBadWords();
 
 	if (browser) {
 		const analytics = getAnalytics();
@@ -18,7 +21,15 @@
 	}
 
 	function onChange(thisSelection) {
+		console.log('thisSelection', thisSelection);
 		selected = thisSelection;
+	}
+
+	function searchText() {
+		// console.log(`Will search for ${searchTerm} in ${selected}`);
+		const adultContent = hasAdultContent(searchTerm, badWords);
+		console.log('adultContent', adultContent);
+		//goto(`/search/${selected}/${searchTerm}`);
 	}
 
 	$: activeUrl = $page.url?.pathname;
@@ -59,7 +70,7 @@
 							</div>
 							<Button
 								color="green"
-								on:click={() => goto(`/search/${selected}/${searchTerm}`)}
+								on:click={searchText}
 								class="rounded-none py-2.5 px-3.5  ms-2 text-sm font-medium dark:text-gray-200"
 							>
 								<svg
@@ -85,21 +96,21 @@
 						<div class="grid col-span-1 grid-rows-1 grid-flow-col gap-4">
 							<Radio
 								name="search-list"
-								bind:group={searchTerm}
 								class="p-2"
+								checked={selected === 'website'}
 								on:click={() => onChange('website')}>Website</Radio
 							>
 
 							<Radio
 								name="search-list"
-								bind:group={searchTerm}
 								class="p-2"
+								checked={selected === 'account'}
 								on:click={() => onChange('account')}>Account</Radio
 							>
 							<Radio
 								name="search-list"
-								bind:group={searchTerm}
 								class="p-2"
+								checked={selected === 'toot'}
 								on:click={() => onChange('toot')}>Toot Content</Radio
 							>
 						</div>
