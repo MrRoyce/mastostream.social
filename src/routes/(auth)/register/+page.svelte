@@ -143,7 +143,7 @@
 					{$t('general.vision')}
 				</p>
 				<a
-					href="#"
+					href="/tac"
 					class="text-green-600 dark:text-green-500 hover:underline font-medium text-lg inline-flex items-center"
 					>Read more about our app
 					<svg

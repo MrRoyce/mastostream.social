@@ -123,11 +123,12 @@
 				<Heading tag="h4" class="mb-4   text-gray-900  dark:text-gray-200">
 					User supported discovery for the Fediverse!
 				</Heading>
-				<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">
+				<p class="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-300">
 					{$t('general.vision')}
 				</p>
 				<a
-					href="#"
+					href="/tac"
+					target="_blank"
 					class="text-green-600 dark:text-green-500 hover:underline font-medium text-lg inline-flex items-center"
 					>Read more about our app
 					<svg
@@ -202,7 +203,7 @@
 								>
 							</div>
 							<a
-								href="#"
+								href="/#"
 								class="ms-auto text-sm font-medium text-green-600 hover:underline dark:text-green-500"
 								>Lost Password?</a
 							>
@@ -262,6 +263,7 @@
 						<div class="text-sm font-medium text-gray-900 dark:text-gray-200">
 							Not registered yet? <a
 								href="/register"
+								target="_blank"
 								class="text-green-600 hover:underline dark:text-green-500">Create account</a
 							>
 						</div>
