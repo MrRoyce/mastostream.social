@@ -184,6 +184,7 @@
 							>
 							<input
 								type="text"
+								maxlength="30"
 								name="username"
 								id="username"
 								class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-200 dark:focus:ring-green-500 dark:focus:border-green-500"
@@ -201,6 +202,7 @@
 							>
 							<input
 								type="email"
+								maxlength="30"
 								name="email"
 								bind:value={email}
 								id="email"
@@ -219,6 +221,7 @@
 							>
 							<input
 								type="password"
+								maxlength="30"
 								name="password"
 								bind:value={password}
 								id="password"
@@ -236,6 +239,7 @@
 								>Confirm password</label
 							>
 							<input
+								maxlength="30"
 								name="password_confirmation"
 								id="password_confirmation"
 								type="password_confirmation"
@@ -249,6 +253,7 @@
 						<div class="flex items-start">
 							<div class="flex items-center h-5">
 								<input
+									maxlength="30"
 									id="terms"
 									aria-describedby="terms"
 									type="checkbox"

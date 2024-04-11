@@ -67,6 +67,7 @@
 						<Input
 							bind:value={accessToken}
 							type="text"
+							maxlength="30"
 							id="accessToken"
 							name="accessToken"
 							placeholder=""

@@ -160,6 +160,7 @@
 							>
 							<input
 								type="email"
+								maxlength="30"
 								name="email"
 								bind:value={email}
 								id="email"
@@ -177,6 +178,7 @@
 							>
 							<input
 								type="password"
+								maxlength="30"
 								name="password"
 								id="password"
 								bind:value={password}
@@ -190,6 +192,7 @@
 							<div class="flex items-center h-5">
 								<input
 									id="remember"
+									maxlength="30"
 									aria-describedby="remember"
 									name="remember"
 									type="checkbox"

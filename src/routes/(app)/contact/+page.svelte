@@ -99,13 +99,20 @@
 						<Label for="userEmail" class="block mb-2">{$t('general.yourEmail')}</Label>
 						<Input
 							id="userEmail"
+							maxlength="30"
 							name="userEmail"
 							placeholder="{$t('general.emailPlaceholder')}required"
 						/>
 					</div>
 					<div>
 						<Label for="userName" class="block mb-2">{$t('general.subject')}</Label>
-						<Input id="userName" name="userName" placeholder={$t('general.username')} required />
+						<Input
+							id="userName"
+							maxlength="30"
+							name="userName"
+							placeholder={$t('general.username')}
+							required
+						/>
 					</div>
 					<div>
 						<Textarea

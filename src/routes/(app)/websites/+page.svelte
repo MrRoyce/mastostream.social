@@ -62,6 +62,7 @@
 								</div>
 								<input
 									type="text"
+									maxlength="30"
 									id="entity-search"
 									name="entity-search"
 									bind:value={searchTerm}

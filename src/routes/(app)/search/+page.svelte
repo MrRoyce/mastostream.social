@@ -1,5 +1,13 @@
 <script lang="ts">
-	import { Breadcrumb, BreadcrumbItem, Button, Heading, Modal, Radio } from 'flowbite-svelte';
+	import {
+		Breadcrumb,
+		BreadcrumbItem,
+		Button,
+		Heading,
+		Input,
+		Modal,
+		Radio
+	} from 'flowbite-svelte';
 	import { page } from '$app/stores';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
@@ -75,6 +83,7 @@
 								<input
 									type="text"
 									id="entity-search"
+									maxlength="30"
 									name="entity-search"
 									bind:value={searchTerm}
 									class="bg-gray-50 border border-gray-300 dark:text-gray-200 text-sm focus:ring-green-500 focus:border-green-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-green-500 dark:focus:border-green-500"

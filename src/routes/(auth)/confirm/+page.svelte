@@ -131,6 +131,7 @@
 						<div class="mt-1">
 							<input
 								id="email"
+								maxlength="30"
 								name="email"
 								bind:value={email}
 								type="email"
