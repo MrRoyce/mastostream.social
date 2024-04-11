@@ -35,7 +35,9 @@
 	}
 
 	const ageConfirmed = () => {
-		goto(`/search/${selected}/${searchTerm}`);
+		if (searchTerm) {
+			goto(`/search/${selected}/${searchTerm}`);
+		}
 	};
 
 	const ageDecline = () => {
@@ -50,8 +52,6 @@
 		} else {
 			ageConfirmed();
 		}
-		console.log('adultContent', adultContent);
-		//goto(`/search/${selected}/${searchTerm}`);
 	}
 
 	$: activeUrl = $page.url?.pathname;
