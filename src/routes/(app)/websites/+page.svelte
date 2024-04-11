@@ -65,14 +65,14 @@
 									id="entity-search"
 									name="entity-search"
 									bind:value={searchTerm}
-									class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+									class="bg-gray-50 border border-gray-300 dark:text-gray-200 text-sm focus:ring-green-500 focus:border-green-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-green-500 dark:focus:border-green-500"
 									placeholder={$t('search.websiteName')}
 									required
 								/>
 							</div>
 							<button
 								on:click={() => goto(`/websites/${searchTerm}`)}
-								class="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+								class="p-2.5 ms-2 text-sm font-medium text-white bg-green-700 border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
 							>
 								<svg
 									class="w-4 h-4"
@@ -166,7 +166,7 @@
 									on:click={() => goto(`/websites/${item.domain}`)}
 								>
 									<TableBodyCell colspan="6">
-										<span class="text-xl text-gray-200">
+										<span class="text-base text-gray-200">
 											{item.instance?.short_description
 												? item.instance.short_description.substring(0, 115 - 3) + '...'
 												: ''}</span
