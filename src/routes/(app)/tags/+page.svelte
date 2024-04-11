@@ -31,6 +31,12 @@
 
 	let searchTerm = '';
 
+	function searchData() {
+		if (searchTerm) {
+			goto(`/tags/${searchTerm}`);
+		}
+	}
+
 	const tableData = {
 		tableHead: ['Name', 'Count', 'Last Toot (UTC)']
 	};
@@ -73,7 +79,7 @@
 							</div>
 							<Button
 								color="green"
-								on:click={() => goto(`/tags/${searchTerm}`)}
+								on:click={searchData}
 								class="rounded-none py-2.5 px-3.5  ms-2 text-sm font-medium text-gray-200"
 							>
 								<svg

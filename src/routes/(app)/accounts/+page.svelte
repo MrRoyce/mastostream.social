@@ -3,7 +3,6 @@
 		Breadcrumb,
 		BreadcrumbItem,
 		Button,
-		Card,
 		Heading,
 		Table,
 		TableBody,
@@ -22,10 +21,17 @@
 	import { TableWrap } from '$lib/components';
 	import { formatText, truncateHTML } from '$lib/utils';
 
-	let searchTerm = '';
 	export let data: PageData;
 	const { tootTypePassed, accounts } = data;
 	if (browser && dev) console.log('data in accounts', data);
+
+	let searchTerm = '';
+
+	function searchData() {
+		if (searchTerm) {
+			goto(`/accounts/${searchTerm.startsWith('@') ? searchTerm.slice(1) : searchTerm}`);
+		}
+	}
 
 	const tableData = {
 		tableHead: [
@@ -91,10 +97,7 @@
 							</div>
 							<Button
 								color="green"
-								on:click={() =>
-									goto(
-										`/accounts/${searchTerm.startsWith('@') ? searchTerm.slice(1) : searchTerm}`
-									)}
+								on:click={searchData}
 								class="rounded-none py-2.5 px-3.5  ms-2 text-sm font-medium dark:text-gray-200"
 							>
 								<svg
