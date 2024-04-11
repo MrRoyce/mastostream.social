@@ -36,7 +36,7 @@
 	function showShareModal(toot) {
 		shareContent.acct = toot.acct;
 		shareContent.desc = truncateHTML(toot.content, 200);
-		shareContent.title = `Found this on utoots.com from : ${toot.acct}`;
+		shareContent.title = `Found this on utoots.com from: ${toot.acct}`;
 		shareContent.url = `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`;
 		shareModal = true;
 	}
@@ -103,6 +103,6 @@
 	{/if}
 </div>
 
-<Modal title="Share this page" bind:open={shareModal} size="xs"
+<Modal title="Share this page" bind:open={shareModal} class="dark:text-gray-200" size="xs"
 	><ShareButtons {shareContent} /></Modal
 >
