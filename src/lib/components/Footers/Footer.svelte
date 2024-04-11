@@ -6,9 +6,11 @@
 		FooterBrand,
 		FooterLinkGroup,
 		FooterLink,
-		FooterCopyright
+		FooterCopyright,
+		A,
+		P
 	} from 'flowbite-svelte';
-	import { TableWrap } from '..';
+	import { TableWrap } from '$lib/components';
 	const mb = 'mb-4';
 </script>
 
@@ -24,11 +26,21 @@
 					src={logo}
 					alt="U Toots Logo"
 					name="U Toots"
-					aClass="flex mb-6"
+					aClass="flex mb-4"
+					classSpan="dark:text-green-400"
+					classImg="w-0"
 				/>
-				<p class="text-gray-600 dark:text-gray-400">
+				<P class="text-gray-600 dark:text-gray-400">
 					{$t('general.vision')}
-				</p>
+					We are a tiny team with a huge vision for a user focused community on the internet.
+				</P>
+				<P class="text-gray-600 dark:text-gray-400 pt-4">
+					Please, if you are able, consider supporting us: <A
+						color="dark:text-green-400"
+						href="https://patreon.com/UToots"
+						target="_blank">patreon.com/UToots</A
+					>
+				</P>
 			</div>
 			<Footer class="dark:bg-gray-900" footerType="socialmedia">
 				<div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-3 lg:gap-12">
@@ -51,9 +63,16 @@
 						</FooterLinkGroup>
 					</div>
 
-					<!-- Policies -->
+					<!-- legal -->
 					<div>
 						<h2 class="mb-6 text-sm font-semibold dark:text-gray-200 uppercase">Legal</h2>
+						<FooterLinkGroup>
+							<FooterLink liClass="mb-4" href="/tac#copyrightyes">TAC DMCA</FooterLink>
+							<FooterLink liClass="mb-4" href="https://www.copyright.gov/legislation/dmca.pdf"
+								>U.S. DMCA</FooterLink
+							>
+							<FooterLink liClass="mb-4" href="https://www.missingkids.org/home">CMEC</FooterLink>
+						</FooterLinkGroup>
 					</div>
 				</div>
 				<hr class="my-4 border-gray-200 sm:mx-auto dark:border-gray-700" />
