@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { A, Heading, Li, List, P } from 'flowbite-svelte';
+	import { A, Button, Heading, Li, List, P } from 'flowbite-svelte';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -70,9 +70,10 @@
 									required
 								/>
 							</div>
-							<button
+							<Button
+								color="green"
 								on:click={() => goto(`/websites/${searchTerm}`)}
-								class="p-2.5 ms-2 text-sm font-medium text-white bg-green-700 border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+								class="rounded-none py-2.5 px-3.5  ms-2 text-sm font-medium dark:text-gray-200"
 							>
 								<svg
 									class="w-4 h-4"
@@ -90,10 +91,11 @@
 									/>
 								</svg>
 								<span class="sr-only">Search</span>
-							</button>
+							</Button>
 						</form>
 					</div>
 				</div>
+
 				<div class="hidden-on-mobile">
 					<Table
 						name="advancedTable"
@@ -229,17 +231,3 @@
 		</div></TableWrap
 	>
 </div>
-
-<style>
-	/* Other styles for your component */
-
-	/* Show the slot content only on small screens */
-	.show-on-mobile {
-		@apply block lg:hidden;
-	}
-
-	/* Hide the slot fragment on small screens */
-	.hidden-on-mobile {
-		@apply hidden lg:block;
-	}
-</style>

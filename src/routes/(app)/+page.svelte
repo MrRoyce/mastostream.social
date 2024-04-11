@@ -197,15 +197,3 @@
 		{/if}
 	</TableWrap>
 {/if}
-
-<style>
-	/* Other styles for your component */
-	@import './cc.css';
-
-	/* Show the slot content only on small screens */
-
-	/* Hide the slot fragment on small screens */
-	.hidden-on-mobile {
-		@apply hidden sm:block;
-	}
-</style>

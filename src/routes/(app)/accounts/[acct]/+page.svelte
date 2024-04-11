@@ -186,17 +186,3 @@
 {:else if browser}
 	<Page404 route="accounts" />
 {/if}
-
-<style>
-	/* Other styles for your component */
-
-	/* Show the slot content only on small screens */
-	.show-on-mobile {
-		@apply block lg:hidden;
-	}
-
-	/* Hide the slot fragment on small screens */
-	.hidden-on-mobile {
-		@apply hidden lg:block;
-	}
-</style>
