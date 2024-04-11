@@ -7,6 +7,7 @@
 	export let toot;
 	export let limit = 5000;
 	export let showProfile = true;
+	export let hoverBg = ''; // dark:hover:bg-gray-700
 
 	const url = `/toots/${toot.accountId}_${toot.tootId}`;
 
@@ -42,14 +43,16 @@
 	}
 </script>
 
-<div>
+<div class={hoverBg}>
 	<!-- Content -->
 	<a href={url}>
 		<TootContent {toot} {limit} />
 	</a>
 	<!-- Date and Share -->
 	<div class="grid grid-cols-1">
-		<div class="text-gray-300"><a href={url}>{toot.acct}</a></div>
+		<div class="text-gray-300">
+			<a href={url}>{toot.acct}</a>
+		</div>
 		<div class="grid grid-cols-2">
 			<div class="text-gray-400">
 				<a href={url}>
