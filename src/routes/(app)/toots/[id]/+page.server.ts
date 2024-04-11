@@ -122,8 +122,6 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     }
   }
 
-
-
   return {
     card: JSON.parse(JSON.stringify(card)),
     entity: JSON.parse(JSON.stringify(entity)),
