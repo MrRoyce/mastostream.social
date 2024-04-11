@@ -16,16 +16,23 @@
 
 	export let shareContent;
 
-	const { url, title, desc, acct } = shareContent ? shareContent : { url: 0, title: 0, desc: 0 };
+	const { acct, desc, title, url } = shareContent
+		? shareContent
+		: {
+				acct: '',
+				desc: 'UToots.com is a user supported discovery service that respects user rights and the Mastodon decency principles',
+				title: 'Check out UToots.com',
+				url: 'https://utoots.com'
+			};
 </script>
 
-<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
+<p class="text-sm font-normal text-gray-500 dark:text-gray-200">
 	Thanks for sharing this content. We really appreciate it!.
 </p>
-<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
+<p class="text-sm font-normal text-gray-500 dark:text-gray-300">
 	{acct}
 </p>
-<p class="text-sm font-normal text-gray-500 dark:text-gray-400">
+<p class="text-sm font-normal text-gray-500 dark:text-gray-300">
 	{desc}
 </p>
 <div class="grid grid-rows-3 grid-cols-4 grid-flow-col gap-4">
