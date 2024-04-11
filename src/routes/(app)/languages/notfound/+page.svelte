@@ -2,9 +2,9 @@
 	import type { PageData } from './$types';
 	import { browser } from '$app/environment';
 	export let data: PageData;
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 
-	if (browser && isSupported()) {
+	if (browser) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Language_Not_Found'

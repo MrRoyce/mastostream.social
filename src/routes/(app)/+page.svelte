@@ -6,7 +6,7 @@
 	import { goto } from '$app/navigation';
 	import { Button, Tabs, TabItem } from 'flowbite-svelte';
 	import { calculateCharts, calculateStats, getRandomRange, truncateHTML } from '$lib/utils';
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { CardLineChart, CardStats, FooterPage, TableWrap, WordCloud } from '$lib/components';
 	import Marqueeck from '@arisbh/marqueeck';
@@ -87,7 +87,7 @@
 	const stats = calculateStats(statsParams);
 	const charts = calculateCharts(counts);
 
-	if (browser && isSupported()) {
+	if (browser) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Dashboard'

@@ -13,13 +13,13 @@
 	} from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 	import { formatDate } from '$lib/utils/formatDate';
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { TableWrap } from '$lib/components';
 	import { t } from '$lib/translations';
 
-	if (browser && isSupported()) {
+	if (browser) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Tags'

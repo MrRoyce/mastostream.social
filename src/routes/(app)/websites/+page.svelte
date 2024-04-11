@@ -13,13 +13,13 @@
 	import { goto } from '$app/navigation';
 	import { t } from '$lib/translations';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import type { PageData } from './$types';
 	import { formatDate } from '$lib/utils/formatDate';
 	import { TableWrap } from '$lib/components';
 
-	if (browser && isSupported()) {
+	if (browser) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Websites'

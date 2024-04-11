@@ -17,11 +17,11 @@
 		YouTube
 	} from '$lib/components';
 	import { goto } from '$app/navigation';
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { formatCreatedAt, formatImages, getBadWords, hasAdultContent } from '$lib/utils';
 
-	if (browser && isSupported()) {
+	if (browser) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Toots_[id]'

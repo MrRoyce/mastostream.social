@@ -13,11 +13,11 @@
 	import { goto } from '$app/navigation';
 	import { formatDate, getLanguage } from '$lib/utils';
 	import { t } from '$lib/translations';
-	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
+	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { TableWrap } from '$lib/components';
 
-	if (browser && isSupported()) {
+	if (browser) {
 		const analytics = getAnalytics();
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Languages'
