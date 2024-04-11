@@ -91,7 +91,7 @@
 						{#if item.sensitive && !showSensitive}
 							{item.spoiler_text || item.spoilerText || 'Sensitive content'}
 						{:else}
-							<span class="text-xl text-gray-200">{@html truncateHTML(item.content, 300)}</span>
+							<span class="text-base text-gray-200">{@html truncateHTML(item.content, 300)}</span>
 						{/if}
 						{#if showAcct}
 							<span class="text-gray-400">

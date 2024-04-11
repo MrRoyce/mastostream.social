@@ -15,6 +15,6 @@
 	);
 </script>
 
-<p class="pt-2 pb-4 text-xl overflow-x-clip flex-wrap dark:text-gray-200">
+<p class="pt-2 pb-4 text-base overflow-x-clip flex-wrap dark:text-gray-200">
 	{@html text}
 </p>
