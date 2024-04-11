@@ -178,7 +178,7 @@
 				<!-- Mobile view -->
 				<div class="show-on-mobile">
 					{#each accounts as item}
-						{@const truncatedText = truncateHTML(item.note, 100)}
+						{@const truncatedText = truncateHTML(item.note, 150)}
 						{@const url = `/accounts/${item.acct}`}
 						<a href={url}>
 							<TableWrap spacing="px-0">
@@ -195,23 +195,12 @@
 											alt=""
 										/>
 										<div class="flex flex-col justify-between p-4 leading-normal">
-											<h5
-												class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-											>
+											<p class="pb-2 sm:max-w-xs md:max-w-md dark:text-gray-200">
 												{item.acct}
-											</h5>
+											</p>
 											<div class="overflow-hidden">
-												<p class=" mb-3 font-normal text-gray-700 dark:text-gray-400">
-													{@html formatText(
-														truncatedText
-															.replaceAll('</p><p>', '</p><br /><p>')
-															.replaceAll(
-																'class="invisible"',
-																'class="font-medium hover:text-blue-300 hover:underline'
-															)
-															.replaceAll('class="mention hashtag"', ''),
-														'underline text-green-200'
-													)}
+												<p class=" mb-2 font-normal text-gray-700 dark:text-gray-400">
+													{@html formatText(truncatedText, 'underline text-green-200')}
 												</p>
 											</div>
 										</div>
