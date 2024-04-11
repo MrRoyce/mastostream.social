@@ -23,6 +23,19 @@
 	const { start, end } = getRandomRange(toots?.length, 10);
 	const tootsMarquee = toots?.slice(start, end);
 
+	const searchStats = {
+		href: '/search',
+		statEntity: 'Search',
+		statValue: 0,
+		statArrow: 'up',
+		statPercent: 0,
+		statsCount: 0,
+		statPercentColor: 'text-emerald-500',
+		statDescription: 'In the last hour',
+		statIconName: 'fa-solid fa-magnifying-glass',
+		statIconColor: 'bg-red-500'
+	};
+
 	if (browser) {
 		CookieConsent.run({
 			categories: {
@@ -146,6 +159,27 @@
 							</div>
 						</div>
 					{/each}
+					<div class="show-on-mobile">
+						<div
+							class="border-2 border-dashed border-gray-300 dark:border-gray-600 dark:bg-gray-900"
+						>
+							<div class=" transform transition duration-500 hover:scale-110">
+								<a href={searchStats.href}>
+									<CardStats
+										statEntity={$t(searchStats.statEntity)}
+										statValue={searchStats.statValue}
+										statArrow={searchStats.statArrow}
+										statPercent={searchStats.statPercent}
+										statsCount={searchStats.statsCount}
+										statPercentColor={searchStats.statPercentColor}
+										statDescription={searchStats.statDescription}
+										statIconName={searchStats.statIconName}
+										statIconColor={searchStats.statIconColor}
+									/></a
+								>
+							</div>
+						</div>
+					</div>
 				</div>
 
 				<!-- Charts -->
