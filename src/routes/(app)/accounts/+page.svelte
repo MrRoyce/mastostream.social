@@ -3,6 +3,7 @@
 		Breadcrumb,
 		BreadcrumbItem,
 		Button,
+		Card,
 		Heading,
 		Table,
 		TableBody,
@@ -19,6 +20,7 @@
 	import { t } from '$lib/translations';
 	import type { PageData } from './$types';
 	import { TableWrap } from '$lib/components';
+	import { formatText, truncateHTML } from '$lib/utils';
 
 	let searchTerm = '';
 	export let data: PageData;
@@ -61,7 +63,7 @@
 			</Breadcrumb>
 		</div>
 		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-			<div class=" mx-auto mb-5 p-5">
+			<div class=" mx-auto mb-5 p-4">
 				<div class="col-span-2 mb-6">
 					<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
 						>{$t('general.latestAccountToots')}</Heading
@@ -69,7 +71,7 @@
 				</div>
 				<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
 					<!-- Search Form -->
-					<div class="md:col-span-2 md:col-start-1 order-first">
+					<div class="md:col-span-2 md:col-start-1 order-first mb-6">
 						<form class="flex items-left max-w-sm">
 							<label for="entity-search" class="sr-only">Search</label>
 							<div class="relative w-full">
@@ -118,10 +120,10 @@
 					</div>
 				</div>
 
-				<div class="mt-6">
+				<div class="hidden-on-mobile">
 					<Table
 						name="advancedTable"
-						classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+						classSection="bg-gray-50 dark:bg-gray-900 sm:p-5"
 						hoverable={true}
 					>
 						<TableHead>
@@ -171,6 +173,53 @@
 							{/each}
 						</TableBody>
 					</Table>
+				</div>
+
+				<!-- Mobile view -->
+				<div class="show-on-mobile">
+					{#each accounts as item}
+						{@const truncatedText = truncateHTML(item.note, 100)}
+						{@const url = `/accounts/${item.acct}`}
+						<a href={url}>
+							<TableWrap spacing="px-0">
+								<!-- Profile Card -->
+								<div class="bg-grey-900 mb-4 border-t-4 border-green-400"></div>
+								<div class="pb-4">
+									<a
+										href={url}
+										class="flex flex-col items-center bg-white border border-gray-200 shadow md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700"
+									>
+										<img
+											class="object-cover w-full h-96 md:h-auto md:w-48 rounded-none"
+											src={item.avatar}
+											alt=""
+										/>
+										<div class="flex flex-col justify-between p-4 leading-normal">
+											<h5
+												class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+											>
+												{item.acct}
+											</h5>
+											<div class="overflow-hidden">
+												<p class=" mb-3 font-normal text-gray-700 dark:text-gray-400">
+													{@html formatText(
+														truncatedText
+															.replaceAll('</p><p>', '</p><br /><p>')
+															.replaceAll(
+																'class="invisible"',
+																'class="font-medium hover:text-blue-300 hover:underline'
+															)
+															.replaceAll('class="mention hashtag"', ''),
+														'underline text-green-200'
+													)}
+												</p>
+											</div>
+										</div>
+									</a>
+								</div>
+							</TableWrap>
+						</a>
+					{/each}
 				</div>
 			</div>
 		</div>
