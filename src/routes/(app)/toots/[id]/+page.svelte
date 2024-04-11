@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Maintenance, Section } from 'flowbite-svelte-blocks';
 	import { dev } from '$app/environment';
-	import { A, Breadcrumb, BreadcrumbItem, Button, Modal, Toggle } from 'flowbite-svelte';
+	import { A, Breadcrumb, BreadcrumbItem, Button, Toggle } from 'flowbite-svelte';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
 	import { t } from '$lib/translations';
@@ -12,23 +12,14 @@
 		ImageGallery,
 		MobileTootViewWrapper,
 		Page404,
-		ShareButtons,
 		TableWrap,
-		TootContent,
-		TootMeta,
 		TootTable,
 		YouTube
 	} from '$lib/components';
 	import { goto } from '$app/navigation';
 	import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
-	import {
-		formatCreatedAt,
-		formatImages,
-		getBadWords,
-		hasAdultContent,
-		truncateHTML
-	} from '$lib/utils';
+	import { formatCreatedAt, formatImages, getBadWords, hasAdultContent } from '$lib/utils';
 
 	if (browser && isSupported()) {
 		const analytics = getAnalytics();
@@ -56,20 +47,7 @@
 	let images: {};
 	let accountNote: string;
 
-	let shareModal = false;
-
-	let karmaCounts = {
-		upCount: 0,
-		downCount: 0,
-		commentsCount: 0
-	};
-
 	if (toot.acct) {
-		karmaCounts = {
-			upCount: toot.upCount || 0,
-			downCount: toot.downCount || 0,
-			commentsCount: toot.commentsCount || 0
-		};
 		replies = data.replies;
 		replyTo = data.replyTo ? [data.replyTo] : false;
 		card = data.card;
@@ -87,21 +65,6 @@
 			toot && toot.account && toot.account.note
 				? toot.account.note.replaceAll('</p><p>', '</p><br /><p>')
 				: '';
-	}
-
-	const shareContent = {
-		acct: '',
-		desc: '',
-		title: '',
-		url: ''
-	};
-
-	function showShareModal(toot) {
-		shareContent.acct = toot.acct;
-		shareContent.desc = truncateHTML(toot.content, 200);
-		shareContent.title = `Found this on utoots.com from : ${toot.acct}`;
-		shareContent.url = `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`;
-		shareModal = true;
 	}
 
 	$: showSensitive = false;

@@ -1,21 +1,12 @@
 <script lang="ts">
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
-	import {
-		MobileTootViewWrapper,
-		OwnersTootTable,
-		Page404,
-		ShareButtons,
-		TableWrap,
-		TootContent,
-		TootMeta
-	} from '$lib/components';
-	import { A, Breadcrumb, BreadcrumbItem, Button, Li, List, Modal } from 'flowbite-svelte';
+	import { MobileTootViewWrapper, OwnersTootTable, Page404, TableWrap } from '$lib/components';
+	import { A, Breadcrumb, BreadcrumbItem, Li, List } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils/formatText';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser, dev } from '$app/environment';
 	import { t } from '$lib/translations';
-	import { formatCreatedAt, truncateHTML } from '$lib/utils';
 
 	if (browser) {
 		const analytics = getAnalytics();
@@ -44,23 +35,6 @@
 		striped: true,
 		tableHead: ['Safe', 'Created', 'Pics', 'Video', 'Audio', 'Link']
 	};
-
-	const shareContent = {
-		acct: '',
-		desc: '',
-		title: '',
-		url: ''
-	};
-
-	let shareModal = false;
-
-	function showShareModal(toot) {
-		shareContent.acct = toot.acct;
-		shareContent.desc = truncateHTML(toot.content, 200);
-		shareContent.title = `Found this on utoots.com from : ${toot.acct}`;
-		shareContent.url = `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`;
-		shareModal = true;
-	}
 </script>
 
 {#if entity?.domain && entity.instance}

@@ -3,17 +3,9 @@
 	import { browser, dev } from '$app/environment';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
-	import {
-		MobileTootViewWrapper,
-		OwnersTootTable,
-		Page404,
-		ShareButtons,
-		TableWrap,
-		TootContent,
-		TootMeta
-	} from '$lib/components';
-	import { Breadcrumb, BreadcrumbItem, Li, List, Button, Modal, Heading } from 'flowbite-svelte';
-	import { formatCreatedAt, formatText, truncateHTML } from '$lib/utils';
+	import { MobileTootViewWrapper, OwnersTootTable, Page404, TableWrap } from '$lib/components';
+	import { Breadcrumb, BreadcrumbItem, Li, List, Heading } from 'flowbite-svelte';
+	import { formatText } from '$lib/utils';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 
 	export let data: PageData;
@@ -49,23 +41,6 @@
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'Account'
 		});
-	}
-
-	const shareContent = {
-		acct: '',
-		desc: '',
-		title: '',
-		url: ''
-	};
-
-	let shareModal = false;
-
-	function showShareModal(toot) {
-		shareContent.acct = toot.acct;
-		shareContent.desc = truncateHTML(toot.content, 200);
-		shareContent.title = `Found this on utoots.com from : ${toot.acct}`;
-		shareContent.url = `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`;
-		shareModal = true;
 	}
 </script>
 

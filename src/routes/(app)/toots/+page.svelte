@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { A, Button, Heading, Modal } from 'flowbite-svelte';
+	import { A, Heading } from 'flowbite-svelte';
 	import {
 		Breadcrumb,
 		BreadcrumbItem,
@@ -17,14 +17,7 @@
 	import { browser } from '$app/environment';
 	import type { PageData } from '../$types';
 	import { formatCreatedAt, truncateHTML } from '$lib/utils';
-	import {
-		MobileTootViewWrapper,
-		ShareButtons,
-		TableWrap,
-		TootContent,
-		TootMeta,
-		TootsRadio
-	} from '$lib/components';
+	import { MobileTootViewWrapper, TableWrap, TootsRadio } from '$lib/components';
 	import { t } from '$lib/translations';
 
 	if (browser) {
@@ -41,23 +34,6 @@
 	const tableData = {
 		tableHead: ['Pic', 'Safe', 'Type', 'Language', 'Pics', 'Video', 'Audio', 'Link']
 	};
-
-	const shareContent = {
-		acct: '',
-		desc: '',
-		title: '',
-		url: ''
-	};
-
-	let shareModal = false;
-
-	function showShareModal(toot) {
-		shareContent.acct = toot.acct;
-		shareContent.desc = truncateHTML(toot.content, 200);
-		shareContent.title = `Found this on utoots.com from : ${toot.acct}`;
-		shareContent.url = `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`;
-		shareModal = true;
-	}
 
 	let showSensitive: boolean;
 	const limit = 1000;
@@ -186,14 +162,6 @@
 				<!-- Mobile view -->
 				<div class="show-on-mobile">
 					{#each toots as toot}
-						{@const url = `/toots/${toot.accountId}_${toot.tootId}`}
-
-						{@const karmaCounts = {
-							upCount: toot.upCount || 0,
-							downCount: toot.downCount || 0,
-							commentsCount: toot.commentsCount || 0
-						}}
-
 						<TableWrap spacing="px-2">
 							<MobileTootViewWrapper {toot} {limit} />
 						</TableWrap>
