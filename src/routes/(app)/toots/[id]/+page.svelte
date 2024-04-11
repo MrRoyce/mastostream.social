@@ -39,7 +39,7 @@
 
 	export let data: PageData;
 	const toot = data.entity;
-	const adultContent = hasAdultContent(toot.content, badWords);
+	const adultContent = toot.content ? hasAdultContent(toot.content, badWords) : false;
 
 	let replies: [];
 	let replyTo: {};
