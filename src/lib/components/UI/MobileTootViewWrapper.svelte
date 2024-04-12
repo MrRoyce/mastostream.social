@@ -41,7 +41,7 @@
 
 	function showShareModal(toot) {
 		shareContent.acct = toot.acct;
-		shareContent.desc = truncateHTML(toot.content, 200);
+		shareContent.desc = truncateHTML(toot.content, 20);
 		shareContent.title = `Found this on utoots.com from: ${toot.acct}`;
 		shareContent.url = `https://utoots.com/toots/${toot.accountId}_${toot.tootId}`;
 		shareModal = true;
