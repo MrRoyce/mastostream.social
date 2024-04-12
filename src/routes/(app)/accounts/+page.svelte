@@ -26,6 +26,8 @@
 	if (browser && dev) console.log('data in accounts', data);
 
 	let searchTerm = '';
+	let acctName = '';
+	let acctInstance = '';
 
 	function searchData() {
 		if (searchTerm) {
@@ -179,29 +181,39 @@
 				{#each accounts as item}
 					{@const truncatedText = truncateHTML(item.note, 150)}
 					{@const url = `/accounts/${item.acct}`}
+					{@const [acctName, acctInstance] = item.acct.split('@')}
 					<a href={url}>
 						<TableWrap spacing="px-0">
 							<!-- Profile Card -->
+
+							<!-- Top green border -->
 							<div class="bg-grey-900 mb-4 border-t-4 border-green-400"></div>
-							<div class="pb-4">
-								<a
-									href={url}
-									class="flex flex-col items-center bg-white border border-gray-200 shadow md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700"
-								>
+
+							<div class="mx-auto my-2 p-2">
+								<a href={url} class="flex flex-col px-0 items-center md:flex-row">
 									<img
 										class="object-cover w-full h-96 md:h-auto md:w-48 rounded-none"
 										src={item.avatar}
 										alt=""
 									/>
-									<div class="flex flex-col justify-between p-4 leading-normal">
+									<div class=" py-4">
+										<!-- Account name -->
 										<p class="pb-2 sm:max-w-xs md:max-w-md dark:text-gray-200">
-											{item.acct}
+											{acctName}
 										</p>
-										<div class="overflow-hidden">
-											<p class=" mb-2 font-normal text-gray-700 dark:text-gray-400">
-												{@html formatText(truncatedText, 'underline text-green-200')}
-											</p>
-										</div>
+
+										<!-- account note -->
+										<p
+											class=" max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto font-normal text-gray-700 dark:text-gray-400"
+										>
+											{@html formatText(
+												item.note
+													.replaceAll('</p><p>', '</p><p>&nbsp;</p><p>')
+													.replaceAll('invisible', '')
+													.replaceAll('#', '<br>#'),
+												'underline text-green-200'
+											)}
+										</p>
 									</div>
 								</a>
 							</div>
