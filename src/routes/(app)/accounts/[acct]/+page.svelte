@@ -113,7 +113,7 @@
 
 					<!-- Right Side -->
 					<div class="w-full md:w-9/12">
-						<div class="bg-grey-900 pt-2 shadow-sm">
+						<div class="bg-grey-900 pt-2 px-2 shadow-sm">
 							<!-- Banner image -->
 							<img src={entity.header} alt="User" />
 
@@ -121,17 +121,12 @@
 							<p class="py-2 dark:text-gray-200 my-2">@{acctName}</p>
 
 							<!-- Account note -->
-							<div class="pb-4">
-								{@html formatText(
-									entity.note
-										.replaceAll('</p><p>', '</p><br /><p>')
-										.replaceAll(
-											'class="invisible"',
-											'class="font-medium hover:text-blue-300 hover:underline'
-										)
-										.replaceAll('class="mention hashtag"', ''),
-									'underline text-green-200'
-								)}
+							<div class="pb-4 overflow-ellipsis">
+								{@html entity.note
+									.replaceAll('</p><p>', '</p><p>&nbsp;</p><p>')
+									.replaceAll('class="mention hashtag"', '')
+									.replaceAll('invisible', '')
+									.replaceAll('<a ', '<a class="underline text-green-400" ')}
 							</div>
 
 							<div class="m-2 border-t-2 border-green-400"></div>
@@ -146,7 +141,7 @@
 										{@html formatText(
 											field.value.replaceAll(
 												'class="invisible"',
-												'class="font-medium hover:text-blue-300 hover:underline'
+												'class="font-medium hover:text-green-400 hover:underline'
 											),
 											'underline text-green-200'
 										)}
