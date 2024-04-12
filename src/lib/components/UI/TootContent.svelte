@@ -4,7 +4,7 @@
 	export let toot;
 	export let limit = 5000;
 
-	const content = limit ? truncateHTML(toot.content, limit) : toot.content;
+	const content = toot.content; //limit ? truncateHTML(toot.content, limit) : toot.content;
 
 	const text = formatText(
 		content
