@@ -32,6 +32,7 @@
 	const languageStrings = getLanguageString();
 
 	const pageSidebarItems = getSidebarItems({ group: 'app', page: 'home' });
+	const pageSettingsItems = getSidebarItems({ group: 'app', page: 'settings' });
 
 	onMount(() => {
 		const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -111,6 +112,13 @@
 					<SidebarItemWrapper {group} {closeDrawer} />
 				{/each}
 			{/if}
+			{#if user && user.email}
+				{#if pageSettingsItems}
+					{#each pageSettingsItems.groups as group}
+						<SidebarItemWrapper {group} {closeDrawer} />
+					{/each}
+				{/if}
+			{/if}
 		</SidebarWrapper>
 	</Sidebar>
 </Drawer>
@@ -153,7 +161,7 @@
 
 				<!-- trail - right of appbar -->
 				<svelte:fragment slot="trail">
-					{#if user}
+					{#if user && user.email}
 						<Button
 							color="alternative"
 							on:click={handleLogout}
