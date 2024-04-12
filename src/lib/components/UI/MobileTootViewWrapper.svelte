@@ -17,12 +17,17 @@
 		commentsCount: 0
 	};
 
+	let acctName = '';
+	let acctInstance = '';
+
 	if (toot.acct) {
 		karmaCounts = {
 			upCount: toot.upCount || 0,
 			downCount: toot.downCount || 0,
 			commentsCount: toot.commentsCount || 0
 		};
+
+		[acctName, acctInstance] = toot.acct.split('@');
 	}
 
 	let shareModal = false;
@@ -50,9 +55,11 @@
 	</a>
 	<!-- Date and Share -->
 	<div class="grid grid-cols-1">
-		<div class="text-gray-300">
-			<a href={url}>{toot.acct}</a>
-		</div>
+		<a href={url}>
+			<p class="text-gray-300">
+				{acctName}
+			</p></a
+		>
 		<div class="grid grid-cols-2">
 			<div class="text-gray-400">
 				<a href={url}>

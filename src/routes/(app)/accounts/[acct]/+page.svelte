@@ -11,7 +11,13 @@
 	export let data: PageData;
 	const entity = data.entity;
 	const toots = data.toots;
-	const id = data.id;
+
+	let acctName = '';
+	let acctInstance = '';
+
+	if (entity && entity.acct) {
+		[acctName, acctInstance] = entity.acct.split('@');
+	}
 
 	if (browser && dev) console.log('account entity', entity);
 	if (browser && dev) console.log('account toots', toots);
@@ -63,14 +69,14 @@
 					<!-- Left Side -->
 					<div class="w-full md:w-3/12 md:mx-2">
 						<!-- Profile Card -->
-						<div class="bg-grey-900 p-2 border-t-4 border-green-400">
+						<div class="bg-grey-900 pt-2 border-t-4 border-green-400">
 							<div class="image overflow-hidden">
 								<img class="h-auto w-full mx-auto" src={entity.avatar} alt="" />
 							</div>
-							<div class="  dark:text-gray-200 font-bold text-xl leading-8 my-1">
+							<p class="dark:text-gray-200 font-bold text-lg pt-2 my-2">
 								{entity.username}
-							</div>
-							<h3 class="text-white dark:text-gray-200 font-lg">
+							</p>
+							<p class="text-white dark:text-gray-200 text-lg">
 								<a
 									rel="noopener nofollow"
 									target="_blank"
@@ -80,24 +86,22 @@
 									{domain}
 									<ArrowUpRightFromSquareOutline class="w-3 h-3 ms-2.5" />
 								</a>
-							</h3>
+							</p>
 							<!-- Account info -->
 							<div class="pt-2 text-gray-200">
 								<List list="none">
-									<Li class="my-1"
-										><span class=" text-lg">Started: </span>{entity.createdAt.split('T')[0]}</Li
-									>
-									<Li class="my-1"
+									<Li><span class=" text-lg">Started: </span>{entity.createdAt.split('T')[0]}</Li>
+									<Li
 										><span class=" text-lg"
 											># Toots:
 										</span>{entity.statusesCount.toLocaleString()}</Li
 									>
-									<Li class="my-1"
+									<Li
 										><span class=" text-lg"
 											>Following:
 										</span>{entity.followingCount.toLocaleString()}</Li
 									>
-									<Li class="my-1"
+									<Li
 										><span class=" text-lg"
 											>Followers:
 										</span>{entity.followersCount.toLocaleString()}</Li
@@ -108,19 +112,13 @@
 					</div>
 
 					<!-- Right Side -->
-					<div class="w-full md:w-9/12 mx-2">
-						<div class="bg-grey-900 p-3 shadow-sm">
+					<div class="w-full md:w-9/12">
+						<div class="bg-grey-900 pt-2 shadow-sm">
 							<!-- Banner image -->
-							<div class="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-								<div class="text-gray-700">
-									<img src={entity.header} alt="User" />
-								</div>
-							</div>
+							<img src={entity.header} alt="User" />
 
 							<!-- acct  -->
-							<Heading tag="h5">
-								<div class="pt-2 pb-2 ml-auto dark:text-gray-200 my-1">@{entity.acct}</div>
-							</Heading>
+							<p class="py-2 dark:text-gray-200 my-2">@{acctName}</p>
 
 							<!-- Account note -->
 							<div class="pb-4">
@@ -161,10 +159,10 @@
 
 				<!-- OwnersTootTable  -->
 				<div class="my-4 text-gray-200">
-					<h2 class="text-gray-200 font-bold text-xl leading-8 my-1 mb-4">
+					<h2 class="text-gray-200 font-bold text-xl leading-8 my-1">
 						{$t('general.latestTootsFrom')}
-						{entity.acct}:
 					</h2>
+					<p>{acctName}</p>
 
 					<!-- hidden-on-mobile -->
 					<div class="hidden-on-mobile">
