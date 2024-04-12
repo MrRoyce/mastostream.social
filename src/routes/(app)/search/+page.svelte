@@ -1,13 +1,5 @@
 <script lang="ts">
-	import {
-		Breadcrumb,
-		BreadcrumbItem,
-		Button,
-		Heading,
-		Input,
-		Modal,
-		Radio
-	} from 'flowbite-svelte';
+	import { Breadcrumb, BreadcrumbItem, Button, Heading, Modal, Radio } from 'flowbite-svelte';
 	import { page } from '$app/stores';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
@@ -157,7 +149,7 @@
 	>
 	<p class="mb-4 text-gray-500 dark:text-gray-300 text-center">
 		This is adult restricted content. Please confirm that you are of legal age to view this content
-		in your location.?
+		in your location.
 	</p>
 	<div class="flex justify-center items-center space-x-4">
 		<Button color="green" on:click={ageDecline}>No, cancel</Button>
