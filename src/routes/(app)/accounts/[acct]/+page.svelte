@@ -4,7 +4,7 @@
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
 	import { MobileTootViewWrapper, OwnersTootTable, Page404, TableWrap } from '$lib/components';
-	import { Breadcrumb, BreadcrumbItem, Li, List, Heading } from 'flowbite-svelte';
+	import { Breadcrumb, BreadcrumbItem, Li, List } from 'flowbite-svelte';
 	import { formatText } from '$lib/utils';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 
