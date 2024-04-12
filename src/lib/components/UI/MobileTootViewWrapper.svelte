@@ -85,7 +85,7 @@
 			<div class="bg-grey-900 shadow-sm border-t-4 border-green-400">
 				<div class=" items-top h-auto mx-auto lg:my-0">
 					<div id="profile" class="w-full shadow-2xl h-fit mx-0 lg:mx-0">
-						<div class="p-6 text-center lg:text-left">
+						<div class="p-0 text-center lg:text-left">
 							<a href={url}>
 								<p class="text-3xl pb-5 text-ellipsis overflow-hidden dark:text-gray-200">
 									{toot.account?.displayName || toot.account?.display_name || ''}

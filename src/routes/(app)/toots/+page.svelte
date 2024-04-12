@@ -161,7 +161,7 @@
 			<!-- Mobile view -->
 			<div class="show-on-mobile">
 				{#each toots as toot}
-					<TableWrap spacing="px-2">
+					<TableWrap spacing="">
 						<MobileTootViewWrapper {toot} {limit} hoverBg="dark:hover:bg-gray-700" />
 					</TableWrap>
 				{/each}
