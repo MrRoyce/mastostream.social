@@ -7,7 +7,7 @@
 	import emailjs from '@emailjs/browser';
 	import { Turnstile } from 'svelte-turnstile';
 	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
-	import { SideWrap } from '$lib/components';
+	import { TableWrap } from '$lib/components';
 	import { t } from '$lib/translations.js';
 
 	export let form;
@@ -79,7 +79,7 @@
 	};
 </script>
 
-<SideWrap>
+<TableWrap>
 	<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 		<Section name="contact">
 			<Contact>
@@ -141,4 +141,4 @@
 			</Contact>
 		</Section>
 	</div>
-</SideWrap>
+</TableWrap>
