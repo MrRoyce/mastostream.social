@@ -14,6 +14,7 @@ import { formatImages } from '$lib/utils/formatImages';
 import { formatText } from '$lib/utils/formatText';
 import { formatToot } from '$lib/utils/formatToot';
 import { hasAdultContent } from '$lib/utils/hasAdultContent';
+import { shortenLongWords } from '$lib/utils/shortenLongWords';
 import { summarizeCounts } from '$lib/utils/summarizeCounts';
 import { truncateHTML } from '$lib/utils/truncateHTML';
 import { validateToken } from '$lib/utils/validateToken';
@@ -35,6 +36,7 @@ export {
 	formatText,
 	formatToot,
 	hasAdultContent,
+	shortenLongWords,
 	summarizeCounts,
 	truncateHTML,
 	validateToken
