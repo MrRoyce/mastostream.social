@@ -60,65 +60,59 @@
 {#if loadSpinner}
 	<Loading />
 {:else}
-	<!-- else content here -->
-
-	<div class="pt-0.5">
-		<TableWrap>
-			<div
-				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4"
+	<TableWrap>
+		<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
+			<Heading tag="h2" class="pb-4">Your Settings</Heading>
+			<form
+				class="flex flex-col space-y-6"
+				method="POST"
+				action="?/update"
+				use:enhance={updateSettings}
 			>
-				<Heading tag="h2" class="pb-4">Your Settings</Heading>
-				<form
-					class="flex flex-col space-y-6"
-					method="POST"
-					action="?/update"
-					use:enhance={updateSettings}
-				>
-					<div class="grid gap-4 grid-cols-3">
-						<div class="col-span-3"><span class="text-left"> Mastodon</span></div>
+				<div class="grid gap-4 grid-cols-3">
+					<div class="col-span-3"><span class="text-left"> Mastodon</span></div>
 
-						<div class="col-span-1 col-start-2">
-							<Input
-								bind:value={instance}
-								type="text"
-								maxlength="50"
-								id="instance"
-								name="instance"
-								placeholder="mastodon.world"
-								required
-							/>
-						</div>
-						<div></div>
-						<div class="col-span-1 col-start-2">
-							<Input
-								bind:value={acct}
-								type="text"
-								maxlength="30"
-								id="acct"
-								name="acct"
-								placeholder="you@mastodon.world"
-								required
-							/>
-						</div>
-						<div>
-							<button type="submit" class={updateButtonClass}>Update Mastodon Information</button>
-						</div>
-						<div class="col-span-1 col-start-2">
-							<Input
-								bind:value={accessToken}
-								type="text"
-								maxlength="50"
-								id="accessToken"
-								name="accessToken"
-								placeholder="d6FM_khFhxJxKj9eOjKH8c9tuZWAPs5rxU8y92gcbI8"
-								required
-							/>
-						</div>
-						<div></div>
+					<div class="col-span-1 col-start-2">
+						<Input
+							bind:value={instance}
+							type="text"
+							maxlength="50"
+							id="instance"
+							name="instance"
+							placeholder="mastodon.world"
+							required
+						/>
 					</div>
-					<input type="hidden" name="type" value="mastodon" />
-				</form>
-			</div>
-		</TableWrap>
-	</div>
+					<div></div>
+					<div class="col-span-1 col-start-2">
+						<Input
+							bind:value={acct}
+							type="text"
+							maxlength="30"
+							id="acct"
+							name="acct"
+							placeholder="you@mastodon.world"
+							required
+						/>
+					</div>
+					<div>
+						<button type="submit" class={updateButtonClass}>Update Mastodon Information</button>
+					</div>
+					<div class="col-span-1 col-start-2">
+						<Input
+							bind:value={accessToken}
+							type="text"
+							maxlength="50"
+							id="accessToken"
+							name="accessToken"
+							placeholder="d6FM_khFhxJxKj9eOjKH8c9tuZWAPs5rxU8y92gcbI8"
+							required
+						/>
+					</div>
+					<div></div>
+				</div>
+				<input type="hidden" name="type" value="mastodon" />
+			</form>
+		</div>
+	</TableWrap>
 {/if}
