@@ -22,7 +22,6 @@
 	}
 
 	function onChange(thisSelection) {
-		console.log('thisSelection', thisSelection);
 		selected = thisSelection;
 	}
 
