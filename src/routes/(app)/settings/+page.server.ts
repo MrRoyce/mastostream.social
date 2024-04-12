@@ -2,8 +2,6 @@ import type { PageServerLoad } from './$types';
 import admin from 'firebase-admin';
 import { fail, redirect } from '@sveltejs/kit';
 import { getDocument } from '$lib/getCollection';
-import type { truncateSync } from 'fs';
-
 
 export const load: PageServerLoad = (async ({ locals }) => {
 
@@ -73,6 +71,7 @@ async function checkToken({ accessToken, fetch, instance }) {
 }
 
 export const actions = {
+  // update
   update: async ({ request, locals, fetch }) => {
 
     const user = locals.user
