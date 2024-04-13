@@ -185,7 +185,7 @@
 							<Input
 								bind:value={acct}
 								type="text"
-								maxlength="30"
+								maxlength="50"
 								id="acct"
 								name="acct"
 								placeholder="you@mastodon.world"

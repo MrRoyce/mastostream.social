@@ -99,7 +99,7 @@
 						<Label for="userEmail" class="block mb-2">{$t('general.yourEmail')}</Label>
 						<Input
 							id="userEmail"
-							maxlength="30"
+							maxlength="40"
 							name="userEmail"
 							placeholder="{$t('general.emailPlaceholder')}required"
 						/>
@@ -108,7 +108,7 @@
 						<Label for="userName" class="block mb-2">{$t('general.subject')}</Label>
 						<Input
 							id="userName"
-							maxlength="30"
+							maxlength="50"
 							name="userName"
 							placeholder={$t('general.username')}
 							required
