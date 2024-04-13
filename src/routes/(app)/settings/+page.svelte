@@ -163,7 +163,7 @@
 				use:enhance={updateSettings}
 			>
 				<div class="grid grid-cols-1">
-					#{#if settingsType === 'mastodon'}
+					{#if settingsType === 'mastodon'}
 						<!-- content here -->
 
 						<!-- Mastodon fields -->
