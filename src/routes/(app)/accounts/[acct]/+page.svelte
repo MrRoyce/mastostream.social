@@ -118,10 +118,10 @@
 							<img src={entity.header} alt="User" />
 
 							<!-- acct  -->
-							<p class="py-2 dark:text-gray-200 my-2">@{acctName}</p>
+							<p class=" dark:text-gray-200 my-2">@{acctName}</p>
 
 							<!-- Account note -->
-							<div class="pb-4 overflow-ellipsis">
+							<div class="pb-2 overflow-ellipsis">
 								{@html entity.note
 									.replaceAll('</p><p>', '</p><p>&nbsp;</p><p>')
 									.replaceAll('class="mention hashtag"', '')
@@ -132,7 +132,7 @@
 							<div class="m-2 border-t-2 border-green-400"></div>
 
 							<!-- Account Favorites -->
-							<div class="grid grid-cols-1 pt-2">
+							<div class="grid grid-cols-1">
 								{#each entity.fields as field}
 									<div class="pt-2 dark:text-gray-200 text-lg">
 										{field.name}:
@@ -153,8 +153,8 @@
 				</div>
 
 				<!-- OwnersTootTable  -->
-				<div class="my-4 text-gray-200">
-					<h2 class="text-gray-200 font-bold text-xl leading-8 my-1">
+				<div class="my-2 text-gray-200">
+					<h2 class="text-gray-200 text-lg">
 						{$t('general.latestTootsFrom')}
 					</h2>
 					<p>{acctName}</p>

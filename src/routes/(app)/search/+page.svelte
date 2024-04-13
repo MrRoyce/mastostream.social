@@ -49,21 +49,25 @@
 </script>
 
 <TableWrap>
+	<!-- Breadcrumb -->
 	<div class="pl-0 pt-0 pb-4">
 		<Breadcrumb aria-label="Link to Dashboard">
 			<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>
 			<BreadcrumbItem>{$t('pagelinks.search')}</BreadcrumbItem>
 		</Breadcrumb>
 	</div>
+
+	<!-- Search wrapper -->
 	<div class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
-		<div class=" mx-auto mb-5 p-4">
-			<div class="col-span-2 mb-6">
+		<div class=" mx-auto pt-4 px-4">
+			<div class="col-span-2 mb-4">
 				<Heading class="text-xl md:text-3xl lg:text-5xl  dark:text-gray-200"
 					>Search in Toots, Websites, or Accounts</Heading
 				>
 			</div>
 			<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-				<div class="md:col-span-2 md:col-start-1 order-first mb-6">
+				<!-- search form -->
+				<div class="md:col-span-2 md:col-start-1 order-first md:mb-4">
 					<form class="flex items-left">
 						<label for="entity-search" class="sr-only">Search</label>
 						<div class="relative w-full">
@@ -105,7 +109,9 @@
 						</Button>
 					</form>
 				</div>
-				<div class="md:col-span-2 md:col-start-3 order-last">
+
+				<!-- Radio buttons -->
+				<div class="md:col-span-2 md:col-start-3 order-last sm:mb-4">
 					<div class="grid col-span-1 grid-rows-1 grid-flow-col gap-4">
 						<Radio
 							name="search-list"
