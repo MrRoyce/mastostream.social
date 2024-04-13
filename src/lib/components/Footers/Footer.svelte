@@ -18,7 +18,7 @@
 	<div
 		class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 	>
-		<div class="dark:bg-gray-900 p-4">
+		<div class="dark:bg-gray-900 pt-4 px-4">
 			<!--  Mission Statement-->
 			<div>
 				<FooterBrand
@@ -46,10 +46,10 @@
 				<div class="grid gap-4 sm:grid-cols-3 lg:grid-cols-3 lg:gap-12">
 					<!-- Resources -->
 					<div>
-						<h2 class="mb-6 text-sm font-semibold dark:text-gray-200 uppercase">Resources</h2>
+						<h2 class="mb-4 text-sm font-semibold dark:text-gray-200 uppercase">Resources</h2>
 						<FooterLinkGroup>
-							<FooterLink liClass="mb-4" href="https://utoots.com/">UToots</FooterLink>
-							<FooterLink liClass="mb-4" href="/contact">Contact Us</FooterLink>
+							<FooterLink liClass="mb-2" href="https://utoots.com/">UToots</FooterLink>
+							<FooterLink liClass="mb-2" href="/contact">Contact Us</FooterLink>
 						</FooterLinkGroup>
 					</div>
 
@@ -57,9 +57,9 @@
 					<div>
 						<h2 class="mb-6 text-sm font-semibold dark:text-gray-200 uppercase">Policies</h2>
 						<FooterLinkGroup>
-							<FooterLink liClass="mb-4" href="/tac">Terms and Conditions</FooterLink>
-							<FooterLink liClass="mb-4" href="/privacy">Privacy</FooterLink>
-							<FooterLink liClass="mb-4" href="/cookies">Cookies</FooterLink>
+							<FooterLink liClass="mb-2" href="/tac">Terms and Conditions</FooterLink>
+							<FooterLink liClass="mb-2" href="/privacy">Privacy</FooterLink>
+							<FooterLink liClass="mb-2" href="/cookies">Cookies</FooterLink>
 						</FooterLinkGroup>
 					</div>
 
@@ -67,11 +67,11 @@
 					<div>
 						<h2 class="mb-6 text-sm font-semibold dark:text-gray-200 uppercase">Legal</h2>
 						<FooterLinkGroup>
-							<FooterLink liClass="mb-4" href="/tac#copyrightyes">TAC DMCA</FooterLink>
-							<FooterLink liClass="mb-4" href="https://www.copyright.gov/legislation/dmca.pdf"
+							<FooterLink liClass="mb-2" href="/tac#copyrightyes">TAC DMCA</FooterLink>
+							<FooterLink liClass="mb-2" href="https://www.copyright.gov/legislation/dmca.pdf"
 								>U.S. DMCA</FooterLink
 							>
-							<FooterLink liClass="mb-4" href="https://www.missingkids.org/home">CMEC</FooterLink>
+							<FooterLink liClass="mb-2" href="https://www.missingkids.org/home">CMEC</FooterLink>
 						</FooterLinkGroup>
 					</div>
 				</div>
