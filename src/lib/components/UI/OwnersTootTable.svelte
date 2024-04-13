@@ -38,7 +38,7 @@
 	const mb = 'mb-4';
 </script>
 
-<TableWrap spacing="" {mb}>
+<TableWrap spacing="pb-4" {mb}>
 	<Table name="advancedTable" classSection="bg-gray-50 dark:bg-gray-900 sm:p-5">
 		{#if showTableHead}
 			<TableHead>
