@@ -61,7 +61,7 @@
 		</div>
 
 		<div
-			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-2"
+			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 pt-2 px-2"
 		>
 			<div class=" mx-auto my-2 px-2">
 				<!-- Account Profile -->
@@ -167,7 +167,7 @@
 					<!-- show-on-mobile view -->
 					<div class="show-on-mobile">
 						{#each toots as toot}
-							<TableWrap spacing="px-2">
+							<TableWrap spacing="px-0">
 								<MobileTootViewWrapper {toot} showProfile={false} />
 							</TableWrap>
 						{/each}
