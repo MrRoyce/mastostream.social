@@ -63,7 +63,7 @@
 		<div
 			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-2"
 		>
-			<div class=" mx-auto my-2 p-2">
+			<div class=" mx-auto my-2 px-2">
 				<!-- Account Profile -->
 				<div class="md:flex no-wrap md:-mx-2">
 					<!-- Left Side -->
@@ -113,7 +113,7 @@
 
 					<!-- Right Side -->
 					<div class="w-full md:w-9/12">
-						<div class="bg-grey-900 pt-2 px-2 shadow-sm">
+						<div class="bg-grey-900 px-2 shadow-sm">
 							<!-- Banner image -->
 							<img src={entity.header} alt="User" />
 
