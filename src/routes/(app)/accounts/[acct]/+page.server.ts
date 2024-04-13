@@ -2,6 +2,7 @@ import type { PageServerLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
 import { redis } from '$lib/redis/redis';
 import { addMediaAttachmentCounts } from '$lib/utils';
+import { redirect } from '@sveltejs/kit';
 
 const ttl = 600
 let entity
@@ -36,9 +37,12 @@ async function getLatestEntityInfo(fetch, uriWithLookup) {
 
 // Get account and their toots
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
-
+  if (!params.acct || params.acct.length > 50) {
+    console.warn('params.acct.length > 50', params.acct.length)
+    throw redirect(307, '/')
+  }
   try {
-    //await redis.connect()
+
 
     const lowerCase = params.acct && typeof params.acct === 'string' ? params.acct.toLowerCase() : params.acct;
 

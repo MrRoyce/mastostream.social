@@ -15,6 +15,11 @@ const instance = httpsCallable(functions, 'isUserAdmin');
 
 export const handle: Handle = (async ({ event, resolve }) => {
 
+  if (event.request.url.length > 200) {
+    console.warn('Url exceeeds maximum length', event.request.url)
+    throw redirect(307, '/')
+  }
+
   const validDomain = VITE_VALID_DOMAIN
   const referer = event.request.headers.get('referer')
 
