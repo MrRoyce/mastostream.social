@@ -48,7 +48,6 @@ async function getMastodonAccount({ acct, fetch, instance }) {
 }
 
 // https://mastodon.social/api/v1/accounts/1
-
 async function checkToken({ accessToken, fetch, instance }) {
   let response = false
   const url = `https://${instance.trim()}/api/v1/preferences`
@@ -71,8 +70,7 @@ async function checkToken({ accessToken, fetch, instance }) {
 }
 
 export const actions = {
-  // update
-  update: async ({ request, locals, fetch }) => {
+  mastodon: async ({ request, locals, fetch }) => {
 
     const user = locals.user
 
@@ -84,42 +82,30 @@ export const actions = {
 
     const formData = await request.formData()
     const data = Object.fromEntries(formData.entries())
-    const { accessToken, acct, instance, type } = data
 
-    console.log('data', data)
-    let accountFound
-    let tokenVerified
+    const { accessToken, acct, instance } = data
 
-    switch (type) {
-      case 'mastodon':
-        accountFound = await getMastodonAccount({ acct, fetch, instance })
-        tokenVerified = accountFound ? await checkToken({ accessToken, fetch, instance }) : false
+    const accountFound = await getMastodonAccount({ acct, fetch, instance })
+    const tokenVerified = accountFound ? await checkToken({ accessToken, fetch, instance }) : false
 
-        if (accountFound && tokenVerified) {
-          try {
+    if (accountFound && tokenVerified) {
+      try {
 
-            const fbData = { accessToken, acct, instance }
-            const db = admin.firestore();
-            const docRef = db.collection('users').doc(user.uid);
-            await docRef.update(fbData);
+        const fbData = { accessToken, acct, instance }
+        const db = admin.firestore();
+        const docRef = db.collection('users').doc(user.uid);
+        await docRef.update(fbData);
 
-            return { success: true }
-          } catch (e) {
-            return fail(500, {
-              message: `Error in updating users: ${e}`
-            });
-          }
-        } else {
-          return fail(404, {
-            message: `Could not validate user in Mastodon!`
-          });
-        }
-        break;
-
-      default:
+        return { success: true }
+      } catch (e) {
         return fail(500, {
-          message: `Error in updating users: no valid type found`
+          message: `Error in updating users: ${e}`
         });
+      }
+    } else {
+      return fail(404, {
+        message: `Could not validate user in Mastodon!`
+      });
     }
   },
 }
