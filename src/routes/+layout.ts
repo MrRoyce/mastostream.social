@@ -34,6 +34,5 @@ function getInitialLocale(): string {
       return 'en';
     }
   }
-  console.log('Returning english')
   return 'en';
 }

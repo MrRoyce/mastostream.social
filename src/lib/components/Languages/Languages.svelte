@@ -2,8 +2,16 @@
 	import { Button, Dropdown, DropdownItem } from 'flowbite-svelte';
 	import { ChevronDown, Globe } from '$lib/components/icons';
 	import { getLanguageList } from '$lib/utils/getLanguage';
+	import { browser } from '$app/environment';
 	const languages = getLanguageList();
+
 	let dropdownOpen = false;
+	function closeDropdown() {
+		if (browser && document) {
+			document.getElementById('flags-dropdown').style.display = 'none';
+		}
+		dropdownOpen = false;
+	}
 </script>
 
 <div class="flex">
@@ -15,9 +23,9 @@
 		<Globe />
 		<span class="pl-4"><ChevronDown /></span>
 	</Button>
-	<Dropdown triggeredBy="#flags-button" bind:open={dropdownOpen}>
+	<Dropdown id="flags-dropdown" triggeredBy="#flags-button" bind:open={dropdownOpen}>
 		{#each languages as language}
-			<DropdownItem class="flex items-center" on:click={() => (dropdownOpen = false)}>
+			<DropdownItem class="flex items-center" on:click={closeDropdown}>
 				<Globe />
 				<span class="text-white pl-4">{language.text}</span>
 			</DropdownItem>

@@ -190,10 +190,10 @@
 						>
 					{/if}
 					<Button
-						id="flags-button"
+						id="flags-button-wrapper"
 						class="border-none"
 						color="alternative"
-						on:click={handleLocaleChange}><Languages {handleLocaleChange} /></Button
+						on:click={handleLocaleChange}><Languages /></Button
 					>
 				</svelte:fragment>
 			</AppBar>
