@@ -86,7 +86,7 @@
 								{
 									title: 'More information',
 									description:
-										'For any queries in relation to my policy on cookies and your choices, please <a href="#contact-page">contact us</a>'
+										'For any queries in relation to my policy on cookies and your choices, please <a href="/contact">contact us</a>'
 								}
 							]
 						}
