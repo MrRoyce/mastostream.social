@@ -5,6 +5,7 @@
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
+	import { setLanguage } from '$lib';
 
 	import {
 		Footer,
@@ -91,8 +92,8 @@
 		console.log('languageStrings', languageStrings);
 		if (languageStrings.includes(target)) {
 			const language = getTargetLanguage(event?.target?.innerHTML);
-			console.log('language', language);
 			defaultLanguage = language;
+			setLanguage(language); // Store the requested value in local storage
 			$locale = defaultLanguage;
 		}
 	}
