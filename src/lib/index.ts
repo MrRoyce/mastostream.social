@@ -1,1 +1,7 @@
-// place files you want to import through the `$lib` alias in this folder.
+import { clearLanguage, getLanguage, setLanguage } from '$lib/localStorage/language'
+
+export {
+  clearLanguage,
+  getLanguage,
+  setLanguage
+}
