@@ -1,6 +1,7 @@
 import type { LayoutLoad } from './$types';
 import { browser } from '$app/environment';
 import { loadTranslations } from '$lib/translations';
+import { getLanguage } from '$lib'
 
 export const load: LayoutLoad = async ({ url, data }) => {
   const { pathname } = url;
@@ -19,13 +20,20 @@ export const load: LayoutLoad = async ({ url, data }) => {
 function getInitialLocale(): string {
   if (browser) {
     try {
-      return window.navigator.language.split('-')[0];
+      let language
+      // Try to get it from localStorage
+      language = getLanguage()
+      if (!language) {
+        // Get it from the default broswer langauge
+        language = window.navigator.language.split('-')[0]
+      }
+      return language;
     }
     catch (e) {
       console.warn('Error getting initial locale', e)
       return 'en';
     }
   }
-
+  console.log('Returning english')
   return 'en';
 }
