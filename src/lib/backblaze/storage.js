@@ -76,8 +76,6 @@ async function generatePresignedUrls({ key, s3ApiUrl }) {
 	const Bucket = VITE_S3_BUCKET_NAME;
 	const Key = key;
 	const client = getS3Client({ s3ApiUrl });
-  console.log('Bucket', Bucket)
-  console.log('generatePresignedUrls Key', Key);
 
 	const signer = new S3RequestPresigner({ ...client.config });
 	const readRequest = await createRequest(client, new GetObjectCommand({ Key, Bucket }));

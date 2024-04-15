@@ -33,9 +33,6 @@
 			? data.entity.photoURL
 			: UserIcon;
 
-	console.log('userImage', userImage);
-	console.log('data.user', data.user);
-
 	const languages = getLanguageList();
 	const languageStrings = getLanguageString();
 
@@ -88,8 +85,7 @@
 	function handleLocaleChange(event: Event) {
 		event.preventDefault();
 		const target = event?.target?.innerHTML;
-		console.log('target', target);
-		console.log('languageStrings', languageStrings);
+
 		if (languageStrings.includes(target)) {
 			const language = getTargetLanguage(event?.target?.innerHTML);
 			defaultLanguage = language;
