@@ -26,7 +26,14 @@
 	import { locale } from '$lib/translations';
 
 	export let data: LayoutData;
-	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
+	const userImage = data.user?.picture
+		? data.user?.picture
+		: data.entity?.photoURL
+			? data.entity.photoURL
+			: UserIcon;
+
+	console.log('userImage', userImage);
+	console.log('data.user', data.user);
 
 	const languages = getLanguageList();
 	const languageStrings = getLanguageString();
@@ -80,8 +87,11 @@
 	function handleLocaleChange(event: Event) {
 		event.preventDefault();
 		const target = event?.target?.innerHTML;
+		console.log('target', target);
+		console.log('languageStrings', languageStrings);
 		if (languageStrings.includes(target)) {
 			const language = getTargetLanguage(event?.target?.innerHTML);
+			console.log('language', language);
 			defaultLanguage = language;
 			$locale = defaultLanguage;
 		}
