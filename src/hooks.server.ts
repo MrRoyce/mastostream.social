@@ -24,7 +24,7 @@ export const handle: Handle = (async ({ event, resolve }) => {
   const referer = event.request.headers.get('referer')
 
   if (!referer?.startsWith(validDomain)) {
-    console.error(`Invalid domain request prohibited', validDomain: ${validDomain}, referer: ${referer}`)
+    console.error(`Invalid domain request prohibited', validDomain: ${validDomain}, referer: ${referer}, for url: ${event.request.url}`)
     error(403, {
       message: 'Forbidden'
     });
