@@ -187,6 +187,7 @@
 					{/if}
 					<Button
 						id="flags-button-wrapper"
+						outline={false}
 						class="border-none"
 						color="alternative"
 						on:click={handleLocaleChange}><Languages /></Button

@@ -315,8 +315,8 @@
 
 	<Modal title={modalTitle} bind:open={pictureModal} autoclose={false} size="sm" class="w-full">
 		<div class="flex justify-center items-center">
-			<form class="flex flex-col space-x-8" on:submit|preventDefault={handleSubmit}>
-				<div class="grid grid-cols-1">
+			<form class="" on:submit|preventDefault={handleSubmit}>
+				<div class="">
 					{#if uploadComplete}
 						<section class="upload-complete">
 							<h2 class="heading">Upload complete</h2>
@@ -336,49 +336,26 @@
 							</div>
 						</section>
 					{:else if !uploadComplete}
-						{#if photoURL}
-							<div class="file-input-container">
-								<Label class="space-x-4 pt-4 pb-2">
-									<span class="screen-reader-text">Find a file to upload</span>
-									<span>Account Picture</span>
-									<div class="grid grid-cols-2">
-										<img id="users-picture" height="48" src={photoURL} alt="User" />
-										<input
-											id="file"
-											aria-invalid={errors.files != null}
-											aria-describedby={errors.files != null ? 'files-error' : null}
-											type="file"
-											multiple
-											formenctype="multipart/form-data"
-											accept="image/*"
-											title="File"
-											on:change={handleChange}
-										/>
-									</div>
-								</Label>
-							</div>
-						{:else}
-							<div class="file-input-container">
-								<Label class="space-x-4 pt-4 pb-2">
-									<span class="screen-reader-text">Find a file to upload</span>
-									<span>Account Picture</span>
-									<div class="grid grid-cols-2">
-										<i class={'fas fa-user-secret fa-5x'} />
-										<input
-											id="file"
-											aria-invalid={errors.files != null}
-											aria-describedby={errors.files != null ? 'files-error' : null}
-											type="file"
-											multiple
-											formenctype="multipart/form-data"
-											accept="image/*"
-											title="File"
-											on:change={handleChange}
-										/>
-									</div>
-								</Label>
-							</div>
-						{/if}
+						<div class="file-input-container">
+							<Label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+								<span class="screen-reader-text">Find a file to upload</span>
+								Upload file</Label
+							>
+							<input
+								id="file"
+								aria-invalid={errors.files != null}
+								aria-describedby={errors.files != null ? 'files-error' : 'file_input_help'}
+								type="file"
+								class="block w-full rounded-none text-sm text-gray-900 border border-gray-300 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+								formenctype="multipart/form-data"
+								accept="image/*"
+								title="File"
+								on:change={handleChange}
+							/>
+							<p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">
+								SVG, PNG, JPG or GIF (MAX. 800x400px).
+							</p>
+						</div>
 					{/if}
 				</div>
 				<div class="flex justify-center items-center space-x-4">
