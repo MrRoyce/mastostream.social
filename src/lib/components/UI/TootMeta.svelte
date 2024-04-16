@@ -13,41 +13,52 @@
 
 <div class="grid grid-cols-2 pb-4">
 	<!-- mediaAttachmentCounts -->
-	<div class="grid col-span-1 grid-rows-1 grid-flow-col gap-4">
+	<div class="grid col-span-1 grid-rows-1 grid-flow-col">
 		<div>
 			<span class="sr-only">Count of pictures</span>
 			<i class="fa-regular fa-image" style="color: #31c48d;" />
-			<span class="pl-1">{totalPictures} </span>
+			{#if totalPictures}
+				<span class="pl-1">{totalPictures} </span>
+			{/if}
 		</div>
 		<div>
 			<span class="sr-only">Count of Videos</span>
 			<i class="fa-solid fa-play" style="color: #31c48d;" />
-			<span class="pl-1">{totalVideos}</span>
+			{#if totalVideos}
+				<span class="pl-1">{totalVideos}</span>
+			{/if}
 		</div>
 		<div>
 			<span class="sr-only">Count of Audio</span>
 			<i class="fa-solid fa-microphone" style="color: #31c48d;" />
-			<span class="pl-1">{totalAudio}</span>
+			{#if totalAudio}
+				<span class="pl-1">{totalAudio}</span>
+			{/if}
 		</div>
 	</div>
 
 	<!-- Karma counts -->
-	<div class="grid col-span-1 grid-rows-1 grid-flow-col gap-4">
+	<div class="grid col-span-1 grid-rows-1 grid-flow-col">
 		<div>
 			<span class="sr-only">Count of up votes</span>
 			<i class="fa-solid fa-thumbs-up" style="color: #31c48d;"></i>
-			<span class="pl-1">{upCount} </span>
+			{#if upCount}
+				<span class="pl-1">{upCount} </span>
+			{/if}
 		</div>
 		<div>
 			<span class="sr-only">Count of down votes</span>
 			<i class="fa-solid fa-thumbs-down" style="color: #ea0000;" />
-			<span class="pl-1">{downCount}</span>
+			{#if downCount}
+				<span class="pl-1">{downCount}</span>
+			{/if}
 		</div>
 		<div>
 			<span class="sr-only">Count of Comments</span>
 			<i class="fa-solid fa-comment" style="color: #31c48d;" />
-
-			<span class="pl-1">{commentsCount}</span>
+			{#if commentsCount}
+				<span class="pl-1">{commentsCount}</span>
+			{/if}
 		</div>
 	</div>
 </div>
