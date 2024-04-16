@@ -5,13 +5,20 @@
 	import { browser } from '$app/environment';
 	const languages = getLanguageList();
 
+	export const defaultLanguage = 'English';
+
 	let dropdownOpen = false;
-	function closeDropdown() {
+	let selectedLanguage = '';
+
+	function closeDropdown(event) {
 		if (browser && document) {
 			document.getElementById('flags-dropdown').style.display = 'none';
+			selectedLanguage = event?.target?.innerHTML || 'English';
 		}
 		dropdownOpen = false;
 	}
+
+	const selectedHover = 'dark:bg-green-700';
 </script>
 
 <div class="flex">
@@ -27,7 +34,11 @@
 		{#each languages as language}
 			<DropdownItem class="flex items-center" on:click={closeDropdown}>
 				<Globe />
-				<span class="text-white pl-4">{language.text}</span>
+				<span class="text-white pl-4"
+					><span class={selectedLanguage === language.text ? selectedHover : ''}
+						>{language.text}</span
+					></span
+				>
 			</DropdownItem>
 		{/each}
 	</Dropdown>
