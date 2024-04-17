@@ -116,8 +116,8 @@
 						<Radio
 							name="search-list"
 							class="p-2"
-							checked={selected === 'website'}
-							on:click={() => onChange('website')}>Website</Radio
+							checked={selected === 'instance'}
+							on:click={() => onChange('instance')}>Website</Radio
 						>
 
 						<Radio
