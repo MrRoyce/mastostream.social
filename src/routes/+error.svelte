@@ -25,7 +25,7 @@
 </script>
 
 {#if $page.status === 404}
-	<TableWrap divContainerPadding="px-48">
+	<TableWrap divContainerPadding="px-4">
 		<Page404>
 			<svelte:fragment slot="h1">404</svelte:fragment>
 			<svelte:fragment slot="paragraph">
