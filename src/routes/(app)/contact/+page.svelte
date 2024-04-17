@@ -101,7 +101,8 @@
 							id="userEmail"
 							maxlength="40"
 							name="userEmail"
-							placeholder="{$t('general.emailPlaceholder')}required"
+							placeholder={$t('general.emailPlaceholder')}
+							required
 						/>
 					</div>
 					<div>

@@ -8,6 +8,7 @@
 	import { P } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { t } from '$lib/translations';
 
 	type State = 'validating' | 'idle' | 'submitting' | Error;
 	let state: State = 'idle';
