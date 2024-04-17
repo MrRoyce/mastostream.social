@@ -5,7 +5,7 @@ import { redis } from '$lib/redis/redis';
 import { addMediaAttachmentCounts } from '$lib/utils';
 
 
-const ttl = 600
+const ttl = 600 * 12
 let entity
 let toots
 let domain = {}
