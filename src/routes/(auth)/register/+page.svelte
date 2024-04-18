@@ -25,17 +25,15 @@
 	let password = '';
 
 	async function addUserToDB(user: any) {
-		const { uid, email, displayName, photoURL } = user;
+		const { displayName, email, photoURL, uid } = user;
 		try {
-			await setDoc(
-				doc(db, 'users', uid),
-				{
-					email,
-					displayName,
-					photoURL
+			await fetch('/api/adduser', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
 				},
-				{ merge: true }
-			);
+				body: JSON.stringify({ displayName, email, photoURL, uid })
+			});
 
 			if (analytics) {
 				logEvent(analytics, 'sign_up');
