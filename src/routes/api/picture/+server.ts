@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { json } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({ request }) => {
@@ -13,8 +13,8 @@ export const POST: RequestHandler = async ({ request }) => {
     await docRef.update(fbData);
 
     return json({ status: 'signedIn' });
-  } catch (error) {
-    console.error(`Error uploading picture to  backblazeURL: ${backblazeURL}`, error)
-    throw error(500, `Error uploading picture to  backblazeURL: ${backblazeURL}`);
+  } catch (e) {
+    console.error(`Error uploading picture to  backblazeURL: ${backblazeURL}`, e)
+    error(500, `Error uploading picture to  backblazeURL: ${backblazeURL}`);
   }
 };
