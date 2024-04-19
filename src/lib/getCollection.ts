@@ -64,9 +64,30 @@ export const getDocument = async ({ entity, id }) => {
   if (docSnap.exists()) {
     return docSnap.data();
   } else {
-    console.log(`Document ${id} not found`);
+    console.log(`Document ${id} not found for entity ${entity}`);
     return null
   }
+}
+
+export const getGroups = async ({ entity, id }) => {
+  const responseData: DocumentData[] = [];
+  const collectionRef = collection(db, `${entity}/${id}/groups`);
+
+  const queryCollectionRef = query(collectionRef, limit(50))
+
+  const data = await getDocs(
+    queryCollectionRef
+  );
+
+  data.docs.map((doc) => {
+    const docData = doc.data();
+    responseData.push({
+      id: doc.id, // Get the id from doc, not doc.data()!
+      ...docData
+    });
+  });
+
+  return responseData;
 }
 
 // Function to get documents from Firebase based on keys array
