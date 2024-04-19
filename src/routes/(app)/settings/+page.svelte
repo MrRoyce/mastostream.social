@@ -40,7 +40,7 @@
 	const origInstance = instance;
 	const origAcct = acct;
 
-	const modalSettingsClass = 'mt-1 max-w-2xl text-base sm:text-lg md:text-2xl text-gray-200';
+	const modalSettingsClass = 'mt-1 max-w-2xl text-base sm:text-lg md:text-xl text-gray-200';
 	const modalDivClass = 'pb-1 sm:grid grid-cols-1 md:grid-cols-3 sm:gap-4 sm:px-6';
 	const modalDtClass = 'md:text-right text-base lg:text-lg text-gray-200';
 	const modalDdClass = 'mt-1 text-gray-300 sm:mt-0 sm:col-span-2';
@@ -181,14 +181,14 @@
 			class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 		>
 			<div class="dark:bg-gray-900 p-4">
-				<Heading tag="h2" class="pb-4">Your Settings</Heading>
+				<Heading tag="h3" class="pb-4">Your Settings</Heading>
 
 				<!-- Mastodon Settings -->
 				<div class="px-4 py-5 sm:p-0">
 					<dl>
 						<div class={modalDivClass}>
 							<dt class={modalDtClass}>
-								<p class={modalSettingsClass}>Mastdon Settings</p>
+								<p class={modalSettingsClass}>Mastodon Settings</p>
 							</dt>
 							<dd class={modalDdClass}>
 								<Button
