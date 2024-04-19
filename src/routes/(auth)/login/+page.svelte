@@ -72,7 +72,8 @@
 			await setSessionToken(idToken);
 
 			try {
-				window.location.assign('/');
+				await goto('/', { invalidateAll: true });
+				// window.location.assign('/');
 				// await goto('/', { invalidateAll: true });
 			} catch (error) {
 				console.error('window.location.assign', error);
