@@ -4,7 +4,7 @@
 	import { browser } from '$app/environment';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-	import { auth, db } from '$lib/firebase/client';
+	import { auth } from '$lib/firebase/client';
 	import { createUserWithEmailAndPassword } from 'firebase/auth';
 	import { doc, setDoc } from 'firebase/firestore';
 	import type { PageData } from './$types';
