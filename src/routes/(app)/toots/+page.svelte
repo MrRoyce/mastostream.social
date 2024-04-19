@@ -78,7 +78,7 @@
 			</div>
 
 			<div class="hidden-on-mobile">
-				<div class="mt-6">
+				<div class="mt-4">
 					<Table
 						name="advancedTable"
 						classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
