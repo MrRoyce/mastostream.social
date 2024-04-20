@@ -76,6 +76,13 @@ declare global {
 		username: string;
 	}
 
+	interface GroupObject {
+		id: string; // Have to bypass the 1st column when displaying rows!!
+		types: string;
+		mature: strbooleaning;
+		description: string;
+	}
+
 	type getDataFunction = ({
 		appdata
 	}: {
