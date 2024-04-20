@@ -51,7 +51,9 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
       console.error('Error getting redis in (app) +page.server.ts', error)
     }
 
-    if (dashboardCached && tootsCached) {
+    const checkCache = true  // TODO always check this!
+
+    if (dashboardCached && tootsCached && checkCache) {
       console.log(`${redisKeyDashboard} && ${redisKeyTootsBoth} cached`)
       dashboardData = JSON.parse(dashboardCached)
       dashboardData.toots = JSON.parse(tootsCached)
