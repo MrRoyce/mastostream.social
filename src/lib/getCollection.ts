@@ -13,6 +13,8 @@ import {
 } from 'firebase/firestore';
 import { db } from '$lib/firebase/client';
 
+
+
 type Options = {
   entity: string;
   max: number;
@@ -117,6 +119,7 @@ export const getDocuments = async ({ entity, keysArray }) => {
     throw error;
   }
 }
+
 export const getWords = async ({ start, max }) => {
   try {
     const responseData: DocumentData[] = [];
@@ -186,7 +189,9 @@ export const getCount = async (entity: string) => {
     const collectionRef = collection(db, entity)
     const snapshot = await getCountFromServer(collectionRef);
 
-    return snapshot?.data().count || 0;
+    const response = snapshot?.data().count || 0;
+
+    return response
 
   } catch (error) {
     console.error('Error fetching data in getCount:', error);
