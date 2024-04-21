@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { LayoutData } from '../$types';
 	import { auth } from '$lib/firebase/client';
-	import { authUser } from '$lib/stores';
+	import { authUser, loading } from '$lib/stores';
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { goto } from '$app/navigation';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
@@ -10,26 +10,37 @@
 	import { handleLocaleChange } from '$lib/utils/handleLocaleChange';
 	import { AdminSidebar, Footer, Languages } from '$lib/components';
 	import { UserIcon } from '$lib/components/icons';
+	import { session } from '$lib/stores/authStore';
 
 	export let data: LayoutData;
-	const userImage = data.user?.picture ? data.user?.picture : UserIcon;
+	const userImage = data.user?.picture
+		? data.user?.picture
+		: data.entity?.photoURL
+			? data.entity.photoURL
+			: UserIcon;
 
 	$: user = data.user;
 
-	onMount(() => {
-		const unsubscribe = auth.onAuthStateChanged(async (user) => {
-			if (!user) {
-				unsubscribe();
-			}
-			let dataToSetToStore = {
-				email: user ? user.email : null,
-				displayName: user ? user.displayName : null,
-				uid: user ? user.uid : null
-			};
+	onMount(async () => {
+		user = await data.getAuthUser();
+		const loggedIn = !!user && user?.uid;
+		let dataToSetToStore = {
+			email: user ? user.email : null,
+			displayName: user ? user.displayName : null,
+			uid: user ? user.uid : null
+		};
 
-			authUser.update((curr: any) => {
-				return { ...curr, ...dataToSetToStore };
-			});
+		session.update((cur: any) => {
+			return {
+				...cur,
+				user,
+				loggedIn,
+				loading
+			};
+		});
+
+		authUser.update((curr: any) => {
+			return { ...curr, ...dataToSetToStore };
 		});
 	});
 </script>

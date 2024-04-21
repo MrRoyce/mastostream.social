@@ -1,4 +1,5 @@
 export async function load({ locals }) {
+
   return {
     user: locals.user && {
       admin: locals.user.admin,

@@ -25,6 +25,7 @@
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/client';
 	import { locale } from '$lib/translations';
+	import { session } from '$lib/stores/authStore';
 
 	export let data: LayoutData;
 	const userImage = data.user?.picture
@@ -39,20 +40,29 @@
 	const pageSidebarItems = getSidebarItems({ group: 'app', page: 'home' });
 	const pageSettingsItems = getSidebarItems({ group: 'app', page: 'settings' });
 
-	onMount(() => {
-		const unsubscribe = auth.onAuthStateChanged(async (user) => {
-			if (!user) {
-				unsubscribe();
-			}
-			let dataToSetToStore = {
-				email: user ? user.email : null,
-				displayName: user ? user.displayName : null,
-				uid: user ? user.uid : null
-			};
+	let loggedIn: boolean = false;
+	let user: any;
 
-			authUser.update((curr: any) => {
-				return { ...curr, ...dataToSetToStore };
-			});
+	onMount(async () => {
+		user = await data.getAuthUser();
+		const loggedIn = !!user && user?.uid;
+		let dataToSetToStore = {
+			email: user ? user.email : null,
+			displayName: user ? user.displayName : null,
+			uid: user ? user.uid : null
+		};
+
+		session.update((cur: any) => {
+			return {
+				...cur,
+				user,
+				loggedIn,
+				loading
+			};
+		});
+
+		authUser.update((curr: any) => {
+			return { ...curr, ...dataToSetToStore };
 		});
 	});
 
@@ -99,7 +109,7 @@
 	}
 
 	$: $loading = !!$navigating;
-	$: user = data.user;
+	$: user;
 </script>
 
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hideDrawer} id="sidebar2">
@@ -136,7 +146,7 @@
 	<AppShell>
 		<svelte:fragment slot="sidebarLeft">
 			<div class="hidden-on-mobile">
-				<UserSidebar image={userImage} user={data.user || ''} />
+				<UserSidebar image={userImage} user={user || ''} />
 			</div>
 		</svelte:fragment>
 

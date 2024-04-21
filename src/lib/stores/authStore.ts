@@ -1,13 +1,20 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
-interface AuthUser {
-	admin: boolean,
-	displayName: string | null,
-	email: string | null,
-	picture: string | null,
-	uid: string | null,
+type User = {
+	admin: boolean;
+	displayName: string | null;
+	email: string | null;
+	picture: string | null;
+	uid: string | null;
 }
 
-const authUser = writable<AuthUser | undefined>(undefined);
+const authUser = writable<User | undefined>(undefined);
+
+export type SessionState = {
+	user: User | null;
+	loading?: boolean;
+	loggedIn?: boolean;
+};
 
 export { authUser };
+export const session = <Writable<SessionState>>writable();

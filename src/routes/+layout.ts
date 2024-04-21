@@ -2,6 +2,8 @@ import type { LayoutLoad } from './$types';
 import { browser } from '$app/environment';
 import { loadTranslations } from '$lib/translations';
 import { getLanguage } from '$lib'
+import { auth, initializeFirebase } from '$lib/firebase/client';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export const load: LayoutLoad = async ({ url, data }) => {
   const { pathname } = url;
@@ -9,11 +11,26 @@ export const load: LayoutLoad = async ({ url, data }) => {
 
   await loadTranslations(initLocale, pathname);
 
+  if (browser) {
+    try {
+      initializeFirebase();
+    } catch (error) {
+      console.error('Error initializing firebase', error);
+    }
+  }
+
+  function getAuthUser() {
+    return new Promise((resolve) => {
+      onAuthStateChanged(auth, (user) => resolve(user ? user : false));
+    });
+  }
+
   return {
     locale: initLocale,
     route: pathname,
     ...(typeof data === 'object' ? data : {}),
-    user: data.user
+    user: data.user,
+    getAuthUser: getAuthUser
   };
 };
 

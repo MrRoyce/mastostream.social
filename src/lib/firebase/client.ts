@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 import { getFunctions } from 'firebase/functions';
+import { browser } from "$app/environment";
 // import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 if (
@@ -53,13 +54,21 @@ if (!getApps().length) {
 // });
 
 // Initialize Firebase
-export const app = firebaseApp;
+export let app = firebaseApp;
 export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp);
 
 export const storage = getStorage(firebaseApp);
 
 export const functions = getFunctions(firebaseApp);
+
+export const initializeFirebase = () => {
+  if (browser) {
+    if (!app) {
+      app = initializeApp(firebaseConfig);
+    }
+  }
+};
 
 export const getClientApp: () => FirebaseApp = () => {
   if (getApps().length) {
