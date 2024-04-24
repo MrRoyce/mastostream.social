@@ -21,9 +21,9 @@
 	initializeStores();
 
 	onMount(async () => {
-		const user: any = await data.getAuthUser();
+		const user: any = await data?.getAuthUser();
 
-		const loggedIn = !!user && user?.uid;
+		loggedIn = !!user && user?.uid;
 		session.update((cur: any) => {
 			authLoading = false;
 			return {
