@@ -18,7 +18,7 @@
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/client';
-	import { authUser } from '$lib/stores';
+	import { session } from '$lib/stores/authStore';
 	import { Footer, Languages } from '$lib/components';
 	import { locale } from '$lib/translations';
 	import { getLanguageList } from '$lib/utils/getLanguage';
@@ -40,14 +40,14 @@
 			if (!user) {
 				unsubscribe();
 			}
-			let dataToSetToStore = {
-				email: user ? user.email : null,
-				displayName: user ? user.displayName : null,
-				uid: user ? user.uid : null
-			};
 
-			authUser.update((curr: any) => {
-				return { ...curr, ...dataToSetToStore };
+			session.update((cur: any) => {
+				return {
+					...cur,
+					user,
+					loggedIn: user?.uid ? true : false,
+					loading: false
+				};
 			});
 		});
 	});

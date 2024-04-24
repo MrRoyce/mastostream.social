@@ -9,8 +9,8 @@
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 
 	export let data: PageData;
-	const entity = data.entity;
-	const toots = data.toots;
+	const entity = data?.entity || {};
+	const toots = data?.toots || [];
 
 	let acctName = '';
 	let acctInstance = '';

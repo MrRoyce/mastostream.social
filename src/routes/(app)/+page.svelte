@@ -14,10 +14,10 @@
 	import * as CookieConsent from 'vanilla-cookieconsent';
 
 	export let data: PageData;
-	const counts = data.counts;
-	const words = data.words;
-	const latestCounts = data.latestCounts;
-	const toots = data.toots;
+	const counts = data?.counts;
+	const words = data?.words;
+	const latestCounts = data?.latestCounts;
+	const toots = data?.toots;
 	const activeTab = 0;
 
 	const { start, end } = getRandomRange(toots?.length, 10);

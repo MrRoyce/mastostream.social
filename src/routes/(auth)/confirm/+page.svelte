@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { isMagicLink, signInWithMagicLink } from '$lib/firebase/client';
+	import { session } from '$lib/stores/authStore';
 	import { clearMagicEmail, getMagicEmail } from '$lib/localStorage/magicEmail';
-	import { authUser } from '$lib/stores/authStore';
 	import { getAuth, linkWithCredential, EmailAuthProvider } from 'firebase/auth';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
@@ -34,8 +34,13 @@
 				uid: credential.user.uid
 			};
 
-			authUser.update((curr: any) => {
-				return { ...curr, ...dataToSetToStore };
+			session.update((cur: any) => {
+				return {
+					...cur,
+					user: credential.user,
+					loggedIn: true,
+					loading: false
+				};
 			});
 
 			const idToken = await credential.user.getIdToken();

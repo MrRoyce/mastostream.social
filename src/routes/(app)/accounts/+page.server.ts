@@ -7,8 +7,6 @@ const ttl = 600
 
 export const load: PageServerLoad = (async ({ url, setHeaders, request }) => {
 
-  console.log('headers in accounts', request.headers.get('referer'))
-
   try {
     const sourceType = url.searchParams.get('type') ?? 'both'
 

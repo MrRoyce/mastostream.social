@@ -3,35 +3,25 @@ import { getCount, getCounts, getData, getWords } from '$lib/getCollection';
 import { convertToK, getRandomRange, summarizeCounts } from '$lib/utils';
 import { redis } from '$lib/redis/redis';
 
-let myWords
-let dashboardToots
-
 const ttl = 600
-let dashboardData = {
-  latestCounts: {
-    accounts: '',
-    domains: '',
-    languages: '',
-    tags: '',
-    toots: '',
-  },
-  counts: {},
-  words: [],
-  toots: [],
-  user: {
-    email: '',
-    admin: false
-  }
-}
-
-// export const ssr = false;
-// export const prerender = false;
 
 export const load: PageServerLoad = async ({ locals, setHeaders }) => {
+  let dashboardToots
+  let myWords
+  let dashboardData = {
+    latestCounts: {
+      accounts: '',
+      domains: '',
+      languages: '',
+      tags: '',
+      toots: '',
+    },
+    counts: {},
+    words: [],
+    toots: []
+  }
 
   try {
-
-    dashboardData.user = locals.user || { email: '', admin: false }
 
     //await redis.connect()
     const redisKeyTootsBoth = `toots_cached_both`

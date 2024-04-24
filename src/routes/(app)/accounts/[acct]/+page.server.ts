@@ -5,9 +5,6 @@ import { addMediaAttachmentCounts } from '$lib/utils';
 import { redirect } from '@sveltejs/kit';
 
 const ttl = 600
-let entity
-let toots
-let acct = {}
 
 const replaceFromString = 'users/'
 const replaceToString = 'api/v1/accounts/lookup?acct='
@@ -37,6 +34,11 @@ async function getLatestEntityInfo(fetch, uriWithLookup) {
 
 // Get account and their toots
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
+
+  let entity
+  let toots
+  let acct = {}
+
   if (!params.acct || params.acct.length > 50) {
     console.warn('params.acct.length > 50', params.acct.length)
     throw redirect(307, '/')

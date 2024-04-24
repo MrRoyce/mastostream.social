@@ -5,20 +5,11 @@
 	import { getSidebarItems } from '$lib/utils';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { sineIn } from 'svelte/easing';
-	import {
-		A,
-		Button,
-		CloseButton,
-		Drawer,
-		Sidebar,
-		SidebarGroup,
-		SidebarItem,
-		SidebarWrapper
-	} from 'flowbite-svelte';
+	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { onMount } from 'svelte';
 	import { auth } from '$lib/firebase/client';
-	import { authUser } from '$lib/stores';
+	import { session } from '$lib/stores/authStore';
 	import { Footer, Languages } from '$lib/components';
 	import { locale } from '$lib/translations';
 	import { getLanguageList } from '$lib/utils/getLanguage';
@@ -46,8 +37,13 @@
 				uid: user ? user.uid : null
 			};
 
-			authUser.update((curr: any) => {
-				return { ...curr, ...dataToSetToStore };
+			session.update((cur: any) => {
+				return {
+					...cur,
+					user,
+					loggedIn: user?.uid ? true : false,
+					loading: false
+				};
 			});
 		});
 	});

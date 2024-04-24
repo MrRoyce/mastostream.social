@@ -4,23 +4,27 @@ import { fail, redirect } from '@sveltejs/kit';
 import { getDocument } from '$lib/getCollection';
 
 export const load: PageServerLoad = (async ({ locals }) => {
-
   const user = locals.user
-
   if (!user) {
     redirect(307, '/')
   }
-
-  let entity
+  let entity = {
+    instance: '',
+    accessToken: '',
+    acct: ''
+  }
 
   try {
     entity = await getDocument({ entity: 'users', id: user.uid })
   } catch (error) {
     console.error(`Error getting users document for uid: ${user.uid}`, error)
   }
+  entity.instance = (entity.instance) ? entity.instance : ""
+  entity.acct = (entity.acct) ? entity.acct : ""
+  entity.accessToken = (entity.accessToken) ? entity.accessToken : ""
 
   return {
-    entity,
+    entity: entity,
     user
   };
 })

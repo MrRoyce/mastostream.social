@@ -26,11 +26,11 @@
 	}
 
 	export let data: PageData;
-	const entity = data.entity;
-	const toots = data.toots;
-	const id = data.id;
-	const wikiData = data.wikiData;
-	const tootTypePassed = data.tootTypePassed;
+	const entity = data?.entity || {};
+	const toots = data?.toots || [];
+	const id = data?.id || '';
+	const wikiData = data?.wikiData || {};
+	const tootTypePassed = data?.tootTypePassed || 'both';
 
 	const wikiTitle = `${wikiData.title}: ${wikiData.description}`;
 	let tootType = tootTypePassed || 'both';

@@ -15,15 +15,13 @@ export const actions = {
 
       const turnstileKey = import.meta.env.VITE_SECRET_TURNSTILE_KEY
 
-      const { success, error } = await validateToken(token, turnstileKey)
-      console.log('success', success)
-      console.log('error', error)
+      const { error } = await validateToken(token, turnstileKey)
       if (error) {
         throw new Error(`Error - did not validate turnstile token ${error}`);
       }
       return { success: true }
     } catch (error) {
-      console.log('error in registration', error)
+      console.error('error in registration', error)
       return {
         success: false, error: {
           ...JSON.parse(JSON.stringify(error))

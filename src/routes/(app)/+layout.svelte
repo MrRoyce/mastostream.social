@@ -15,7 +15,7 @@
 		UserIcon,
 		UserSidebar
 	} from '$lib/components';
-	import { authUser, loading } from '$lib/stores';
+	import { loading } from '$lib/stores';
 	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
 	import type { LayoutData } from './$types';
@@ -23,16 +23,12 @@
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import { auth } from '$lib/firebase/client';
 	import { locale } from '$lib/translations';
 	import { session } from '$lib/stores/authStore';
 
-	export let data: LayoutData;
-	const userImage = data.user?.picture
-		? data.user?.picture
-		: data.entity?.photoURL
-			? data.entity.photoURL
-			: UserIcon;
+	export let data;
+
+	let user: any;
 
 	const languages = getLanguageList();
 	const languageStrings = getLanguageString();
@@ -41,29 +37,29 @@
 	const pageSettingsItems = getSidebarItems({ group: 'app', page: 'settings' });
 
 	let loggedIn: boolean = false;
-	let user: any;
+	let authUser;
+
+	async function getPictureURL(uid) {
+		const res = await fetch(`/api/picture?uid=${uid}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		return await res.json();
+	}
+
+	let picturePromise: Promise<any>;
 
 	onMount(async () => {
-		user = await data.getAuthUser();
-		const loggedIn = !!user && user?.uid;
-		let dataToSetToStore = {
-			email: user ? user.email : null,
-			displayName: user ? user.displayName : null,
-			uid: user ? user.uid : null
-		};
+		authUser = (await data?.getAuthUser()) || {};
 
-		session.update((cur: any) => {
-			return {
-				...cur,
-				user,
-				loggedIn,
-				loading
-			};
-		});
+		// Get the users picture
+		if (authUser) {
+			picturePromise = getPictureURL(authUser.uid);
+		}
 
-		authUser.update((curr: any) => {
-			return { ...curr, ...dataToSetToStore };
-		});
+		loggedIn = !!authUser && authUser?.uid;
 	});
 
 	afterNavigate((params: AfterNavigate) => {
@@ -109,7 +105,7 @@
 	}
 
 	$: $loading = !!$navigating;
-	$: user;
+	$: user = authUser || {};
 </script>
 
 <Drawer transitionType="fly" {transitionParams} bind:hidden={hideDrawer} id="sidebar2">
@@ -140,79 +136,87 @@
 	</Sidebar>
 </Drawer>
 
-{#if $loading}
-	<Loading />
-{:else}
-	<AppShell>
-		<svelte:fragment slot="sidebarLeft">
-			<div class="hidden-on-mobile">
-				<UserSidebar image={userImage} user={user || ''} />
-			</div>
-		</svelte:fragment>
-
-		<svelte:fragment slot="header">
-			<AppBar
-				gridColumns="grid-cols-3"
-				slotDefault="place-self-center"
-				slotTrail="place-content-end"
-			>
-				<!-- lead left of appbar-->
-				<svelte:fragment slot="lead">
-					<!-- Mobile Only -->
-					<div class="flex items-center show-on-mobile">
-						<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
-							<span>
-								<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
-									<rect width="100" height="20" />
-									<rect y="30" width="100" height="20" />
-									<rect y="60" width="100" height="20" />
-								</svg>
-							</span>
-						</Button>
+{#if picturePromise}
+	{#await picturePromise}
+		<Loading />
+	{:then pictureData}
+		<AppShell>
+			<svelte:fragment slot="sidebarLeft">
+				{#if user && user.email}
+					<div class="hidden-on-mobile">
+						<UserSidebar image={pictureData.pictureURL} {user} />
 					</div>
+				{:else}
+					<div class="hidden-on-mobile">
+						<UserSidebar image={pictureData.pictureURL} user={{}} />
+					</div>
+				{/if}
+			</svelte:fragment>
 
-					<A href="/"
-						><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
-					>
-				</svelte:fragment>
+			<svelte:fragment slot="header">
+				<AppBar
+					gridColumns="grid-cols-3"
+					slotDefault="place-self-center"
+					slotTrail="place-content-end"
+				>
+					<!-- lead left of appbar-->
+					<svelte:fragment slot="lead">
+						<!-- Mobile Only -->
+						<div class="flex items-center show-on-mobile">
+							<Button class="mr-4 lg:hidden" on:click={() => (hideDrawer = false)}>
+								<span>
+									<svg viewBox="0 0 100 80" class=" w-4 h-4 fill-current text-white">
+										<rect width="100" height="20" />
+										<rect y="30" width="100" height="20" />
+										<rect y="60" width="100" height="20" />
+									</svg>
+								</span>
+							</Button>
+						</div>
 
-				<!-- trail - right of appbar -->
-				<svelte:fragment slot="trail">
-					{#if user && user.email}
-						<Button
-							color="alternative"
-							on:click={handleLogout}
-							type="button"
-							class="btn variant-filled border-none"
-							><span class="text-gray-200">Sign Out</span></Button
+						<A href="/"
+							><strong class="text-xl uppercase dark:text-green-400"> <h1>U Toots</h1></strong></A
 						>
-					{:else}
+					</svelte:fragment>
+
+					<!-- trail - right of appbar -->
+					<svelte:fragment slot="trail">
+						{#if user && user.email}
+							<Button
+								color="alternative"
+								on:click={handleLogout}
+								type="button"
+								class="btn variant-filled border-none"
+								><span class="text-gray-200">Sign Out</span></Button
+							>
+						{:else}
+							<Button
+								color="alternative"
+								on:click={() => goto('/login')}
+								type="button"
+								class="btn variant-filled border-none"
+								><span class="text-gray-200">Sign In</span></Button
+							>
+						{/if}
 						<Button
+							id="flags-button-wrapper"
+							outline={false}
+							class="border-none"
 							color="alternative"
-							on:click={() => goto('/login')}
-							type="button"
-							class="btn variant-filled border-none"
-							><span class="text-gray-200">Sign In</span></Button
+							on:click={handleLocaleChange}><Languages /></Button
 						>
-					{/if}
-					<Button
-						id="flags-button-wrapper"
-						outline={false}
-						class="border-none"
-						color="alternative"
-						on:click={handleLocaleChange}><Languages /></Button
-					>
-				</svelte:fragment>
-			</AppBar>
-		</svelte:fragment>
+					</svelte:fragment>
+				</AppBar>
+			</svelte:fragment>
 
-		<!-- +page.svelte Slot -->
-		<slot />
+			<!-- +page.svelte Slot -->
+			<slot />
 
-		<svelte:fragment slot="pageFooter">
-			<Footer />
-		</svelte:fragment>
-	</AppShell>
+			<svelte:fragment slot="pageFooter">
+				<Footer />
+			</svelte:fragment>
+		</AppShell>
+	{/await}
 {/if}
 
 <style>

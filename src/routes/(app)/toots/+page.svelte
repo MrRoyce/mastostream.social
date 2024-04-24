@@ -28,8 +28,8 @@
 	}
 
 	export let data: PageData;
-	const tootTypePassed = data.tootTypePassed;
-	const toots = data.toots;
+	const tootTypePassed = data?.tootTypePassed || 'both';
+	const toots = data?.toots || [];
 
 	const tableData = {
 		tableHead: ['Pic', 'Safe', 'Type', 'Language', 'Pics', 'Video', 'Audio', 'Link']

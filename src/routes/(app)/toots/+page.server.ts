@@ -17,7 +17,6 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
 
     if (tootsCached && checkCache) {
       console.log(`${redisKeyTootsType} for ${sourceType} cached`)
-      console.log('toots cached')
       toots = JSON.parse(tootsCached)
       // not sure why need to re-add the counts??
       toots = addMediaAttachmentCounts(toots)

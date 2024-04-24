@@ -26,8 +26,8 @@ export const GET = async ({ url, locals }) => {
       status: typeof response?.data?.status === 'number' ? response.data.status : 500
     });
   } catch (error) {
-    console.log('error in api users', error)
-    const message = `Failed request for users: isUserAdmin: ${isUserAdmin}, id: ${id}, task: ${task}. error: ${error?.message || 'No message found'}, status: ${error?.status || 'No status found'}`
+    console.error('error in api users', error)
+    const message = `Failed request for users: isUserAdmin: ${isUserAdmin}, id: ${userId}, task: ${task}. error: ${error?.message || 'No message found'}, status: ${error?.status || 'No status found'}`
     logger.error('Failed to process the request for users admin ', message)
     return new Response(JSON.stringify({ message }), {
       status: error?.status ? error?.status : 500
