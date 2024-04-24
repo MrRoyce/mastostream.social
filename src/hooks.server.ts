@@ -80,6 +80,8 @@ export const handle: Handle = (async ({ event, resolve }) => {
         await updateSessionCookie(token, event.cookies);
       }
 
+    } else {
+      event.locals.user = { admin: false, displayName: '', email: '', picture: '', uid: '' }
     }
   } catch (e) {
     console.error('Could not get idToken from session cookie - e:', e)
