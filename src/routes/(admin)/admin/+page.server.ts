@@ -40,8 +40,6 @@ const adminData = {
   }
 }
 
-export const ssr = false;
-export const prerender = false;
 
 export const load: PageServerLoad = async ({ locals }) => {
   try {

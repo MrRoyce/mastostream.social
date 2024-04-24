@@ -42,8 +42,6 @@ export const actions = {
       let ref
       const { id, acct, tootId, tags, domain, language } = fbData
 
-      console.log('fbData', fbData)
-
       // Delete from tags
       if (tags && Array.isArray(tags)) {
         tags.forEach(async tag => {

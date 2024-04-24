@@ -8,9 +8,9 @@
 	export let data: PageData;
 	// if (browser) console.log('data', JSON.stringify(data, null, 2));
 
-	let database = { ...data.adminData.database };
+	let database = { ...data?.adminData.database };
 
-	const user = data.adminUser;
+	const user = data?.adminUser;
 	let admin = false;
 	admin = user?.admin || false;
 

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { LayoutData } from '../$types';
 	import { auth } from '$lib/firebase/client';
-	import { authUser, loading } from '$lib/stores';
+	import { loading } from '$lib/stores';
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { goto } from '$app/navigation';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
@@ -13,16 +13,16 @@
 	import { session } from '$lib/stores/authStore';
 
 	export let data: LayoutData;
-	const userImage = data.user?.picture
-		? data.user?.picture
-		: data.entity?.photoURL
-			? data.entity.photoURL
+	const userImage = data?.user?.picture
+		? data?.user?.picture
+		: data?.entity?.photoURL
+			? data?.entity.photoURL
 			: UserIcon;
 
-	$: user = data.user;
+	$: user = data?.user;
 
 	onMount(async () => {
-		user = await data.getAuthUser();
+		user = await data?.getAuthUser();
 		const loggedIn = !!user && user?.uid;
 		let dataToSetToStore = {
 			email: user ? user.email : null,
@@ -38,10 +38,6 @@
 				loading
 			};
 		});
-
-		authUser.update((curr: any) => {
-			return { ...curr, ...dataToSetToStore };
-		});
 	});
 </script>
 
@@ -49,7 +45,7 @@
 	<AppShell>
 		<svelte:fragment slot="sidebarLeft">
 			<div class="hidden-on-mobile">
-				<AdminSidebar image={userImage} email={data.user?.email || ''} />
+				<AdminSidebar image={userImage} email={data?.user?.email || ''} />
 			</div>
 		</svelte:fragment>
 		<AppBar>
