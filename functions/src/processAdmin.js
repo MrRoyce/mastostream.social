@@ -8,7 +8,6 @@ const db = admin.firestore();
 
 export const processAdmin = onCall(async (request) => {
 	try {
-		console.log('request.data', request.data);
 		const { ref, task } = request.data;
 
 		let requestRef;
