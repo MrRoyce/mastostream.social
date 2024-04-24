@@ -5,7 +5,10 @@ import { getLanguage } from '$lib'
 import { auth, initializeFirebase } from '$lib/firebase/client';
 import { onAuthStateChanged } from 'firebase/auth';
 
+export const prerender = false
+
 export const load: LayoutLoad = async ({ url, data }) => {
+
   const { pathname } = url;
   const initLocale = getInitialLocale();
 
@@ -28,8 +31,7 @@ export const load: LayoutLoad = async ({ url, data }) => {
   return {
     locale: initLocale,
     route: pathname,
-    ...(typeof data === 'object' ? data : {}),
-    user: data.user,
+    ...data,
     getAuthUser: getAuthUser
   };
 };
