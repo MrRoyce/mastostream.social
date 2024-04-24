@@ -73,7 +73,7 @@ export const getDocument = async ({ entity, id }) => {
 
 export const getGroups = async ({ entity, id }) => {
   const responseData: DocumentData[] = [];
-  const collectionRef = collection(db, `${entity}/${id}/groups`);
+  const collectionRef = collection(db, entity, id, 'groups');
 
   const queryCollectionRef = query(collectionRef, limit(50))
 
