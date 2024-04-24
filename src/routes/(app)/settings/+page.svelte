@@ -113,7 +113,7 @@
 	};
 
 	// Picture upload handler
-	const handleSubmit = async () => {
+	const uploadPicture = async () => {
 		try {
 			if (files.length === 0) {
 				errors.files = 'Select a file to upload first';
@@ -168,7 +168,7 @@
 			// Read the file into the buffer
 			reader.readAsArrayBuffer(files[0]);
 		} catch (error) {
-			console.error(`Error in handleSubmit on / route: ${error}`);
+			console.error(`Error in uploadPicture on / route: ${error}`);
 		}
 	};
 </script>
@@ -315,7 +315,7 @@
 
 	<Modal title={modalTitle} bind:open={pictureModal} autoclose={false} size="sm" class="w-full">
 		<div class="flex justify-center items-center">
-			<form class="" on:submit|preventDefault={handleSubmit}>
+			<form class="" on:submit|preventDefault={uploadPicture}>
 				<div class="">
 					{#if uploadComplete}
 						<section class="upload-complete">
