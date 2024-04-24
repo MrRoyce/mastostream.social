@@ -26,7 +26,6 @@
 	const getData = (appdata: MailTemplateRow) => {
 		updateModal = true;
 		groupObject = appdata;
-		console.log('groupObject', groupObject);
 	};
 </script>
 
@@ -35,7 +34,7 @@
 		class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 	>
 		<div class="dark:bg-gray-900 p-4">
-			<Heading tag="h3" class="pb-4">Your Groups</Heading>
+			<Heading tag="h3">Your Groups</Heading>
 		</div>
 		<div class="hidden-on-mobile">
 			<div class="mt-4">
