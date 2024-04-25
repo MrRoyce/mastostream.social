@@ -24,17 +24,14 @@ export const POST: RequestHandler = async ({ request }) => {
 
 export const GET: RequestHandler = async ({ url }) => {
   const uid = url.searchParams.get('uid')
-  const redisPictureURL = `user_picture_url_${uid}`
+  const redisPictureURL = `user_picture_url_data_obj_str${uid}`
   const userPictureURLCached = await redis.get(redisPictureURL)
 
   let pictureURL = ''
-
   const checkCache = true  // TODO always check this!
 
   if (userPictureURLCached && checkCache) {
-    return {
-      pictureURL: JSON.parse(userPictureURLCached)
-    }
+    return new Response(userPictureURLCached, { status: 200 })
   } else {
     // Get the user document from the database
     const db = admin.firestore();
@@ -55,7 +52,7 @@ export const GET: RequestHandler = async ({ url }) => {
 
         // Store account entity in redis
         if (pictureURL) {
-          await redis.set(redisPictureURL, JSON.stringify(pictureURL), 'EX', ttl)
+          await redis.set(redisPictureURL, JSON.stringify({ pictureURL }), 'EX', ttl)
 
           // Return the pictureURL
           return new Response(JSON.stringify({ pictureURL }), { status: 200 })
