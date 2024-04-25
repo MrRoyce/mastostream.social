@@ -4,16 +4,20 @@ import { redis } from '$lib/redis/redis';
 import type { RequestHandler } from './$types';
 
 const ttl = 60 * 60 * 24 * 365 // Cache pictures for one year
+const redisPictureURLPrefix = 'user_picture_url_data_obj_str'
 
 export const POST: RequestHandler = async ({ request }) => {
 
   const { backblazeURL, uid } = await request.json();
   try {
-
+    const redisPictureURL = `${redisPictureURLPrefix}${uid}`
     const fbData = { backblazeURL }
     const db = admin.firestore();
     const docRef = db.collection('users').doc(uid);
     await docRef.update(fbData);
+
+    // Store new url in redis
+    await redis.set(redisPictureURL, JSON.stringify({ pictureURL: backblazeURL }), 'EX', ttl)
 
     return json({ status: 'signedIn' });
   } catch (e) {
@@ -24,7 +28,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 export const GET: RequestHandler = async ({ url }) => {
   const uid = url.searchParams.get('uid')
-  const redisPictureURL = `user_picture_url_data_obj_str${uid}`
+  const redisPictureURL = `${redisPictureURLPrefix}${uid}`
   const userPictureURLCached = await redis.get(redisPictureURL)
 
   let pictureURL = ''
