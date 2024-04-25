@@ -8,6 +8,8 @@
 	import { invalidateAll } from '$app/navigation';
 	import { dev } from '$app/environment';
 	import { v4 as uuid } from 'uuid';
+	import { session } from '$lib/stores/authStore';
+	import { get } from 'svelte/store';
 
 	export let form;
 
@@ -35,11 +37,12 @@
 	let downdloadUrl = '';
 	$: filename = files.length > 0 ? files[0].name : '';
 
-	({ accessToken, acct, instance, photoURL } = entity);
+	({ accessToken, acct, instance } = entity);
 	const origAccessToken = accessToken;
 	const origInstance = instance;
 	const origAcct = acct;
 
+	const photoURLFromStore = get(session).photoURL;
 	const modalSettingsClass = 'mt-1 max-w-2xl text-base sm:text-lg md:text-xl text-gray-200';
 	const modalDivClass = 'pb-1 sm:grid grid-cols-1 md:grid-cols-3 sm:gap-4 sm:px-6';
 	const modalDtClass = 'md:text-right text-base lg:text-lg text-gray-200';
@@ -233,8 +236,8 @@
 						<div class={modalDivClass}>
 							<dt class={modalDtClass}>Account Picture</dt>
 							<dd class={modalDdClass}>
-								{#if photoURL}
-									<img id="users-picture" height="48" src={photoURL} alt="User" />
+								{#if photoURLFromStore}
+									<img id="users-picture" class="h-48" src={photoURLFromStore} alt="User" />
 								{:else}
 									<i class={'fas fa-user-secret fa-5x'}></i>
 								{/if}

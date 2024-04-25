@@ -1,29 +1,20 @@
 <script lang="ts">
 	import '../../app.pcss';
-	import { t } from '$lib/translations';
+	import { locale, t } from '$lib/translations';
 	import { getLanguageList, getLanguageString, getSidebarItems } from '$lib/utils';
 	import type { AfterNavigate } from '@sveltejs/kit';
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 	import { setLanguage } from '$lib';
 
-	import {
-		Footer,
-		Languages,
-		Loading,
-		SidebarItemWrapper,
-		UserIcon,
-		UserSidebar
-	} from '$lib/components';
+	import { Footer, Languages, Loading, SidebarItemWrapper, UserSidebar } from '$lib/components';
 	import { loading } from '$lib/stores';
 	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
-	import type { LayoutData } from './$types';
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import { locale } from '$lib/translations';
 	import { session } from '$lib/stores/authStore';
 
 	export let data;
@@ -39,14 +30,30 @@
 	let loggedIn: boolean = false;
 	let authUser;
 
-	async function getPictureURL(uid) {
-		const res = await fetch(`/api/picture?uid=${uid}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
+	function updatePhotoURL(photoURL: string) {
+		session.update((cur: any) => {
+			return {
+				...cur,
+				photoURL
+			};
 		});
-		return await res.json();
+	}
+
+	async function getPictureURL(uid: any) {
+		try {
+			const fetchURL = `/api/picture?uid=${uid}`;
+			const res = await fetch(fetchURL, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+			const resJson = await res.json();
+			return resJson;
+		} catch (error) {
+			console.error('Error getting pictureURL', error);
+			return '';
+		}
 	}
 
 	let picturePromise: Promise<any>;
@@ -140,6 +147,7 @@
 	{#await picturePromise}
 		<Loading />
 	{:then pictureData}
+		{void updatePhotoURL(pictureData.pictureURL) ?? ''}
 		<AppShell>
 			<svelte:fragment slot="sidebarLeft">
 				{#if user && user.email}
