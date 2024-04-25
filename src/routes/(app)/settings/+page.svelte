@@ -142,12 +142,10 @@
 			const { readSignedUrl, writeSignedUrl } = json;
 			downdloadUrl = readSignedUrl;
 
-			const devProxyPrefix = dev ? 'https://nameless-stream-31297-c52892a66e07.herokuapp.com/' : '';
-
 			// Upload file
 			const reader = new FileReader();
 			reader.onloadend = async () => {
-				const writeResponse = await fetch(`${devProxyPrefix}${writeSignedUrl}`, {
+				const writeResponse = await fetch(`${writeSignedUrl}`, {
 					method: 'PUT',
 					body: reader.result,
 					headers: {
