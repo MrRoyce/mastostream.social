@@ -6,8 +6,8 @@
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	$: activeUrl = $page.url.pathname;
 
-	export let image: String;
-	export let email: String;
+	export let image: string;
+	export let email: string;
 </script>
 
 <Section name="tableheader" sectionClass="bg-gray-50 dark:bg-gray-900 flex py-4 m-4 h-fit">
@@ -16,7 +16,7 @@
 			<SidebarGroup class="pb-6">
 				<SidebarItem label="Administrator" href="/account">
 					<svelte:fragment slot="icon">
-						<img id="users-picture" height="48" src={image} alt="User" />
+						<img id="users-picture" class="h-48" src={image} alt="User" />
 						<Tooltip triggeredBy="[id^='users-picture']">{email}</Tooltip>
 					</svelte:fragment>
 				</SidebarItem>
