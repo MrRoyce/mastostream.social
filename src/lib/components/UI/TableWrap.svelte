@@ -1,7 +1,7 @@
 <script>
 	export let mb = '';
 	export let spacing = 'mx-4'; // mx-4
-	export let divContainerPadding = 'px-4';
+	export let divContainerPadding = 'px-2';
 </script>
 
 <div>
