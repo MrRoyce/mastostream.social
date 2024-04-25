@@ -14,6 +14,7 @@ export type SessionState = {
 	user: User | null;
 	loading?: boolean;
 	loggedIn?: boolean;
+	photoURL?: string;
 };
 
 export { authUser };
