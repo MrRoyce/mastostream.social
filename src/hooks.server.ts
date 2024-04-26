@@ -24,10 +24,12 @@ export const handle: Handle = (async ({ event, resolve }) => {
   const referer = event.request.headers.get('referer')
 
   if (!referer?.startsWith(validDomain)) {
-    console.error(`Invalid domain request prohibited', validDomain: ${validDomain}, referer: ${referer}, for url: ${event.request.url}`)
+    console.error(`Invalid domain request prohibited' validDomain: ${validDomain}, referer: ${referer}, for url: ${event.request.url}`)
     error(403, {
       message: 'Forbidden'
     });
+  } else {
+    console.log(`Valid domain check validDomain: ${validDomain}, referer: ${referer}, for url: ${event.request.url}`)
   }
 
   const sessionCookie = event.cookies.get("__session");
