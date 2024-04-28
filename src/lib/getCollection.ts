@@ -13,8 +13,6 @@ import {
 } from 'firebase/firestore';
 import { db } from '$lib/firebase/client';
 
-
-
 type Options = {
   entity: string;
   max: number;
