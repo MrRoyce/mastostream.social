@@ -76,11 +76,17 @@ declare global {
 		username: string;
 	}
 
-	interface GroupObject {
-		id: string; // Have to bypass the 1st column when displaying rows!!
-		types: string;
-		mature: strbooleaning;
-		description: string;
+	type DateFormat = {
+		seconds: number;
+		nanoseconds: number
+	}
+
+	interface GroupReference {
+		creator: boolean;
+		id: string;
+		joined: DateFormat;
+		moderator: boolean;
+		name: string;
 	}
 
 	type getDataFunction = ({
