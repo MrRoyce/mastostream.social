@@ -80,7 +80,7 @@ export const actions = {
 
     if (!user) {
       return fail(500, {
-        message: `Error in update - No user found!`
+        message: `Error in update settings - No user found!`
       });
     }
 
