@@ -2,7 +2,6 @@
 	import { formatText, truncateHTML } from '$lib/utils';
 
 	export let toot;
-	export let limit = 5000;
 
 	const content = toot.content; //limit ? truncateHTML(toot.content, limit) : toot.content;
 

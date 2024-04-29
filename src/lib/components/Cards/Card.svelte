@@ -6,7 +6,6 @@
 	export let description: string;
 	export let imageDescription: string;
 	export let providerName: string;
-	export let title: string;
 	export let url: string;
 </script>
 
