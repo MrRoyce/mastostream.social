@@ -10,6 +10,7 @@ export const load: LayoutServerLoad = (async ({ locals, parent }) => {
   let entity = {}
   if (user?.uid) {
     entity = await getDocument({ entity: 'users', id: user.uid })
+    entity = JSON.parse(JSON.stringify(entity))
   }
 
   return { ...locals, entity: { ...entity } };

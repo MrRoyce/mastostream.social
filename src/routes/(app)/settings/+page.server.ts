@@ -16,6 +16,7 @@ export const load: PageServerLoad = (async ({ locals }) => {
 
   try {
     entity = await getDocument({ entity: 'users', id: user.uid })
+    entity = JSON.parse(JSON.stringify(entity))
   } catch (error) {
     console.error(`Error getting users document for uid: ${user.uid}`, error)
   }
