@@ -1,7 +1,8 @@
-import { getGroups } from '$lib/getCollection';
+import { getDocument } from '$lib/getCollection';
 import { fail, redirect } from '@sveltejs/kit';
 import admin from 'firebase-admin';
 import type { PageServerLoad } from './$types';
+import { Timestamp } from "firebase/firestore";
 
 export const load: PageServerLoad = (async ({ locals }) => {
   const user = locals.user
@@ -10,10 +11,12 @@ export const load: PageServerLoad = (async ({ locals }) => {
     redirect(307, '/')
   }
 
-  let groups
+  let groups = []
+  let entity
 
   try {
-    groups = await getGroups({ entity: 'users', id: user.uid })
+    entity = await getDocument({ entity: 'users', id: user.uid })
+    groups = entity?.groups || []
   } catch (error) {
     console.error(`Error getting users groups for uid: ${user.uid}`, error)
   }
@@ -28,11 +31,15 @@ export const actions = {
   update: async ({ request, locals }) => {
 
     const user = locals.user
-    const formData = await request.formData()
+    const formData = (await request.formData())
     const data = Object.fromEntries(formData.entries())
+    const { originalGroups, moderator, groupName, creator } = data
 
-    // console.log('data', data)
-    // console.log('user', user)
+    const originalGroupsObject = originalGroups ? JSON.parse(originalGroups) : []
+
+    console.log('data in update action', JSON.stringify(data, null, 2))
+    console.log('originalGroups in update action', originalGroups)
+    // console.log('user in update action', user)
 
     if (!(user?.uid === data?.uid)) {
       return fail(500, {
@@ -40,29 +47,34 @@ export const actions = {
       });
     }
 
-    try {
-      const { groupId } = data
-      let { moderator } = data
-      moderator = moderator ? true : 'false'
-
-      try {
-        const fbData = { moderator }
-        const db = admin.firestore();
-        const docRef = db.collection(`users/${user.uid}/groups`).doc(groupId);
-        await docRef.update(fbData);
-
-        return { success: true }
-      } catch (e) {
-        return fail(500, {
-          message: `Error in updating group for user: ${e}`
-        });
+    const updatedGroups = originalGroupsObject.map((originalGroup: { name: any; }) => {
+      console.log('names', `originalGroup.name: ${originalGroup.name}, groupName: ${groupName}`)
+      if (!(originalGroup.name === groupName)) {
+        return originalGroup
+      } else {
+        return {
+          creator: creator ? true : false,
+          joined: originalGroup.joined,
+          moderator: moderator ? true : false,
+          name: groupName
+        }
       }
+    })
+
+    console.log('updatedGroups', updatedGroups)
+    try {
+      const fbData = { groups: updatedGroups }
+      const db = admin.firestore();
+      const docRef = db.collection('users').doc(user.uid);
+      await docRef.update(fbData);
 
       return { success: true }
-    } catch (error) {
+    } catch (e) {
       return fail(500, {
-        message: `Error in updating groups: ${error}`
+        message: `Error in updating group for user: ${e}`
       });
     }
+
+    return { success: true }
   }
 }

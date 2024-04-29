@@ -25,12 +25,12 @@
 	export let data: PageData;
 
 	let updateModal = false;
-	let loadSpinner = false;
 	let groupObject: GroupReference;
 
 	const toastStore = getToastStore();
 
 	const { user, groups } = data;
+	let originalGroups = JSON.stringify(groups);
 
 	const tableData = {
 		tableHead: ['Name', 'Joined', 'Creator', 'Moderator']
@@ -48,20 +48,17 @@
 	let moderator = '0';
 	let creator = '0';
 
-	const getData = (appdata: GroupReference, group) => {
+	const getData = (appdata: GroupReference) => {
 		updateModal = true;
 		groupObject = appdata;
-		groupObject.id = group.id;
 		formattedDate = formatTheDate(groupObject.joined);
 		moderator = groupObject.moderator ? '1' : '0';
 		creator = groupObject.creator ? '1' : '0';
-		console.log('groupObject', groupObject);
 	};
 
 	const updateGroup: SubmitFunction = () => {
 		// Before call
 		updateModal = false;
-		loadSpinner = true;
 
 		// After call
 		return async ({ result }) => {
@@ -87,7 +84,6 @@
 				toastStore.trigger(t);
 			}
 			await applyAction(result);
-			loadSpinner = false;
 		};
 	};
 </script>
@@ -115,22 +111,17 @@
 					</TableHead>
 					<TableBody>
 						{#each groups as group}
-							{#each group.references as reference}
-								<TableBodyRow
-									class="border-none cursor-pointer"
-									on:click={() => getData(reference, group)}
+							<TableBodyRow class="border-none cursor-pointer" on:click={() => getData(group)}>
+								<TableBodyCell>{group.name}</TableBodyCell>
+								<TableBodyCell
+									>{formatDate({
+										seconds: group.joined.seconds,
+										nanoseconds: group.joined.nanoseconds
+									})}</TableBodyCell
 								>
-									<TableBodyCell>{reference.name}</TableBodyCell>
-									<TableBodyCell
-										>{formatDate({
-											seconds: reference.joined.seconds,
-											nanoseconds: reference.joined.nanoseconds
-										})}</TableBodyCell
-									>
-									<TableBodyCell>{reference.creator}</TableBodyCell>
-									<TableBodyCell>{reference.moderator}</TableBodyCell>
-								</TableBodyRow>
-							{/each}
+								<TableBodyCell>{group.creator}</TableBodyCell>
+								<TableBodyCell>{group.moderator}</TableBodyCell>
+							</TableBodyRow>
 						{/each}
 					</TableBody>
 				</Table>
@@ -145,23 +136,27 @@
 			<div class="grid gap-4 mb-4 sm:grid-cols-2">
 				<div>
 					<Label for="groupName" class="mb-2">Name</Label>
-					<Input type="text" bind:value={groupObject.name} name="groupName" disabled />
+					<Input type="text" bind:value={groupObject.name} name="groupName" readonly="readonly" />
 				</div>
 				<div>
-					<Label for="joined" class="mb-2">Joined</Label>
-					<Input type="text" id="joined" name="joined" bind:value={formattedDate} disabled />
+					<Label for="joinedDate" class="mb-2">Joined</Label>
+					<Input
+						type="text"
+						id="joinedDate"
+						name="joinedDate"
+						bind:value={formattedDate}
+						readonly="readonly"
+					/>
 				</div>
 				<div class="sm:col-span-2">
-					<Toggle name="creator" checked={groupObject.creator} bind:value={creator} disabled
+					<Toggle name="creator" checked={creator} bind:value={creator} readonly="readonly"
 						>Group Creator?</Toggle
 					>
 				</div>
 				<div class="sm:col-span-2">
-					<Toggle name="moderator" checked={groupObject.moderator} bind:value={moderator}
-						>Moderator?</Toggle
-					>
+					<Toggle name="moderator" checked={moderator} bind:value={moderator}>Moderator?</Toggle>
 				</div>
-				<input type="hidden" name="groupId" bind:value={groupObject.id} />
+				<input type="hidden" name="originalGroups" bind:value={originalGroups} />
 				<input type="hidden" name="uid" bind:value={user.uid} />
 				<Button type="submit" class="w-52">
 					<svg
