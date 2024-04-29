@@ -22,6 +22,7 @@ export const load: PageServerLoad = (async ({ locals }) => {
   }
 
   return {
+    entity,
     groups: JSON.parse(JSON.stringify(groups)),
     user
   };
@@ -76,5 +77,54 @@ export const actions = {
     }
 
     return { success: true }
+  },
+  add: async ({ request, locals }) => {
+    const user = locals.user
+    const formData = (await request.formData())
+    const data = Object.fromEntries(formData.entries())
+    console.log('data', data)
+
+    const {
+      acct,
+      description,
+      groupName,
+      mature,
+      type,
+    } = data
+
+    if (!(user?.uid === data?.uid)) {
+      return fail(500, {
+        message: `Error in update group - user.uid: ${user?.uid} !== data.uid: ${data?.uid}`
+      });
+    }
+
+    const groupCreatorId = `${user.uid}_${acct}`
+
+    const group = {
+      created: admin.firestore.Timestamp.now().toDate(),
+      creatorId: user.uid,
+      description,
+      groupMembers: [groupCreatorId],
+      groupModerators: [groupCreatorId],
+      mature: mature ? true : false,
+      name: groupName,
+      public: type ? true : false,
+    }
+
+    console.log('group', group)
+
+    try {
+      const fbData = { ...group }
+      const db = admin.firestore();
+      const docRef = db.collection('groups').doc(groupName);
+      await docRef.create(fbData);
+
+      return { success: true }
+    } catch (e) {
+      return fail(500, {
+        message: `Error in adding group for user: ${e}`
+      });
+    }
+
   }
 }
