@@ -17,13 +17,12 @@ type Options = {
   entity: string;
   max: number;
   orderByField: string;
-  sourceType: string;
+  sourceType?: string;
 };
 
 export const getData = async (options: Options) => {
   try {
     const { entity, max, orderByField, sourceType } = options
-
     const responseData: DocumentData[] = [];
     const collectionRef = collection(db, entity)
 
@@ -64,7 +63,7 @@ export const getDocument = async ({ entity, id }) => {
   if (docSnap.exists()) {
     return docSnap.data();
   } else {
-    console.log(`Document ${id} not found for entity ${entity}`);
+    console.error(`Document ${id} not found for entity ${entity}`);
     return null
   }
 }
@@ -214,8 +213,6 @@ export const getCounts = async (hours: number) => {
         ...docData
       });
     });
-
-    // console.log('responseData', JSON.stringify(responseData, null, 2))
 
     return responseData;
   } catch (error) {
