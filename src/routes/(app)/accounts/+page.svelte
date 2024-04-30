@@ -26,8 +26,6 @@
 	if (browser && dev) console.log('data in accounts', data);
 
 	let searchTerm = '';
-	let acctName = '';
-	let acctInstance = '';
 
 	function searchData() {
 		if (searchTerm) {
