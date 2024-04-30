@@ -85,6 +85,7 @@
 
 			if (result.type === 'failure' || result.type === 'error') {
 				const errorMessage: string = `Error on add - Status: ${status}, Type: ${type}, Message: ${message}.`;
+				console.error('errorMessage', errorMessage);
 				const t: ToastSettings = {
 					background: 'variant-filled-error',
 					message: errorMessage,
@@ -283,6 +284,7 @@
 				</Button>
 				<input type="hidden" name="uid" bind:value={user.uid} />
 				<input type="hidden" name="acct" bind:value={entity.acct} />
+				<input type="hidden" name="originalGroups" bind:value={originalGroups} />
 			</div>
 		</form>
 	</Modal>
