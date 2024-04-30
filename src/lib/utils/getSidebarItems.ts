@@ -318,6 +318,12 @@ export const getSidebarItems: SideBarMenuItems = ({ group, page }) => {
 								icon: 'fa-solid fa-magnifying-glass',
 								label: 'Search',
 								url: '/search',
+							},
+							{
+								href: '/allgroups',
+								icon: 'fa-solid fa-magnifying-glass',
+								label: 'All Groups',
+								url: '/allgroups',
 							}
 						]
 					}
