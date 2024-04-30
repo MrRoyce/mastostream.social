@@ -2,10 +2,11 @@ import type { PageServerLoad } from './$types';
 import { redis } from '$lib/redis/redis';
 import { getData } from '$lib/getCollection';
 
-let entity = []
 const ttl = 600
 
-export const load: PageServerLoad = (async ({ url, setHeaders, request }) => {
+export const load: PageServerLoad = (async ({ url, setHeaders }) => {
+
+  let entity = []
 
   try {
     const sourceType = url.searchParams.get('type') ?? 'both'
