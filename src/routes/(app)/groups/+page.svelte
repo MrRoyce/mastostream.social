@@ -20,7 +20,7 @@
 	import { Section } from 'flowbite-svelte-blocks';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import { invalidateAll } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { applyAction, enhance } from '$app/forms';
 
 	export let data: PageData;
@@ -159,7 +159,10 @@
 					</TableHead>
 					<TableBody>
 						{#each groups as group}
-							<TableBodyRow class="border-none cursor-pointer" on:click={() => getData(group)}>
+							<TableBodyRow
+								class="border-none cursor-pointer"
+								on:click={() => goto(`/groups/${group.name}`)}
+							>
 								<TableBodyCell>{group.name}</TableBodyCell>
 								<TableBodyCell
 									>{formatDate({
@@ -169,6 +172,14 @@
 								>
 								<TableBodyCell bind:value={group.creator}>{group.creator}</TableBodyCell>
 								<TableBodyCell bind:value={group.moderator}>{group.moderator}</TableBodyCell>
+								<TableBodyCell class="text-center"
+									><a
+										href="#"
+										type="button"
+										class="font-medium text-red-600 dark:text-red-500 hover:underline"
+										on:click={() => getData(group)}>Edit</a
+									></TableBodyCell
+								>
 							</TableBodyRow>
 						{/each}
 					</TableBody>
