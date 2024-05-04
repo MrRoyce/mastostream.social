@@ -6,7 +6,6 @@ export interface ChatUser {
 
 export function validateChatUser(user: any): ChatUser | undefined {
 
-  console.log('user in validateChatUser', user)
   if (typeof user !== "object") {
     return;
   }
