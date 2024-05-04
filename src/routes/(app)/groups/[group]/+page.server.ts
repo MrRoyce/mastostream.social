@@ -3,7 +3,13 @@ import type { PageServerLoad } from './$types';
 
 const maxParamLength = 25
 
-export const load: PageServerLoad = (async ({ params }) => {
+export const load: PageServerLoad = (async ({ params, locals }) => {
+
+  const user = locals.user
+
+  if (!user) {
+    redirect(307, '/')
+  }
 
   if (!params.group || params.group.length > maxParamLength) {
     console.warn(`params.group.length > ${maxParamLength}`, params.group.length)
@@ -11,6 +17,7 @@ export const load: PageServerLoad = (async ({ params }) => {
   }
 
   return {
+    user,
     group: params.group
   };
 });

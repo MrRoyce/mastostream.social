@@ -5,6 +5,7 @@
 		BreadcrumbItem,
 		Button,
 		Heading,
+		Modal,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -15,13 +16,61 @@
 	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import type { PageData } from './$types';
 	import { t } from '$lib/translations';
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { browser, dev } from '$app/environment';
+	import { Section } from 'flowbite-svelte-blocks';
+	import { applyAction, enhance } from '$app/forms';
+	import type { SubmitFunction } from '@sveltejs/kit';
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	export let data: PageData;
-	const { entity, groups } = data;
+	const { user, groups } = data;
+	let originalGroups = JSON.stringify(user?.groups || []);
+	let { acct } = data;
+
+	let joinModal = false;
+	let groupName: any;
+	let groupId: any;
+	let groupMembers: any;
+
+	const toastStore = getToastStore();
+	let uid = user?.uid;
+
+	const joinGroup: SubmitFunction = () => {
+		// Before calls
+		joinModal = false;
+
+		// After call
+		return async ({ result }) => {
+			const { type, status } = result;
+			const { message } = result.data;
+
+			if (result.type === 'success') {
+				await invalidateAll();
+				const t: ToastSettings = {
+					message: `You have been added to the group!`,
+					hideDismiss: true
+				};
+				toastStore.trigger(t);
+			}
+
+			if (result.type === 'failure' || result.type === 'error') {
+				const errorMessage: string = `Error on group join - Status: ${status}, Type: ${type}, Message: ${message}.`;
+				console.error('errorMessage', errorMessage);
+				const t: ToastSettings = {
+					background: 'variant-filled-error',
+					message: errorMessage,
+					hideDismiss: true
+				};
+				toastStore.trigger(t);
+			}
+			await applyAction(result);
+		};
+	};
 
 	if (browser && dev) console.log('groups in allgroups', groups);
+	if (browser && dev) console.log('user in allgroups', user);
+	if (browser && dev) console.log('acct in allgroups', acct);
 
 	let searchTerm = '';
 
@@ -122,7 +171,12 @@
 						{#each groups as group}
 							<TableBodyRow
 								class="border-none cursor-pointer"
-								on:click={() => goto(`/allgroups/${group.name}`)}
+								on:click={() => {
+									groupId = group.id;
+									groupMembers = JSON.stringify(group.groupMembers || []);
+									groupName = group.name;
+									joinModal = !joinModal;
+								}}
 							>
 								<TableBodyCell>
 									{group.name}
@@ -144,3 +198,36 @@
 		</div>
 	</div>
 </TableWrap>
+
+<Section classSection="h-96 {!joinModal ? 'hidden' : ''}">
+	<Modal bind:open={joinModal} class="min-w-full">
+		<form class="flex flex-col space-y-6" method="POST" action="?/join" use:enhance={joinGroup}>
+			<div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+				<div class="sm:col-span-2">
+					<p class="mb-2">Join {groupName}</p>
+				</div>
+
+				<Button type="submit" class="w-52">
+					<svg
+						class="mr-1 -ml-1 w-6 h-6"
+						fill="currentColor"
+						viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg"
+						><path
+							fill-rule="evenodd"
+							d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+							clip-rule="evenodd"
+						/></svg
+					>
+					Join Group
+				</Button>
+				<input type="hidden" name="uid" bind:value={uid} />
+				<input type="hidden" name="groupId" bind:value={groupId} />
+				<input type="hidden" name="groupName" bind:value={groupName} />
+				<input type="hidden" name="acct" bind:value={acct} />
+				<input type="hidden" name="originalGroups" bind:value={originalGroups} />
+				<input type="hidden" name="groupMembers" bind:value={groupMembers} />
+			</div>
+		</form>
+	</Modal>
+</Section>

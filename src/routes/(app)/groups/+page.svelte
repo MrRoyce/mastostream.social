@@ -144,6 +144,8 @@
 					}}>Add Group</Button
 				>
 			</div>
+
+			<!--  Messages -->
 			<div class="mt-4">
 				<Table
 					name="advancedTable"
