@@ -9,7 +9,17 @@
 	import { UserIcon } from '$lib/components/icons';
 	import { Footer, Languages, Loading, SidebarItemWrapper, UserSidebar } from '$lib/components';
 	import { loading } from '$lib/stores';
-	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
+	import {
+		A,
+		Avatar,
+		Button,
+		CloseButton,
+		Drawer,
+		Dropdown,
+		DropdownItem,
+		Sidebar,
+		SidebarWrapper
+	} from 'flowbite-svelte';
 	import { sineIn } from 'svelte/easing';
 	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
@@ -189,26 +199,29 @@
 
 					<!-- trail - right of appbar -->
 					<svelte:fragment slot="trail">
+						<!-- Logged in User -->
 						{#if user && user.email}
-							<Button
-								color="alternative"
-								on:click={handleLogout}
-								type="button"
-								class="btn variant-filled border-none"
-								><span class="text-gray-200">
-									<img class=" w-10 h-auto max-w-xs" src={pictureData.pictureURL} alt="User" />
-								</span></Button
-							>
+							<Avatar
+								rounded
+								border
+								class="acs"
+								src={pictureData.pictureURL}
+								dot={{ color: 'green' }}
+							/>
+							<Dropdown triggeredBy=".acs">
+								<div slot="header" class="px-4 py-2">
+									<span class="block truncate text-sm font-medium">{user.email}</span>
+								</div>
+								<DropdownItem>Settings</DropdownItem>
+								<DropdownItem>Groups</DropdownItem>
+								<DropdownItem slot="footer" on:click={handleLogout}>Sign out</DropdownItem>
+							</Dropdown>
+							<!-- Guest user -->
 						{:else}
-							<Button
-								color="alternative"
-								on:click={() => goto('/login')}
-								type="button"
-								class="btn variant-filled border-none"
-								><span class="text-gray-200"
-									><img class=" w-10 h-auto max-w-xs" src={UserIcon} alt="Guest" /></span
-								></Button
-							>
+							<Avatar rounded border class="aco" src={UserIcon} />
+							<Dropdown triggeredBy=".aco">
+								<DropdownItem slot="footer" href="/login">Sign in</DropdownItem>
+							</Dropdown>
 						{/if}
 						<Button
 							id="flags-button-wrapper"
