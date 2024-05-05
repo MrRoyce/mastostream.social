@@ -9,18 +9,33 @@ export const searchES = onCall(async (request) => {
 	const esURL = process.env.ESURL;
 	const esAuth = process.env.ESAUTH;
 
+	const matchParams = {
+				query: term,
+				fuzziness: 'AUTO'
+			}
+
+	let matchType
+	if (type === 'account') {
+		matchType = {
+			note: matchParams
+		};
+	} else if (type === 'instance') {
+		matchType = {
+			description: matchParams
+		};
+	} else {
+		matchType = {
+			content: matchParams
+		};
+	}
+
 	const data = JSON.stringify({
 		size: 50,
 		query: {
 			bool: {
 				must: [
 					{
-						match: {
-							content: {
-								query: term,
-								fuzziness: 'AUTO'
-							}
-						}
+						match: matchType
 					},
 					{
 						match: {
