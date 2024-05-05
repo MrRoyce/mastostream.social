@@ -212,8 +212,8 @@
 								<div slot="header" class="px-4 py-2">
 									<span class="block truncate text-sm font-medium">{user.email}</span>
 								</div>
-								<DropdownItem>Settings</DropdownItem>
-								<DropdownItem>Groups</DropdownItem>
+								<DropdownItem href="/settings">Settings</DropdownItem>
+								<DropdownItem href="/groups">Groups</DropdownItem>
 								<DropdownItem slot="footer" on:click={handleLogout}>Sign out</DropdownItem>
 							</Dropdown>
 							<!-- Guest user -->
