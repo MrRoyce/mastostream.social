@@ -42,7 +42,7 @@
 	};
 </script>
 
-<TableWrap>
+<TableWrap divContainerPadding="px-4">
 	<div class="pl-0 pt-0 pb-4">
 		<Breadcrumb aria-label="Link to Dashboard">
 			<BreadcrumbItem href="/" home>{$t('pagelinks.dashboard')}</BreadcrumbItem>

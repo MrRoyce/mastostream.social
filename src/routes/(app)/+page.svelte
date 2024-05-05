@@ -109,7 +109,7 @@
 </script>
 
 {#if browser}
-	<TableWrap>
+	<TableWrap divContainerPadding="px-4">
 		{#if $initialized}
 			<div
 				class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"

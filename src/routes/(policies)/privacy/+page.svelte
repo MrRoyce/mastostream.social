@@ -3,6 +3,6 @@
 	import { Privacy } from '$lib/policies';
 </script>
 
-<TableWrap>
+<TableWrap divContainerPadding="px-4">
 	<Privacy />
 </TableWrap>

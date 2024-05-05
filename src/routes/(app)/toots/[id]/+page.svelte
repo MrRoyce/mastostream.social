@@ -74,7 +74,7 @@
 </script>
 
 {#if toot.acct}
-	<TableWrap>
+	<TableWrap divContainerPadding="px-4">
 		<!-- Breadcrumb -->
 		<div class="pl-0 pt-0 pb-4">
 			<Breadcrumb aria-label={$t('aria.breadcrumbLink')}>

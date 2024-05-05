@@ -39,7 +39,7 @@
 
 {#if entity?.domain && entity.instance}
 	{@const instance = entity.instance}
-	<TableWrap>
+	<TableWrap divContainerPadding="px-4">
 		<div class="pl-0 pt-0 pb-2">
 			<Breadcrumb aria-label="Links to Dashboard and Servers">
 				<BreadcrumbItem href="/">{$t('pagelinks.dashboard')}</BreadcrumbItem>

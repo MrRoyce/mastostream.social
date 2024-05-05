@@ -3,6 +3,6 @@
 	import { Cookies } from '$lib/policies';
 </script>
 
-<TableWrap>
+<TableWrap divContainerPadding="px-4">
 	<Cookies />
 </TableWrap>

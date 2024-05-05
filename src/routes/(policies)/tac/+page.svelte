@@ -3,6 +3,6 @@
 	import { TAC } from '$lib/policies';
 </script>
 
-<TableWrap>
+<TableWrap divContainerPadding="px-4">
 	<TAC />
 </TableWrap>

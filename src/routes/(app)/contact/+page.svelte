@@ -79,7 +79,7 @@
 	};
 </script>
 
-<TableWrap>
+<TableWrap divContainerPadding="px-4">
 	<div class="border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4">
 		<Section name="contact">
 			<Contact>
