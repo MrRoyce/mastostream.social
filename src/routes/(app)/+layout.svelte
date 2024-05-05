@@ -6,7 +6,7 @@
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 	import { setLanguage } from '$lib';
-
+	import { UserIcon } from '$lib/components/icons';
 	import { Footer, Languages, Loading, SidebarItemWrapper, UserSidebar } from '$lib/components';
 	import { loading } from '$lib/stores';
 	import { A, Button, CloseButton, Drawer, Sidebar, SidebarWrapper } from 'flowbite-svelte';
@@ -152,11 +152,11 @@
 			<svelte:fragment slot="sidebarLeft">
 				{#if user && user.email}
 					<div class="hidden-on-mobile">
-						<UserSidebar image={pictureData.pictureURL} {user} />
+						<UserSidebar {user} />
 					</div>
 				{:else}
 					<div class="hidden-on-mobile">
-						<UserSidebar image={pictureData.pictureURL} user={{}} />
+						<UserSidebar user={{}} />
 					</div>
 				{/if}
 			</svelte:fragment>
@@ -195,7 +195,9 @@
 								on:click={handleLogout}
 								type="button"
 								class="btn variant-filled border-none"
-								><span class="text-gray-200">Sign Out</span></Button
+								><span class="text-gray-200">
+									<img class=" w-10 h-auto max-w-xs" src={pictureData.pictureURL} alt="User" />
+								</span></Button
 							>
 						{:else}
 							<Button
@@ -203,7 +205,9 @@
 								on:click={() => goto('/login')}
 								type="button"
 								class="btn variant-filled border-none"
-								><span class="text-gray-200">Sign In</span></Button
+								><span class="text-gray-200"
+									><img class=" w-10 h-auto max-w-xs" src={UserIcon} alt="Guest" /></span
+								></Button
 							>
 						{/if}
 						<Button

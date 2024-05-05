@@ -14,6 +14,6 @@ import Privacy from "./Privacy.svelte";
 import RocketIcon from "./RocketIcon.svelte";
 import Service from "./Service.svelte";
 import Terminal from "./Terminal.svelte";
-import UserIcon from "./UserIcon.svelte";
+import UserIcon from "./UserIcon.svg";
 
 export { ChevronDown, Cookie, Copyright, EnvelopeIcon, FilePlus, Globe, Globe_Africa, Globe_Asia, Globe_Europe, Globe_Ociana, LockIcon, Payment, Privacy, RocketIcon, Service, Terminal, UserIcon };

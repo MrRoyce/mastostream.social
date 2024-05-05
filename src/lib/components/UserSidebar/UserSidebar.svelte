@@ -11,7 +11,6 @@
 	let nonActiveClass =
 		'flex items-center p-2 text-base font-normal text-green-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
 
-	export let image: String;
 	export let user;
 
 	const email = user?.email;
@@ -21,7 +20,6 @@
 
 	const mb = 'mb-4';
 
-	$: image;
 	$: user;
 </script>
 
@@ -35,12 +33,6 @@
 					<div class="flex items-center justify-center">
 						<SidebarItem>
 							<svelte:fragment slot="icon">
-								{#if image && typeof image === 'string'}
-									<img id="users-picture" class="h-48" src={image} alt="User" />
-								{:else if email}
-									<i class={'fas fa-user-secret fa-5x'}></i>
-								{/if}
-
 								<Tooltip triggeredBy="[id^='users-picture']">{email || ''}</Tooltip>
 							</svelte:fragment>
 						</SidebarItem>
