@@ -22,9 +22,6 @@
 	const tootTypePassed = data.tootTypePassed;
 
 	const tableData = {
-		color: 'blue',
-		hoverable: true,
-		striped: true,
 		tableHead: ['Pic', 'Safe', 'Type', 'Pics', 'Video', 'Audio', 'Language', 'Link']
 	};
 

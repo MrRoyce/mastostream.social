@@ -22,9 +22,6 @@
 	let loadSpinner = false;
 
 	const tableData = {
-		color: 'blue',
-		hoverable: true,
-		striped: true,
 		tableHead: [
 			$t('tableHeaders.safe'),
 			$t('tableHeaders.created'),

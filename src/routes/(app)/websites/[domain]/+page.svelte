@@ -30,9 +30,6 @@
 	} catch (error) {}
 
 	const tableData = {
-		color: 'blue',
-		hoverable: true,
-		striped: true,
 		tableHead: ['Safe', 'Created', 'Pics', 'Video', 'Audio', 'Link']
 	};
 </script>

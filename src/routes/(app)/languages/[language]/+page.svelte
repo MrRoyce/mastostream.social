@@ -7,8 +7,6 @@
 		CardWithImage,
 		TootsRadio,
 		TableWrap,
-		TootContent,
-		TootMeta,
 		MobileTootViewWrapper
 	} from '$lib/components';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
@@ -48,9 +46,6 @@
 	const language = getLanguage(entity.language);
 
 	const tableData = {
-		color: 'blue',
-		hoverable: true,
-		striped: true,
 		tableHead: ['Pic', 'Safe', 'Type', 'Pics', 'Video', 'Audio', 'Language', 'Link']
 	};
 </script>
