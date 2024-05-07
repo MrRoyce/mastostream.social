@@ -14,13 +14,16 @@ export const load: PageServerLoad = (async (event) => {
 
   const response = await searchES({ term, type })
   const items = response.data?.data?.hits?.hits.map((item) => {
-    const formattedToot = formatToot(item._source)
-    return formattedToot
+    return (type === 'toots') ? formatToot(item._source) : item._source
   })
 
-  let sortedItems = sortByAttribute(items, 'createdAt')
+  let sortedItems = (type === 'toots') ? sortByAttribute(items, 'createdAt') : items
 
-  sortedItems = addMediaAttachmentCounts(sortedItems)
+  sortedItems = (type === 'toots') ? addMediaAttachmentCounts(sortedItems) : sortedItems
 
-  return { success: true, toots: sortedItems, term };
+  return {
+    type,
+    items: sortedItems,
+    term,
+  };
 });
