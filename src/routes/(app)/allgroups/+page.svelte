@@ -34,7 +34,20 @@
 	let groupMembers: any;
 
 	const toastStore = getToastStore();
-	let uid = user?.uid;
+	let uid = user?.uid; // Has to be a let to be able to bind to it!
+	const groupUid = user ? `${uid}_${acct}` : undefined;
+
+	if (originalGroups.length > 0) {
+		groups.forEach((group) => {
+			if (group.creatorId === uid) {
+				group.creator = true;
+			} else if (group.groupModerators.includes(groupUid)) {
+				group.moderator = true;
+			} else if (group.groupMembers.includes(groupUid)) {
+				group.member = true;
+			}
+		});
+	}
 
 	const joinGroup: SubmitFunction = () => {
 		// Before calls
@@ -75,7 +88,7 @@
 	let searchTerm = '';
 
 	const tableData = {
-		tableHead: ['Group Name', 'NSFW', 'Description']
+		tableHead: ['Group Name', 'NSFW', 'Creator', 'Moderator', 'Member', 'Description']
 	};
 
 	if (browser) {
@@ -83,6 +96,13 @@
 		logEvent(analytics, 'screen_view', {
 			firebase_screen: 'AllGroups'
 		});
+	}
+
+	function processRowClick(group: { id: any; groupMembers: any; name: any }) {
+		groupId = group.id;
+		groupMembers = JSON.stringify(group.groupMembers || []);
+		groupName = group.name;
+		joinModal = !joinModal;
 	}
 
 	function searchText() {
@@ -171,12 +191,7 @@
 						{#each groups as group}
 							<TableBodyRow
 								class="border-none cursor-pointer"
-								on:click={() => {
-									groupId = group.id;
-									groupMembers = JSON.stringify(group.groupMembers || []);
-									groupName = group.name;
-									joinModal = !joinModal;
-								}}
+								on:click={() => processRowClick(group)}
 							>
 								<TableBodyCell>
 									{group.name}
@@ -184,6 +199,9 @@
 								<TableBodyCell>
 									{group.mature}
 								</TableBodyCell>
+								<TableBodyCell>{group.creator ? 'Yes' : 'No'}</TableBodyCell>
+								<TableBodyCell>{group.moderator ? 'Yes' : 'No'}</TableBodyCell>
+								<TableBodyCell>{group.member ? 'Yes' : 'No'}</TableBodyCell>
 								<TableBodyCell>
 									{group.description}
 								</TableBodyCell>
