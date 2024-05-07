@@ -8,7 +8,7 @@ import {
   validateChatMessage
 } from "$lib/models";
 import {
-  chatRoomsStore,
+  chatRoomsStore, chatNumUsers,
   chatUsersStore, chatMessagesStore
 } from "$lib/stores";
 
@@ -50,6 +50,11 @@ socket.on("updateChat", (userName, message) => {
     })
   }
 
+})
+
+socket.on("updateCount", (id, count) => {
+  chatNumUsers.set(count)
+  console.log(`Num users: ${id}, count: ${count}.`)
 })
 
 socket.on("updateUsers", (usernames) => {
