@@ -56,6 +56,7 @@ export const load: PageServerLoad = (async ({ locals }) => {
     return {
       'groups': JSON.parse(JSON.stringify(entity)),
       acct: userDocument.acct,
+      entity: JSON.parse(JSON.stringify(userDocument)),
       user,
     };
 
