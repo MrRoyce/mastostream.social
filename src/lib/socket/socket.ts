@@ -82,21 +82,19 @@ socket.on("messages", (messages) => {
     return;
   }
 
-  const validatedMessages: Message[] = [];
-
+  const validatedMessages: ChatMessage[] = [];
   const limitedMessages = messages.filter((_, index) => {
     return index < 25;
   });
 
   for (const message of limitedMessages) {
-    const validatedMessage = validateMessage(message);
-
+    const validatedMessage = validateChatMessage(message);
     if (validatedMessage) {
       validatedMessages.push(validatedMessage);
     }
   }
 
-  messagesStore.set(validatedMessages);
+  chatMessagesStore.set(validatedMessages);
 });
 
 interface SendSuccess {
@@ -120,7 +118,6 @@ export function sendMessage(content: string, id: string) {
           console.error('Error in sendMessage ', error)
           if (typeof error !== "string") {
             reject({ error: "Error sending message" });
-
             return;
           }
           reject({ error });
@@ -128,10 +125,8 @@ export function sendMessage(content: string, id: string) {
         }
 
         const message = response.message;
-
         if (!message || typeof message !== "string") {
           reject({ error: "Unexpected result from server in sendMessage" });
-
           return;
         }
 
@@ -154,20 +149,64 @@ export function createUser(name: string) {
           console.error('Error in createUser ', error)
           if (typeof error !== "string") {
             reject({ error: "Error sending message" });
-
             return;
           }
-
           reject({ error });
-
           return;
         }
 
         const message = response.message;
-
         if (!message || typeof message !== "string") {
           reject({ error: "Unexpected result from server in createUser" });
+          return;
+        }
 
+        resolve({ message });
+      });
+    }
+  );
+}
+
+export function leaveRoom({ acct, roomId }) {
+  console.log('Leaving room')
+}
+
+export function createRoom({
+  acct,
+  mature,
+  name,
+  roomId,
+  type
+}) {
+
+  return new Promise(
+    (
+      resolve: (value: SendSuccess) => void,
+      reject: (value: SendError) => void
+    ) => {
+      // Notify socket that a room was created
+      socket.emit("createRoom", {
+        acct,
+        mature,
+        name,
+        roomId,
+        type,
+      }, (response: any) => {
+        const error = response.error;
+
+        if (error) {
+          console.error('Error in createRoom ', error)
+          if (typeof error !== "string") {
+            reject({ error: "Error sending message" });
+            return;
+          }
+          reject({ error });
+          return;
+        }
+
+        const message = response.message;
+        if (!message || typeof message !== "string") {
+          reject({ error: "Unexpected result from server in createRoom" });
           return;
         }
 
