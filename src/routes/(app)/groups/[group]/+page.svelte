@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { TableWrap } from '$lib/components';
 	import { onMount } from 'svelte';
-	import { createUser, sendMessage } from '$lib/socket/socket';
+	import { createUser, sendMessage } from '$lib/socket';
 	import { chatRoomsStore, chatMessagesStore, chatUsersStore } from '$lib/stores';
 	import {
 		Button,
