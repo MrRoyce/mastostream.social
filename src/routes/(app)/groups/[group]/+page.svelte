@@ -18,18 +18,15 @@
 
 	export let data: PageData;
 	const { group, user } = data;
-	console.log('user', user);
-	console.log('data', data);
 
 	let messageInput = '';
 
 	onMount(async () => {
-		createUser(data.entity?.acct || 'Anonymous');
+		createUser({ acct: data.entity?.acct || 'Anonymous', group });
 	});
 
 	function submitMessage() {
 		if (user.uid) {
-			console.log('sending Message', messageInput);
 			sendMessage(messageInput, data.entity?.acct || 'Anonymous');
 		} else {
 			console.log('No user.uid!');
@@ -62,10 +59,11 @@
 								></TableHead
 							>
 							<TableBody>
+								<!-- List the rooms -->
 								{#each $chatRoomsStore as chatRoom}
 									<TableBodyRow class="border-none cursor-pointer">
 										<TableBodyCell>
-											{chatRoom.roomName}
+											{chatRoom.name}
 										</TableBodyCell>
 									</TableBodyRow>
 								{/each}
@@ -86,6 +84,7 @@
 								></TableHead
 							>
 							<TableBody>
+								<!-- List the messages -->
 								{#each $chatMessagesStore.reverse() as chatMessage}
 									<TableBodyRow class="border-none cursor-pointer">
 										<TableBodyCell>
@@ -110,6 +109,7 @@
 								></TableHead
 							>
 							<TableBody>
+								<!-- List the users -->
 								{#each $chatUsersStore as chatUser}
 									<TableBodyRow class="border-none cursor-pointer">
 										<TableBodyCell>

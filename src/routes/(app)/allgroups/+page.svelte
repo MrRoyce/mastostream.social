@@ -24,8 +24,9 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	export let data: PageData;
-	const { user, groups } = data;
-	let originalGroups = JSON.stringify(user?.groups || []);
+	const { user, groups, entity } = data;
+
+	let originalGroups = JSON.stringify(entity?.groups || []);
 	let { acct } = data;
 
 	let joinModal = false;

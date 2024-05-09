@@ -104,9 +104,9 @@ export const actions = {
       description,
       groupMembers: [groupCreatorId],
       groupModerators: [groupCreatorId],
-      mature: mature ? true : false,
+      mature,
       name: groupName,
-      public: type ? true : false,
+      type,
     }
 
     try {
@@ -130,7 +130,15 @@ export const actions = {
 
       await userRef.update(fbUserGroupData);
 
-      return { success: true }
+      console.log('groupId in server: groupsRef.id - ', groupsRef.id)
+
+      return {
+        success: true,
+        groupId: groupsRef.id,
+        mature,
+        type,
+        message: 'Document added'
+      }
     } catch (e) {
       return fail(500, {
         message: `Error in adding group for user: ${e}`
