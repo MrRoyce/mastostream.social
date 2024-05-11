@@ -11,8 +11,9 @@ import {
   chatRoomsStore, chatNumUsers,
   chatUsersStore, chatMessagesStore
 } from "$lib/stores";
+import { PUBLIC_SOCKET_HOST } from '$env/static/public'
 
-const socket = io("https://flashist.studio");
+const socket = io(PUBLIC_SOCKET_HOST);
 
 socket.on("connect", () => {
   console.debug("Successfully connected to socket");
@@ -136,13 +137,13 @@ export function sendMessage(content: string, id: string) {
   );
 }
 
-export function createUser(name: string) {
+export function createUser({ acct, group }) {
   return new Promise(
     (
       resolve: (value: SendSuccess) => void,
       reject: (value: SendError) => void
     ) => {
-      socket.emit("createUser", name, (response: any) => {
+      socket.emit("createUser", { acct, group }, (response: any) => {
         const error = response.error;
 
         if (error) {
@@ -167,8 +168,38 @@ export function createUser(name: string) {
   );
 }
 
-export function leaveRoom({ acct, roomId }) {
-  console.log('Leaving room')
+export function leaveRoom({ roomId }) {
+  return new Promise(
+    (
+      resolve: (value: SendSuccess) => void,
+      reject: (value: SendError) => void
+    ) => {
+      // Notify socket that person left room
+      socket.emit("leaveRoom",
+        roomId
+        , (response: any) => {
+          const error = response.error;
+
+          if (error) {
+            console.error('Error in leaveRoom ', error)
+            if (typeof error !== "string") {
+              reject({ error: "Error sending message" });
+              return;
+            }
+            reject({ error });
+            return;
+          }
+
+          const message = response.message;
+          if (!message || typeof message !== "string") {
+            reject({ error: "Unexpected result from server in leaveRoom" });
+            return;
+          }
+
+          resolve({ message });
+        });
+    }
+  );
 }
 
 export function createRoom({

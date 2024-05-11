@@ -92,7 +92,7 @@ export const actions = {
 
     if (!(user?.uid === data?.uid)) {
       return fail(500, {
-        message: `Error in update group - user.uid: ${user?.uid} !== data.uid: ${data?.uid}`
+        message: `Error in adding group - user.uid: ${user?.uid} !== data.uid: ${data?.uid}`
       });
     }
 
@@ -142,6 +142,74 @@ export const actions = {
     } catch (e) {
       return fail(500, {
         message: `Error in adding group for user: ${e}`
+      });
+    }
+
+  },
+
+  leave: async ({ request, locals }) => {
+    const user = locals.user
+    const formData = (await request.formData())
+    const data = Object.fromEntries(formData.entries())
+
+    const {
+      acct,
+      groupId,
+      originalGroups,
+      uid
+    } = data
+
+    if (!(user?.uid === uid)) {
+      return fail(400, {
+        data,
+        message: `Error in leaving group - user.uid: ${user?.uid} !== data.uid: ${uid}`
+      });
+    }
+
+    try {
+      // First remove the user from the groups colllection
+      const groupMemberId = `${uid}_${acct}`
+      const db = admin.firestore();
+      const groupsRef = db.collection('groups').doc(groupId);
+      const groupSnapshot = await getDocument({ entity: 'groups', id: groupId })
+      const groupMembers = groupSnapshot?.groupMembers || []
+      const updatedGroupMembers = groupMembers.filter((member: string) => {
+        if (groupMemberId !== member) {
+          return member
+        }
+      })
+      const fbData = { groupMembers: updatedGroupMembers }
+      await groupsRef.update(fbData);
+    } catch (e) {
+      return fail(500, {
+        message: `Error in removing user from group collection ${e}`
+      });
+    }
+
+    //  Now remove the group from the users collection
+    const originalGroupsObject = originalGroups ? JSON.parse(originalGroups) : []
+
+    const index = originalGroupsObject.findIndex((group: { groupId: string; }) => group.groupId === groupId)
+
+    if (index !== -1) {
+      originalGroupsObject.splice(index, 1)
+    }
+
+    try {
+      // Remove the group from the users groups
+      const db = admin.firestore();
+
+      const fbUserGroupData = { groups: originalGroupsObject }
+      const userRef = db.collection('users').doc(user.uid);
+
+      await userRef.update(fbUserGroupData);
+
+      return {
+        success: true
+      }
+    } catch (e) {
+      return fail(500, {
+        message: `Error in removing group for user: ${e}`
       });
     }
 

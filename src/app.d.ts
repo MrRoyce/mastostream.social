@@ -83,7 +83,7 @@ declare global {
 
 	interface GroupReference {
 		creator: boolean;
-		id: string;
+		groupId: string;
 		joined: DateFormat;
 		moderator: boolean;
 		name: string;

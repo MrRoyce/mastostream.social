@@ -5,6 +5,7 @@ import { fail } from '@sveltejs/kit';
 import admin from 'firebase-admin';
 
 const ttl = 600
+const db = admin.firestore();
 
 export const load: PageServerLoad = (async ({ locals }) => {
 
@@ -43,6 +44,16 @@ export const load: PageServerLoad = (async ({ locals }) => {
         orderByField: 'created'
       })
 
+      const groupUid = user ? `${user.uid}_${userDocument?.acct}` : undefined;
+
+      if (Array.isArray(entity) && entity.length > 0) {
+        entity.forEach((group) => {
+          group.creator = group.creatorId === user.uid ? true : false;
+          group.moderator = group.groupModerators.includes(groupUid) ? true : false;
+          group.member = group.groupMembers.includes(groupUid) ? true : false;
+        });
+      }
+
       // Store allgroups entity in redis
       if (redis) {
         try {
@@ -66,12 +77,13 @@ export const load: PageServerLoad = (async ({ locals }) => {
 });
 
 export const actions = {
+
   join: async ({ request, locals }) => {
     try {
       const user = locals.user
-
       const formData = (await request.formData())
       const data = Object.fromEntries(formData.entries())
+
       const {
         acct,
         groupId,
@@ -102,7 +114,6 @@ export const actions = {
       originalGroupMembersObject.push(newMember)
       const fbGroupMembers = { groupMembers: originalGroupMembersObject }
 
-      const db = admin.firestore();
       const groupsRef = db.collection('groups').doc(groupId);
       await groupsRef.update(fbGroupMembers);
 
@@ -126,6 +137,80 @@ export const actions = {
       const error = `Error in joining group: ${e}`
       return fail(500, {
         message: error
+      });
+    }
+  },
+
+  leave: async ({ request, locals }) => {
+    const user = locals.user
+    const formData = (await request.formData())
+    const data = Object.fromEntries(formData.entries())
+
+    const {
+      acct,
+      groupId,
+      originalGroups,
+      uid
+    } = data
+    console.log('data in leave', data)
+
+    if (!(user?.uid === uid)) {
+      return fail(400, {
+        data,
+        message: `Error in leaving group - user.uid: ${user?.uid} !== data.uid: ${uid}`
+      });
+    } else {
+      console.log('found Valid user')
+    }
+
+    try {
+      // First remove the user from the groups colllection
+      const groupMemberId = `${uid}_${acct}`
+      const groupsRef = db.collection('groups').doc(groupId);
+      const groupSnapshot = await getDocument({ entity: 'groups', id: groupId })
+      const groupMembers = groupSnapshot?.groupMembers || []
+      const updatedGroupMembers = groupMembers.filter((member: string) => {
+        if (groupMemberId !== member) {
+          return member
+        }
+      })
+      const fbData = { groupMembers: updatedGroupMembers }
+      await groupsRef.update(fbData);
+      console.log('Group updated')
+    } catch (e) {
+      return fail(500, {
+        message: `Error in allgroups removing user from group collection ${e}`
+      });
+    }
+
+    //  Now remove the group from the users collection
+    const originalGroupsObject = originalGroups ? JSON.parse(originalGroups) : []
+
+    const index = originalGroupsObject.findIndex((group: { groupId: string; }) => group.groupId === groupId)
+    console.log('originalGroupsObject ', originalGroupsObject)
+    if (index !== -1) {
+      console.log('Group found')
+      console.log('originalGroupsObject before splice', originalGroupsObject)
+      originalGroupsObject.splice(index, 1)
+      console.log('originalGroupsObject after splice', originalGroupsObject)
+
+    } else {
+      console.log('Group not found')
+    }
+
+    try {
+      // Remove the group from the users groups
+      const fbUserGroupData = { groups: originalGroupsObject }
+      const userRef = db.collection('users').doc(user.uid);
+
+      await userRef.update(fbUserGroupData);
+
+      return {
+        success: true
+      }
+    } catch (e) {
+      return fail(500, {
+        message: `Error in allgroups removing group for user: ${e}`
       });
     }
   }

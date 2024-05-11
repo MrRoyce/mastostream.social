@@ -5,6 +5,8 @@
 		BreadcrumbItem,
 		Button,
 		Heading,
+		Input,
+		Label,
 		Modal,
 		Table,
 		TableBody,
@@ -22,33 +24,23 @@
 	import { applyAction, enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { leaveRoom } from '$lib/socket';
 
 	export let data: PageData;
-	const { user, groups, entity } = data;
+	const { user, entity } = data;
 
 	let originalGroups = JSON.stringify(entity?.groups || []);
 	let { acct } = data;
-
 	let joinModal = false;
+	let leaveModal = false;
 	let groupName: any;
 	let groupId: any;
 	let groupMembers: any;
 
+	if (browser && dev) console.log('data in allgroups', data);
+
 	const toastStore = getToastStore();
 	let uid = user?.uid; // Has to be a let to be able to bind to it!
-	const groupUid = user ? `${uid}_${acct}` : undefined;
-
-	if (originalGroups.length > 0) {
-		groups.forEach((group) => {
-			if (group.creatorId === uid) {
-				group.creator = true;
-			} else if (group.groupModerators.includes(groupUid)) {
-				group.moderator = true;
-			} else if (group.groupMembers.includes(groupUid)) {
-				group.member = true;
-			}
-		});
-	}
 
 	const joinGroup: SubmitFunction = () => {
 		// Before calls
@@ -57,7 +49,7 @@
 		// After call
 		return async ({ result }) => {
 			const { type, status } = result;
-			const { message } = result.data;
+			// const { message } = result.data;
 
 			if (result.type === 'success') {
 				await invalidateAll();
@@ -69,7 +61,7 @@
 			}
 
 			if (result.type === 'failure' || result.type === 'error') {
-				const errorMessage: string = `Error on group join - Status: ${status}, Type: ${type}, Message: ${message}.`;
+				const errorMessage: string = `Error on group join - Status: ${status}, Type: ${type}, Message: ${result.data?.message}.`;
 				console.error('errorMessage', errorMessage);
 				const t: ToastSettings = {
 					background: 'variant-filled-error',
@@ -82,9 +74,43 @@
 		};
 	};
 
-	if (browser && dev) console.log('groups in allgroups', groups);
-	if (browser && dev) console.log('user in allgroups', user);
-	if (browser && dev) console.log('acct in allgroups', acct);
+	const leaveGroup: SubmitFunction = () => {
+		// Before calls
+		leaveModal = false;
+
+		// After call
+		return async ({ result }) => {
+			const { type, status } = result;
+
+			if (result.type === 'success') {
+				// Send message to socket
+				leaveRoom({
+					roomId: groupId
+				});
+
+				groupName = '';
+
+				await invalidateAll();
+				const t: ToastSettings = {
+					message: `You have been removed from the group!`,
+					hideDismiss: true
+				};
+				toastStore.trigger(t);
+			}
+
+			if (result.type === 'failure' || result.type === 'error') {
+				const errorMessage: string = `Error in allgroups leave - Status: ${status}, Type: ${type}, Message: ${result.data?.message}.`;
+				console.error('errorMessage', errorMessage);
+				const t: ToastSettings = {
+					background: 'variant-filled-error',
+					message: errorMessage,
+					hideDismiss: true
+				};
+				toastStore.trigger(t);
+			}
+			await applyAction(result);
+		};
+	};
 
 	let searchTerm = '';
 
@@ -99,11 +125,12 @@
 		});
 	}
 
-	function processRowClick(group: { id: any; groupMembers: any; name: any }) {
+	function groupRowClicked(group: { id: any; groupMembers: any; name: any }) {
 		groupId = group.id;
 		groupMembers = JSON.stringify(group.groupMembers || []);
 		groupName = group.name;
-		joinModal = !joinModal;
+		joinModal = !group.member ? true : false;
+		leaveModal = group.member ? true : false;
 	}
 
 	function searchText() {
@@ -111,6 +138,8 @@
 			goto(`/allgroups/${searchTerm}`);
 		}
 	}
+
+	$: groups = data.groups;
 </script>
 
 <TableWrap divContainerPadding="px-4">
@@ -192,7 +221,7 @@
 						{#each groups as group}
 							<TableBodyRow
 								class="border-none cursor-pointer"
-								on:click={() => processRowClick(group)}
+								on:click={() => groupRowClicked(group)}
 							>
 								<TableBodyCell>
 									{group.name}
@@ -246,6 +275,38 @@
 				<input type="hidden" name="acct" bind:value={acct} />
 				<input type="hidden" name="originalGroups" bind:value={originalGroups} />
 				<input type="hidden" name="groupMembers" bind:value={groupMembers} />
+			</div>
+		</form>
+	</Modal>
+</Section>
+
+<Section classSection="h-96 {!leaveModal ? 'hidden' : ''}">
+	<Modal bind:open={leaveModal} class="min-w-full">
+		<form class="flex flex-col space-y-6" method="POST" action="?/leave" use:enhance={leaveGroup}>
+			<div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
+				<div class="sm:col-span-2">
+					<Label for="groupName" class="mb-2">Group Name</Label>
+					<Input readonly="readonly" type="text" bind:value={groupName} name="groupName" />
+				</div>
+
+				<Button type="submit" class="w-52">
+					<svg
+						class="mr-1 -ml-1 w-6 h-6"
+						fill="currentColor"
+						viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg"
+						><path
+							fill-rule="evenodd"
+							d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+							clip-rule="evenodd"
+						/></svg
+					>
+					Leave Group
+				</Button>
+				<input type="hidden" name="groupId" bind:value={groupId} />
+				<input type="hidden" name="acct" bind:value={entity.acct} />
+				<input type="hidden" name="originalGroups" bind:value={originalGroups} />
+				<input type="hidden" name="uid" bind:value={user.uid} />
 			</div>
 		</form>
 	</Modal>
