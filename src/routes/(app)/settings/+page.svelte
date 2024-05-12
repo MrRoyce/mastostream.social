@@ -6,12 +6,9 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { dev } from '$app/environment';
 	import { v4 as uuid } from 'uuid';
 	import { session } from '$lib/stores/authStore';
 	import { get } from 'svelte/store';
-
-	export let form;
 
 	let settingsType = '';
 	let settingsModal = false;
