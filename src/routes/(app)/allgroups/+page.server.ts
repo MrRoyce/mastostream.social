@@ -15,7 +15,7 @@ export const load: PageServerLoad = (async ({ locals }) => {
     redirect(307, '/')
   }
 
-  const redisKeyAllGroupsType = `all_groups_cached`
+  const redisKeyAllGroupsType = `all_groups_cached:${user.uid}`
 
   let allGroupsCached
   let entity
