@@ -2,18 +2,10 @@
 	import { t } from '$lib/translations';
 	import { Section, Page500, Page404 } from 'flowbite-svelte-blocks';
 	import { page } from '$app/stores';
-	import { getAnalytics, logEvent } from 'firebase/analytics';
 	import { browser } from '$app/environment';
 	import { redirectPage } from '$lib/utils/redirectPage';
 	import { TableWrap } from '$lib/components';
 	import { Button } from 'flowbite-svelte';
-
-	if (browser) {
-		const analytics = getAnalytics();
-		logEvent(analytics, 'screen_view', {
-			firebase_screen: 'Route_Error'
-		});
-	}
 
 	function redirectToPage() {
 		redirectPage(5, ``);

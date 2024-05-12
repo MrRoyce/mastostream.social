@@ -1,8 +1,6 @@
 <script>
 	import { Section, Page500 } from 'flowbite-svelte-blocks';
 	import { page } from '$app/stores';
-	import { getAnalytics, logEvent } from 'firebase/analytics';
-	import { browser } from '$app/environment';
 </script>
 
 <Section name="page500">
