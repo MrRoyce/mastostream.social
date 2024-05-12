@@ -5,22 +5,17 @@ import { fail } from '@sveltejs/kit';
 import admin from 'firebase-admin';
 
 const ttl = 600
-const db = admin.firestore();
 
 export const load: PageServerLoad = (async ({ locals }) => {
 
   const user = locals.user
 
-  if (!user) {
-    redirect(307, '/')
-  }
-
-  const redisKeyAllGroupsType = `all_groups_cached:${user.uid}`
+  const redisKeyAllGroupsType = `all_groups_cached:${user.uid || 'all'}`
 
   let allGroupsCached
   let entity
 
-  const userDocument = await getDocument({ entity: 'users', id: user.uid })
+  const userDocument = (user.uid) ? await getDocument({ entity: 'users', id: user.uid }) : {}
 
   try {
     if (redis) {
@@ -84,6 +79,8 @@ export const actions = {
       const formData = (await request.formData())
       const data = Object.fromEntries(formData.entries())
 
+      const redisKeyAllGroupsType = `all_groups_cached:${user.uid || 'all'}`
+
       const {
         acct,
         groupId,
@@ -114,6 +111,7 @@ export const actions = {
       originalGroupMembersObject.push(newMember)
       const fbGroupMembers = { groupMembers: originalGroupMembersObject }
 
+      const db = admin.firestore();
       const groupsRef = db.collection('groups').doc(groupId);
       await groupsRef.update(fbGroupMembers);
 
@@ -131,6 +129,15 @@ export const actions = {
 
       const userRef = db.collection('users').doc(user.uid);
       await userRef.update(fbUserGroupData);
+
+      // Then update redis
+      if (redis) {
+        try {
+          await redis.del(redisKeyAllGroupsType)
+        } catch (error) {
+          console.error('Error updating redis in (app) allgroups +page.server.ts', error)
+        }
+      }
 
       return { success: true }
     } catch (e) {
@@ -166,6 +173,7 @@ export const actions = {
     try {
       // First remove the user from the groups colllection
       const groupMemberId = `${uid}_${acct}`
+      const db = admin.firestore();
       const groupsRef = db.collection('groups').doc(groupId);
       const groupSnapshot = await getDocument({ entity: 'groups', id: groupId })
       const groupMembers = groupSnapshot?.groupMembers || []
@@ -201,9 +209,20 @@ export const actions = {
     try {
       // Remove the group from the users groups
       const fbUserGroupData = { groups: originalGroupsObject }
+      const db = admin.firestore();
       const userRef = db.collection('users').doc(user.uid);
 
       await userRef.update(fbUserGroupData);
+      const redisKeyAllGroupsType = `all_groups_cached:${user.uid || 'all'}`
+
+      // Then update redis
+      if (redis) {
+        try {
+          await redis.del(redisKeyAllGroupsType)
+        } catch (error) {
+          console.error('Error updating redis in (app) allgroups +page.server.ts', error)
+        }
+      }
 
       return {
         success: true
