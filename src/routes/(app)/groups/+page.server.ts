@@ -104,9 +104,9 @@ export const actions = {
       description,
       groupMembers: [groupCreatorId],
       groupModerators: [groupCreatorId],
-      mature,
+      mature: mature || false,
       name: groupName,
-      type,
+      type: type || 'Public',
     }
 
     try {
