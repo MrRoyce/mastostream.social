@@ -17,7 +17,7 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	const { group, user } = data;
+	const { acct, group, user } = data;
 
 	let messageInput = '';
 
