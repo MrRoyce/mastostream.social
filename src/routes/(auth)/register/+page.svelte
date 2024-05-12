@@ -6,7 +6,6 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { auth } from '$lib/firebase/client';
 	import { createUserWithEmailAndPassword } from 'firebase/auth';
-	import { doc, setDoc } from 'firebase/firestore';
 	import type { PageData } from './$types';
 	import { Turnstile } from 'svelte-turnstile';
 	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
