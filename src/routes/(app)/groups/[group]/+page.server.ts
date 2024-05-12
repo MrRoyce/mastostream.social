@@ -1,7 +1,8 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
+import { getDocument } from '$lib/getCollection';
 
-const maxParamLength = 25
+const maxParamLength = 50
 
 export const load: PageServerLoad = (async ({ params, locals }) => {
 
@@ -16,7 +17,10 @@ export const load: PageServerLoad = (async ({ params, locals }) => {
     throw redirect(307, '/')
   }
 
+  const userDocument = (user.uid) ? await getDocument({ entity: 'users', id: user.uid }) : {}
+
   return {
+    acct: userDocument?.acct || '',
     user,
     group: params.group
   };
