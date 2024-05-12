@@ -6,6 +6,7 @@ import { auth, initializeFirebase } from '$lib/firebase/client';
 import { onAuthStateChanged } from 'firebase/auth';
 
 export const prerender = false
+export const ssr = false
 
 export const load: LayoutLoad = async ({ url, data }) => {
 
