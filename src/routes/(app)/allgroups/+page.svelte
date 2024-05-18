@@ -125,12 +125,25 @@
 		});
 	}
 
-	function groupRowClicked(group: { id: any; groupMembers: any; name: any }) {
-		groupId = group.id;
-		groupMembers = JSON.stringify(group.groupMembers || []);
-		groupName = group.name;
-		joinModal = !group.member ? true : false;
-		leaveModal = group.member ? true : false;
+	function groupRowClicked(group: {
+		id: string;
+		groupMembers: any;
+		name: string;
+		member: boolean;
+	}) {
+		if (entity.acct) {
+			groupId = group.id;
+			groupMembers = JSON.stringify(group.groupMembers || []);
+			groupName = group.name;
+			joinModal = !group.member ? true : false;
+			leaveModal = group.member ? true : false;
+		} else {
+			const t: ToastSettings = {
+				message: `Please login to join this group!`,
+				hideDismiss: true
+			};
+			toastStore.trigger(t);
+		}
 	}
 
 	function searchText() {
@@ -241,7 +254,7 @@
 				</Table>
 			</div>
 			<div class="show-on-mobile">
-				{#each groups as item}{/each}
+				<!-- {#each groups as item}{/each} -->
 			</div>
 		</div>
 	</div>
