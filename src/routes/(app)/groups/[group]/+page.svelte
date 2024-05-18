@@ -15,6 +15,7 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import type { PageData } from './$types';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 	const { acct, group, user } = data;
@@ -62,7 +63,7 @@
 								<!-- List the rooms -->
 								{#each $chatRoomsStore as chatRoom}
 									<TableBodyRow class="border-none cursor-pointer">
-										<TableBodyCell>
+										<TableBodyCell class="pl-4">
 											{chatRoom.name}
 										</TableBodyCell>
 									</TableBodyRow>
@@ -87,7 +88,7 @@
 								<!-- List the messages -->
 								{#each $chatMessagesStore.reverse() as chatMessage}
 									<TableBodyRow class="border-none cursor-pointer">
-										<TableBodyCell>
+										<TableBodyCell class="pl-4">
 											({chatMessage.userName}) - {chatMessage.content}
 										</TableBodyCell>
 									</TableBodyRow>
@@ -112,7 +113,7 @@
 								<!-- List the users -->
 								{#each $chatUsersStore as chatUser}
 									<TableBodyRow class="border-none cursor-pointer">
-										<TableBodyCell>
+										<TableBodyCell class="pl-4" on:click={() => goto(`/accounts/${acct}`)}>
 											{chatUser.userName}
 										</TableBodyCell>
 									</TableBodyRow>
