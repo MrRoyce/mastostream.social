@@ -99,13 +99,6 @@ export const actions = {
       const originalUsersGroupsObject = originalGroups ? JSON.parse(originalGroups) : []
       const originalGroupMembersObject = groupMembers ? JSON.parse(groupMembers) : []
 
-      // console.log('uid', uid)
-      // console.log('groupName', groupName)
-      // console.log('acct', acct)
-      // console.log('groupId', groupId)
-      // console.log('originalGroupMembersObject', originalGroupMembersObject)
-      // console.log('originalGroupsObject', originalGroupsObject)
-
       // First add the user to the groupMembers array
       const newMember = `${uid}_${acct}`
       originalGroupMembersObject.push(newMember)
