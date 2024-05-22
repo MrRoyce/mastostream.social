@@ -24,7 +24,9 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
       }
     }
 
-    if (accountsCached) {
+    const checkCache = true  // TODO always check this!
+
+    if (accountsCached && checkCache) {
       console.log(`accountsCached for ${sourceType} cached`)
       entity = JSON.parse(accountsCached)
     } else {
