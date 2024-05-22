@@ -2,17 +2,12 @@ import type { PageServerLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
 import { redis } from '$lib/redis/redis';
 import { addMediaAttachmentCounts } from '$lib/utils';
-import { redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 const ttl = 600
 
 const replaceFromString = 'users/'
 const replaceToString = 'api/v1/accounts/lookup?acct='
-
-// type EntityInfo = {
-//   fetch: () => {},
-//   lowerCase: string
-// }
 
 async function getLatestEntityInfo(fetch, uriWithLookup) {
   try {
@@ -33,7 +28,9 @@ async function getLatestEntityInfo(fetch, uriWithLookup) {
 }
 
 // Get account and their toots
-export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
+export const load: PageServerLoad = (async ({ fetch, locals, params, setHeaders }) => {
+
+  const user = locals.user
 
   let entity
   let toots
@@ -43,13 +40,13 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
     console.warn('params.acct.length > 50', params.acct.length)
     throw redirect(307, '/')
   }
-  try {
 
+  try {
 
     const lowerCase = params.acct && typeof params.acct === 'string' ? params.acct.toLowerCase() : params.acct;
 
-    const redisKeyAccount = `account_acct_${lowerCase}`
-    const redisKeyAccountToots = `account_acct_${lowerCase}_toots`
+    const redisKeyAccount = `account_acct:${lowerCase}`
+    const redisKeyAccountToots = `account_acct:${lowerCase}:toots`
 
     const [accountCached, accountTootsCached] = await Promise.all([
       await redis.get(redisKeyAccount),
@@ -79,22 +76,24 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
       toots = tootsFromPromise
 
       // Get the latest account info
-      if (entity && entity.uri) {
-        const uriWithLookup = entity.uri.replace(replaceFromString, replaceToString)
-        try {
-          acct = await getLatestEntityInfo(fetch, uriWithLookup)
+      if (entity) {
+        if (entity.uri) {
+          const uriWithLookup = entity.uri.replace(replaceFromString, replaceToString)
+          try {
+            acct = await getLatestEntityInfo(fetch, uriWithLookup)
 
-          // Need to have optional chaining in case
-          // the call to get the latest account fails!
-          entity.followingCount = acct?.following_count || entity.followingCount
-          entity.followersCount = acct?.followers_count || entity.followersCount
-          entity.statusesCount = acct?.statuses_count || entity.statusesCount
-          entity.header = acct?.header || entity.header
-          entity.headerStatic = acct.header_static || entity.headerStatic
-          entity.avatar = acct?.avatar || entity.avatar
-          entity.avatarStatic = acct?.avatar_static || entity.avatarStatic
-        } catch (error) {
-          console.error(`Error fetching ${uriWithLookup} in (app) accounts [acct] +page.server.ts ${error}`, JSON.stringify(error))
+            // Need to have optional chaining in case
+            // the call to get the latest account fails!
+            entity.followingCount = acct?.following_count || entity.followingCount
+            entity.followersCount = acct?.followers_count || entity.followersCount
+            entity.statusesCount = acct?.statuses_count || entity.statusesCount
+            entity.header = acct?.header || entity.header
+            entity.headerStatic = acct.header_static || entity.headerStatic
+            entity.avatar = acct?.avatar || entity.avatar
+            entity.avatarStatic = acct?.avatar_static || entity.avatarStatic
+          } catch (error) {
+            console.error(`Error fetching ${uriWithLookup} in (app) accounts [acct] +page.server.ts ${error}`, JSON.stringify(error))
+          }
         }
 
         // Store account entity in redis
@@ -113,11 +112,16 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
     setHeaders({ "cache-control": `public, max-age=${ttl}` })
 
-    return {
+    const response = {
       entity: JSON.parse(JSON.stringify(entity)),
       id: params.acct,
-      toots: JSON.parse(JSON.stringify(toots))
-    };
+      toots: JSON.parse(JSON.stringify(toots)),
+      user
+    }
+
+    // console.log('response in accounts', response)
+
+    return response;
 
   } catch (error) {
     console.error(`Error in (app) accounts [acct] +page.server.ts ${error}`, JSON.stringify(error))
@@ -127,3 +131,35 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
   }
 
 });
+
+export const actions = {
+  message: async ({ request, locals }) => {
+    try {
+      const user = locals.user
+      const formData = (await request.formData())
+      const data = Object.fromEntries(formData.entries())
+
+      const {
+        sendTo,
+        message,
+        subject,
+        uid,
+      } = data
+
+      if (!(user?.uid === uid)) {
+        return fail(500, {
+          message: `Error in send message - user.uid: ${user?.uid} !== data.uid: ${uid}`
+        });
+      }
+
+      console.log(`sendTo: ${sendTo}, message: ${message}, subject: ${subject}, uid: ${uid}`)
+
+      return { success: true }
+    } catch (e) {
+      const error = `Error in sending message: ${e}`
+      return fail(500, {
+        message: error
+      });
+    }
+  }
+}
