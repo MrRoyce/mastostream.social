@@ -3,17 +3,16 @@ export interface ChatMessage {
   userName: string;
 }
 
-export function validateChatMessage(message: any): ChatMessage | undefined {
+export function validateChatMessage(message: { content: string; userName: string; type: string; }): ChatMessage | undefined {
   if (typeof message !== "object") {
     return;
   }
-
-  const content = message.content;
-  const userName = message.userName;
+  const { content, type, userName } = message
 
   if (
     typeof content !== "string" ||
-    typeof userName !== "string"
+    typeof userName !== "string" ||
+    typeof type !== "string"
   ) {
     return;
   }

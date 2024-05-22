@@ -41,8 +41,10 @@ socket.on("updateRooms", (rooms) => {
   chatRoomsStore.set(validatedRooms);
 })
 
-socket.on("updateChat", (userName, message) => {
-  const validatedMessage: ChatMessage | undefined = validateChatMessage({ content: message, userName });
+socket.on("updateChat", (data) => {
+  console.log('data in updatechat', data)
+  const { acct, message, type } = data
+  const validatedMessage: ChatMessage | undefined = validateChatMessage({ content: message, userName: acct, type: type });
 
   if (validatedMessage) {
     chatMessagesStore.update((items) => {
