@@ -179,7 +179,7 @@
 				{#each accounts as item}
 					{@const truncatedText = truncateHTML(item.note, 150)}
 					{@const url = `/accounts/${item.acct}`}
-					{@const [acctName, acctInstance] = item.acct.split('@')}
+					{@const [acctName, acctInstance] = item.acct ? item.acct.split('@') : item.acct}
 					<a href={url}>
 						<TableWrap spacing="px-0">
 							<!-- Profile Card -->
@@ -204,13 +204,15 @@
 										<p
 											class=" max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-auto font-normal text-gray-700 dark:text-gray-400"
 										>
-											{@html formatText(
-												item.note
-													.replaceAll('</p><p>', '</p><p>&nbsp;</p><p>')
-													.replaceAll('invisible', '')
-													.replaceAll('#', '<br>#'),
-												'underline text-green-200'
-											)}
+											{#if item.note}
+												{@html formatText(
+													item.note
+														.replaceAll('</p><p>', '</p><p>&nbsp;</p><p>')
+														.replaceAll('invisible', '')
+														.replaceAll('#', '<br>#'),
+													'underline text-green-200'
+												)}
+											{/if}
 										</p>
 									</div>
 								</a>
