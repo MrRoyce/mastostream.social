@@ -1,6 +1,7 @@
 export interface ChatMessage {
   content: string;
   userName: string;
+  type: string;
 }
 
 export function validateChatMessage(message: { content: string; userName: string; type: string; }): ChatMessage | undefined {
@@ -19,6 +20,7 @@ export function validateChatMessage(message: { content: string; userName: string
 
   return {
     content,
-    userName
+    userName,
+    type
   };
 }

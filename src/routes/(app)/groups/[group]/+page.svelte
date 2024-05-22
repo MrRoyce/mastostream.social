@@ -7,6 +7,7 @@
 		Button,
 		Heading,
 		Input,
+		P,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -143,7 +144,10 @@
 										{#each $chatMessagesStore as chatMessage}
 											<TableBodyRow class="border-none cursor-pointer">
 												<TableBodyCell class="pl-4">
-													({chatMessage.userName}) - {chatMessage.content}
+													<P size="xs" opacity={50} italic
+														>{chatMessage.userName} - {chatMessage.time}</P
+													>
+													<P>{chatMessage.content}</P>
 												</TableBodyCell>
 											</TableBodyRow>
 										{/each}

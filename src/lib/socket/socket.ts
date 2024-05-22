@@ -42,11 +42,11 @@ socket.on("updateRooms", (rooms) => {
 })
 
 socket.on("updateChat", (data) => {
-  console.log('data in updatechat', data)
-  const { acct, message, type } = data
+  const { acct, message, time, type } = data
   const validatedMessage: ChatMessage | undefined = validateChatMessage({ content: message, userName: acct, type: type });
 
   if (validatedMessage) {
+    validatedMessage.time = time
     chatMessagesStore.update((items) => {
       items.push(validatedMessage)
       return items
