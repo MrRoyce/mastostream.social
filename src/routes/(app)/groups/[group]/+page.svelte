@@ -21,9 +21,16 @@
 	const { acct, group, user } = data;
 
 	let messageInput = '';
+	let enterKey;
 
 	onMount(async () => {
 		createUser({ acct: data.entity?.acct || 'Anonymous', group });
+		document.querySelector('#messageInput')?.addEventListener('keyup', (event) => {
+			if (event.key !== 'Enter') return;
+
+			document.querySelector('#submitButton').click();
+			event.preventDefault();
+		});
 	});
 
 	chatMessagesStore.subscribe(() => {
@@ -170,20 +177,20 @@
 					<div class="grid grid-cols-12 pt-4">
 						<div class="col-span-2"></div>
 						<div class="col-span-8">
-							<form>
-								<div class="grid grid-cols-12 gap-4">
-									<Input
-										type="text"
-										class="col-span-10 rounded-none"
-										name="messageInput"
-										id="messageInput"
-										bind:value={messageInput}
-									/>
-									<div class="col-span-2">
-										<Button on:click={submitMessage} class="rounded-none">Send Message</Button>
-									</div>
+							<div class="grid grid-cols-12 gap-4">
+								<Input
+									type="text"
+									class="col-span-10 rounded-none"
+									name="messageInput"
+									id="messageInput"
+									bind:value={messageInput}
+								/>
+								<div class="col-span-2">
+									<Button on:click={submitMessage} id="submitButton" class="rounded-none"
+										>Send Message</Button
+									>
 								</div>
-							</form>
+							</div>
 						</div>
 						<div class="col-span-2"></div>
 					</div>
