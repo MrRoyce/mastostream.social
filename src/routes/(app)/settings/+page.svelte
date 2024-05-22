@@ -9,13 +9,11 @@
 	import { v4 as uuid } from 'uuid';
 	import { session } from '$lib/stores/authStore';
 	import { get } from 'svelte/store';
+	import { updateButtonClass } from '$lib/utils';
 
 	let settingsType = '';
 	let settingsModal = false;
 	let pictureModal = false;
-
-	const updateButtonClass =
-		'py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-600 focus:outline-none bg-white hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-200';
 
 	export let data: PageData;
 	const { user, entity } = data;
@@ -25,11 +23,10 @@
 	let accessToken: string;
 	let acct: string;
 	let instance: string;
-	let photoURL: string;
 
 	let isSubmitting = false;
 	let uploadComplete = false;
-	let files = [];
+	let files: string | any[] = [];
 	let errors = { files: null };
 	let downdloadUrl = '';
 	$: filename = files.length > 0 ? files[0].name : '';
