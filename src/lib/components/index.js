@@ -1,4 +1,5 @@
 import { UserIcon } from '$lib/components/icons';
+import AccountButtons from '$lib/components/UI/AccountButtons.svelte';
 import Admin from '$lib/components/Admin/Admin.svelte';
 import AdminSidebar from '$lib/components/AdminSidebar/AdminSidebar.svelte';
 import AdminTootTable from '$lib/components/UI/AdminTootTable.svelte';
@@ -29,6 +30,7 @@ import WordCloud from '$lib/components/UI/WordCloud.svelte';
 import YouTube from '$lib/components/Cards/YouTube.svelte';
 
 export {
+	AccountButtons,
 	Admin,
 	AdminSidebar,
 	AdminTootTable,

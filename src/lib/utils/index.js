@@ -17,6 +17,7 @@ import { hasAdultContent } from '$lib/utils/hasAdultContent';
 import { shortenLongWords } from '$lib/utils/shortenLongWords';
 import { summarizeCounts } from '$lib/utils/summarizeCounts';
 import { truncateHTML } from '$lib/utils/truncateHTML';
+import { updateButtonClass } from '$lib/utils/updateButtonClass';
 import { validateToken } from '$lib/utils/validateToken';
 
 export {
@@ -39,5 +40,6 @@ export {
 	shortenLongWords,
 	summarizeCounts,
 	truncateHTML,
+	updateButtonClass,
 	validateToken
 };
