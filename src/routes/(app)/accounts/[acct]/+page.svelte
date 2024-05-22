@@ -3,17 +3,93 @@
 	import { browser, dev } from '$app/environment';
 	import { ArrowUpRightFromSquareOutline } from 'flowbite-svelte-icons';
 	import type { PageData } from '../$types';
-	import { MobileTootViewWrapper, OwnersTootTable, Page404, TableWrap } from '$lib/components';
-	import { Breadcrumb, BreadcrumbItem, Li, List } from 'flowbite-svelte';
-	import { formatText } from '$lib/utils';
+	import {
+		AccountButtons,
+		MobileTootViewWrapper,
+		OwnersTootTable,
+		Page404,
+		TableWrap
+	} from '$lib/components';
+	import {
+		Breadcrumb,
+		BreadcrumbItem,
+		Button,
+		Input,
+		Label,
+		Li,
+		List,
+		Modal,
+		Textarea
+	} from 'flowbite-svelte';
+	import { formatText, updateButtonClass } from '$lib/utils';
 	import { getAnalytics, logEvent } from 'firebase/analytics';
+	import type { SubmitFunction } from '@sveltejs/kit';
+	import { invalidateAll } from '$app/navigation';
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { applyAction, enhance } from '$app/forms';
 
 	export let data: PageData;
-	const entity = data?.entity || {};
-	const toots = data?.toots || [];
+	const entity = data.entity || {};
+	const toots = data.toots || [];
+	const user = data.user;
+	let uid = user && user.uid ? user.uid : '';
 
 	let acctName = '';
 	let acctInstance = '';
+	let accountModal = false;
+	let messageModal = false;
+	let isSubmitting = false;
+
+	function showAccountModal() {
+		accountModal = true;
+		messageModal = false;
+	}
+
+	function showMessageModal() {
+		accountModal = false;
+		messageModal = true;
+	}
+
+	const toastStore = getToastStore();
+	let loadSpinner = false;
+
+	const sendMessage: SubmitFunction = () => {
+		// Before call
+		loadSpinner = true;
+		messageModal = false;
+
+		// After call
+		return async ({ result }) => {
+			const { type, status } = result;
+
+			if (result.type === 'success') {
+				await invalidateAll();
+				const t: ToastSettings = {
+					message: `Message Sent!`,
+					hideDismiss: true
+				};
+				toastStore.trigger(t);
+			}
+
+			if (result.type === 'failure' || result.type === 'error') {
+				messageModal = false;
+				const errorMessage: string = `Error on sending message - Status: ${status}, Type: ${type}`;
+				//TODO log this on server
+				console.error(errorMessage);
+				const userErrorMessage =
+					'Sorry, an error occurred sending the message.  Please check the data and try again. Please contact us if the problem continues.';
+
+				const t: ToastSettings = {
+					background: 'variant-filled-error',
+					message: userErrorMessage,
+					hideDismiss: true
+				};
+				toastStore.trigger(t);
+			}
+			await applyAction(result);
+			loadSpinner = false;
+		};
+	};
 
 	if (entity && entity.acct) {
 		[acctName, acctInstance] = entity.acct.split('@');
@@ -103,6 +179,29 @@
 											>Followers:
 										</span>{entity.followersCount.toLocaleString()}</Li
 									>
+									<Li>
+										<div class="justify-self-end">
+											<Button
+												outline={true}
+												class="!p-2"
+												color="green"
+												on:click={() => showAccountModal()}
+												><i class="fa-solid fa-share" style="color: #31c48d;" /></Button
+											>
+										</div>
+										{#if user && user.uid}
+											<!-- content here -->
+											<div class="justify-self-end">
+												<Button
+													outline={true}
+													class="!p-2"
+													color="green"
+													on:click={() => showMessageModal()}
+													><i class="fa-solid fa-share" style="color: #31c48d;" /></Button
+												>
+											</div>
+										{/if}
+									</Li>
 								</List>
 							</div>
 						</div>
@@ -119,31 +218,39 @@
 
 							<!-- Account note -->
 							<div class="pb-2 overflow-ellipsis">
-								{@html entity.note
-									.replaceAll('</p><p>', '</p><p>&nbsp;</p><p>')
-									.replaceAll('class="mention hashtag"', '')
-									.replaceAll('invisible', '')
-									.replaceAll('<a ', '<a class="underline text-green-400" ')}
+								{#if entity.note}
+									<!-- content here -->
+
+									{@html entity.note
+										.replaceAll('</p><p>', '</p><p>&nbsp;</p><p>')
+										.replaceAll('class="mention hashtag"', '')
+										.replaceAll('invisible', '')
+										.replaceAll('<a ', '<a class="underline text-green-400" ')}
+								{/if}
 							</div>
 
 							<div class="m-2 border-t-2 border-green-400"></div>
 
 							<!-- Account Favorites -->
 							<div class="grid grid-cols-1">
-								{#each entity.fields as field}
-									<div class="pt-2 dark:text-gray-200 text-lg">
-										{field.name}:
-									</div>
-									<div class="dark:text-gray-300">
-										{@html formatText(
-											field.value.replaceAll(
-												'class="invisible"',
-												'class="font-medium hover:text-green-400 hover:underline'
-											),
-											'underline text-green-200'
-										)}
-									</div>
-								{/each}
+								{#if entity.fields}
+									<!-- content here -->
+
+									{#each entity.fields as field}
+										<div class="pt-2 dark:text-gray-200 text-lg">
+											{field.name}:
+										</div>
+										<div class="dark:text-gray-300">
+											{@html formatText(
+												field.value.replaceAll(
+													'class="invisible"',
+													'class="font-medium hover:text-green-400 hover:underline'
+												),
+												'underline text-green-200'
+											)}
+										</div>
+									{/each}
+								{/if}
 							</div>
 						</div>
 					</div>
@@ -163,16 +270,70 @@
 
 					<!-- show-on-mobile view -->
 					<div class="show-on-mobile">
-						{#each toots as toot}
-							<TableWrap spacing="px-0">
-								<MobileTootViewWrapper {toot} showProfile={false} />
-							</TableWrap>
-						{/each}
+						{#if toots}
+							<!-- content here -->
+							{#each toots as toot}
+								<TableWrap spacing="px-0">
+									<MobileTootViewWrapper {toot} showProfile={false} />
+								</TableWrap>
+							{/each}
+						{/if}
 					</div>
 				</div>
 			</div>
 		</div>
 	</TableWrap>
+
+	<!-- Share Modal -->
+	<Modal title="Share this page" bind:open={accountModal} class="dark:text-gray-200" size="xs"
+		><AccountButtons accountContent={entity} /></Modal
+	>
+
+	<!-- Message Modal -->
+	<Modal title="Send a Message" bind:open={messageModal} class="dark:text-gray-200" size="xs">
+		<div class="flex justify-center items-center">
+			<form
+				class="flex flex-col space-x-8"
+				method="POST"
+				action="?/message"
+				enctype="multipart/form-data"
+				use:enhance={sendMessage}
+			>
+				<div class="grid grid-cols-1">
+					<!-- content here -->
+
+					<div>
+						<p class="mb-2">Send to: {acctName}</p>
+					</div>
+					<div>
+						<Label for="subject" class="block mb-2">Subject</Label>
+						<Input id="subject" name="subject" placeholder="Your subject..." required />
+					</div>
+					<div>
+						<Textarea
+							id="message"
+							name="message"
+							placeholder="Your message..."
+							label="Your message"
+						/>
+					</div>
+					<input type="hidden" name="uid" bind:value={uid} />
+					<input type="hidden" name="sendTo" value={acctName} />
+				</div>
+				<div class="flex justify-center items-center space-x-4">
+					<Button
+						color="none"
+						on:click={() => {
+							messageModal = false;
+						}}>No, cancel</Button
+					>
+					<Button type="submit" disabled={isSubmitting} class={updateButtonClass}
+						>Send message</Button
+					>
+				</div>
+			</form>
+		</div>
+	</Modal>
 {:else if browser}
 	<Page404 route="accounts" />
 {/if}
