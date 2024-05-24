@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { TableWrap } from '$lib/components';
-	import { onMount } from 'svelte';
-	import { createUser, sendMessage } from '$lib/socket';
+	import { onDestroy, onMount } from 'svelte';
+	import { createUser, leaveRoom, sendMessage } from '$lib/socket';
 	import { chatRoomsStore, chatMessagesStore, chatUsersStore } from '$lib/stores';
 	import {
 		Button,
@@ -19,10 +19,9 @@
 	import { goto } from '$app/navigation';
 
 	export let data: PageData;
-	const { acct, group, user } = data;
+	const { acct, group, groupId, user } = data;
 
 	let messageInput = '';
-	let enterKey;
 
 	onMount(async () => {
 		createUser({
@@ -37,11 +36,21 @@
 						: 'Guest',
 			uid: user.uid
 		});
+
+		// Auto click submit button on Enter
 		document.querySelector('#messageInput')?.addEventListener('keyup', (event) => {
-			if (event.key !== 'Enter') return;
+			if (event.key !== 'Enter') {
+				return;
+			}
 
 			document.querySelector('#submitButton').click();
 			event.preventDefault();
+		});
+	});
+
+	onDestroy(() => {
+		leaveRoom({
+			roomId: groupId
 		});
 	});
 
@@ -80,7 +89,7 @@
 	>
 		<div class="dark:bg-gray-900 p-4">
 			<div class="grid grid-cols-2 gap-4">
-				<Heading tag="h3">{group} Group</Heading>
+				<Heading tag="h3">{group.name} Group</Heading>
 			</div>
 			<div class="overflow-y-scroll">
 				<div class="mt-4">
@@ -132,16 +141,18 @@
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
 								hoverable={true}
 							>
-								<TableBody>
-									<!-- List the rooms -->
-									{#each $chatRoomsStore as chatRoom}
-										<TableBodyRow class="border-none cursor-pointer">
-											<TableBodyCell class="pl-4">
-												{chatRoom.name}
-											</TableBodyCell>
-										</TableBodyRow>
-									{/each}
-								</TableBody>
+								<div id="chat-groups" class="pb-2 h-96 overflow-y-scroll">
+									<TableBody>
+										<!-- List the rooms -->
+										{#each $chatRoomsStore as chatRoom}
+											<TableBodyRow class="border-none cursor-pointer">
+												<TableBodyCell class="pl-4">
+													{chatRoom.name}
+												</TableBodyCell>
+											</TableBodyRow>
+										{/each}
+									</TableBody>
+								</div>
 							</Table>
 						</div>
 
@@ -159,7 +170,7 @@
 											<TableBodyRow class="border-none cursor-pointer">
 												<TableBodyCell class="pl-4">
 													<P size="xs" opacity={50} italic
-														>{chatMessage.userName} - {chatMessage.time}</P
+														>{chatMessage.userName === acct ? 'You' : chatMessage.userName} - {chatMessage.time}</P
 													>
 													<P>{chatMessage.content}</P>
 												</TableBodyCell>
@@ -177,16 +188,18 @@
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
 								hoverable={true}
 							>
-								<TableBody>
-									<!-- List the users -->
-									{#each $chatUsersStore as chatUser}
-										<TableBodyRow class="border-none cursor-pointer">
-											<TableBodyCell class="pl-4" on:click={() => goto(`/accounts/${acct}`)}>
-												{chatUser.acct}
-											</TableBodyCell>
-										</TableBodyRow>
-									{/each}
-								</TableBody>
+								<div id="chat-users" class="pb-2 h-96 overflow-y-scroll">
+									<TableBody>
+										<!-- List the users -->
+										{#each $chatUsersStore as chatUser}
+											<TableBodyRow class="border-none cursor-pointer">
+												<TableBodyCell class="pl-4" on:click={() => goto(`/accounts/${acct}`)}>
+													{chatUser.acct}
+												</TableBodyCell>
+											</TableBodyRow>
+										{/each}
+									</TableBody>
+								</div>
 							</Table>
 						</div>
 					</div>

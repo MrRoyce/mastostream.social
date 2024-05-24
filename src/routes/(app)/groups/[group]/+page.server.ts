@@ -39,6 +39,7 @@ export const load: PageServerLoad = (async ({ params, locals, url }) => {
   return {
     acct: userDocument?.acct || '',
     group: JSON.parse(JSON.stringify(group)),
+    groupId,
     user
   };
 });
