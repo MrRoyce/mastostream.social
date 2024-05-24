@@ -18,7 +18,7 @@ const ioOptions = {
   ackTimeout: 10000,
   retries: 3
 }
-const socket = io(PUBLIC_SOCKET_HOST, ioOptions);
+const socket = io(PUBLIC_SOCKET_HOST, {});
 
 socket.on("connect", () => {
   console.debug("Successfully connected to socket");
@@ -73,7 +73,6 @@ socket.on("updateUsers", ({ room, users }) => {
 
     if (validatedUser) {
       validatedUsers.push(validatedUser);
-      console.log('validuser', user)
     } else {
       console.log('invalid user', user)
     }
