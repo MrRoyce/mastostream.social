@@ -13,7 +13,12 @@ import {
 } from "$lib/stores";
 import { PUBLIC_SOCKET_HOST } from '$env/static/public'
 
-const socket = io(PUBLIC_SOCKET_HOST);
+// Retry https://socket.io/docs/v4/tutorial/step-8
+const ioOptions = {
+  ackTimeout: 10000,
+  retries: 3
+}
+const socket = io(PUBLIC_SOCKET_HOST, ioOptions);
 
 socket.on("connect", () => {
   console.debug("Successfully connected to socket");
