@@ -180,7 +180,6 @@
 								<TableBody>
 									<!-- List the users -->
 									{#each $chatUsersStore as chatUser}
-										{console.log('chatUser', chatUser)}
 										<TableBodyRow class="border-none cursor-pointer">
 											<TableBodyCell class="pl-4" on:click={() => goto(`/accounts/${acct}`)}>
 												{chatUser.acct}
