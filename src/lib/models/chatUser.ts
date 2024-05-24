@@ -1,7 +1,8 @@
 export interface ChatUser {
+  acct: string;
+  room: string;
   type: string;
   uid: string;
-  userName: string;
 }
 
 export function validateChatUser(user: any): ChatUser | undefined {
@@ -10,46 +11,22 @@ export function validateChatUser(user: any): ChatUser | undefined {
     return;
   }
 
-  let userName
-  let type
-  let uid
-
-  Object.keys(user).forEach(function (prop) {
-    // `prop` is the property name
-    // `data[prop]` is the property value
-
-    ({ type, userName, uid } = user[prop])
-
-    // Object.keys(user[prop]).forEach(function (attr) {
+  const { acct, room, type, uid } = user
 
 
-    //   if (attr === 'userName') {
-    //     userName = prop[attr]
-    //   } else if (attr === 'type') {
-    //     type = prop[attr]
-    //   } else if (attr === 'uid') {
-    //     uid = prop[attr]
-    //   }
-    //})
-
-  });
-
-  console.log('userName', userName)
-  console.log('type', type)
-  console.log('uid', uid)
-
-
-  // if (
-  //   typeof type !== "string" ||
-  //   typeof uid !== "number" ||
-  //   typeof userName !== "string"
-  // ) {
-  //   return;
-  // }
+  if (
+    typeof acct !== "string" ||
+    typeof room !== "string" ||
+    typeof type !== "string" ||
+    typeof uid !== "string"
+  ) {
+    return;
+  }
 
   return {
+    acct,
+    room,
     type,
-    uid,
-    userName
+    uid
   };
 }

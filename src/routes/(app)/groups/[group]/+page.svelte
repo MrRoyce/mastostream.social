@@ -63,7 +63,10 @@
 
 	function submitMessage() {
 		if (user.uid && messageInput) {
-			sendMessage(messageInput, data.entity?.acct || 'Anonymous');
+			sendMessage({
+				acct: data.entity?.acct || 'Anonymous',
+				content: messageInput
+			});
 		}
 
 		// Clear the message
@@ -177,9 +180,10 @@
 								<TableBody>
 									<!-- List the users -->
 									{#each $chatUsersStore as chatUser}
+										{console.log('chatUser', chatUser)}
 										<TableBodyRow class="border-none cursor-pointer">
 											<TableBodyCell class="pl-4" on:click={() => goto(`/accounts/${acct}`)}>
-												{chatUser.userName}
+												{chatUser.acct}
 											</TableBodyCell>
 										</TableBodyRow>
 									{/each}

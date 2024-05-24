@@ -60,20 +60,17 @@ socket.on("updateCount", (id, count) => {
   console.log(`Num users: ${id}, count: ${count}.`)
 })
 
-socket.on("updateUsers", (usernames) => {
-  const userNamesArray = Array.isArray(usernames) ? usernames : [usernames]
+socket.on("updateUsers", ({ room, users }) => {
   const validatedUsers: ChatUser[] = [];
-  const limitedUsers = userNamesArray.filter((_, index) => {
-    return index < 25;
-  });
 
-  const usersToCheck = Object.entries(limitedUsers[0])
-
-  for (const user of usersToCheck) {
+  for (const user of users) {
     const validatedUser = validateChatUser(user);
 
     if (validatedUser) {
       validatedUsers.push(validatedUser);
+      console.log('validuser', user)
+    } else {
+      console.log('invalid user', user)
     }
   }
 
@@ -108,13 +105,13 @@ interface SendError {
   error: string;
 }
 
-export function sendMessage(content: string, id: string) {
+export function sendMessage({ acct, content }) {
   return new Promise(
     (
       resolve: (value: SendSuccess) => void,
       reject: (value: SendError) => void
     ) => {
-      socket.emit("sendMessage", content, id, (response: any) => {
+      socket.emit("sendMessage", { acct, content }, (response: any) => {
         const error = response.error;
 
         if (error) {
