@@ -220,23 +220,20 @@
 					</TableHead>
 					<TableBody>
 						{#each groups as group}
+							{@const groupString = `/groups/${group.name}?gid=${group.groupId}`}
 							<TableBodyRow class="border-none cursor-pointer">
-								<TableBodyCell on:click={() => goto(`/groups/${group.name}`)}
-									>{group.name}</TableBodyCell
-								>
-								<TableBodyCell on:click={() => goto(`/groups/${group.name}`)}
+								<TableBodyCell on:click={() => goto(groupString)}>{group.name}</TableBodyCell>
+								<TableBodyCell on:click={() => goto(groupString)}
 									>{formatDate({
 										seconds: group.joined.seconds,
 										nanoseconds: group.joined.nanoseconds
 									})}</TableBodyCell
 								>
-								<TableBodyCell
-									bind:value={group.creator}
-									on:click={() => goto(`/groups/${group.name}`)}>{group.creator}</TableBodyCell
+								<TableBodyCell bind:value={group.creator} on:click={() => goto(groupString)}
+									>{group.creator}</TableBodyCell
 								>
-								<TableBodyCell
-									bind:value={group.moderator}
-									on:click={() => goto(`/groups/${group.name}`)}>{group.moderator}</TableBodyCell
+								<TableBodyCell bind:value={group.moderator} on:click={() => goto(groupString)}
+									>{group.moderator}</TableBodyCell
 								>
 
 								<TableBodyCell class="text-center"

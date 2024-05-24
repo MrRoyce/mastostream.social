@@ -25,7 +25,18 @@
 	let enterKey;
 
 	onMount(async () => {
-		createUser({ acct: data.entity?.acct || 'Anonymous', group });
+		createUser({
+			acct: acct || 'Anonymous',
+			group: group.name || 'Mystery Group',
+			type: group.creator
+				? 'Creator'
+				: group.moderator
+					? 'Moderator'
+					: group.member
+						? 'Member'
+						: 'Guest',
+			uid: user.uid
+		});
 		document.querySelector('#messageInput')?.addEventListener('keyup', (event) => {
 			if (event.key !== 'Enter') return;
 
