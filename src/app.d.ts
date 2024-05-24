@@ -58,6 +58,13 @@ declare global {
 		verifiedAt: string;
 	}
 
+	type CreateUserOptions = {
+		acct: string;
+		group: string;
+		type: string;
+		uid: string;
+	}
+
 	interface AccountRow {  // DO NOT CHANGE ORDER!
 		id: string; // Have to bypass the 1st column when displaying rows!!
 		avatar: string;

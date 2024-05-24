@@ -139,13 +139,14 @@ export function sendMessage(content: string, id: string) {
   );
 }
 
-export function createUser({ acct, group }) {
+export function createUser({ acct, group, type, uid }: CreateUserOptions) {
   return new Promise(
     (
       resolve: (value: SendSuccess) => void,
       reject: (value: SendError) => void
     ) => {
-      socket.emit("createUser", { acct, group }, (response: any) => {
+      const options = { acct, group, type, uid }
+      socket.emit("createUser", options, (response: any) => {
         const error = response.error;
 
         if (error) {
