@@ -17,6 +17,7 @@
 	} from 'flowbite-svelte';
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
+	import { connectSocket } from '$lib/socket/socket';
 
 	export let data: PageData;
 	const { acct, group, groupId, user } = data;
@@ -24,6 +25,7 @@
 	let messageInput = '';
 
 	onMount(async () => {
+		connectSocket({ acct });
 		createUser({
 			acct: acct || 'Anonymous',
 			group: group.name || 'Mystery Group',

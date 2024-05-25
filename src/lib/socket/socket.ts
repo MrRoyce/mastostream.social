@@ -15,10 +15,11 @@ import { PUBLIC_SOCKET_HOST } from '$env/static/public'
 
 // Retry https://socket.io/docs/v4/tutorial/step-8
 const ioOptions = {
-  ackTimeout: 10000,
-  retries: 3
+  // ackTimeout: 10000,
+  // retries: 3,
+  autoConnect: false
 }
-const socket = io(PUBLIC_SOCKET_HOST, {});
+const socket = io(PUBLIC_SOCKET_HOST, ioOptions);
 
 socket.on("connect", () => {
   console.debug("Successfully connected to socket");
@@ -81,6 +82,13 @@ socket.on("updateUsers", ({ room, users }) => {
   chatUsersStore.set(validatedUsers);
 })
 
+socket.on("connect_error", (err) => {
+  if (err.message === "No username") {
+    console.error('Error connecting socket!', err);
+  }
+  socket.off("connect_error");
+});
+
 socket.on("messages", (messages) => {
   if (!Array.isArray(messages)) {
     return;
@@ -108,6 +116,12 @@ interface SendSuccess {
 interface SendError {
   error: string;
 }
+
+export function connectSocket({ acct }) {
+  socket.auth = { username: acct };
+  socket.connect();
+}
+
 
 export function sendMessage({ acct, content }) {
   return new Promise(
