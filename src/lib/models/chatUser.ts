@@ -1,6 +1,7 @@
 export interface ChatUser {
   acct: string;
   room: string;
+  socketId: string;
   type: string;
   uid: string;
 }
@@ -11,11 +12,12 @@ export function validateChatUser(user: any): ChatUser | undefined {
     return;
   }
 
-  const { acct, room, type, uid } = user
-
+  const { acct, id, room, type, uid } = user
+  console.log('validateChatUser user', user)
 
   if (
     typeof acct !== "string" ||
+    typeof id !== "string" ||
     typeof room !== "string" ||
     typeof type !== "string" ||
     typeof uid !== "string"
@@ -26,6 +28,7 @@ export function validateChatUser(user: any): ChatUser | undefined {
   return {
     acct,
     room,
+    socketId: id,
     type,
     uid
   };
