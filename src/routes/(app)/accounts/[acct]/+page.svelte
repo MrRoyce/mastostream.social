@@ -197,7 +197,10 @@
 													class="!p-2"
 													color="green"
 													on:click={() => showMessageModal()}
-													><i class="fa-solid fa-share" style="color: #31c48d;" /></Button
+													><i
+														class="fa-sharp fa-solid fa-ellipsis"
+														style="color: #31c48d;"
+													/></Button
 												>
 											</div>
 										{/if}
@@ -290,36 +293,46 @@
 	>
 
 	<!-- Message Modal -->
-	<Modal title="Send a Message" bind:open={messageModal} class="dark:text-gray-200" size="xs">
+	<Modal
+		title="Send a Message to {acctName}"
+		bind:open={messageModal}
+		class="dark:text-gray-200"
+		size="xs"
+	>
 		<div class="flex justify-center items-center">
 			<form
-				class="flex flex-col space-x-8"
+				class="space-y-4"
 				method="POST"
 				action="?/message"
 				enctype="multipart/form-data"
 				use:enhance={sendMessage}
 			>
-				<div class="grid grid-cols-1">
-					<!-- content here -->
-
-					<div>
-						<p class="mb-2">Send to: {acctName}</p>
-					</div>
-					<div>
-						<Label for="subject" class="block mb-2">Subject</Label>
-						<Input id="subject" name="subject" placeholder="Your subject..." required />
-					</div>
-					<div>
-						<Textarea
-							id="message"
-							name="message"
-							placeholder="Your message..."
-							label="Your message"
-						/>
-					</div>
-					<input type="hidden" name="uid" bind:value={uid} />
-					<input type="hidden" name="sendTo" value={acctName} />
+				<div>
+					<Label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Subject</Label
+					>
+					<Input
+						id="subject"
+						name="subject"
+						placeholder="Your subject..."
+						required
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+					/>
 				</div>
+				<div>
+					<Label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+						>Message</Label
+					>
+					<Textarea
+						id="message"
+						name="message"
+						placeholder="Your message..."
+						label="Your message"
+						class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+					/>
+				</div>
+				<input type="hidden" name="uid" bind:value={uid} />
+				<input type="hidden" name="sendTo" value={acctName} />
 				<div class="flex justify-center items-center space-x-4">
 					<Button
 						color="none"
