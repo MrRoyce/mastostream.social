@@ -61,6 +61,7 @@ declare global {
 	type CreateUserOptions = {
 		acct: string;
 		group: string;
+		sessionId: string;
 		type: string;
 		uid: string;
 	}
