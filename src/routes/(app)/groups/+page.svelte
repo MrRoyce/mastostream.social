@@ -33,8 +33,8 @@
 
 	const toastStore = getToastStore();
 
-	const { user, entity } = data;
-	let { groups } = data;
+	const { entity, user } = data;
+	let groups = entity.groups;
 	let originalGroups = JSON.stringify(groups);
 
 	const tableData = {
@@ -83,15 +83,15 @@
 
 		// After call
 		return async ({ result }) => {
-			const { type, status } = result;
+			const { type, status, data } = result;
 
 			if (result.type === 'success') {
 				// Send message to socket
 				createRoom({
 					acct: entity.acct,
 					mature: matureString,
-					name: groupName,
-					roomId: groupId,
+					name: data.name,
+					roomId: data.groupId,
 					type: visibilityString
 				});
 

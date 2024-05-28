@@ -10,19 +10,20 @@ export const load: PageServerLoad = (async ({ locals }) => {
     redirect(307, '/')
   }
 
-  let groups = []
   let entity
 
   try {
     entity = await getDocument({ entity: 'users', id: user.uid })
-    groups = entity?.groups || []
+    if (entity) {
+      entity.groups = entity.groups ? entity.groups : []
+    }
+
   } catch (error) {
     console.error(`Error getting users groups for uid: ${user.uid}`, error)
   }
 
   return {
     entity: JSON.parse(JSON.stringify(entity)),
-    groups: JSON.parse(JSON.stringify(groups)),
     user
   };
 });
@@ -135,6 +136,7 @@ export const actions = {
       return {
         success: true,
         groupId: groupsRef.id,
+        name: groupName,
         mature,
         type,
         message: 'Document added'
