@@ -15,6 +15,8 @@ import MobileTootViewWrapper from '$lib/components/UI/MobileTootViewWrapper.svel
 import Languages from '$lib/components/Languages/Languages.svelte';
 import LegalSidebar from '$lib/components/LegalSidebar/LegalSidebar.svelte';
 import Loading from '$lib/components/Loading/Loading.svelte';
+import MetaModal from '$lib/components/UI/MetaModal.svelte';
+import MetaPopover from '$lib/components/UI/MetaPopover.svelte';
 import OwnersTootTable from '$lib/components/UI/OwnersTootTable.svelte';
 import Page404 from '$lib/components/UI/Page404.svelte';
 import ShareButtons from '$lib/components/UI/ShareButtons.svelte';
@@ -46,6 +48,8 @@ export {
 	Languages,
 	LegalSidebar,
 	Loading,
+	MetaModal,
+	MetaPopover,
 	OwnersTootTable,
 	Page404,
 	ShareButtons,
