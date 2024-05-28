@@ -1,7 +1,7 @@
 export interface ChatMessage {
   content: string;
   userName: string;
-  time: string;
+  time?: string | null;
   type: string;
 }
 
