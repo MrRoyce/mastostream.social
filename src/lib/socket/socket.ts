@@ -21,6 +21,17 @@ const ioOptions = {
 }
 const socket = io(PUBLIC_SOCKET_HOST, ioOptions);
 
+socket.on("session", ({ sessionID, userID }) => {
+  console.log('sessionID', sessionID)
+  console.log('userID', userID)
+  // attach the session ID to the next reconnection attempts
+  socket.auth = { sessionID };
+  // store it in the localStorage
+  localStorage.setItem("sessionID", sessionID);
+  // save the ID of the user
+  socket.userID = userID;
+});
+
 socket.on("connect", () => {
   console.debug("Successfully connected to socket");
 });
@@ -118,10 +129,10 @@ interface SendError {
 }
 
 export function connectSocket({ acct }) {
-  socket.auth = { username: acct };
+  const sessionID = localStorage.getItem("sessionID");
+  socket.auth = { username: acct, sessionID };
   socket.connect();
 }
-
 
 export function sendMessage({ acct, content }) {
   return new Promise(
@@ -154,13 +165,13 @@ export function sendMessage({ acct, content }) {
   );
 }
 
-export function createUser({ acct, group, type, uid }: CreateUserOptions) {
+export function createUser({ acct, group, sessionId, type, uid }: CreateUserOptions) {
   return new Promise(
     (
       resolve: (value: SendSuccess) => void,
       reject: (value: SendError) => void
     ) => {
-      const options = { acct, group, type, uid }
+      const options = { acct, group, sessionId, type, uid }
       socket.emit("createUser", options, (response: any) => {
         const error = response.error;
 
