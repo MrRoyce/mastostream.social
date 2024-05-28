@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TableWrap } from '$lib/components';
+	import { MetaPopover, TableWrap } from '$lib/components';
 	import { onDestroy, onMount } from 'svelte';
 	import { createUser, leaveRoom, sendMessage } from '$lib/socket';
 	import { chatRoomsStore, chatMessagesStore, chatUsersStore } from '$lib/stores';
@@ -16,19 +16,21 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 	import type { PageData } from './$types';
-	import { goto } from '$app/navigation';
 	import { connectSocket } from '$lib/socket/socket';
+	import type { ChatUser } from '$lib/models';
 
 	export let data: PageData;
 	const { acct, group, groupId, user } = data;
 
 	let messageInput = '';
+	let metaModal = false;
 
 	onMount(async () => {
-		connectSocket({ acct });
+		connectSocket({ acct }); // Pass acct as handshake auth
 		createUser({
 			acct: acct || 'Anonymous',
 			group: group.name || 'Mystery Group',
+			sessionId: groupId,
 			type: group.creator
 				? 'Creator'
 				: group.moderator
@@ -44,13 +46,13 @@
 			if (event.key !== 'Enter') {
 				return;
 			}
-
 			document.querySelector('#submitButton').click();
 			event.preventDefault();
 		});
 	});
 
 	onDestroy(() => {
+		chatMessagesStore.set([]);
 		leaveRoom({
 			roomId: groupId
 		});
@@ -61,8 +63,6 @@
 		const chatMessages = document.getElementById('chat-messages');
 		const messageInput = document.getElementById('messageInput');
 		if (chatMessages) {
-			//chatMessages.scroll({ top: chatMessages.scrollHeight, behavior: 'smooth' });
-			//chatMessages.scrollTop = chatMessages.scrollHeight;
 			setTimeout(() => {
 				chatMessages.scrollTop = chatMessages.scrollHeight;
 				if (messageInput) {
@@ -71,6 +71,15 @@
 			}, 0);
 		}
 	});
+
+	const showMessageModal = () => {
+		const messageModal = true;
+	};
+
+	function userClicked(user: ChatUser) {
+		console.log('userClicked', user);
+		metaModal = true;
+	}
 
 	function submitMessage() {
 		if (user.uid && messageInput) {
@@ -109,7 +118,7 @@
 								>
 							</Table>
 						</div>
-						<div class="col-span-8">
+						<div class="col-span-7">
 							<Table
 								name="advancedTable"
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
@@ -122,7 +131,7 @@
 								>
 							</Table>
 						</div>
-						<div class="col-span-2">
+						<div class="col-span-3">
 							<Table
 								name="advancedTable"
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
@@ -159,7 +168,7 @@
 						</div>
 
 						<!-- Messages -->
-						<div class="col-span-8">
+						<div class="col-span-7">
 							<Table
 								name="advancedTable"
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
@@ -184,7 +193,7 @@
 						</div>
 
 						<!-- Users -->
-						<div class="col-span-2">
+						<div class="col-span-3">
 							<Table
 								name="advancedTable"
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
@@ -193,9 +202,10 @@
 								<div id="chat-users" class="pb-2 h-96 overflow-y-scroll">
 									<TableBody>
 										<!-- List the users -->
-										{#each $chatUsersStore as chatUser}
+										{#each $chatUsersStore as chatUser, index}
 											<TableBodyRow class="border-none cursor-pointer">
-												<TableBodyCell class="pl-4" on:click={() => goto(`/accounts/${acct}`)}>
+												<TableBodyCell class="pl-4" on:click={userClicked(chatUser)}>
+													<MetaPopover userIndex={index} acct={user.acct} {sendMessage} />
 													{chatUser.acct}
 												</TableBodyCell>
 											</TableBodyRow>
