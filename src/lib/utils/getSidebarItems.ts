@@ -345,6 +345,11 @@ export const getSidebarItems: SideBarMenuItems = ({ group, page }) => {
 								icon: 'fa-solid fa-gear',
 								label: 'Groups',
 								url: '/groups',
+							}, {
+								href: '/messages',
+								icon: 'fa-solid fa-message',
+								label: 'Messages',
+								url: '/messages',
 							}
 						]
 					}
