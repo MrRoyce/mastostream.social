@@ -16,6 +16,7 @@ export function validateChatMessage(message: { content: string; userName: string
     typeof userName !== "string" ||
     typeof type !== "string"
   ) {
+    console.error('Invalid message!', message)
     return;
   }
 
