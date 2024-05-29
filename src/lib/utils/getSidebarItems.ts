@@ -321,7 +321,7 @@ export const getSidebarItems: SideBarMenuItems = ({ group, page }) => {
 							},
 							{
 								href: '/allgroups',
-								icon: 'fa-solid fa-magnifying-glass',
+								icon: 'fa-solid fa-people-group',
 								label: 'All Groups',
 								url: '/allgroups',
 							}
@@ -342,7 +342,7 @@ export const getSidebarItems: SideBarMenuItems = ({ group, page }) => {
 								url: '/settings',
 							}, {
 								href: '/groups',
-								icon: 'fa-solid fa-gear',
+								icon: 'fa-solid fa-user-group',
 								label: 'Groups',
 								url: '/groups',
 							}, {
