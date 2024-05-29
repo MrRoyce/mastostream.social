@@ -6,6 +6,23 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = (async ({ locals }) => {
   const user = locals.user
 
+  function sortByTimestamp(arr: any[], timestampKey: string, order = 'desc') {
+    return arr.sort((a, b) => {
+      const timestampA = a[timestampKey];
+      const timestampB = b[timestampKey];
+
+      let comparison = 0;
+      if (timestampA.seconds !== timestampB.seconds) {
+        comparison = timestampA.seconds - timestampB.seconds;
+      } else {
+        comparison = timestampA.nanoseconds - timestampB.nanoseconds;
+      }
+
+      return order === 'asc' ? comparison : -comparison;
+
+    });
+  }
+
   if (!user) {
     redirect(307, '/')
   }
@@ -15,7 +32,7 @@ export const load: PageServerLoad = (async ({ locals }) => {
   try {
     entity = await getDocument({ entity: 'users', id: user.uid })
     if (entity) {
-      entity.groups = entity.groups ? entity.groups : []
+      entity.groups = entity.groups ? sortByTimestamp(entity.groups, 'joined') : []
     }
 
   } catch (error) {
