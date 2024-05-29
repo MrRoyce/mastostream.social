@@ -22,8 +22,6 @@ const ioOptions = {
 const socket = io(PUBLIC_SOCKET_HOST, ioOptions);
 
 socket.on("session", ({ sessionID, userID }) => {
-  console.log('sessionID', sessionID)
-  console.log('userID', userID)
   // attach the session ID to the next reconnection attempts
   socket.auth = { sessionID };
   // store it in the localStorage
@@ -100,8 +98,9 @@ socket.on("connect_error", (err) => {
   socket.off("connect_error");
 });
 
-socket.on("messages", (messages) => {
+socket.on("historical_messages", (messages) => {
   if (!Array.isArray(messages)) {
+    console.error('historical_messages is not an array!', messages)
     return;
   }
 
@@ -111,9 +110,13 @@ socket.on("messages", (messages) => {
   });
 
   for (const message of limitedMessages) {
-    const validatedMessage = validateChatMessage(message);
+    const { message: content, acct: userName, type, time } = message
+    const validatedMessage = validateChatMessage({ content, userName, type });
     if (validatedMessage) {
+      validatedMessage.time = time
       validatedMessages.push(validatedMessage);
+    } else {
+      console.error('Did not validate message:', validatedMessage)
     }
   }
 
