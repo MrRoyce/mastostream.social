@@ -99,13 +99,13 @@
 		class="dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 mb-4 p-4"
 	>
 		<div class="dark:bg-gray-900 p-4">
-			<div class="grid grid-cols-2 gap-4">
-				<Heading tag="h3">{group.name} Group</Heading>
-			</div>
+			<Heading tag="h3">{group.name} Group</Heading>
 			<div class="overflow-y-scroll">
 				<div class="mt-4">
 					<div class="grid grid-cols-12 gap-4">
-						<div class="col-span-2">
+						<!-- Rooms -->
+						<div class="col-span-3">
+							<!-- Rooms Header-->
 							<Table
 								name="advancedTable"
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
@@ -117,36 +117,8 @@
 									></TableHead
 								>
 							</Table>
-						</div>
-						<div class="col-span-7">
-							<Table
-								name="advancedTable"
-								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
-								hoverable={true}
-							>
-								<TableHead
-									><TableHeadCell class="text-center " padding="px-4 py-3" scope="col"
-										>Messages</TableHeadCell
-									></TableHead
-								>
-							</Table>
-						</div>
-						<div class="col-span-3">
-							<Table
-								name="advancedTable"
-								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
-								hoverable={true}
-							>
-								<TableHead
-									><TableHeadCell class="text-center " padding="px-4 py-3" scope="col"
-										>Users</TableHeadCell
-									></TableHead
-								>
-							</Table>
-						</div>
 
-						<!-- Groups -->
-						<div class="col-span-2">
+							<!-- Rooms Content -->
 							<Table
 								name="advancedTable"
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
@@ -165,10 +137,58 @@
 									</TableBody>
 								</div>
 							</Table>
+
+							<!-- Users Header -->
+							<Table
+								name="advancedTable"
+								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+								hoverable={true}
+							>
+								<TableHead
+									><TableHeadCell class="text-center " padding="px-4 py-3" scope="col"
+										>Users</TableHeadCell
+									></TableHead
+								>
+							</Table>
+
+							<!-- Users Content-->
+							<Table
+								name="advancedTable"
+								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+								hoverable={true}
+							>
+								<div id="chat-users" class="pb-2 h-96 overflow-y-scroll">
+									<TableBody>
+										<!-- List the users -->
+										{#each $chatUsersStore as chatUser, index}
+											<TableBodyRow class="border-none cursor-pointer">
+												<TableBodyCell class="pl-4" on:click={userClicked(chatUser)}>
+													<MetaPopover userIndex={index} acct={user.acct} {sendMessage} />
+													{chatUser.acct}
+												</TableBodyCell>
+											</TableBodyRow>
+										{/each}
+									</TableBody>
+								</div>
+							</Table>
 						</div>
 
-						<!-- Messages -->
-						<div class="col-span-7">
+						<!-- Messages-->
+						<div class="col-span-9">
+							<!-- Messages Header-->
+							<Table
+								name="advancedTable"
+								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+								hoverable={true}
+							>
+								<TableHead
+									><TableHeadCell class="text-center " padding="px-4 py-3" scope="col"
+										>Messages</TableHeadCell
+									></TableHead
+								>
+							</Table>
+
+							<!-- Messages Content-->
 							<Table
 								name="advancedTable"
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
@@ -190,36 +210,8 @@
 									</TableBody>
 								</div>
 							</Table>
-						</div>
 
-						<!-- Users -->
-						<div class="col-span-3">
-							<Table
-								name="advancedTable"
-								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
-								hoverable={true}
-							>
-								<div id="chat-users" class="pb-2 h-96 overflow-y-scroll">
-									<TableBody>
-										<!-- List the users -->
-										{#each $chatUsersStore as chatUser, index}
-											<TableBodyRow class="border-none cursor-pointer">
-												<TableBodyCell class="pl-4" on:click={userClicked(chatUser)}>
-													<MetaPopover userIndex={index} acct={user.acct} {sendMessage} />
-													{chatUser.acct}
-												</TableBodyCell>
-											</TableBodyRow>
-										{/each}
-									</TableBody>
-								</div>
-							</Table>
-						</div>
-					</div>
-
-					<!-- Message input and Send Button -->
-					<div class="grid grid-cols-12 pt-4">
-						<div class="col-span-2"></div>
-						<div class="col-span-8">
+							<!-- Message input and Send Button -->
 							<div class="grid grid-cols-12 gap-4">
 								<Input
 									type="text"
@@ -235,7 +227,6 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-span-2"></div>
 					</div>
 				</div>
 			</div>
