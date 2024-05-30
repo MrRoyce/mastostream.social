@@ -84,7 +84,7 @@ socket.on("updateUsers", ({ room, users }) => {
     if (validatedUser) {
       validatedUsers.push(validatedUser);
     } else {
-      console.log('invalid user', user)
+      console.error('Invalid user in /lib/socket updateUsers', user)
     }
   }
 
