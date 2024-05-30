@@ -72,10 +72,6 @@
 		}
 	});
 
-	const showMessageModal = () => {
-		const messageModal = true;
-	};
-
 	function userClicked(user: ChatUser) {
 		console.log('userClicked', user);
 		metaModal = true;
@@ -103,7 +99,7 @@
 			<div class="overflow-y-scroll">
 				<div class="mt-4">
 					<div class="grid grid-cols-12 gap-4">
-						<!-- Rooms -->
+						<!-- Rooms  and Users-->
 						<div class="col-span-3">
 							<!-- Rooms Header-->
 							<Table
