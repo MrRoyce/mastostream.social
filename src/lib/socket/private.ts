@@ -18,9 +18,24 @@ import { validatePrivateUser } from "$lib/models/chatUser";
 const ioOptions = {
   // ackTimeout: 10000,
   // retries: 3,
+  path: "/private",
   autoConnect: false
 }
-const socket = io(dev ? `${PUBLIC_PRIVATE_HOST}` : `${PUBLIC_SOCKET_HOST}/private`, ioOptions);
+
+const socketAddr = dev ? `${PUBLIC_PRIVATE_HOST}` : `${PUBLIC_SOCKET_HOST}`
+console.log('socketAddr', socketAddr)
+const socket = io(socketAddr, ioOptions);
+
+socket.on("connect_error", (err) => {
+  // the reason of the error, for example "xhr poll error"
+  console.error("connect_error err.message:", err.message);
+
+  // some additional description, for example the status code of the initial HTTP response
+  console.error("connect_error - err.description:", err.description);
+
+  // some additional context, for example the XMLHttpRequest object
+  console.error("connect_error - err.context:", err.context);
+});
 
 socket.on("session", ({ sessionID, userID, users }) => {
   console.log('sessionID in private session', sessionID)
