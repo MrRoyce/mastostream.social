@@ -1,9 +1,12 @@
 export interface ChatUser {
   acct: string;
+  connected: boolean;
   room: string;
   socketId: string;
   type: string;
   uid: string;
+  userID: string;
+  username: string;
 }
 
 type MessageType = {
@@ -17,6 +20,7 @@ type MyMessages = Array<MessageType>
 export interface ChatPrivateUser {
   connected: boolean;
   messages: MyMessages;
+  uid: string;
   userID: string;
   username: string;
 }
@@ -52,7 +56,7 @@ export function validateChatUser(user: any): ChatUser | undefined {
     return;
   }
 
-  const { acct, id, room, type, uid } = user
+  const { acct, connected, id, room, type, uid, userID, username } = user
   console.log('validateChatUser user', user)
 
   if (
@@ -67,9 +71,12 @@ export function validateChatUser(user: any): ChatUser | undefined {
 
   return {
     acct,
+    connected,
     room,
     socketId: id,
     type,
     uid,
+    userID,
+    username
   };
 }
