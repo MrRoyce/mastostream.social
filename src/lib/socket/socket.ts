@@ -1,4 +1,5 @@
 import { io } from "socket.io-client";
+import { dev } from "$app/environment";
 import {
   type ChatRoom,
   type ChatUser,
@@ -15,11 +16,26 @@ import { PUBLIC_SOCKET_HOST } from '$env/static/public'
 
 // Retry https://socket.io/docs/v4/tutorial/step-8
 const ioOptions = {
-  // ackTimeout: 10000,
-  // retries: 3,
-  autoConnect: false
+  autoConnect: false,
+  path: ''
 }
+
+if (!dev) {
+  ioOptions.path = "/"
+}
+
 const socket = io(PUBLIC_SOCKET_HOST, ioOptions);
+
+socket.on("connect_error", (err) => {
+  // the reason of the error, for example "xhr poll error"
+  console.error("connect_error - socket - err.message:", err.message);
+
+  // some additional description, for example the status code of the initial HTTP response
+  console.error("connect_error - socket - err.description:", err.description);
+
+  // some additional context, for example the XMLHttpRequest object
+  console.error("connect_error - socket - err.context:", err.context);
+});
 
 socket.on("session", ({ sessionID, userID }) => {
   // attach the session ID to the next reconnection attempts

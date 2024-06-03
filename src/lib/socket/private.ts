@@ -4,22 +4,46 @@ import {
   type ChatUser,
   type ChatMessage,
   validateChatRoom,
-  validateChatMessage
+  validateChatMessage,
+  type PrivateMessage
 } from "$lib/models";
 import {
   chatRoomsStore, chatNumUsers,
-  chatUsersStore, chatMessagesStore
+  chatUsersStore, privateMessagesStore
 } from "$lib/stores";
 import { PUBLIC_PRIVATE_HOST, PUBLIC_SOCKET_HOST } from '$env/static/public'
 import { dev } from "$app/environment";
-import { validatePrivateUser } from "$lib/models/chatUser";
+import { validatePrivateUser, type ChatPrivateUser } from "$lib/models/chatUser";
+import { validatePrivateChatMessage } from "$lib/models/chatMessage";
 
 // Retry https://socket.io/docs/v4/tutorial/step-8
 const ioOptions = {
   // ackTimeout: 10000,
   // retries: 3,
-  path: "/private",
-  autoConnect: false
+  autoConnect: false,
+  path: ''
+}
+
+if (!dev) {
+  ioOptions.path = "/private"
+}
+
+function unixEpochToDateString(unixEpoch) {
+  // Create a new Date object using the Unix epoch (convert seconds to milliseconds)
+  const date = new Date(unixEpoch * 1000);
+
+  // Extract the date components
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+  const day = String(date.getDate()).padStart(2, '0');
+
+  // Extract the time components
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  // Format the date and time as YYYY-MM-DD HH:MM:SS
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
 const socketAddr = dev ? `${PUBLIC_PRIVATE_HOST}` : `${PUBLIC_SOCKET_HOST}`
@@ -28,18 +52,17 @@ const socket = io(socketAddr, ioOptions);
 
 socket.on("connect_error", (err) => {
   // the reason of the error, for example "xhr poll error"
-  console.error("connect_error err.message:", err.message);
+  console.error("connect_error - private - err.message:", err.message);
 
   // some additional description, for example the status code of the initial HTTP response
-  console.error("connect_error - err.description:", err.description);
+  console.error("connect_error - private - err.description:", err.description);
 
   // some additional context, for example the XMLHttpRequest object
-  console.error("connect_error - err.context:", err.context);
+  console.error("connect_error - private - err.context:", err.context);
 });
 
-socket.on("session", ({ sessionID, userID, users }) => {
-  console.log('sessionID in private session', sessionID)
-  console.log('userID in private session', userID)
+socket.on("session", ({ connected, createdAt, sessionID, uid, userID, username }) => {
+  console.log(`Private session - connected: ${connected}, createdAt: ${createdAt}, sessionID: ${sessionID}, uid: ${uid}, userID: ${userID}, username: ${username}.`)
   // attach the session ID to the next reconnection attempts
   socket.auth = { sessionID };
   // store it in the localStorage
@@ -80,7 +103,7 @@ socket.on("updateChat", (data) => {
 
   if (validatedMessage) {
     validatedMessage.time = time
-    chatMessagesStore.update((items) => {
+    privateMessagesStore.update((items) => {
       items.push(validatedMessage)
       return items
     })
@@ -94,7 +117,7 @@ socket.on("updateCount", (id, count) => {
 })
 
 socket.on("updateUsers", (users) => {
-  const validatedUsers: ChatUser[] = [];
+  const validatedUsers: ChatPrivateUser[] = [];
   console.log('users in updateUsers', users)
 
   for (const user of users) {
@@ -117,24 +140,49 @@ socket.on("connect_error", (err) => {
   socket.off("connect_error");
 });
 
+socket.on("private message", (message: { content: string; createdAt: string; from: string; fromUserName: string; to: string; userName: string; }) => {
+  const { content, createdAt, from, fromUserName, to, userName } = message
+
+  console.log('message in private message', message)
+
+  if (!content || !from || !to || typeof (content) !== 'string' || typeof (from) !== 'string' || typeof (fromUserName) !== 'string' || typeof (to) !== 'string' || typeof (userName) !== 'string') {
+    console.error('Invalid private message', message)
+    return;
+  } else {
+    console.log('Valid private message', message)
+  }
+
+  const createdAtDate = unixEpochToDateString(createdAt)
+
+  const response = {
+    content, createdAt: createdAtDate, from, fromUserName, to, userName
+
+  }
+
+  privateMessagesStore.update((items) => {
+    items.push(response)
+    return items
+  })
+})
+
 socket.on("messages", (messages) => {
   if (!Array.isArray(messages)) {
     return;
   }
 
-  const validatedMessages: ChatMessage[] = [];
+  const validatedMessages: PrivateMessage[] = [];
   const limitedMessages = messages.filter((_, index) => {
     return index < 25;
   });
 
   for (const message of limitedMessages) {
-    const validatedMessage = validateChatMessage(message);
+    const validatedMessage = validatePrivateChatMessage(message);
     if (validatedMessage) {
       validatedMessages.push(validatedMessage);
     }
   }
 
-  chatMessagesStore.set(validatedMessages);
+  privateMessagesStore.set(validatedMessages);
 });
 
 interface SendSuccess {
@@ -148,23 +196,29 @@ interface SendError {
 export function connectSocket({ acct, uid }) {
   console.log('private connectSocket to acct:', acct)
   const sessionID = localStorage.getItem("sessionID");
-  socket.auth = { username: acct, sessionID, uid };
+  socket.auth = {
+    sessionID,
+    uid,
+    username: acct,
+  };
   socket.connect();
 }
 
-export function sendMessage({ acct, content }) {
+export function sendMessage({ content, from, fromUserName, to, userName }) {
   return new Promise(
     (
       resolve: (value: SendSuccess) => void,
       reject: (value: SendError) => void
     ) => {
-      socket.emit("sendMessage", { acct, content }, (response: any) => {
+      console.log(`sendMessage content: ${content}, from: ${from}, to: ${to}, userName: ${userName},`)
+
+      socket.emit("private message", { content, from, fromUserName, to, userName }, (response: any) => {
         const error = response.error;
 
         if (error) {
-          console.error('Error in sendMessage ', error)
+          console.error('Error in private message ', error)
           if (typeof error !== "string") {
-            reject({ error: "Error sending message" });
+            reject({ error: "Error sending message in private" });
             return;
           }
           reject({ error });
@@ -173,7 +227,7 @@ export function sendMessage({ acct, content }) {
 
         const message = response.message;
         if (!message || typeof message !== "string") {
-          reject({ error: "Unexpected result from server in sendMessage" });
+          reject({ error: "Unexpected result from private in sendMessage" });
           return;
         }
 
@@ -196,7 +250,7 @@ export function createUser({ acct, group, sessionId, type, uid }: CreateUserOpti
         if (error) {
           console.error('Error in createUser ', error)
           if (typeof error !== "string") {
-            reject({ error: "Error sending message for createUser" });
+            reject({ error: "Error sending message for createUser in private" });
             return;
           }
           reject({ error });
@@ -205,7 +259,7 @@ export function createUser({ acct, group, sessionId, type, uid }: CreateUserOpti
 
         const message = response.message;
         if (!message || typeof message !== "string") {
-          reject({ error: "Unexpected result from server in createUser" });
+          reject({ error: "Unexpected result from private in createUser" });
           return;
         }
 
@@ -230,7 +284,7 @@ export function leaveRoom({ roomId }) {
           if (error) {
             console.error('Error in leaveRoom ', error)
             if (typeof error !== "string") {
-              reject({ error: "Error sending message" });
+              reject({ error: "Error leaving room in private" });
               return;
             }
             reject({ error });
@@ -239,7 +293,7 @@ export function leaveRoom({ roomId }) {
 
           const message = response.message;
           if (!message || typeof message !== "string") {
-            reject({ error: "Unexpected result from server in leaveRoom" });
+            reject({ error: "Unexpected result from private in leaveRoom" });
             return;
           }
 

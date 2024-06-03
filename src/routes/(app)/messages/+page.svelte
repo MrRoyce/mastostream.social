@@ -16,12 +16,14 @@
 	} from 'flowbite-svelte';
 	import type { PageData } from './$types';
 	import { onDestroy, onMount } from 'svelte';
-	import { chatMessagesStore, chatUsersStore } from '$lib/stores';
+	import { privateMessagesStore, chatUsersStore } from '$lib/stores';
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 
 	export let data: PageData;
 	const { user, entity } = data;
 
 	let messageInput = '';
+	const toastStore = getToastStore();
 
 	console.log('user in messages', user);
 	console.log('entity in messages', entity);
@@ -29,23 +31,41 @@
 
 	onMount(async () => {
 		console.log(`Mounting messages page for acct: ${acct}, uid: ${user.uid}.`);
-		connectSocket({ acct, uid: user.uid }); // Pass acct as handshake auth
+		connectSocket({
+			acct,
+			uid: user.uid
+		}); // Pass acct as handshake auth
 	});
 
 	onDestroy(() => {
-		// chatMessagesStore.set([]);
-		// leaveRoom({
-		// 	roomId: groupId
-		// });
+		privateMessagesStore.set([]);
 		console.log('Destroy event for messages');
 	});
 
+	let activeClass =
+		'flex items-center p-2 text-base font-normal text-primary-900 bg-primary-200 dark:bg-gray-700 dark:text-white hover:bg-primary-100 dark:hover:bg-gray-700';
+	let nonActiveClass =
+		'flex items-center p-2 text-base font-normal text-green-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
+
+	let userNameClicked = '';
+	let uidClicked = '';
+
 	function submitMessage() {
+		console.log('messageInput', messageInput);
 		if (user.uid && messageInput) {
 			sendMessage({
-				acct,
-				content: messageInput
+				content: messageInput,
+				from: user.uid,
+				fromUserName: entity.acct,
+				to: uidClicked,
+				userName: userNameClicked
 			});
+		} else {
+			const t: ToastSettings = {
+				message: `Please select a user and enter a message to send to them!`,
+				hideDismiss: true
+			};
+			toastStore.trigger(t);
 		}
 
 		// Clear the message
@@ -53,7 +73,10 @@
 	}
 
 	function userClicked(chatUser: ChatUser) {
-		console.log('userClicked', chatUser);
+		console.log('chatUser', chatUser);
+		userNameClicked = chatUser.username;
+		uidClicked = chatUser.userID;
+		console.log('uidClicked', uidClicked);
 	}
 </script>
 
@@ -92,7 +115,12 @@
 										<!-- List the users -->
 										{#each $chatUsersStore as chatUser, index}
 											<TableBodyRow class="border-none cursor-pointer">
-												<TableBodyCell class="pl-4" on:click={userClicked(chatUser)}>
+												<TableBodyCell
+													class={userNameClicked == chatUser.username
+														? activeClass
+														: nonActiveClass}
+													on:click={userClicked(chatUser)}
+												>
 													{chatUser.username}
 												</TableBodyCell>
 											</TableBodyRow>
@@ -126,13 +154,15 @@
 								<div id="chat-messages" class="pb-2 h-96 overflow-y-scroll">
 									<TableBody>
 										<!-- List the messages -->
-										{#each $chatMessagesStore as chatMessage}
+										{#each $privateMessagesStore as privateMessage}
+											{@const fromUserName = privateMessage.fromUserName}
+											{@const createdAt = privateMessage.createdAt}
 											<TableBodyRow class="border-none cursor-pointer">
 												<TableBodyCell class="pl-4">
 													<P size="xs" opacity={50} italic
-														>{chatMessage.userName === acct ? 'You' : chatMessage.userName} - {chatMessage.time}</P
+														>{fromUserName === acct ? 'You' : fromUserName} - {privateMessage.createdAt}</P
 													>
-													<P>{chatMessage.content}</P>
+													<P>{privateMessage.content}</P>
 												</TableBodyCell>
 											</TableBodyRow>
 										{/each}
@@ -150,7 +180,7 @@
 									bind:value={messageInput}
 								/>
 								<div class="col-span-2">
-									<Button on:click={submitMessage} id="submitButton" class="rounded-none"
+									<Button on:click={() => submitMessage()} id="submitButton" class="rounded-none"
 										>Send Message</Button
 									>
 								</div>
