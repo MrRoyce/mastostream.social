@@ -3,4 +3,5 @@ export interface PrivateMessage {
   createdAt: string;
   from: string;
   to: string;
+  userName: string;
 }

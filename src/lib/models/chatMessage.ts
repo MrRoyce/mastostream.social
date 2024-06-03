@@ -1,3 +1,5 @@
+import type { PrivateMessage } from "./privateMessage";
+
 export interface ChatMessage {
   content: string;
   userName: string;
@@ -21,8 +23,28 @@ export function validateChatMessage(message: { content: string; userName: string
   }
 
   return {
-    content,
-    userName,
-    type
+    ...message
+  };
+}
+
+export function validatePrivateChatMessage(message: PrivateMessage | undefined): PrivateMessage | undefined {
+  if (typeof message !== "object") {
+    return;
+  }
+  const { content, createdAt, from, to, userName } = message
+
+  if (
+    typeof content !== "string" ||
+    typeof from !== "string" ||
+    typeof to !== "string" ||
+    typeof userName !== "string" ||
+    typeof createdAt !== "string"
+  ) {
+    console.error('Invalid message!', message)
+    return;
+  }
+
+  return {
+    ...message
   };
 }

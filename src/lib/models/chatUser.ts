@@ -32,7 +32,7 @@ export function validatePrivateUser(user: any): ChatPrivateUser | undefined {
   }
 
   const { connected, messages, uid, userID, username } = user
-  console.log('validatePrivateUser user', user)
+  // console.log('validatePrivateUser user', JSON.stringify(user, null, 2))
 
   if (
     typeof connected !== "boolean" ||
