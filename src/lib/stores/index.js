@@ -3,6 +3,7 @@ import { chatMessagesStore } from '$lib/stores/chatMessageStore';
 import { chatRoomsStore } from '$lib/stores/chatRoomsStore';
 import { chatNumUsers } from '$lib/stores/chatUsersStore';
 import { chatUsersStore } from '$lib/stores/chatUsersStore';
+import { privateMessagesStore } from '$lib/stores/privateMessagesStore';
 import loading from '$lib/stores/Loading';
 import showSensitiveStore from '$lib/stores/SensitiveStore';
 
@@ -11,7 +12,8 @@ export {
 	chatMessagesStore,
 	chatRoomsStore,
 	chatNumUsers,
-  chatUsersStore,
+	chatUsersStore,
+	privateMessagesStore,
 	loading,
 	showSensitiveStore
 };
