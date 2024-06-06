@@ -27,19 +27,22 @@
 
 	onMount(async () => {
 		connectSocket({ acct }); // Pass acct as handshake auth
-		createUser({
-			acct: acct || 'Anonymous',
-			group: group.name || 'Mystery Group',
-			sessionId: groupId,
-			type: group.creator
-				? 'Creator'
-				: group.moderator
-					? 'Moderator'
-					: group.member
-						? 'Member'
-						: 'Guest',
-			uid: user.uid
-		});
+
+		if (acct) {
+			createUser({
+				acct: acct || 'Anonymous',
+				group: group.name || 'Mystery Group',
+				sessionId: groupId,
+				type: group.creator
+					? 'Creator'
+					: group.moderator
+						? 'Moderator'
+						: group.member
+							? 'Member'
+							: 'Guest',
+				uid: user.uid
+			});
+		}
 
 		// Auto click submit button on Enter
 		document.querySelector('#messageInput')?.addEventListener('keyup', (event) => {
