@@ -30,16 +30,16 @@ export const load: PageServerLoad = (async ({ locals }) => {
   };
 })
 
-// https://lounge.town/api/v2/search?q=heisenpunk@lounge.town
 async function getMastodonAccount({ acct, fetch, instance }) {
   let response = false
-  const url = `https://${instance.trim()}/api/v2/search?q=${acct.trim()}`
+  const url = `https://${instance.trim()}/api/v1/accounts/lookup?acct=${acct.trim()}`
+  console.log('url in getMastodonAccount', url)
   try {
     const fetchResponse = await fetch(url)
     if (fetchResponse && fetchResponse.ok) {
       const result = await fetchResponse.json()
-      if (result && result.accounts && Array.isArray(result.accounts) && result.accounts.length === 1) {
-        const acctId = result.accounts[0].id
+      if (result && result.id) {
+        const acctId = result.id
         response = acctId
       }
     } else {
@@ -52,7 +52,6 @@ async function getMastodonAccount({ acct, fetch, instance }) {
   return response
 }
 
-// https://mastodon.social/api/v1/accounts/1
 async function checkToken({ accessToken, fetch, instance }) {
   let response = false
   const url = `https://${instance.trim()}/api/v1/preferences`
