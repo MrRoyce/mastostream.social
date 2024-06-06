@@ -1,7 +1,6 @@
 import { io } from "socket.io-client";
 import {
   type ChatRoom,
-  type ChatUser,
   type ChatMessage,
   validateChatRoom,
   validateChatMessage,
@@ -116,6 +115,10 @@ socket.on("updateCount", (id, count) => {
   console.log(`Num users: ${id}, count: ${count}.`)
 })
 
+socket.on("user connected", (user) => {
+  console.log('user connected', user)
+})
+
 socket.on("updateUsers", (users) => {
   const validatedUsers: ChatPrivateUser[] = [];
   console.log('users in updateUsers', users)
@@ -165,6 +168,10 @@ socket.on("private message", (message: { content: string; createdAt: string; fro
   })
 })
 
+socket.on("user disconnected", (user) => {
+  console.log('user disconnected', user)
+})
+
 socket.on("messages", (messages) => {
   if (!Array.isArray(messages)) {
     return;
@@ -191,6 +198,33 @@ interface SendSuccess {
 
 interface SendError {
   error: string;
+}
+
+export function leavePrivate({ acct, sessionID }) {
+
+  return new Promise((
+    resolve: (value: SendSuccess) => void,
+    reject: (value: SendError) => void
+  ) => {
+    console.log('leavePrivate acct:', acct)
+    socket.emit('leave private', { acct, sessionID }, (response: any) => {
+      const error = response.error;
+
+      if (error) {
+        console.error('Error in leavePrivate ', error)
+        if (typeof error !== "string") {
+          reject({ error: "Error leavePrivate room in private" });
+          return;
+        }
+        reject({ error });
+        return;
+      }
+
+      resolve({
+        message: ""
+      })
+    })
+  })
 }
 
 export function connectSocket({ acct, uid }) {
