@@ -6,6 +6,7 @@
 		Input,
 		Label,
 		Modal,
+		P,
 		Table,
 		TableBody,
 		TableBodyCell,
@@ -23,6 +24,7 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { applyAction, enhance } from '$app/forms';
 	import { createRoom, leaveRoom } from '$lib/socket';
+	import { redirectPage } from '$lib/utils/redirectPage';
 
 	export let data: PageData;
 
@@ -34,6 +36,13 @@
 	const toastStore = getToastStore();
 
 	const { entity, user } = data;
+
+	let gotosettings = entity.acct ? false : true;
+
+	if (!entity.acct) {
+		redirectPage(5, `/settings`);
+	}
+
 	let groups = entity.groups;
 	let originalGroups = JSON.stringify(groups);
 
@@ -395,5 +404,13 @@
 				<input type="hidden" name="uid" bind:value={user.uid} />
 			</div>
 		</form>
+	</Modal>
+</Section>
+
+<Section classSection="h-96 {!gotosettings ? 'hidden' : ''}">
+	<Modal title="Connect to your Mastodon account!" bind:open={gotosettings} class="min-w-full">
+		<P>Please connect to your Mastodon account to use this feature.</P>
+		<P>Click here if you are not automatically redirected.</P>
+		<Button href={`/settings`} size="lg" color="red">Go to /settings</Button>
 	</Modal>
 </Section>
