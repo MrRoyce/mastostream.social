@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { TableWrap } from '$lib/components';
 	import type { ChatUser } from '$lib/models';
-	import { connectSocket, sendMessage } from '$lib/socket/private';
+	import { connectSocket, leavePrivate, sendMessage } from '$lib/socket/private';
 	import {
 		Button,
 		Heading,
 		Input,
+		Modal,
 		P,
 		Table,
 		TableBody,
@@ -18,6 +19,8 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { privateMessagesStore, chatUsersStore } from '$lib/stores';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { Section } from 'flowbite-svelte-blocks';
+	import { redirectPage } from '$lib/utils/redirectPage';
 
 	export let data: PageData;
 	const { user, entity } = data;
@@ -29,17 +32,52 @@
 	console.log('entity in messages', entity);
 	const { acct } = entity;
 
+	let gotosettings = acct ? false : true;
+
+	if (!acct) {
+		redirectPage(5, `/settings`);
+	}
+
 	onMount(async () => {
 		console.log(`Mounting messages page for acct: ${acct}, uid: ${user.uid}.`);
-		connectSocket({
-			acct,
-			uid: user.uid
-		}); // Pass acct as handshake auth
+
+		if (acct) {
+			connectSocket({
+				acct,
+				uid: user.uid
+			}); // Pass acct as handshake auth
+		}
+
+		// Auto click submit button on Enter
+		document.querySelector('#messageInput')?.addEventListener('keyup', (event) => {
+			if (event.key !== 'Enter') {
+				return;
+			}
+			document.querySelector('#submitButton').click();
+			event.preventDefault();
+		});
 	});
 
 	onDestroy(() => {
-		privateMessagesStore.set([]);
-		console.log('Destroy event for messages');
+		const sessionID = localStorage.getItem('sessionID');
+		if (acct && sessionID) {
+			privateMessagesStore.set([]);
+			leavePrivate({ acct, sessionID });
+		}
+	});
+
+	privateMessagesStore.subscribe(() => {
+		// Scroll down
+		const chatMessages = document.getElementById('chat-messages');
+		const messageInput = document.getElementById('messageInput');
+		if (chatMessages) {
+			setTimeout(() => {
+				chatMessages.scrollTop = chatMessages.scrollHeight;
+				if (messageInput) {
+					messageInput.focus();
+				}
+			}, 0);
+		}
 	});
 
 	let activeClass =
@@ -51,7 +89,6 @@
 	let uidClicked = '';
 
 	function submitMessage() {
-		console.log('messageInput', messageInput);
 		if (user.uid && messageInput) {
 			sendMessage({
 				content: messageInput,
@@ -192,3 +229,11 @@
 		</div>
 	</div>
 </TableWrap>
+
+<Section classSection="h-96 {!gotosettings ? 'hidden' : ''}">
+	<Modal title="Connect to your Mastodon account!" bind:open={gotosettings} class="min-w-full">
+		<P>Please connect to your Mastodon account to use this feature.</P>
+		<P>Please click here if you are not automatically redirected.</P>
+		<Button href={`/settings`} size="lg" color="red">Go to /settings</Button>
+	</Modal>
+</Section>
