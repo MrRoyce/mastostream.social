@@ -64,6 +64,7 @@
 			privateMessagesStore.set([]);
 			leavePrivate({ acct, sessionID });
 		}
+		localStorage.setItem('sessionID', '');
 	});
 
 	privateMessagesStore.subscribe(() => {
