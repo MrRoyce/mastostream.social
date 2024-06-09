@@ -19,7 +19,6 @@ type MyMessages = Array<MessageType>
 
 export interface ChatPrivateUser {
   connected: boolean;
-  messages: MyMessages;
   uid: string;
   userID: string;
   username: string;
@@ -35,8 +34,6 @@ export function validatePrivateUser(user: any): ChatPrivateUser | undefined {
 
   if (
     typeof connected !== "boolean" ||
-    // !Array.isArray(messages) ||
-    // typeof uid !== "string" ||
     typeof userID !== "string" ||
     typeof username !== "string"
   ) {
@@ -44,7 +41,7 @@ export function validatePrivateUser(user: any): ChatPrivateUser | undefined {
   }
 
   return {
-    connected, messages, uid, userID, username
+    connected, uid, userID, username
   };
 
 }
