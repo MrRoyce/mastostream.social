@@ -38,7 +38,7 @@ export function validatePrivateChatMessage(message: PrivateMessage | undefined):
     typeof from !== "string" ||
     typeof to !== "string" ||
     typeof userName !== "string" ||
-    typeof createdAt !== "string"
+    typeof createdAt !== "number"
   ) {
     console.error('Invalid message!', message)
     return;
