@@ -38,15 +38,19 @@
 		redirectPage(5, `/settings`);
 	}
 
-	onMount(async () => {
-		console.log(`Mounting messages page for acct: ${acct}, uid: ${user.uid}.`);
+	let chatMessages: HTMLElement | null;
+	let messageInputDiv: HTMLElement | null;
 
+	onMount(async () => {
 		if (acct) {
 			connectSocket({
 				acct,
 				uid: user.uid
 			}); // Pass acct as handshake auth
 		}
+
+		chatMessages = document.getElementById('chat-messages');
+		messageInputDiv = document.getElementById('messageInput');
 
 		// Auto click submit button on Enter
 		document.querySelector('#messageInput')?.addEventListener('keyup', (event) => {
@@ -69,13 +73,11 @@
 
 	privateMessagesStore.subscribe(() => {
 		// Scroll down
-		const chatMessages = document.getElementById('chat-messages');
-		const messageInput = document.getElementById('messageInput');
 		if (chatMessages) {
 			setTimeout(() => {
 				chatMessages.scrollTop = chatMessages.scrollHeight;
-				if (messageInput) {
-					messageInput.focus();
+				if (messageInputDiv) {
+					messageInputDiv.focus();
 				}
 			}, 0);
 		}
@@ -109,6 +111,15 @@
 		// Clear the message
 		messageInput = '';
 	}
+
+	$: messagesForUser = $privateMessagesStore.filter((privateMessage) => {
+		if (
+			(privateMessage.fromUserName === acct && privateMessage.userName === userNameClicked) ||
+			(privateMessage.userName === acct && privateMessage.fromUserName === userNameClicked)
+		) {
+			return privateMessage;
+		}
+	});
 
 	function userClicked(chatUser: ChatUser) {
 		console.log('chatUser', chatUser);
@@ -192,9 +203,8 @@
 								<div id="chat-messages" class="pb-2 h-96 overflow-y-scroll">
 									<TableBody>
 										<!-- List the messages -->
-										{#each $privateMessagesStore as privateMessage}
+										{#each messagesForUser as privateMessage}
 											{@const fromUserName = privateMessage.fromUserName}
-											{@const createdAt = privateMessage.createdAt}
 											<TableBodyRow class="border-none cursor-pointer">
 												<TableBodyCell class="pl-4">
 													<P size="xs" opacity={50} italic

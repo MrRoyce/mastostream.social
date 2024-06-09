@@ -128,6 +128,7 @@ socket.on("updateUsers", (users) => {
 
     if (validatedUser) {
       validatedUsers.push(validatedUser);
+
     } else {
       console.log('invalid user', user)
     }
@@ -151,15 +152,12 @@ socket.on("private message", (message: { content: string; createdAt: string; fro
   if (!content || !from || !to || typeof (content) !== 'string' || typeof (from) !== 'string' || typeof (fromUserName) !== 'string' || typeof (to) !== 'string' || typeof (userName) !== 'string') {
     console.error('Invalid private message', message)
     return;
-  } else {
-    console.log('Valid private message', message)
   }
 
   const createdAtDate = unixEpochToDateString(createdAt)
 
   const response = {
     content, createdAt: createdAtDate, from, fromUserName, to, userName
-
   }
 
   privateMessagesStore.update((items) => {
@@ -185,6 +183,8 @@ socket.on("messages", (messages) => {
   for (const message of limitedMessages) {
     const validatedMessage = validatePrivateChatMessage(message);
     if (validatedMessage) {
+      const createdAtDate = unixEpochToDateString(validatedMessage.createdAt)
+      validatedMessage.createdAt = createdAtDate
       validatedMessages.push(validatedMessage);
     }
   }
@@ -206,7 +206,6 @@ export function leavePrivate({ acct, sessionID }) {
     resolve: (value: SendSuccess) => void,
     reject: (value: SendError) => void
   ) => {
-    console.log('leavePrivate acct:', acct)
     socket.emit('leave private', { acct, sessionID }, (response: any) => {
       const error = response.error;
 
