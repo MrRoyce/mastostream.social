@@ -54,14 +54,7 @@
 		});
 	});
 
-	onDestroy(() => {
-		chatMessagesStore.set([]);
-		leaveRoom({
-			roomId: groupId
-		});
-	});
-
-	chatMessagesStore.subscribe(() => {
+	const unsubscribe = chatMessagesStore.subscribe(() => {
 		// Scroll down
 		const chatMessages = document.getElementById('chat-messages');
 		const messageInput = document.getElementById('messageInput');
@@ -74,6 +67,15 @@
 			}, 0);
 		}
 	});
+
+	onDestroy(() => {
+		chatMessagesStore.set([]);
+		leaveRoom({
+			roomId: groupId
+		});
+	});
+
+	onDestroy(unsubscribe);
 
 	function userClicked(user: ChatUser) {
 		console.log('userClicked', user);
