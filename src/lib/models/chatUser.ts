@@ -1,6 +1,7 @@
 export interface ChatUser {
   acct: string;
   connected: boolean;
+  newMessage?: number;
   room: string;
   socketId: string;
   type: string;
@@ -8,14 +9,6 @@ export interface ChatUser {
   userID: string;
   username: string;
 }
-
-type MessageType = {
-  content: string;
-  from: string;
-  to: string;
-}
-
-type MyMessages = Array<MessageType>
 
 export interface ChatPrivateUser {
   connected: boolean;
@@ -30,7 +23,7 @@ export function validatePrivateUser(user: any): ChatPrivateUser | undefined {
     return;
   }
 
-  const { connected, messages, uid, userID, username } = user
+  const { connected, uid, userID, username } = user
 
   if (
     typeof connected !== "boolean" ||

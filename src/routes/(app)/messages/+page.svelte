@@ -17,7 +17,7 @@
 	} from 'flowbite-svelte';
 	import type { PageData } from './$types';
 	import { onDestroy, onMount } from 'svelte';
-	import { privateMessagesStore, chatUsersStore } from '$lib/stores';
+	import { chatUsersStore, privateMessagesStore } from '$lib/stores';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { Section } from 'flowbite-svelte-blocks';
 	import { redirectPage } from '$lib/utils/redirectPage';
@@ -126,6 +126,21 @@
 		userNameClicked = chatUser.username;
 		uidClicked = chatUser.userID;
 		console.log('uidClicked', uidClicked);
+
+		// Update the message count for that user
+		chatUsersStore.update((chatUsers) => {
+			const response = chatUsers;
+			const index = response.findIndex((chatUser) => chatUser.username === acct);
+
+			if (index !== -1) {
+				console.log('Found index');
+				response[index].newMessage = 0;
+			} else {
+				console.log('Did not find acct');
+			}
+
+			return response;
+		});
 	}
 </script>
 
@@ -170,6 +185,7 @@
 														: nonActiveClass}
 													on:click={userClicked(chatUser)}
 												>
+													{chatUser.newMessage || ''}
 													{chatUser.username}
 												</TableBodyCell>
 											</TableBodyRow>

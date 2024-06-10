@@ -147,8 +147,6 @@ socket.on("connect_error", (err) => {
 socket.on("private message", (message: { content: string; createdAt: string; from: string; fromUserName: string; to: string; userName: string; }) => {
   const { content, createdAt, from, fromUserName, to, userName } = message
 
-  console.log('message in private message', message)
-
   if (!content || !from || !to || typeof (content) !== 'string' || typeof (from) !== 'string' || typeof (fromUserName) !== 'string' || typeof (to) !== 'string' || typeof (userName) !== 'string') {
     console.error('Invalid private message', message)
     return;
@@ -159,6 +157,25 @@ socket.on("private message", (message: { content: string; createdAt: string; fro
   const response = {
     content, createdAt: createdAtDate, from, fromUserName, to, userName
   }
+
+  // Update the message count for that user
+  chatUsersStore.update((chatUsers) => {
+    const response = chatUsers
+    const index = response.findIndex(chatUser =>
+      chatUser.username === fromUserName
+    )
+
+    if (index !== -1) {
+      if (response[index].newMessage) {
+        response[index].newMessage++
+      } else {
+        response[index].newMessage = 1
+      }
+    }
+    console.log('response in chatUsersStore', response)
+
+    return response
+  })
 
   privateMessagesStore.update((items) => {
     items.push(response)
