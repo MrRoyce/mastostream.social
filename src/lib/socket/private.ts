@@ -166,10 +166,10 @@ socket.on("private message", (message: { content: string; createdAt: string; fro
     )
 
     if (index !== -1) {
-      if (response[index].newMessage) {
-        response[index].newMessage++
+      if (response[index].newMessagesCount) {
+        response[index].newMessagesCount++
       } else {
-        response[index].newMessage = 1
+        response[index].newMessagesCount = 1
       }
     }
     console.log('response in chatUsersStore', response)
@@ -194,7 +194,7 @@ socket.on("messages", (messages) => {
 
   const validatedMessages: PrivateMessage[] = [];
   const limitedMessages = messages.filter((_, index) => {
-    return index < 25;
+    return index < 1000;
   });
 
   for (const message of limitedMessages) {

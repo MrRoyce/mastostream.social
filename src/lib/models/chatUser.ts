@@ -1,7 +1,7 @@
 export interface ChatUser {
   acct: string;
   connected: boolean;
-  newMessage?: number;
+  newMessagesCount?: number;
   room: string;
   socketId: string;
   type: string;
