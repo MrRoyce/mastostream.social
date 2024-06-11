@@ -27,9 +27,6 @@
 
 	let messageInput = '';
 	const toastStore = getToastStore();
-
-	console.log('user in messages', user);
-	console.log('entity in messages', entity);
 	const { acct } = entity;
 
 	let gotosettings = acct ? false : true;
@@ -87,6 +84,8 @@
 		'flex items-center p-2 text-base font-normal text-primary-900 bg-primary-200 dark:bg-gray-700 dark:text-white hover:bg-primary-100 dark:hover:bg-gray-700';
 	let nonActiveClass =
 		'flex items-center p-2 text-base font-normal text-green-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
+	let ownTextClass = 'border-none cursor-pointer text-right w-full';
+	let sentTextClass = 'border-none cursor-pointer w-full';
 
 	let userNameClicked = '';
 	let uidClicked = '';
@@ -112,6 +111,25 @@
 		messageInput = '';
 	}
 
+	function userClicked(chatUser: ChatUser) {
+		userNameClicked = chatUser.username;
+		uidClicked = chatUser.userID;
+
+		// Update the message count for that user
+		chatUsersStore.update((chatUsers) => {
+			const response = chatUsers;
+			const index = response.findIndex(
+				(chatUserStore) => chatUserStore.username === userNameClicked
+			);
+
+			if (index !== -1) {
+				response[index].newMessagesCount = 0;
+			} else {
+				console.log(`Did not find index: ${index} for acct: ${acct}.`);
+			return response;
+		});
+	}
+
 	$: messagesForUser = $privateMessagesStore.filter((privateMessage) => {
 		if (
 			(privateMessage.fromUserName === acct && privateMessage.userName === userNameClicked) ||
@@ -120,28 +138,6 @@
 			return privateMessage;
 		}
 	});
-
-	function userClicked(chatUser: ChatUser) {
-		console.log('chatUser', chatUser);
-		userNameClicked = chatUser.username;
-		uidClicked = chatUser.userID;
-		console.log('uidClicked', uidClicked);
-
-		// Update the message count for that user
-		chatUsersStore.update((chatUsers) => {
-			const response = chatUsers;
-			const index = response.findIndex((chatUser) => chatUser.username === acct);
-
-			if (index !== -1) {
-				console.log('Found index');
-				response[index].newMessage = 0;
-			} else {
-				console.log('Did not find acct');
-			}
-
-			return response;
-		});
-	}
 </script>
 
 <TableWrap divContainerPadding="px-4">
@@ -158,6 +154,7 @@
 							<!-- Users Header -->
 							<Table
 								name="advancedTable"
+								divClass="relative overflow-x-auto"
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
 								hoverable={true}
 							>
@@ -177,7 +174,7 @@
 								<div id="chat-users" class="pb-2 h-96 overflow-y-scroll">
 									<TableBody>
 										<!-- List the users -->
-										{#each $chatUsersStore as chatUser, index}
+										{#each $chatUsersStore as chatUser}
 											<TableBodyRow class="border-none cursor-pointer">
 												<TableBodyCell
 													class={userNameClicked == chatUser.username
@@ -185,7 +182,12 @@
 														: nonActiveClass}
 													on:click={userClicked(chatUser)}
 												>
-													{chatUser.newMessage || ''}
+													{#if acct == chatUser.username}
+														{''}
+													{:else}
+														{chatUser.newMessagesCount || ''}
+													{/if}
+
 													{chatUser.username}
 												</TableBodyCell>
 											</TableBodyRow>
@@ -204,7 +206,7 @@
 								hoverable={true}
 							>
 								<TableHead
-									><TableHeadCell class="text-center " padding="px-4 py-3" scope="col"
+									><TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
 										>Messages</TableHeadCell
 									></TableHead
 								>
@@ -214,6 +216,7 @@
 							<Table
 								name="advancedTable"
 								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+								class="table-fixed"
 								hoverable={true}
 							>
 								<div id="chat-messages" class="pb-2 h-96 overflow-y-scroll">
@@ -221,12 +224,20 @@
 										<!-- List the messages -->
 										{#each messagesForUser as privateMessage}
 											{@const fromUserName = privateMessage.fromUserName}
-											<TableBodyRow class="border-none cursor-pointer">
-												<TableBodyCell class="pl-4">
-													<P size="xs" opacity={50} italic
-														>{fromUserName === acct ? 'You' : fromUserName} - {privateMessage.createdAt}</P
-													>
-													<P>{privateMessage.content}</P>
+											<TableBodyRow class="border-none cursor-pointer w-full">
+												<TableBodyCell class="pl-4 w-full">
+													<div>
+														<P
+															class={fromUserName === acct ? ownTextClass : sentTextClass}
+															size="xs"
+															opacity={50}
+															italic
+															>{fromUserName === acct ? 'You' : fromUserName} - {privateMessage.createdAt}</P
+														>
+														<P class={fromUserName === acct ? ownTextClass : sentTextClass}
+															>{privateMessage.content}</P
+														>
+													</div>
 												</TableBodyCell>
 											</TableBodyRow>
 										{/each}
