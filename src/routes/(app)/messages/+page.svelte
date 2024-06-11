@@ -84,8 +84,8 @@
 		'flex items-center p-2 text-base font-normal text-primary-900 bg-primary-200 dark:bg-gray-700 dark:text-white hover:bg-primary-100 dark:hover:bg-gray-700';
 	let nonActiveClass =
 		'flex items-center p-2 text-base font-normal text-green-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
-	let ownTextClass = 'border-none cursor-pointer text-right w-full';
-	let sentTextClass = 'border-none cursor-pointer w-full';
+	let ownTextClass = 'border-none cursor-pointer text-right';
+	let sentTextClass = 'border-none cursor-pointer';
 
 	let userNameClicked = '';
 	let uidClicked = '';
@@ -126,6 +126,7 @@
 				response[index].newMessagesCount = 0;
 			} else {
 				console.log(`Did not find index: ${index} for acct: ${acct}.`);
+			}
 			return response;
 		});
 	}
@@ -180,7 +181,7 @@
 													class={userNameClicked == chatUser.username
 														? activeClass
 														: nonActiveClass}
-													on:click={userClicked(chatUser)}
+													on:click={() => userClicked(chatUser)}
 												>
 													{#if acct == chatUser.username}
 														{''}
@@ -224,8 +225,8 @@
 										<!-- List the messages -->
 										{#each messagesForUser as privateMessage}
 											{@const fromUserName = privateMessage.fromUserName}
-											<TableBodyRow class="border-none cursor-pointer w-full">
-												<TableBodyCell class="pl-4 w-full">
+											<TableBodyRow class="border-none cursor-pointer mt-2">
+												<TableBodyCell class="pl-4 w-[800px]">
 													<div>
 														<P
 															class={fromUserName === acct ? ownTextClass : sentTextClass}
