@@ -147,9 +147,13 @@ interface SendError {
   error: string;
 }
 
-export function connectSocket({ acct }) {
+export function connectSocket({ acct, uid }) {
   const sessionID = localStorage.getItem("sessionID");
-  socket.auth = { username: acct, sessionID };
+  socket.auth = {
+    sessionID,
+    uid,
+    username: acct,
+  };
   socket.connect();
 }
 

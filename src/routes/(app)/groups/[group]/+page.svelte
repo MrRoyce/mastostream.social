@@ -26,7 +26,7 @@
 	let metaModal = false;
 
 	onMount(async () => {
-		connectSocket({ acct }); // Pass acct as handshake auth
+		connectSocket({ acct, uid: user.uid }); // Pass acct as handshake auth
 
 		if (acct) {
 			createUser({
