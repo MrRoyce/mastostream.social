@@ -1,7 +1,11 @@
 <script lang="ts">
+	import { activeClass, nonActiveClass, ownTextClass, sentTextClass } from '$lib/classCSS';
 	import { TableWrap } from '$lib/components';
-	import type { ChatUser } from '$lib/models';
+	import type { ChatUser, PrivateMessage } from '$lib/models';
 	import { connectSocket, leavePrivate, sendMessage } from '$lib/socket/private';
+	import { chatNumUsers, chatUsersStore, privateMessagesStore } from '$lib/stores';
+	import { redirectPage } from '$lib/utils/redirectPage';
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import {
 		Button,
 		Heading,
@@ -15,20 +19,40 @@
 		TableHead,
 		TableHeadCell
 	} from 'flowbite-svelte';
-	import type { PageData } from './$types';
-	import { onDestroy, onMount } from 'svelte';
-	import { chatUsersStore, privateMessagesStore } from '$lib/stores';
-	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { Section } from 'flowbite-svelte-blocks';
-	import { redirectPage } from '$lib/utils/redirectPage';
+	import { io } from 'socket.io-client';
+	import { onDestroy, onMount } from 'svelte';
+	import type { PageData } from './$types';
 
+	import { browser, dev } from '$app/environment';
+	import { PUBLIC_PRIVATE_HOST, PUBLIC_SOCKET_HOST } from '$env/static/public';
+	import { SESSION_ID } from '$lib/constants';
+	import { validatePrivateChatMessage } from '$lib/models/chatMessage';
+	import { validatePrivateUser, type ChatPrivateUser } from '$lib/models/chatUser';
+	import { convertUnixEpochToDateString } from '$lib/utils';
 	export let data: PageData;
-	const { user, entity } = data;
+	const { user, entity, userClickedData } = data;
+
+	let userNameClicked = userClickedData.userNameClicked || '';
+	let uidClicked = userClickedData.uidClicked || '';
 
 	let messageInput = '';
 	const toastStore = getToastStore();
 	const { acct } = entity;
 
+	// Retry https://socket.io/docs/v4/tutorial/step-8
+	const ioOptions = {
+		// ackTimeout: 10000,
+		// retries: 3,
+		autoConnect: true,
+		path: ''
+	};
+
+	if (!dev) {
+		ioOptions.path = '/private';
+	}
+
+	const socketAddr = dev ? `${PUBLIC_PRIVATE_HOST}` : `${PUBLIC_SOCKET_HOST}`;
 	let gotosettings = acct ? false : true;
 
 	if (!acct) {
@@ -38,34 +62,178 @@
 	let chatMessages: HTMLElement | null;
 	let messageInputDiv: HTMLElement | null;
 
-	onMount(async () => {
-		if (acct) {
-			connectSocket({
-				acct,
-				uid: user.uid
-			}); // Pass acct as handshake auth
-		}
+	let socket = io(socketAddr, ioOptions);
 
+	onMount(async () => {
+		if (acct && user.uid) {
+			try {
+				await connectSocket({
+					acct,
+					socket,
+					uid: user.uid
+				}); // Pass acct as handshake auth
+
+				socket.on('connect_error', (err) => {
+					// the reason of the error, for example "xhr poll error"
+					console.error('connect_error - private - err.message:', err.message);
+
+					socket.off('connect_error');
+				});
+
+				socket.on('session', ({ connected, createdAt, sessionID, uid, userID, username }) => {
+					// console.log(
+					// 	`Private session - connected: ${connected}, createdAt: ${createdAt}, sessionID: ${sessionID}, uid: ${uid}, userID: ${userID}, username: ${username}.`
+					// );
+					// attach the session ID to the next reconnection attempts
+					socket.auth = { sessionID };
+					// store it in the localStorage
+					localStorage.setItem(SESSION_ID, sessionID);
+					// save the ID of the user
+					socket.userID = userID;
+				});
+
+				socket.on('messages', (messages) => {
+					if (!Array.isArray(messages)) {
+						return;
+					}
+
+					const validatedMessages: PrivateMessage[] = [];
+					const limitedMessages = messages.filter((_, index) => {
+						return index < 1000;
+					});
+
+					for (const message of limitedMessages) {
+						const validatedMessage = validatePrivateChatMessage(message);
+						if (validatedMessage) {
+							const createdAtDate = convertUnixEpochToDateString(validatedMessage.createdAt);
+							validatedMessage.createdAt = createdAtDate;
+							validatedMessages.push(validatedMessage);
+						}
+					}
+
+					privateMessagesStore.set(validatedMessages);
+				});
+
+				socket.on(
+					'private message',
+					(message: {
+						content: string;
+						createdAt: string;
+						from: string;
+						fromUserName: string;
+						to: string;
+						userName: string;
+					}) => {
+						const { content, createdAt, from, fromUserName, to, userName } = message;
+
+						if (
+							!content ||
+							!from ||
+							!to ||
+							typeof content !== 'string' ||
+							typeof from !== 'string' ||
+							typeof fromUserName !== 'string' ||
+							typeof to !== 'string' ||
+							typeof userName !== 'string'
+						) {
+							console.error('Invalid private message', message);
+							return;
+						}
+
+						const createdAtDate = convertUnixEpochToDateString(createdAt);
+
+						const response = {
+							content,
+							createdAt: createdAtDate,
+							from,
+							fromUserName,
+							to,
+							userName
+						};
+
+						// Update the message count for that user
+						chatUsersStore.update((chatUsers) => {
+							const response = chatUsers;
+							const index = response.findIndex((chatUser) => chatUser.username === fromUserName);
+
+							if (index !== -1) {
+								if (response[index].newMessagesCount) {
+									response[index].newMessagesCount++;
+								} else {
+									response[index].newMessagesCount = 1;
+								}
+							}
+
+							return response;
+						});
+
+						privateMessagesStore.update((items) => {
+							items.push(response);
+							return items;
+						});
+					}
+				);
+
+				socket.on('user disconnected', (user) => {
+					console.log('user disconnected', user);
+				});
+
+				socket.on('updateUsers', (users) => {
+					const validatedUsers: ChatPrivateUser[] = [];
+
+					for (const user of users) {
+						const validatedUser = validatePrivateUser(user);
+
+						if (validatedUser) {
+							validatedUsers.push(validatedUser);
+						} else {
+							console.error('invalid user', user);
+						}
+					}
+
+					chatUsersStore.set(validatedUsers);
+				});
+
+				socket.on('updateCount', (id, count) => {
+					chatNumUsers.set(count);
+					console.log(`Num users: ${id}, count: ${count}.`);
+				});
+			} catch (error) {
+				console.error('Error connecting onMount', error);
+			}
+		}
 		chatMessages = document.getElementById('chat-messages');
 		messageInputDiv = document.getElementById('messageInput');
 
 		// Auto click submit button on Enter
-		document.querySelector('#messageInput')?.addEventListener('keyup', (event) => {
+		document.querySelector('#messageInput')?.addEventListener('keyup', (event: KeyboardEvent) => {
 			if (event.key !== 'Enter') {
 				return;
 			}
-			document.querySelector('#submitButton').click();
+
+			const submitButton = document.querySelector('#submitButton') as HTMLButtonElement;
+			if (submitButton) {
+				submitButton.click();
+			}
+
 			event.preventDefault();
 		});
 	});
 
-	onDestroy(() => {
-		const sessionID = localStorage.getItem('sessionID');
-		if (acct && sessionID) {
+	onDestroy(async () => {
+		const sessionID = localStorage.getItem(SESSION_ID);
+
+		if (browser && acct && sessionID) {
+			// Remove messages
 			privateMessagesStore.set([]);
-			leavePrivate({ acct, sessionID });
+
+			localStorage.removeItem(SESSION_ID);
+
+			// Leave the private socket
+			await leavePrivate({ acct, socket, sessionID });
+
+			socket.disconnect();
 		}
-		localStorage.setItem('sessionID', '');
 	});
 
 	privateMessagesStore.subscribe(() => {
@@ -80,22 +248,13 @@
 		}
 	});
 
-	let activeClass =
-		'flex items-center p-2 text-base font-normal text-primary-900 bg-primary-200 dark:bg-gray-700 dark:text-white hover:bg-primary-100 dark:hover:bg-gray-700';
-	let nonActiveClass =
-		'flex items-center p-2 text-base font-normal text-green-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700';
-	let ownTextClass = 'border-none cursor-pointer text-right';
-	let sentTextClass = 'border-none cursor-pointer';
-
-	let userNameClicked = '';
-	let uidClicked = '';
-
 	function submitMessage() {
 		if (user.uid && messageInput) {
 			sendMessage({
 				content: messageInput,
 				from: user.uid,
 				fromUserName: entity.acct,
+				socket,
 				to: uidClicked,
 				userName: userNameClicked
 			});
@@ -114,6 +273,7 @@
 	function userClicked(chatUser: ChatUser) {
 		userNameClicked = chatUser.username;
 		uidClicked = chatUser.userID;
+		localStorage.setItem('userClicked', JSON.stringify({ userNameClicked, uidClicked }));
 
 		// Update the message count for that user
 		chatUsersStore.update((chatUsers) => {
@@ -125,11 +285,16 @@
 			if (index !== -1) {
 				response[index].newMessagesCount = 0;
 			} else {
-				console.log(`Did not find index: ${index} for acct: ${acct}.`);
+				console.warn();
+				`Did not find index: ${index} for acct: ${acct}.`;
 			}
 			return response;
 		});
 	}
+
+	$: userList = $chatUsersStore.filter((user) => {
+		return user;
+	});
 
 	$: messagesForUser = $privateMessagesStore.filter((privateMessage) => {
 		if (
@@ -175,10 +340,10 @@
 								<div id="chat-users" class="pb-2 h-96 overflow-y-scroll">
 									<TableBody>
 										<!-- List the users -->
-										{#each $chatUsersStore as chatUser}
+										{#each userList as chatUser}
 											<TableBodyRow class="border-none cursor-pointer">
 												<TableBodyCell
-													class={userNameClicked == chatUser.username
+													class={userNameClicked === chatUser.username
 														? activeClass
 														: nonActiveClass}
 													on:click={() => userClicked(chatUser)}

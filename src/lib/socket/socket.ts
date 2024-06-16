@@ -13,6 +13,7 @@ import {
   chatUsersStore, chatMessagesStore
 } from "$lib/stores";
 import { PUBLIC_SOCKET_HOST } from '$env/static/public'
+import { SESSION_ID } from "$lib/constants";
 
 // Retry https://socket.io/docs/v4/tutorial/step-8
 const ioOptions = {
@@ -41,7 +42,7 @@ socket.on("session", ({ sessionID, userID }) => {
   // attach the session ID to the next reconnection attempts
   socket.auth = { sessionID };
   // store it in the localStorage
-  localStorage.setItem("sessionID", sessionID);
+  localStorage.setItem(SESSION_ID, sessionID);
   // save the ID of the user
   socket.userID = userID;
 });
@@ -148,7 +149,7 @@ interface SendError {
 }
 
 export function connectSocket({ acct, uid }) {
-  const sessionID = localStorage.getItem("sessionID");
+  const sessionID = localStorage.getItem(SESSION_ID);
   socket.auth = {
     sessionID,
     uid,

@@ -1,9 +1,10 @@
 import type { PageLoad } from './$types';
 
-export const ssr = false;
+export const ssr = true;
 
-export const load = (async () => {
+export const load: PageLoad = (async ({ data }) => {
+  // Note - not sure if this is doing anything.. probably not
   return {
-    socket: await import("$lib/socket/private")
+    ...data
   };
-}) satisfies PageLoad;
+});
