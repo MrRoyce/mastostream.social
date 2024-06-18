@@ -1,9 +1,15 @@
 <script lang="ts">
+	import { browser, dev } from '$app/environment';
+	import { PUBLIC_PRIVATE_HOST, PUBLIC_SOCKET_HOST } from '$env/static/public';
 	import { activeClass, nonActiveClass, ownTextClass, sentTextClass } from '$lib/classCSS';
 	import { TableWrap } from '$lib/components';
+	import { SESSION_ID } from '$lib/constants';
 	import type { ChatUser, PrivateMessage } from '$lib/models';
+	import { validatePrivateChatMessage } from '$lib/models/chatMessage';
+	import { validatePrivateUser, type ChatPrivateUser } from '$lib/models/chatUser';
 	import { connectSocket, leavePrivate, sendMessage } from '$lib/socket/private';
 	import { chatNumUsers, chatUsersStore, privateMessagesStore } from '$lib/stores';
+	import { convertUnixEpochToDateString } from '$lib/utils';
 	import { redirectPage } from '$lib/utils/redirectPage';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import {
@@ -12,33 +18,30 @@
 		Input,
 		Modal,
 		P,
+		TabItem,
 		Table,
 		TableBody,
 		TableBodyCell,
 		TableBodyRow,
 		TableHead,
-		TableHeadCell
+		TableHeadCell,
+		Tabs
 	} from 'flowbite-svelte';
 	import { Section } from 'flowbite-svelte-blocks';
+	import { MessageDotsSolid, MessagesSolid } from 'flowbite-svelte-icons';
 	import { io } from 'socket.io-client';
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import { index } from './../../../../.svelte-kit/output/server/nodes/79.js';
 
-	import { browser, dev } from '$app/environment';
-	import { PUBLIC_PRIVATE_HOST, PUBLIC_SOCKET_HOST } from '$env/static/public';
-	import { SESSION_ID } from '$lib/constants';
-	import { validatePrivateChatMessage } from '$lib/models/chatMessage';
-	import { validatePrivateUser, type ChatPrivateUser } from '$lib/models/chatUser';
-	import { convertUnixEpochToDateString } from '$lib/utils';
 	export let data: PageData;
 	const { user, entity, userClickedData } = data;
+	const { acct } = entity;
+	const toastStore = getToastStore();
 
 	let userNameClicked = userClickedData.userNameClicked || '';
 	let uidClicked = userClickedData.uidClicked || '';
-
 	let messageInput = '';
-	const toastStore = getToastStore();
-	const { acct } = entity;
 
 	// Retry https://socket.io/docs/v4/tutorial/step-8
 	const ioOptions = {
@@ -64,7 +67,28 @@
 
 	let socket = io(socketAddr, ioOptions);
 
+	let showUserNameOnTab = true;
+
 	onMount(async () => {
+		chatMessages = document.getElementById('chat-messages');
+		messageInputDiv = document.getElementById('messageInputDiv');
+
+		// Auto click submit button on Enter
+		document
+			.querySelector('#messageInputDiv')
+			?.addEventListener('keyup', (event: KeyboardEvent) => {
+				if (event.key !== 'Enter') {
+					return;
+				}
+
+				const submitButton = document.querySelector('#submitButton') as HTMLButtonElement;
+				if (submitButton) {
+					submitButton.click();
+				}
+
+				event.preventDefault();
+			});
+
 		if (acct && user.uid) {
 			try {
 				await connectSocket({
@@ -151,12 +175,17 @@
 							userName
 						};
 
+						console.log('private message response', response);
+
 						// Update the message count for that user
 						chatUsersStore.update((chatUsers) => {
 							const response = chatUsers;
+							console.log('response fron chatUsers', response);
 							const index = response.findIndex((chatUser) => chatUser.username === fromUserName);
 
 							if (index !== -1) {
+								console.log('index of chatUser:', index);
+								console.log('response[index].newMessagesCount:', response[index].newMessagesCount);
 								if (response[index].newMessagesCount) {
 									response[index].newMessagesCount++;
 								} else {
@@ -202,22 +231,6 @@
 				console.error('Error connecting onMount', error);
 			}
 		}
-		chatMessages = document.getElementById('chat-messages');
-		messageInputDiv = document.getElementById('messageInput');
-
-		// Auto click submit button on Enter
-		document.querySelector('#messageInput')?.addEventListener('keyup', (event: KeyboardEvent) => {
-			if (event.key !== 'Enter') {
-				return;
-			}
-
-			const submitButton = document.querySelector('#submitButton') as HTMLButtonElement;
-			if (submitButton) {
-				submitButton.click();
-			}
-
-			event.preventDefault();
-		});
 	});
 
 	onDestroy(async () => {
@@ -248,7 +261,13 @@
 		}
 	});
 
+	function showMessageTab() {
+		showUserNameOnTab = false;
+		console.log(`showMessageTab showMessages: ${showMessages}`);
+	}
+
 	function submitMessage() {
+		console.log('Submitting message...');
 		if (user.uid && messageInput) {
 			sendMessage({
 				content: messageInput,
@@ -271,6 +290,7 @@
 	}
 
 	function userClicked(chatUser: ChatUser) {
+		showUserNameOnTab = true;
 		userNameClicked = chatUser.username;
 		uidClicked = chatUser.userID;
 		localStorage.setItem('userClicked', JSON.stringify({ userNameClicked, uidClicked }));
@@ -296,6 +316,8 @@
 		return user;
 	});
 
+	$: showMessages = showUserNameOnTab;
+
 	$: messagesForUser = $privateMessagesStore.filter((privateMessage) => {
 		if (
 			(privateMessage.fromUserName === acct && privateMessage.userName === userNameClicked) ||
@@ -314,9 +336,13 @@
 			<Heading tag="h3">Private Chats</Heading>
 			<div class="overflow-y-scroll">
 				<div class="mt-4">
-					<div class="grid grid-cols-12 gap-4">
+					<Tabs tabStyle="underline">
 						<!-- Users -->
-						<div class="col-span-3">
+						<TabItem on:click={() => showMessageTab()}>
+							<div slot="title" class="flex items-center gap-2">
+								<MessagesSolid size="md" />
+								All chats
+							</div>
 							<!-- Users Header -->
 							<Table
 								name="advancedTable"
@@ -341,30 +367,37 @@
 									<TableBody>
 										<!-- List the users -->
 										{#each userList as chatUser}
-											<TableBodyRow class="border-none cursor-pointer">
-												<TableBodyCell
-													class={userNameClicked === chatUser.username
-														? activeClass
-														: nonActiveClass}
-													on:click={() => userClicked(chatUser)}
-												>
-													{#if acct == chatUser.username}
-														{''}
-													{:else}
-														{chatUser.newMessagesCount || ''}
-													{/if}
+											{#if acct !== chatUser.username}
+												<!-- content here -->
 
-													{chatUser.username}
-												</TableBodyCell>
-											</TableBodyRow>
+												<TableBodyRow class="border-none cursor-pointer">
+													<TableBodyCell
+														class={userNameClicked === chatUser.username
+															? activeClass
+															: nonActiveClass}
+														on:click={() => userClicked(chatUser)}
+													>
+														{#if acct == chatUser.username}
+															{''}
+														{:else}
+															{chatUser.newMessagesCount || ''}
+														{/if}
+
+														{chatUser.username}
+													</TableBodyCell>
+												</TableBodyRow>{/if}
 										{/each}
 									</TableBody>
 								</div>
 							</Table>
-						</div>
+						</TabItem>
 
 						<!-- Messages-->
-						<div class="col-span-9">
+						<TabItem on:click={() => (showUserNameOnTab = true)} open={showMessages}>
+							<div slot="title" class="flex items-center gap-2">
+								<MessageDotsSolid size="md" />
+								{`Chat with ${showUserNameOnTab ? userNameClicked : '...'}`}
+							</div>
 							<!-- Messages Header-->
 							<Table
 								name="advancedTable"
@@ -417,7 +450,7 @@
 									type="text"
 									class="col-span-10 rounded-none"
 									name="messageInput"
-									id="messageInput"
+									id="messageInputDiv"
 									bind:value={messageInput}
 								/>
 								<div class="col-span-2">
@@ -425,9 +458,9 @@
 										>Send Message</Button
 									>
 								</div>
-							</div>
-						</div>
-					</div>
+							</div></TabItem
+						></Tabs
+					>
 				</div>
 			</div>
 		</div>
