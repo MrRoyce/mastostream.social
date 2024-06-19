@@ -4,7 +4,7 @@
 	import { activeClass, nonActiveClass, ownTextClass, sentTextClass } from '$lib/classCSS';
 	import { TableWrap } from '$lib/components';
 	import { SESSION_ID } from '$lib/constants';
-	import type { ChatUser, PrivateMessage } from '$lib/models';
+	import type { PrivateMessage } from '$lib/models';
 	import { validatePrivateChatMessage } from '$lib/models/chatMessage';
 	import { validatePrivateUser, type ChatPrivateUser } from '$lib/models/chatUser';
 	import { connectSocket, leavePrivate, sendMessage } from '$lib/socket/private';
@@ -71,6 +71,10 @@
 	chatMessages = document.getElementById('chat-messages');
 	messageInputDiv = document.getElementById('messageInputDiv');
 
+	const users = {};
+	const chatPrivateUsers: ChatPrivateUser[] | { connected: boolean; userID: any; username: any }[] =
+		[];
+
 	onMount(async () => {
 		// Auto click submit button on Enter
 		document
@@ -104,9 +108,6 @@
 				});
 
 				socket.on('session', ({ connected, createdAt, sessionID, uid, userID, username }) => {
-					// console.log(
-					// 	`Private session - connected: ${connected}, createdAt: ${createdAt}, sessionID: ${sessionID}, uid: ${uid}, userID: ${userID}, username: ${username}.`
-					// );
 					// attach the session ID to the next reconnection attempts
 					socket.auth = { sessionID };
 					// store it in the localStorage
@@ -126,12 +127,32 @@
 					});
 
 					for (const message of limitedMessages) {
+						// Add the message.fromUserName to the users object
+						if (!users.fromUserName && message.fromUserName !== acct) {
+							const newPrivateUser = {
+								connected: false,
+								userID: message.from,
+								uid: message.from,
+								username: message.fromUserName
+							};
+							users[message.fromUserName] = true;
+
+							// Add newPrivateUser to chatPrivateUsers array if it doesn't exist already
+							if (!chatPrivateUsers.find((user) => user.userID === newPrivateUser.userID)) {
+								chatPrivateUsers.push(newPrivateUser);
+							}
+						}
+
 						const validatedMessage = validatePrivateChatMessage(message);
 						if (validatedMessage) {
 							const createdAtDate = convertUnixEpochToDateString(validatedMessage.createdAt);
 							validatedMessage.createdAt = createdAtDate;
 							validatedMessages.push(validatedMessage);
 						}
+					}
+
+					if (chatPrivateUsers.length) {
+						chatUsersStore.set(chatPrivateUsers);
 					}
 
 					privateMessagesStore.set(validatedMessages);
@@ -201,20 +222,48 @@
 					console.log('user disconnected', user);
 				});
 
-				socket.on('updateUsers', (users) => {
-					const validatedUsers: ChatPrivateUser[] = [];
-
-					for (const user of users) {
+				socket.on('updateUsers', (updatedUsers) => {
+					for (const user of updatedUsers) {
 						const validatedUser = validatePrivateUser(user);
 
 						if (validatedUser) {
-							validatedUsers.push(validatedUser);
+							// Get the index of the user in the chatPrivateUsers array that matches validatedUser.userID
+							if (validatedUser.username !== acct) {
+								const index = chatPrivateUsers.findIndex(
+									(chatUser) => chatUser.userID === validatedUser.userID
+								);
+
+								if (index !== -1) {
+									chatPrivateUsers[index].connected = true;
+								} else {
+									// Add the validatedUser to chatPrivateUsers array
+									const newPrivateUser = {
+										connected: validatedUser.connected,
+										userID: validatedUser.userID,
+										username: validatedUser.username
+									};
+
+									// Add newPrivateUser to chatPrivateUsers array if it doesn't exist already
+									chatPrivateUsers.push(newPrivateUser);
+								}
+
+								// Check each chatPrivateUsers to see if it matches an object in the passed in updatedUsers array, if not, then set the chatPrivateUsers.connected property to false
+								for (const chatUser of chatPrivateUsers) {
+									const updatedUser = updatedUsers.find(
+										(updatedUser) => updatedUser.userID === chatUser.userID
+									);
+
+									if (!updatedUser) {
+										chatUser.connected = false;
+									}
+								}
+							}
 						} else {
 							console.error('invalid user', user);
 						}
 					}
 
-					chatUsersStore.set(validatedUsers);
+					chatUsersStore.set(chatPrivateUsers);
 				});
 
 				socket.on('updateCount', (id, count) => {
@@ -257,11 +306,9 @@
 
 	function showMessageTab() {
 		showUserNameOnTab = false;
-		console.log(`showMessageTab showMessages: ${showMessages}`);
 	}
 
 	function submitMessage() {
-		console.log('Submitting message...');
 		if (user.uid && messageInput) {
 			sendMessage({
 				content: messageInput,
@@ -283,7 +330,7 @@
 		messageInput = '';
 	}
 
-	function userClicked(chatUser: ChatUser) {
+	function userClicked(chatUser: ChatPrivateUser) {
 		showUserNameOnTab = true;
 		userNameClicked = chatUser.username;
 		uidClicked = chatUser.userID;
@@ -331,12 +378,13 @@
 
 			<div class="grid grid-rows-[auto_1fr]">
 				<Tabs tabStyle="underline">
-					<!-- Users -->
+					<!-- Users TabItem -->
 					<TabItem on:click={() => showMessageTab()}>
 						<div slot="title" class="flex items-center gap-2">
 							<MessagesSolid size="md" />
 							All chats
 						</div>
+
 						<!-- Users Header -->
 						<Table
 							name="advancedTable"
@@ -377,6 +425,12 @@
 														{chatUser.newMessagesCount || ''}
 													{/if}
 
+													{#if chatUser.connected}
+														{'✅'}
+													{:else}
+														{'🚫'}
+													{/if}
+
 													{chatUser.username}
 												</TableBodyCell>
 											</TableBodyRow>{/if}
@@ -386,7 +440,7 @@
 						</Table>
 					</TabItem>
 
-					<!-- Messages-->
+					<!-- Messages TabItem-->
 					<TabItem on:click={() => (showUserNameOnTab = true)} open={showMessages}>
 						<div slot="title" class="flex items-center gap-2">
 							<MessageDotsSolid size="md" />
