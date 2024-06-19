@@ -68,10 +68,10 @@
 
 	let showUserNameOnTab = true;
 
-	onMount(async () => {
-		chatMessages = document.getElementById('chat-messages');
-		messageInputDiv = document.getElementById('messageInputDiv');
+	chatMessages = document.getElementById('chat-messages');
+	messageInputDiv = document.getElementById('messageInputDiv');
 
+	onMount(async () => {
 		// Auto click submit button on Enter
 		document
 			.querySelector('#messageInputDiv')
@@ -412,7 +412,7 @@
 							class="table-fixed"
 							hoverable={true}
 						>
-							<div id="chat-messages" class="pb-2 h-96 overflow-y-scroll">
+							<div id="chat-messages" bind:this={chatMessages} class="pb-2 h-96 overflow-y-scroll">
 								<TableBody>
 									<!-- List the messages -->
 									{#each messagesForUser as privateMessage}
