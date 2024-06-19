@@ -32,7 +32,6 @@
 	import { io } from 'socket.io-client';
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import { index } from './../../../../.svelte-kit/output/server/nodes/79.js';
 
 	export let data: PageData;
 	const { user, entity, userClickedData } = data;
