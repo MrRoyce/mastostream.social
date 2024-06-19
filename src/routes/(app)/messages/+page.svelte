@@ -175,17 +175,12 @@
 							userName
 						};
 
-						console.log('private message response', response);
-
 						// Update the message count for that user
 						chatUsersStore.update((chatUsers) => {
 							const response = chatUsers;
-							console.log('response fron chatUsers', response);
 							const index = response.findIndex((chatUser) => chatUser.username === fromUserName);
 
 							if (index !== -1) {
-								console.log('index of chatUser:', index);
-								console.log('response[index].newMessagesCount:', response[index].newMessagesCount);
 								if (response[index].newMessagesCount) {
 									response[index].newMessagesCount++;
 								} else {
@@ -335,116 +330,120 @@
 		<div class="dark:bg-gray-900 p-4">
 			<Heading tag="h3">Private Chats</Heading>
 			<div class="overflow-y-scroll">
-				<div class="mt-4">
-					<Tabs tabStyle="underline">
-						<!-- Users -->
-						<TabItem on:click={() => showMessageTab()}>
-							<div slot="title" class="flex items-center gap-2">
-								<MessagesSolid size="md" />
-								All chats
-							</div>
-							<!-- Users Header -->
-							<Table
-								name="advancedTable"
-								divClass="relative overflow-x-auto"
-								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
-								hoverable={true}
-							>
-								<TableHead
-									><TableHeadCell class="text-center " padding="px-4 py-3" scope="col"
-										>Users</TableHeadCell
-									></TableHead
+				<div class="grid grid-rows-2">
+					<div class="mt-4">
+						<Tabs tabStyle="underline">
+							<!-- Users -->
+							<TabItem on:click={() => showMessageTab()}>
+								<div slot="title" class="flex items-center gap-2">
+									<MessagesSolid size="md" />
+									All chats
+								</div>
+								<!-- Users Header -->
+								<Table
+									name="advancedTable"
+									divClass="relative overflow-x-auto"
+									classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+									hoverable={true}
 								>
-							</Table>
+									<TableHead
+										><TableHeadCell class="text-center " padding="px-4 py-3" scope="col"
+											>Users</TableHeadCell
+										></TableHead
+									>
+								</Table>
 
-							<!-- Users Content-->
-							<Table
-								name="advancedTable"
-								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
-								hoverable={true}
-							>
-								<div id="chat-users" class="pb-2 h-96 overflow-y-scroll">
-									<TableBody>
-										<!-- List the users -->
-										{#each userList as chatUser}
-											{#if acct !== chatUser.username}
-												<!-- content here -->
+								<!-- Users Content-->
+								<Table
+									name="advancedTable"
+									classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+									hoverable={true}
+								>
+									<div id="chat-users" class="pb-2 h-96 overflow-y-scroll">
+										<TableBody>
+											<!-- List the users -->
+											{#each userList as chatUser}
+												{#if acct !== chatUser.username}
+													<!-- content here -->
 
-												<TableBodyRow class="border-none cursor-pointer">
-													<TableBodyCell
-														class={userNameClicked === chatUser.username
-															? activeClass
-															: nonActiveClass}
-														on:click={() => userClicked(chatUser)}
-													>
-														{#if acct == chatUser.username}
-															{''}
-														{:else}
-															{chatUser.newMessagesCount || ''}
-														{/if}
+													<TableBodyRow class="border-none cursor-pointer">
+														<TableBodyCell
+															class={userNameClicked === chatUser.username
+																? activeClass
+																: nonActiveClass}
+															on:click={() => userClicked(chatUser)}
+														>
+															{#if acct == chatUser.username}
+																{''}
+															{:else}
+																{chatUser.newMessagesCount || ''}
+															{/if}
 
-														{chatUser.username}
+															{chatUser.username}
+														</TableBodyCell>
+													</TableBodyRow>{/if}
+											{/each}
+										</TableBody>
+									</div>
+								</Table>
+							</TabItem>
+
+							<!-- Messages-->
+							<TabItem on:click={() => (showUserNameOnTab = true)} open={showMessages}>
+								<div slot="title" class="flex items-center gap-2">
+									<MessageDotsSolid size="md" />
+									{`Chat with ${showUserNameOnTab ? userNameClicked : '...'}`}
+								</div>
+								<!-- Messages Header-->
+								<Table
+									name="advancedTable"
+									classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+									hoverable={true}
+								>
+									<TableHead
+										><TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
+											>Messages</TableHeadCell
+										></TableHead
+									>
+								</Table>
+
+								<!-- Messages Content-->
+								<Table
+									name="advancedTable"
+									classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+									class="table-fixed"
+									hoverable={true}
+								>
+									<div id="chat-messages" class="pb-2 h-96 overflow-y-scroll">
+										<TableBody>
+											<!-- List the messages -->
+											{#each messagesForUser as privateMessage}
+												{@const fromUserName = privateMessage.fromUserName}
+												<TableBodyRow class="border-none cursor-pointer mt-2">
+													<TableBodyCell class="pl-4 w-[800px]">
+														<div>
+															<P
+																class={fromUserName === acct ? ownTextClass : sentTextClass}
+																size="xs"
+																opacity={50}
+																italic
+																>{fromUserName === acct ? 'You' : fromUserName} - {privateMessage.createdAt}</P
+															>
+															<P class={fromUserName === acct ? ownTextClass : sentTextClass}
+																>{privateMessage.content}</P
+															>
+														</div>
 													</TableBodyCell>
-												</TableBodyRow>{/if}
-										{/each}
-									</TableBody>
-								</div>
-							</Table>
-						</TabItem>
+												</TableBodyRow>
+											{/each}
+										</TableBody>
+									</div>
+								</Table>
 
-						<!-- Messages-->
-						<TabItem on:click={() => (showUserNameOnTab = true)} open={showMessages}>
-							<div slot="title" class="flex items-center gap-2">
-								<MessageDotsSolid size="md" />
-								{`Chat with ${showUserNameOnTab ? userNameClicked : '...'}`}
-							</div>
-							<!-- Messages Header-->
-							<Table
-								name="advancedTable"
-								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
-								hoverable={true}
-							>
-								<TableHead
-									><TableHeadCell class="text-center" padding="px-4 py-3" scope="col"
-										>Messages</TableHeadCell
-									></TableHead
-								>
-							</Table>
-
-							<!-- Messages Content-->
-							<Table
-								name="advancedTable"
-								classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
-								class="table-fixed"
-								hoverable={true}
-							>
-								<div id="chat-messages" class="pb-2 h-96 overflow-y-scroll">
-									<TableBody>
-										<!-- List the messages -->
-										{#each messagesForUser as privateMessage}
-											{@const fromUserName = privateMessage.fromUserName}
-											<TableBodyRow class="border-none cursor-pointer mt-2">
-												<TableBodyCell class="pl-4 w-[800px]">
-													<div>
-														<P
-															class={fromUserName === acct ? ownTextClass : sentTextClass}
-															size="xs"
-															opacity={50}
-															italic
-															>{fromUserName === acct ? 'You' : fromUserName} - {privateMessage.createdAt}</P
-														>
-														<P class={fromUserName === acct ? ownTextClass : sentTextClass}
-															>{privateMessage.content}</P
-														>
-													</div>
-												</TableBodyCell>
-											</TableBodyRow>
-										{/each}
-									</TableBody>
-								</div>
-							</Table>
-
-							<!-- Message input and Send Button -->
+								<!-- Message input and Send Button -->
+							</TabItem></Tabs
+						>
+						<div class="mt-4">
 							<div class="grid grid-cols-12 gap-4">
 								<Input
 									type="text"
@@ -458,9 +457,9 @@
 										>Send Message</Button
 									>
 								</div>
-							</div></TabItem
-						></Tabs
-					>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
