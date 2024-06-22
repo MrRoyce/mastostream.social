@@ -9,9 +9,10 @@
 	import { validatePrivateUser, type ChatPrivateUser } from '$lib/models/chatUser';
 	import { connectSocket, leavePrivate, sendMessage } from '$lib/socket/private';
 	import { chatNumUsers, chatUsersStore, privateMessagesStore } from '$lib/stores';
-	import { convertUnixEpochToDateString } from '$lib/utils';
+	import { autolinker, convertUnixEpochToDateString } from '$lib/utils';
 	import { redirectPage } from '$lib/utils/redirectPage';
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import DOMPurify from 'dompurify';
 	import {
 		Button,
 		Heading,
@@ -52,6 +53,10 @@
 
 	if (!dev) {
 		ioOptions.path = '/private';
+	}
+
+	function purifyMessage(message: string): string {
+		return DOMPurify.sanitize(message);
 	}
 
 	const socketAddr = dev ? `${PUBLIC_PRIVATE_HOST}` : `${PUBLIC_SOCKET_HOST}`;
@@ -377,7 +382,7 @@
 			<Heading tag="h3">Private Chats</Heading>
 
 			<div class="grid grid-rows-[auto_1fr]">
-				<Tabs tabStyle="underline">
+				<Tabs contentClass="p-4 bg-gray-50 rounded-none dark:bg-gray-800 mt-4" tabStyle="underline">
 					<!-- Users TabItem -->
 					<TabItem on:click={() => showMessageTab()}>
 						<div slot="title" class="flex items-center gap-2">
@@ -442,11 +447,13 @@
 
 					<!-- Messages TabItem-->
 					<TabItem on:click={() => (showUserNameOnTab = true)} open={showMessages}>
+						<!-- Tab header -->
 						<div slot="title" class="flex items-center gap-2">
 							<MessageDotsSolid size="md" />
 							{`Chat with ${showUserNameOnTab ? userNameClicked : '...'}`}
 						</div>
-						<!-- Messages Header-->
+
+						<!-- Messages Table Header-->
 						<Table
 							name="advancedTable"
 							classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
@@ -482,7 +489,7 @@
 														>{fromUserName === acct ? 'You' : fromUserName} - {privateMessage.createdAt}</P
 													>
 													<P class={fromUserName === acct ? ownTextClass : sentTextClass}
-														>{privateMessage.content}</P
+														>{@html autolinker(purifyMessage(privateMessage.content))}</P
 													>
 												</div>
 											</TableBodyCell>
@@ -491,8 +498,6 @@
 								</TableBody>
 							</div>
 						</Table>
-
-						<!-- Message input and Send Button -->
 					</TabItem></Tabs
 				>
 

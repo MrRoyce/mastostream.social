@@ -1,4 +1,5 @@
 import { addMediaAttachmentCounts } from '$lib/utils/addMediaAttachmentCounts';
+import { autolinker } from '$lib/utils/autoLinker';
 import { calculateCharts } from '$lib/utils/calculateCharts';
 import { calculateStats } from '$lib/utils/calculateStats';
 import { convertToK } from '$lib/utils/convertToK';
@@ -21,6 +22,7 @@ import { validateToken } from '$lib/utils/validateToken';
 
 export {
 	addMediaAttachmentCounts,
+	autolinker,
 	calculateCharts,
 	calculateStats,
 	convertToK,
