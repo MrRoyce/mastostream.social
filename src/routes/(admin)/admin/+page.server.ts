@@ -1,8 +1,8 @@
-import type { PageServerLoad } from './$types';
 import { getCount, getCounts } from '$lib/getCollection';
-import { convertToK, summarizeCounts } from '$lib/utils';
 import { redis } from '$lib/redis/redis';
-import { redirect } from '@sveltejs/kit'
+import { convertToK, summarizeCounts } from '$lib/utils';
+import { redirect } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
 
 const adminData = {
@@ -51,8 +51,8 @@ export const load: PageServerLoad = async ({ locals }) => {
     }
 
     // await redis.connect()
-    const redisKeyTootsBoth = `toots_cached_both`
-    const redisKeyDashboard = 'account_dashboard'
+    const redisKeyTootsBoth = `toots:cached:both`
+    const redisKeyDashboard = 'account:dashboard'
 
     let dashboardCached
     let tootsCached

@@ -1,8 +1,8 @@
-import type { PageServerLoad } from './$types';
 import { getDocument, getToots } from '$lib/getCollection';
-import { formatToot } from '$lib/utils/formatToot';
 import { redis } from '$lib/redis/redis';
 import { addMediaAttachmentCounts } from '$lib/utils';
+import { formatToot } from '$lib/utils/formatToot';
+import type { PageServerLoad } from './$types';
 
 const ttl = 600
 let entity
@@ -15,8 +15,8 @@ export const load: PageServerLoad = (async ({ params, url, setHeaders }) => {
     const tootType = url.searchParams.get('type') || 'both'
     const paramValueToLowerCase = params.tag && typeof params.tag === 'string' ? params.tag.toLowerCase() : params.tag;
 
-    const redisKeyTag = `tags_acct_${paramValueToLowerCase}`
-    const redisKeyTagToots = `tags_acct_${paramValueToLowerCase}_toots_${tootType}`
+    const redisKeyTag = `tags:acct:${paramValueToLowerCase}`
+    const redisKeyTagToots = `tags:acct:${paramValueToLowerCase}:toots:${tootType}`
 
     const [tagCached, tagTootsCached] = await Promise.all([
       await redis.get(redisKeyTag),

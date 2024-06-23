@@ -1,7 +1,7 @@
-import type { PageServerLoad } from './$types';
 import { getDocument, getDocuments } from '$lib/getCollection';
 import { redis } from '$lib/redis/redis';
 import { addMediaAttachmentCounts } from '$lib/utils';
+import type { PageServerLoad } from './$types';
 
 const ttl = 600
 
@@ -50,10 +50,10 @@ export const load: PageServerLoad = (async ({ fetch, params, setHeaders }) => {
 
   const idToLowerCase = params.id?.toLowerCase() || ''
 
-  const redisKeyCard = `toots_card_${idToLowerCase}`
-  const redisKeyEntity = `toots_entity_${idToLowerCase}`
-  const redisKeyReplies = `toots_replies_${idToLowerCase}`
-  const redisKeyReplyTo = `toots_replyTo_${idToLowerCase}`
+  const redisKeyCard = `toots:card:${idToLowerCase}`
+  const redisKeyEntity = `toots:entity:${idToLowerCase}`
+  const redisKeyReplies = `toots:replies:${idToLowerCase}`
+  const redisKeyReplyTo = `toots:replyTo:${idToLowerCase}`
 
   const [cardCached, entityCached, repliesCached, replyToCached] = await Promise.all([
     await redis.get(redisKeyCard),

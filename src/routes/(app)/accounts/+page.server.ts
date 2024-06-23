@@ -1,6 +1,6 @@
-import type { PageServerLoad } from './$types';
-import { redis } from '$lib/redis/redis';
 import { getData } from '$lib/getCollection';
+import { redis } from '$lib/redis/redis';
+import type { PageServerLoad } from './$types';
 
 const ttl = 600
 
@@ -12,7 +12,7 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
     const sourceType = url.searchParams.get('type') ?? 'both'
 
     //await redis.connect()
-    const redisKeyAccountsType = `accounts_cached_${sourceType}`
+    const redisKeyAccountsType = `accounts:cached:${sourceType}`
 
     let accountsCached
 

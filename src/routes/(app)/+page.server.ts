@@ -1,7 +1,7 @@
-import type { PageServerLoad } from './$types';
 import { getCount, getCounts, getData, getWords } from '$lib/getCollection';
-import { convertToK, getRandomRange, summarizeCounts } from '$lib/utils';
 import { redis } from '$lib/redis/redis';
+import { convertToK, getRandomRange, summarizeCounts } from '$lib/utils';
+import type { PageServerLoad } from './$types';
 
 const ttl = 600
 
@@ -24,8 +24,8 @@ export const load: PageServerLoad = async ({ locals, setHeaders }) => {
   try {
 
     //await redis.connect()
-    const redisKeyTootsBoth = `toots_cached_both`
-    const redisKeyDashboard = 'account_dashboard'
+    const redisKeyTootsBoth = `toots:cached:both`
+    const redisKeyDashboard = 'account:dashboard'
 
     let dashboardCached
     let tootsCached

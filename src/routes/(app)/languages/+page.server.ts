@@ -1,6 +1,6 @@
-import type { PageServerLoad } from './$types';
-import { redis } from '$lib/redis/redis';
 import { getData } from '$lib/getCollection';
+import { redis } from '$lib/redis/redis';
+import type { PageServerLoad } from './$types';
 
 let entity = []
 const ttl = 600
@@ -10,7 +10,7 @@ export const load: PageServerLoad = (async ({ setHeaders }) => {
   try {
 
     //await redis.connect()
-    const redisKeyLanguages = `languages_cached`
+    const redisKeyLanguages = `languages:cached`
     const languagesCached = await redis.get(redisKeyLanguages)
 
     if (languagesCached) {

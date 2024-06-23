@@ -1,8 +1,8 @@
-import type { PageServerLoad } from './$types';
-import { redis } from '$lib/redis/redis';
 import { getData, getDocument } from '$lib/getCollection';
+import { redis } from '$lib/redis/redis';
 import { fail } from '@sveltejs/kit';
 import admin from 'firebase-admin';
+import type { PageServerLoad } from './$types';
 
 const ttl = 600
 
@@ -10,7 +10,7 @@ export const load: PageServerLoad = (async ({ locals }) => {
 
   const user = locals.user
 
-  const redisKeyAllGroupsType = `all_groups_cached:${user.uid || 'all'}`
+  const redisKeyAllGroupsType = `all:groups:cached:${user.uid || 'all'}`
 
   let allGroupsCached
   let entity
@@ -79,7 +79,7 @@ export const actions = {
       const formData = (await request.formData())
       const data = Object.fromEntries(formData.entries())
 
-      const redisKeyAllGroupsType = `all_groups_cached:${user.uid || 'all'}`
+      const redisKeyAllGroupsType = `all:groups:cached:${user.uid || 'all'}`
 
       const {
         acct,
@@ -206,7 +206,7 @@ export const actions = {
       const userRef = db.collection('users').doc(user.uid);
 
       await userRef.update(fbUserGroupData);
-      const redisKeyAllGroupsType = `all_groups_cached:${user.uid || 'all'}`
+      const redisKeyAllGroupsType = `all:groups:cached:${user.uid || 'all'}`
 
       // Then update redis
       if (redis) {

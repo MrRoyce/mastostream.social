@@ -14,7 +14,11 @@
 	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import DOMPurify from 'dompurify';
 	import {
+		Avatar,
 		Button,
+		Card,
+		Dropdown,
+		DropdownItem,
 		Heading,
 		Input,
 		Modal,
@@ -29,7 +33,7 @@
 		Tabs
 	} from 'flowbite-svelte';
 	import { Section } from 'flowbite-svelte-blocks';
-	import { MessageDotsSolid, MessagesSolid } from 'flowbite-svelte-icons';
+	import { DotsHorizontalOutline, MessageDotsSolid, MessagesSolid } from 'flowbite-svelte-icons';
 	import { io } from 'socket.io-client';
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageData } from './$types';
@@ -424,19 +428,41 @@
 														: nonActiveClass}
 													on:click={() => userClicked(chatUser)}
 												>
-													{#if acct == chatUser.username}
-														{''}
-													{:else}
-														{chatUser.newMessagesCount || ''}
-													{/if}
+													<Card padding="lg" size="sm">
+														<div class="flex justify-end">
+															<DotsHorizontalOutline />
+															<Dropdown class="w-36">
+																<DropdownItem
+																	on:click={() => console.log(`Block ${chatUser.username} `)}
+																	}
+																>
+																	Block</DropdownItem
+																>
+																<DropdownItem
+																	on:click={() => console.log(`Report ${chatUser.username} `)}
+																	}
+																>
+																	Report</DropdownItem
+																>
+															</Dropdown>
+														</div>
+														<div class="flex items-center space-x-4 rtl:space-x-reverse">
+															<!-- <Avatar src={item.img.src} alt={item.img.alt} class="flex-shrink-0" /> -->
+															{#if acct == chatUser.username}
+																{''}
+															{:else}
+																{chatUser.newMessagesCount || ''}
+															{/if}
 
-													{#if chatUser.connected}
-														{'✅'}
-													{:else}
-														{'🚫'}
-													{/if}
+															{#if chatUser.connected}
+																{'✅'}
+															{:else}
+																{'🚫'}
+															{/if}
 
-													{chatUser.username}
+															{chatUser.username}
+														</div></Card
+													>
 												</TableBodyCell>
 											</TableBodyRow>{/if}
 									{/each}

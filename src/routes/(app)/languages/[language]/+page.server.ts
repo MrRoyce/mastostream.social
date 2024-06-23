@@ -1,18 +1,19 @@
-import type { PageServerLoad } from './$types';
-import { getLanguage } from '$lib/utils/getLanguage';
 import { getDocument, getToots } from '$lib/getCollection';
-import type { DocumentData } from 'firebase/firestore';
-import { addMediaAttachmentCounts, formatToot } from '$lib/utils';
 import { redis } from '$lib/redis/redis';
+import { addMediaAttachmentCounts, formatToot } from '$lib/utils';
+import { getLanguage } from '$lib/utils/getLanguage';
+import type { DocumentData } from 'firebase/firestore';
+import type { PageServerLoad } from './$types';
 
 // Get languages and its toots
 export const load: PageServerLoad = (async ({ fetch, params, setHeaders, url }) => {
 
   const tootType = url.searchParams.get('type') ?? 'both'
   const languageLowerCase = params.language && typeof params.language === 'string' ? params.language.toLowerCase() : params.language;
-  const redisKeyLanguage = `language_${languageLowerCase}`
-  const redisKeyLanguagesEntity = `languages_${languageLowerCase}`
-  const redisKeyLanguagesToots = `languages_${languageLowerCase}_toots`
+
+  const redisKeyLanguage = `language:${languageLowerCase}`
+  const redisKeyLanguagesEntity = `languages:${languageLowerCase}`
+  const redisKeyLanguagesToots = `languages:${languageLowerCase}:toots`
 
   //await redis.connect()
 

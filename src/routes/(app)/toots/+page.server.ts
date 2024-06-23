@@ -1,7 +1,7 @@
-import type { PageServerLoad } from './$types';
-import { redis } from '$lib/redis/redis';
 import { getData } from '$lib/getCollection';
+import { redis } from '$lib/redis/redis';
 import { addMediaAttachmentCounts } from '$lib/utils';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = (async ({ url, setHeaders }) => {
 
@@ -10,7 +10,7 @@ export const load: PageServerLoad = (async ({ url, setHeaders }) => {
 
   try {
     const sourceType = url.searchParams.get('type') ?? 'both'
-    const redisKeyTootsType = `toots_cached_${sourceType}`
+    const redisKeyTootsType = `toots:cached:${sourceType}`
     const tootsCached = await redis.get(redisKeyTootsType)
 
     const checkCache = true  // TODO always check this!
