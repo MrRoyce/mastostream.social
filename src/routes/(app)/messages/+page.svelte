@@ -125,7 +125,7 @@
 					socket.userID = userID;
 				});
 
-				socket.on('messages', (messages) => {
+				socket.on('messages', async (messages) => {
 					if (!Array.isArray(messages)) {
 						return;
 					}
@@ -138,16 +138,26 @@
 					for (const message of limitedMessages) {
 						// Add the message.fromUserName to the users object
 						if (!users.fromUserName && message.fromUserName !== acct) {
-							const newPrivateUser = {
-								connected: false,
-								userID: message.from,
-								uid: message.from,
-								username: message.fromUserName
-							};
 							users[message.fromUserName] = true;
 
 							// Add newPrivateUser to chatPrivateUsers array if it doesn't exist already
-							if (!chatPrivateUsers.find((user) => user.userID === newPrivateUser.userID)) {
+							if (!chatPrivateUsers.find((user) => user.userID === message.from)) {
+								const fetchURL = `/api/picture?uid=${message.from}`;
+								const photoURLResponse = await fetch(fetchURL, {
+									method: 'GET',
+									headers: {
+										'Content-Type': 'application/json'
+									}
+								});
+								const resJson = await photoURLResponse.json();
+								const newPrivateUser = {
+									connected: false,
+									photoURL: resJson?.pictureURL || '',
+									userID: message.from,
+									uid: message.from,
+									username: message.fromUserName
+								};
+
 								chatPrivateUsers.push(newPrivateUser);
 							}
 						}
@@ -447,7 +457,11 @@
 															</Dropdown>
 														</div>
 														<div class="flex items-center space-x-4 rtl:space-x-reverse">
-															<!-- <Avatar src={item.img.src} alt={item.img.alt} class="flex-shrink-0" /> -->
+															<Avatar
+																src={chatUser.photoURL}
+																alt={chatUser.photoURL}
+																class="flex-shrink-0"
+															/>
 															{#if acct == chatUser.username}
 																{''}
 															{:else}

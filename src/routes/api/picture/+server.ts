@@ -1,23 +1,23 @@
-import admin from 'firebase-admin';
-import { error, json } from '@sveltejs/kit';
 import { redis } from '$lib/redis/redis';
+import { error, json } from '@sveltejs/kit';
+import admin from 'firebase-admin';
 import type { RequestHandler } from './$types';
 
 const ttl = 60 * 60 * 24 * 365 // Cache pictures for one year
-const redisPictureURLPrefix = 'user_picture_url_data_obj_str'
+const redisKeyPictureURLPrefix = 'user:picture'
 
 export const POST: RequestHandler = async ({ request }) => {
 
   const { backblazeURL, uid } = await request.json();
   try {
-    const redisPictureURL = `${redisPictureURLPrefix}${uid}`
+    const redisKeyPictureURL = `${redisKeyPictureURLPrefix}:${uid}`
     const fbData = { backblazeURL }
     const db = admin.firestore();
     const docRef = db.collection('users').doc(uid);
     await docRef.update(fbData);
 
     // Store new url in redis
-    await redis.set(redisPictureURL, JSON.stringify({ pictureURL: backblazeURL }), 'EX', ttl)
+    await redis.set(redisKeyPictureURL, JSON.stringify({ pictureURL: backblazeURL }), 'EX', ttl)
 
     return json({ status: 'signedIn' });
   } catch (e) {
@@ -28,8 +28,8 @@ export const POST: RequestHandler = async ({ request }) => {
 
 export const GET: RequestHandler = async ({ url }) => {
   const uid = url.searchParams.get('uid')
-  const redisPictureURL = `${redisPictureURLPrefix}${uid}`
-  const userPictureURLCached = await redis.get(redisPictureURL)
+  const redisKeyPictureURL = `${redisKeyPictureURLPrefix}:${uid}`
+  const userPictureURLCached = await redis.get(redisKeyPictureURL)
 
   let pictureURL = ''
   const checkCache = true  // TODO always check this!
@@ -56,7 +56,7 @@ export const GET: RequestHandler = async ({ url }) => {
 
         // Store account entity in redis
         if (pictureURL) {
-          await redis.set(redisPictureURL, JSON.stringify({ pictureURL }), 'EX', ttl)
+          await redis.set(redisKeyPictureURL, JSON.stringify({ pictureURL }), 'EX', ttl)
 
           // Return the pictureURL
           return new Response(JSON.stringify({ pictureURL }), { status: 200 })
