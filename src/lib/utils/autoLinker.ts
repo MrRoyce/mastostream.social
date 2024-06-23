@@ -5,7 +5,7 @@ const options = {
   truncate: 25,
 
   replaceFn: (match: any) => {
-    return `<a style="color: green; text-decoration: underline;" href="${match.getAnchorHref()}">${match.getAnchorText()}</a>`;
+    return `<a style="color: green; text-decoration: underline;" target="_blank" href="${match.getAnchorHref()}">${match.getAnchorText()}</a>`;
   }
 };
 
