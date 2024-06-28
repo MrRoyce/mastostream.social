@@ -15,26 +15,39 @@ export interface ChatPrivateUser {
   uid: string;
   userID: string;
   username: string;
+  createdAt?: string;
+  sessionID?: string;
 }
 
 export function validatePrivateUser(user: any): ChatPrivateUser | undefined {
 
+  console.log('typeof user', typeof user)
+
   if (typeof user !== "object") {
+    console.error(' bad user not object', user)
     return;
   }
 
-  const { connected, uid, userID, username } = user
+  const { connected, createdAt, sessionID, uid, userID, username } = user
 
   if (
-    typeof connected !== "boolean" ||
+    createdAt === '' ||
+    sessionID === '' ||
+    uid === '' ||
+    userID === '' ||
+    username === '' ||
+    typeof createdAt !== "string" ||
+    typeof sessionID !== "string" ||
+    typeof uid !== "string" ||
     typeof userID !== "string" ||
     typeof username !== "string"
   ) {
+    console.log('Bad user after validation', JSON.stringify(user))
     return;
   }
 
   return {
-    connected, uid, userID, username
+    connected, createdAt, sessionID, uid, userID, username
   };
 
 }
