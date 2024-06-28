@@ -1,14 +1,17 @@
 <script lang="ts">
-	import '../../app.pcss';
-	import { locale, t } from '$lib/translations';
-	import { getLanguageList, getLanguageString, getSidebarItems } from '$lib/utils';
-	import type { AfterNavigate } from '@sveltejs/kit';
+	import { browser } from '$app/environment';
 	import { afterNavigate, goto } from '$app/navigation';
 	import { navigating } from '$app/stores';
 	import { setLanguage } from '$lib';
-	import { UserIcon } from '$lib/components/icons';
 	import { Footer, Languages, Loading, SidebarItemWrapper, UserSidebar } from '$lib/components';
+	import { UserIcon } from '$lib/components/icons';
+	import { handleLogout } from '$lib/firebase/handleLogout';
 	import { loading } from '$lib/stores';
+	import { session } from '$lib/stores/authStore';
+	import { locale, t } from '$lib/translations';
+	import { getLanguageList, getLanguageString, getSidebarItems } from '$lib/utils';
+	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import type { AfterNavigate } from '@sveltejs/kit';
 	import {
 		A,
 		Avatar,
@@ -20,12 +23,9 @@
 		Sidebar,
 		SidebarWrapper
 	} from 'flowbite-svelte';
-	import { sineIn } from 'svelte/easing';
-	import { handleLogout } from '$lib/firebase/handleLogout';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
-	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
-	import { session } from '$lib/stores/authStore';
+	import { sineIn } from 'svelte/easing';
+	import '../../app.pcss';
 
 	export let data;
 
@@ -201,13 +201,8 @@
 					<svelte:fragment slot="trail">
 						<!-- Logged in User -->
 						{#if user && user.email}
-							<Avatar
-								rounded
-								border
-								class="acs"
-								src={pictureData.pictureURL}
-								dot={{ color: 'green' }}
-							/>
+							<!-- Can use dot={{ color: 'green' }} to show a dot if needed .e.g. notifications -->
+							<Avatar rounded class="acs" src={pictureData.pictureURL} />
 							<Dropdown triggeredBy=".acs">
 								<div slot="header" class="px-4 py-2">
 									<span class="block truncate text-sm font-medium">{user.email}</span>
@@ -218,7 +213,7 @@
 							</Dropdown>
 							<!-- Guest user -->
 						{:else}
-							<Avatar rounded border class="aco" src={UserIcon} />
+							<Avatar rounded class="aco" src={UserIcon} />
 							<Dropdown triggeredBy=".aco">
 								<DropdownItem slot="footer" href="/login">Sign in</DropdownItem>
 							</Dropdown>
