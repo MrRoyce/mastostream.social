@@ -409,7 +409,6 @@
 						<!-- Users Header -->
 						<Table
 							name="advancedTable"
-							divClass="relative overflow-x-auto"
 							classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
 							hoverable={true}
 						>
@@ -424,6 +423,7 @@
 						<Table
 							name="advancedTable"
 							classSection="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
+							class="table-fixed"
 							hoverable={true}
 						>
 							<div class="pb-2 overflow-y-scroll w-full">
@@ -431,10 +431,9 @@
 									<!-- List the users -->
 									{#each userList as chatUser}
 										{#if acct !== chatUser.username}
-											<div class="pt-4 w-full">
-												<TableBodyRow scope="col" class="border-none cursor-pointer mt-4 w-full">
+											<div class="pt-4">
+												<TableBodyRow class="border-none cursor-pointer mt-4 w-full">
 													<TableBodyCell
-														scope="col"
 														class={userNameClicked === chatUser.username
 															? activeClass
 															: nonActiveClass}
@@ -615,22 +614,25 @@
 				>
 
 				<!-- Input field and submit button -->
-				<div class="mt-4">
-					<div class="grid grid-cols-12 gap-4">
-						<Input
-							type="text"
-							class="col-span-10 rounded-none"
-							name="messageInput"
-							id="messageInputDiv"
-							bind:value={messageInput}
-						/>
-						<Button
-							on:click={() => submitMessage()}
-							id="submitButton"
-							class="col-span-2 rounded-none">Send Message</Button
-						>
-					</div>
-				</div>
+				{#if showUserNameOnTab}
+					<!-- content here -->
+
+					<div class="mt-4">
+						<div class="grid grid-cols-12 gap-4">
+							<Input
+								type="text"
+								class="col-span-10 rounded-none"
+								name="messageInput"
+								id="messageInputDiv"
+								bind:value={messageInput}
+							/>
+							<Button
+								on:click={() => submitMessage()}
+								id="submitButton"
+								class="col-span-2 rounded-none">Send</Button
+							>
+						</div>
+					</div>{/if}
 			</div>
 		</div>
 	</div>
