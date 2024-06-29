@@ -1,15 +1,15 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import { Button, Heading, Input, Label, Modal } from 'flowbite-svelte';
-	import { Loading, TableWrap } from '$lib/components';
-	import type { SubmitFunction } from '@sveltejs/kit';
-	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { applyAction, enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
-	import { v4 as uuid } from 'uuid';
+	import { Loading, TableWrap } from '$lib/components';
 	import { session } from '$lib/stores/authStore';
-	import { get } from 'svelte/store';
 	import { updateButtonClass } from '$lib/utils';
+	import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+	import type { SubmitFunction } from '@sveltejs/kit';
+	import { Button, Heading, Input, Label, Modal } from 'flowbite-svelte';
+	import { get } from 'svelte/store';
+	import { v4 as uuid } from 'uuid';
+	import type { PageData } from './$types';
 
 	let settingsType = '';
 	let settingsModal = false;
@@ -196,15 +196,39 @@
 						</div>
 						<div class={modalDivClass}>
 							<dt class={modalDtClass}>Mastodon Account</dt>
-							<dd class={modalDdClass}>{instance}</dd>
+							<dd class={modalDdClass}>
+								<Input
+									type="text"
+									value={instance}
+									disabled
+									defaultClass=" disabled:opacity-100 rtl:text-right  "
+									class="bg-gray-200 dark:bg-gray-800 sm:w-full border-none"
+								/>
+							</dd>
 						</div>
 						<div class={modalDivClass}>
 							<dt class={modalDtClass}>Account</dt>
-							<dd class={modalDdClass}>{acct}</dd>
+							<dd class={modalDdClass}>
+								<Input
+									type="text"
+									value={acct}
+									disabled
+									defaultClass=" disabled:opacity-100 rtl:text-right  "
+									class="bg-gray-200 dark:bg-gray-800 sm:w-full border-none "
+								/>
+							</dd>
 						</div>
 						<div class={modalDivClass}>
 							<dt class={modalDtClass}>Access Token</dt>
-							<dd class={modalDdClass}>{accessToken}</dd>
+							<dd class={modalDdClass}>
+								<Input
+									type="text"
+									value={accessToken}
+									disabled
+									defaultClass=" disabled:opacity-100 rtl:text-right  "
+									class="bg-gray-200 dark:bg-gray-800 sm:w-full border-none"
+								/>
+							</dd>
 						</div>
 					</dl>
 				</div>
